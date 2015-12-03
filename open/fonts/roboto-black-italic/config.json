@@ -4,6 +4,7 @@
     "creator-link": "http://betatype.com/",
     "foundry": "Google",
     "foundry-link": "https://www.google.com/fonts/specimen/Roboto",
+    "source-link": "https://www.google.com/fonts/specimen/Roboto",
     "settings": {
         "font-size": "135px",
         "line-height": "0.78em",
@@ -13,24 +14,25 @@
         "background-image": "false",
         "background": "#000",
         "color": "#fff",
-        "text": "Tamara Ecclestone parties with sister Petra Stunt and daughter Sophia at Bernie's 85th"
+        "text": "Baby Yeezus is almost upon us! Kanye West expects his son with Kim Kardashian to 'arrive any day now'"
     },
     "specimen": {
-        "creator": "Jonathan McKay",
-        "creator-link": "http://jonthemac.com/",
+        "creator": "Tom Darracott",
+        "twitter": "tomdarracott",
+        "creator-link": "http://tomdarracott.com/",
         "store-link": ""
     },
     "info": {
-        "weight": "",
+        "weight": "800",
         "about": ""
     },
     "newcomer": {
         "background-image": "false",
-        "background": "#fff",
-        "color": "#000",
+        "background": "#000",
+        "color": "#fff",
     },
     "votes": {
-        "fontlist": "0",
+        "fontlist": "100",
         "newcomer": "0"
     },
     "share": "0"

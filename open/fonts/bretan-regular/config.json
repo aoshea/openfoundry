@@ -1,27 +1,29 @@
 {
     "name": "Bretan Regular",
-    "creator": "Christian Robertson",
-    "creator-link": "http://betatype.com/",
-    "foundry": "Google",
-    "foundry-link": "https://www.google.com/fonts/specimen/Roboto",
+    "creator": "Stefan Peev",
+    "creator-link": "",
+    "foundry": "Context Ltd.",
+    "foundry-link": "https://fontlibrary.org/en/font/bretan-pro",
+    "source-link": "https://fontlibrary.org/assets/downloads/bretan-pro/64bd884a92bfa6dbf138bfaab0730c43/bretan-pro.zip",
     "settings": {
-        "font-size": "110px",
-        "line-height": "1em",
-        "letter-spacing": "0.025em",
+        "font-size": "40px",
+        "line-height": "1.5em",
+        "letter-spacing": "-0.025em",
         "text-transform": "none",
         "scrolling-text": "false",
         "background-image": "false",
-        "background": "#fff",
-        "color": "#000",
-        "text": "Exotic and abstract work of Daniel Fletcher > <a href=\"http://goo.gl/37Dqca\">http://goo.gl/37Dqca</a>"
+        "background": "#000",
+        "color": "#fff",
+        "text": "Is this evidence of a parallel universe? Sightings of a ‘floating city’ in China are simply an optical illusion, say scientists. I thought the tech world would be full of new voices and people. It hasn’t happened. The number of women in the sector is tiny. It’s such a waste."
     },
     "specimen": {
-        "creator": "Thomas Traum",
-        "creator-link": "http://thomastraum.com/",
+        "creator": "Damien Poulain",
+        "twitter": "damienpoulain",
+        "creator-link": "http://damienpoulain.com/",
         "store-link": ""
     },
     "info": {
-        "weight": "",
+        "weight": "400",
         "about": ""
     },
     "newcomer": {
@@ -30,8 +32,8 @@
         "color": "#000",
     },
     "votes": {
-        "fontlist": "0",
-        "newcomer": "0"
+        "fontlist": "100",
+        "newcomer": "50"
     },
     "share": "0"
 }

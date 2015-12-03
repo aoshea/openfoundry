@@ -4,6 +4,7 @@
     "creator-link": "http://betatype.com/",
     "foundry": "Google",
     "foundry-link": "https://www.google.com/fonts/specimen/Roboto",
+    "source-link": "https://www.google.com/fonts/specimen/Roboto",
     "settings": {
         "font-size": "110px",
         "line-height": "1em",
@@ -17,11 +18,12 @@
     },
     "specimen": {
         "creator": "Thomas Traum",
+        "twitter": "thomastraum",
         "creator-link": "http://thomastraum.com/",
         "store-link": ""
     },
     "info": {
-        "weight": "",
+        "weight": "400",
         "about": ""
     },
     "newcomer": {
@@ -30,7 +32,7 @@
         "color": "#000",
     },
     "votes": {
-        "fontlist": "0",
+        "fontlist": "100",
         "newcomer": "0"
     },
     "share": "0"
