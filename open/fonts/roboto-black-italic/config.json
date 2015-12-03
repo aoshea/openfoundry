@@ -1,23 +1,23 @@
 {
-    "name": "Bagnard Regular",
+    "name": "Roboto Black Italic",
     "creator": "Christian Robertson",
     "creator-link": "http://betatype.com/",
     "foundry": "Google",
     "foundry-link": "https://www.google.com/fonts/specimen/Roboto",
     "settings": {
-        "font-size": "110px",
-        "line-height": "1em",
-        "letter-spacing": "0.025em",
+        "font-size": "135px",
+        "line-height": "0.78em",
+        "letter-spacing": "-0.1em",
         "text-transform": "none",
         "scrolling-text": "false",
         "background-image": "false",
-        "background": "#fff",
-        "color": "#000",
-        "text": "Exotic and abstract work of Daniel Fletcher > <a href=\"http://goo.gl/37Dqca\">http://goo.gl/37Dqca</a>"
+        "background": "#000",
+        "color": "#fff",
+        "text": "Tamara Ecclestone parties with sister Petra Stunt and daughter Sophia at Bernie's 85th"
     },
     "specimen": {
-        "creator": "Thomas Traum",
-        "creator-link": "http://thomastraum.com/",
+        "creator": "Jonathan McKay",
+        "creator-link": "http://jonthemac.com/",
         "store-link": ""
     },
     "info": {
@@ -29,7 +29,7 @@
         "background": "#fff",
         "color": "#000",
     },
-    "votes": {  
+    "votes": {
         "fontlist": "0",
         "newcomer": "0"
     },
