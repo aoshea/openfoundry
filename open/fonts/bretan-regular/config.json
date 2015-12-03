@@ -1,26 +1,37 @@
 {
-    "name": "Roboto Medium",
-    "creator": "Google",
+    "name": "Bretan Regular",
+    "creator": "Christian Robertson",
+    "creator-link": "http://betatype.com/",
+    "foundry": "Google",
+    "foundry-link": "https://www.google.com/fonts/specimen/Roboto",
     "settings": {
-        "font-size": "32px",
-        "line-height": "1.5em",
-        "letter-spacing": "0.03em",
-        "text-transform": "uppercase",
-        "background": "#fc0",
+        "font-size": "110px",
+        "line-height": "1em",
+        "letter-spacing": "0.025em",
+        "text-transform": "none",
+        "scrolling-text": "false",
+        "background-image": "false",
+        "background": "#fff",
         "color": "#000",
-        "text": "TAMARA ECCLESTONE PARTIES WITH SISTER PETRA STUNT AND DAUGHTER SOPHIA AT BERNIES 85TH"
+        "text": "Exotic and abstract work of Daniel Fletcher > <a href=\"http://goo.gl/37Dqca\">http://goo.gl/37Dqca</a>"
+    },
+    "specimen": {
+        "creator": "Thomas Traum",
+        "creator-link": "http://thomastraum.com/",
+        "store-link": ""
     },
     "info": {
         "weight": "",
-        "character-set": "",
         "about": ""
     },
     "newcomer": {
-        "background": "#000"        
+        "background-image": "false",
+        "background": "#fff",
+        "color": "#000",
     },
     "votes": {
-        "newcomer": "0",
-        "fontlist": "0"
+        "fontlist": "0",
+        "newcomer": "0"
     },
     "share": "0"
 }
