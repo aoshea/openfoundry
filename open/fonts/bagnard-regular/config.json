@@ -27,7 +27,7 @@
     "newcomer": {
         "background-image": "false",
         "background": "#fff",
-        "color": "#000",
+        "color": "#000"
     },
     "votes": {  
         "fontlist": "0",

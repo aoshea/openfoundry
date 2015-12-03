@@ -51,7 +51,13 @@ function getConfig(file) {
       }
       fs.readFile(file, 'utf8', function (err, data) {
         if (err) reject(err);
-        else resolve(JSON.parse(data));        
+        try {
+          var json = JSON.parse(data);
+          resolve(json);
+        } catch(e) {
+          console.warn("Error: JSON parse", e, file);
+          reject(e);
+        }    
       });
     })
   });
@@ -116,7 +122,7 @@ function listFonts(dir) {
 
 function outputJSON(result) {
   mkdirSync(path.join(dirs.out));
-  fs.writeFile(path.join(dirs.out, 'site.json'), JSON.stringify(result, null, 2), function (err){
+  fs.writeFile(path.join(dirs.out, 'site.json'), "window.siteJSON = " + JSON.stringify(result, null, 2), function (err){
     if (err) return console.warn('Error: Write file:', err);
     return console.log('Complete');
   });
