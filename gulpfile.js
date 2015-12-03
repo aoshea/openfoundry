@@ -28,8 +28,9 @@ var production = !!argv.production;
  * Error handling  
  */
 var onError = function (task) {
+  
   return function (err) {
-
+    
     notify.onError({
       message: task + ' failed'
     })(err);
@@ -40,6 +41,7 @@ var onError = function (task) {
 
 // Define folders and files 
 var dir = {
+  data: 'open/build/',
   source: 'src/',
   build: 'dist/'
 };
@@ -51,19 +53,62 @@ var sources = {
   html:    [ dir.source + 'assets/html/*'],
   fonts:   [ dir.source + 'assets/fonts/**'],
   css:     [ dir.source + 'assets/css/main.scss'],
-  allcss:  [ dir.source + 'assets/css/**/*.scss']
+  allcss:  [ dir.source + 'assets/css/**/*.scss'],  
+  json:    [ dir.data + 'site.json' ]
 };
 
-// Browserify & babelify & uglify 
-gulp.task('js', function () {
+/**
+ * Define static libs for js bundle 
+ */
+var libs = [
+  "react"
+];
+
+/**
+ * Create vendor bundle for static js libs 
+ * To avoid recompiling everything all the time 
+ * @see https://github.com/sogko/gulp-recipes/tree/master/browserify-separating-app-and-vendor-bundles
+ */
+gulp.task('vendor-js', function () {
+  
   var b = browserify({
-    entries: sources.app,
-    debug: true,
-    transform: [babelify]
+    debug: !production,
+    transform: [babelify.configure({
+      presets: ["es2015", "react"]
+    })]
+  });
+
+  libs.forEach(function(lib) {
+    b.require(lib);
   });
 
   return b.bundle()
-    .on('error', function (err) { console.log('Error:', err.message); })
+    .on('error', onError('vendor-js'))
+    .pipe(source('vendor.js'))
+    .pipe(buffer())
+    .pipe(gulpif(production, uglify()))
+    .pipe(gulp.dest(dir.build + 'assets/js'));
+});
+
+// Browserify & babelify & uglify 
+gulp.task('js', function () {
+  
+  var b = browserify({
+    entries: sources.app,
+    debug: !production,
+    transform: [babelify.configure({
+      presets: ["es2015", "react"]
+    })]
+  });
+  
+  // let browserify know we will libs from an external source
+  // vendor.js in this case
+  libs.forEach(function (lib) {
+    b.external(lib);
+  });
+  
+  return b.bundle()
+    .on('error', onError('app-js'))
     .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
@@ -104,6 +149,12 @@ gulp.task('images', function () {
     .pipe(gulp.dest(dir.build + 'assets/img'));
 });
 
+// Copy json + source files 
+gulp.task('json', function () {
+  return gulp.src(sources.json)
+    .pipe(gulp.dest(dir.build + 'json'));
+});
+
 // Clean build folder 
 gulp.task('clean', function () {
   del(dir.build + '**');
@@ -113,6 +164,7 @@ gulp.task('clean', function () {
 gulp.task('watch', function () {
 
   livereload.listen();
+  gulp.watch(sources.html, ['html']);
   gulp.watch(sources.imgs, ['images']);
   gulp.watch(sources.allcss, ['css']);
   gulp.watch(sources.js, ['js']);
@@ -120,6 +172,6 @@ gulp.task('watch', function () {
 });
 
 // Default task `gulp`
-gulp.task('default', ['html', 'images', 'css', 'js', 'watch']);
+gulp.task('default', ['html', 'images', 'css', 'vendor-js', 'js', 'watch']);
 
 
