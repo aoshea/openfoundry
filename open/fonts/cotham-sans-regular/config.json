@@ -1,27 +1,29 @@
 {
     "name": "Cotham Sans Regular",
-    "creator": "Christian Robertson",
-    "creator-link": "http://betatype.com/",
-    "foundry": "Google",
-    "foundry-link": "https://www.google.com/fonts/specimen/Roboto",
+    "creator": "Sebastien Sanfilippo",
+    "creator-link": "http://www.love-letters.be/",
+    "foundry": "Love Letters",
+    "foundry-link": "http://www.love-letters.be/",
+    "source-link": "http://www.love-letters.be/fonts/CothamSans.otf",
     "settings": {
-        "font-size": "110px",
-        "line-height": "1em",
-        "letter-spacing": "0.025em",
+        "font-size": "90px",
+        "line-height": "1.05em",
+        "letter-spacing": "0em",
         "text-transform": "none",
         "scrolling-text": "false",
         "background-image": "false",
         "background": "#fff",
-        "color": "#000",
-        "text": "Exotic and abstract work of Daniel Fletcher > <a href=\"http://goo.gl/37Dqca\">http://goo.gl/37Dqca</a>"
+        "color": "#f00",
+        "text": "Pregnant Georgina Dorsett puts on a very busty display on night out with husband Tom Cleverley"
     },
     "specimen": {
-        "creator": "Thomas Traum",
-        "creator-link": "http://thomastraum.com/",
+        "creator": "Stefan Endress",
+        "twitter": "stefanendress",
+        "creator-link": "http://stefanendress.com/",
         "store-link": ""
     },
     "info": {
-        "weight": "",
+        "weight": "300",
         "about": ""
     },
     "newcomer": {
@@ -30,7 +32,7 @@
         "color": "#000"
     },
     "votes": {
-        "fontlist": "0",
+        "fontlist": "100",
         "newcomer": "0"
     },
     "share": "0"

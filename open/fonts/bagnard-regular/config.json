@@ -1,27 +1,29 @@
 {
     "name": "Bagnard Regular",
-    "creator": "Christian Robertson",
-    "creator-link": "http://betatype.com/",
-    "foundry": "Google",
-    "foundry-link": "https://www.google.com/fonts/specimen/Roboto",
+    "creator": "Sebastien Sanfilippo",
+    "creator-link": "http://www.sebastiensanfilippo.be/",
+    "foundry": "",
+    "foundry-link": "",
+    "source-link": "https://github.com/sebsan/Bagnard",
     "settings": {
-        "font-size": "110px",
-        "line-height": "1em",
-        "letter-spacing": "0.025em",
+        "font-size": "95px",
+        "line-height": "1.05em",
+        "letter-spacing": "-0.025em",
         "text-transform": "none",
         "scrolling-text": "false",
         "background-image": "false",
         "background": "#fff",
         "color": "#000",
-        "text": "Exotic and abstract work of Daniel Fletcher > <a href=\"http://goo.gl/37Dqca\">http://goo.gl/37Dqca</a>"
+        "text": "Tamara Ecclestone parties with sister Petra Stunt and daughter Sophia at Bernie’s 85th"
     },
     "specimen": {
-        "creator": "Thomas Traum",
-        "creator-link": "http://thomastraum.com/",
+        "creator": "Adam Rodgers",
+        "twitter": "studioremote",
+        "creator-link": "http://studioremote.com/",
         "store-link": ""
     },
     "info": {
-        "weight": "",
+        "weight": "400",
         "about": ""
     },
     "newcomer": {
@@ -30,8 +32,8 @@
         "color": "#000"
     },
     "votes": {  
-        "fontlist": "0",
-        "newcomer": "0"
+        "fontlist": "100",
+        "newcomer": "50"
     },
     "share": "0"
 }
