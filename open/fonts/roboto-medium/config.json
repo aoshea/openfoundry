@@ -1,0 +1,26 @@
+{
+    "name": "Roboto Medium",
+    "creator": "Google",
+    "settings": {
+        "font-size": "32px",
+        "line-height": "1.5em",
+        "letter-spacing": "0.03em",
+        "text-transform": "uppercase",
+        "background": "#fc0",
+        "color": "#000",
+        "text": "TAMARA ECCLESTONE PARTIES WITH SISTER PETRA STUNT AND DAUGHTER SOPHIA AT BERNIES 85TH"
+    },
+    "info": {
+        "weight": "",
+        "character-set": "",
+        "about": ""        
+    },
+    "newcomer": {
+        "background": "#000"        
+    },
+    "votes": {
+        "newcomer": "0",
+        "fontlist": "0"
+    },
+    "share": "0"
+}
