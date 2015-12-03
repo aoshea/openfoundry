@@ -48,13 +48,11 @@ var sources = {
   app:     [ dir.source + 'assets/js/index.js'],
   js:      [ dir.source + 'assets/js/**/*.js' ],
   imgs:    [ dir.source + 'assets/img/*'],
+  html:    [ dir.source + 'assets/html/*'],
   fonts:   [ dir.source + 'assets/fonts/**'],
   css:     [ dir.source + 'assets/css/main.scss'],
   allcss:  [ dir.source + 'assets/css/**/*.scss']
 };
-
-// Default task `gulp`
-gulp.task('default', ['images', 'css', 'js', 'watch']);
 
 // Browserify & babelify & uglify 
 gulp.task('js', function () {
@@ -66,12 +64,12 @@ gulp.task('js', function () {
 
   return b.bundle()
     .on('error', function (err) { console.log('Error:', err.message); })
-    .pipe(source('main.js'))
+    .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(uglify())
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./dist/js/'));
+    .pipe(gulp.dest(dir.build + 'assets/js'));
 });
 
 /**
@@ -90,14 +88,20 @@ gulp.task('css', function () {
     .pipe(concat('main.css'))
     .pipe(gulpif(production, minifycss()))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(dir.build + 'css'))
+    .pipe(gulp.dest(dir.build + 'assets/css'))
     .pipe(livereload());
+});
+
+// Copy html files to build folder 
+gulp.task('html', function () {
+  return gulp.src(sources.html)
+    .pipe(gulp.dest(dir.build));
 });
 
 // Copy image files to build folder 
 gulp.task('images', function () {
   return gulp.src(sources.imgs)
-    .pipe(gulp.dest(dir.build));
+    .pipe(gulp.dest(dir.build + 'assets/img'));
 });
 
 // Clean build folder 
@@ -114,4 +118,8 @@ gulp.task('watch', function () {
   gulp.watch(sources.js, ['js']);
   gulp.watch(dir.build + '**/*').on('change', livereload.changed);
 });
+
+// Default task `gulp`
+gulp.task('default', ['html', 'images', 'css', 'js', 'watch']);
+
 
