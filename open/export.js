@@ -120,6 +120,39 @@ function listFonts(dir) {
   });  
 }
 
+function getFontFormat(str) {
+  var res = str.match(/\.(woff|ttf|svg|eot|woff2)$/);
+  if (res) {
+    if (res[1] === 'eot') res[1] = 'eot?';
+    return res[1].toString();
+  } else {
+    return 'Unknown';
+  }
+}
+
+function getFontSource(srcs) {
+  return srcs.map(function (x) {
+    return "url('" + x + "') format('" + getFontFormat(x) + "')\n\t";
+  }).join(' ');
+}
+
+function outputCSS(result) {
+  var ret = '', fontFamily;
+  result.filter(function (o) {
+    fontFamily = o[0].name;    
+    o.filter(Array.isArray).map(function (x) {
+      ret += "@font-face {\n";
+      ret += "\tfont-family: '" + fontFamily + "';\n";
+      ret += "\tsrc: " + getFontSource(x) + ";";
+      ret += "\n}\n";
+    });
+  });
+  fs.writeFile(path.join(dirs.out, 'fonts.css'), ret, function (err) {
+    if (err) return console.error('Error: Write file:', err);
+    return console.log('Write CSS Complete');
+  });
+}
+
 function outputJSON(result) {
   mkdirSync(path.join(dirs.out));
   fs.writeFile(path.join(dirs.out, 'site.json'), "window.siteJSON = " + JSON.stringify(result, null, 2), function (err){
@@ -132,6 +165,7 @@ listFonts(dirs.src).then(function (list) {
   return Promise.all(list.map(listContents));
 }).then(function (result) {
   outputJSON(result);
+  outputCSS(result);
 }).catch(function (err) {
   console.warn('END: Error...:', err);
 });

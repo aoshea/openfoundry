@@ -53,8 +53,8 @@ var sources = {
   html:    [ dir.source + 'assets/html/*'],
   fonts:   [ dir.source + 'assets/fonts/**'],
   css:     [ dir.source + 'assets/css/main.scss'],
-  allcss:  [ dir.source + 'assets/css/**/*.scss'],  
-  json:    [ dir.data + 'site.json' ]
+  allcss:  [ dir.source + 'assets/css/**/*.scss'],
+  export:  [ dir.data + '**/*' ]
 };
 
 /**
@@ -149,10 +149,10 @@ gulp.task('images', function () {
     .pipe(gulp.dest(dir.build + 'assets/img'));
 });
 
-// Copy json + source files 
-gulp.task('json', function () {
-  return gulp.src(sources.json)
-    .pipe(gulp.dest(dir.build + 'json'));
+// Copy exported json and fonts over 
+gulp.task('export', function () {
+  return gulp.src(sources.export)
+    .pipe(gulp.dest(dir.build + 'data'));
 });
 
 // Clean build folder 
