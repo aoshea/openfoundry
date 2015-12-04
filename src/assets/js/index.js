@@ -2,11 +2,21 @@ import React from 'react';
 
 let data = window.siteJSON;
 
-class FontPreview extends React.Component {
+function replaceNonAlphaNumeric(str, replacement) {
+  if (replacement === undefined || replacement === null) replacement = '_';
+  return str.replace(/[^a-z0-9\.]/gim, replacement);
+}
+
+class FontPreviewContainer extends React.Component {
   render() {
-    return <div className="fontPreview">
-    <div className="fontName">{this.props.name}</div>
-    <div className="fontCreator">{this.props.creator}</div>
+    
+    let fontClassName = replaceNonAlphaNumeric(this.props.name).toLowerCase();
+    
+    return <div className="of-font-preview-container">
+    <div data-font={this.props.name} className={"of-font-preview-text-container " + fontClassName}>
+    {this.props.name}
+    {this.props.creator}
+    </div>
     </div>    
   }
 }
@@ -19,11 +29,11 @@ class FontList extends React.Component {
       let sources = font[1];
       
       return (
-        <FontPreview key={i} name={config.name} creator={config.creator} />
+        <FontPreviewContainer key={i} name={config.name} creator={config.creator} />
       )
     })
     
-    return <div className="fontPreview">{fonts}</div>
+    return <div className="of-font-list">{fonts}</div>
   }
 }
 

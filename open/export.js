@@ -131,9 +131,15 @@ function getFontFormat(str) {
 }
 
 function getFontSource(srcs) {
-  return srcs.map(function (x) {
-    return "url('" + x + "') format('" + getFontFormat(x) + "')\n\t";
-  }).join(' ');
+  var str = srcs.map(function (x) {
+    return "url('" + x + "') format('" + getFontFormat(x) + "'),";
+  }).join('');
+  return str.substr(0, str.length-1);
+}
+
+function replaceNonAlphaNumeric(str, replacement) {
+  if (replacement === undefined || replacement === null) replacement = '_';
+  return str.replace(/[^a-z0-9\.]/gim, replacement);
 }
 
 function outputCSS(result) {
@@ -145,6 +151,11 @@ function outputCSS(result) {
       ret += "\tfont-family: '" + fontFamily + "';\n";
       ret += "\tsrc: " + getFontSource(x) + ";";
       ret += "\n}\n";
+      
+      ret += "." + replaceNonAlphaNumeric(fontFamily).toLowerCase() + " {\n";
+      ret += "\tfont-family: '" + fontFamily + "';\n";
+      ret += "}\n";
+      
     });
   });
   fs.writeFile(path.join(dirs.out, 'fonts.css'), ret, function (err) {
