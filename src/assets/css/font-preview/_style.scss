@@ -1,5 +1,10 @@
 .of-font-preview-container {
   background: white;
+  border: 1px dashed chartreuse;
+}
+
+.of-font-preview-container .of-grid-container {
+  position: absolute;
 }
 
 .of-font-preview-container .of-font-preview-text-container {
@@ -26,5 +31,13 @@
   }
   .of-font-slider-track, .of-font-slider-fill {
     background: #fff;
+  }
+  .of-font-slider-label {
+    background: #fff;
+    color: #000;
+    user-select: none;
+  }
+  #of-font-toggle-no-image {
+    stroke: white;
   }
 }
