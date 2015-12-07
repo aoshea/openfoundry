@@ -1,6 +1,7 @@
 $('.menu-icon').click(function() {
   $(this).toggleClass('active');
   $('.menu-list').toggleClass('open');
+  $('.menu-signup').toggleClass('open');
 });
 
 // hide on scroll down
@@ -30,6 +31,7 @@ function hasScrolled(){
   if (st > lastScrollTop && st > navbarHeight){
     $('.menu-list').removeClass('open');
     $('.menu-icon').removeClass('active');
+    $('.menu-signup').removeClass('open');
   } else {}
   lastScrollTop = st;
 }
