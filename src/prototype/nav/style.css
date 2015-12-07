@@ -1,0 +1,195 @@
+/* apply a natural box layout model to all elements, but allowing components to change */
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+#main {
+  height: 4000px;
+}
+
+body {
+  margin: 0 auto;
+  font-family: helvetica;
+  font-style: normal;
+}
+
+ul {
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+header {
+  position: fixed;
+  height: 50px;
+  width: 100%;
+  top: 0px;
+  background: black;
+  transition: all .4s ease;
+}
+
+.up {
+  top: -50px;
+}
+
+.menu-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50px;
+}
+
+ul.menu-header {
+  white-space: nowrap;
+  font-size: 0;
+}
+
+.menu-logo .open {
+  display: inline-block;
+  width: 54px;
+  margin-right: 6px;
+}
+.menu-logo .foundry {
+  display: inline-block;
+  width: 76px;
+}
+
+.menu-logo {
+  position: absolute;
+  left: 50px;
+  top: 11px;
+  height: 28px;
+}
+
+.menu-logo a {
+  display: inline-block;
+}
+
+#open rect,
+#foundry rect {
+  stroke: white;
+  fill: none;
+  stroke-width: 2px;
+}
+
+#open path,
+#foundry path {
+  stroke: none;
+  fill: white;
+}
+
+.menu-icon {
+  position: absolute;
+  height: 50px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.menu-icon a {
+  position: absolute;
+  width: 16px;
+  height: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all .4s ease;
+}
+
+.menu-icon span,
+.menu-icon span:after {
+  position: absolute;
+  height: 1px;
+  width: 16px;
+  background: white;
+  display: block;
+  content: '';
+  transition: all .05s ease;
+}
+
+.menu-icon span {
+  top: 0px;
+}
+
+.menu-icon span:after {
+  top: 10px;
+}
+
+.menu-icon:hover span,
+.menu-icon.active span {
+  top: -2px;
+}
+
+.menu-icon:hover span:after,
+.menu-icon.active span:after {
+  top: 14px;
+}
+
+.menu-icon.active a {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+ul.menu-list {
+  position: absolute;
+  width: 100%;
+  height: 0px;
+  top: 50px;
+  padding: 0 50px;
+  overflow: hidden;
+  background: black;
+  transition: all .4s ease;
+  white-space: nowrap;
+  font-size: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+ul.menu-list.open {
+  height: 50vh;
+}
+
+ul.menu-list a {
+  color: white;
+  font-weight: 600;
+  font-size: 66px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+ul.menu-list li {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-top: -25px;
+  display: inline-table;
+}
+
+ul.menu-list li a {
+  color: rgba(255,255,255,0.2);
+  padding: 5px 10px;
+  transition: all .05s ease;
+}
+
+ul.menu-list li a.active {
+  color: white;
+  border: 4px solid white;
+}
+
+ul.menu-list li:last-child svg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 32px;
+  height: 32px;
+  z-index: -1;
+  fill: rgba(255,255,255,0.2);
+}
+
+ul.menu-list li a:hover,
+ul.menu-list li:last-child:hover svg {
+  color: white;
+  fill: rgba(255,255,255,1);
+}
