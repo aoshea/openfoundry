@@ -6,7 +6,7 @@ var fs    = require('fs'),
     
 var dirs = {
   src: __dirname + '/fonts',
-  out: __dirname + '/build',
+  out: __dirname + '/build/backgrounds',
 };
 
 /**
@@ -166,7 +166,7 @@ function outputCSS(result) {
 
 function outputJSON(result) {
   mkdirSync(path.join(dirs.out));
-  fs.writeFile(path.join(dirs.out, 'site.json'), "window.siteJSON = " + JSON.stringify(result, null, 2), function (err){
+  fs.writeFile(path.join(dirs.out, 'site.json'), "window.backgroundsJSON = " + JSON.stringify(result, null, 2), function (err){
     if (err) return console.warn('Error: Write file:', err);
     return console.log('Complete');
   });

@@ -42,19 +42,21 @@ var onError = function (task) {
 // Define folders and files 
 var dir = {
   data: 'open/build/',
+  backgrounds: 'open/images/',
   source: 'src/',
   build: 'dist/'
 };
 
 var sources = {
-  app:     [ dir.source + 'assets/js/index.js'],
-  js:      [ dir.source + 'assets/js/**/*.js' ],
-  imgs:    [ dir.source + 'assets/img/*'],
-  html:    [ dir.source + 'assets/html/*'],
-  fonts:   [ dir.source + 'assets/fonts/**'],
-  css:     [ dir.source + 'assets/css/main.scss'],
-  allcss:  [ dir.source + 'assets/css/**/*.scss'],
-  export:  [ dir.data + '**/*' ]
+  app:         [ dir.source + 'assets/js/index.js'],
+  js:          [ dir.source + 'assets/js/**/*.js' ],
+  imgs:        [ dir.source + 'assets/img/*'],
+  html:        [ dir.source + 'assets/html/*'],
+  fonts:       [ dir.source + 'assets/fonts/**'],
+  css:         [ dir.source + 'assets/css/main.scss'],
+  allcss:      [ dir.source + 'assets/css/**/*.scss'],
+  export:      [ dir.data + '**/*' ],
+  backgrounds: [ dir.backgrounds +'**/*' ]
 };
 
 /**
@@ -147,6 +149,12 @@ gulp.task('html', function () {
 gulp.task('images', function () {
   return gulp.src(sources.imgs)
     .pipe(gulp.dest(dir.build + 'assets/img'));
+});
+
+// Copy background image files to data folder 
+gulp.task('background-images', function () {
+  return gulp.src(sources.backgrounds)
+    .pipe(gulp.dest(dir.build + 'data/backgrounds'));
 });
 
 // Copy exported json and fonts over 

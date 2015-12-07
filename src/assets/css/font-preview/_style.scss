@@ -1,5 +1,7 @@
 .of-font-preview-container {
-  background: white;
+  background-color: #fff;
+  background-size: cover;
+  background-position: 50%;
   border: 1px dashed chartreuse;
 }
 
@@ -13,7 +15,6 @@
   line-height: 1.15em;
   letter-spacing: -0.025em;
   text-transform: none;
-  background: #fff;
   color: #000;
   user-select: none;
   
@@ -22,8 +23,10 @@
 }
 
 .of-font-preview-container:nth-child(even) {
+  
+  background-color: #000;
+  
   .of-font-preview-text-container {
-    background: #000;
     color: #fff;
   }
   .of-font-slider-handle {

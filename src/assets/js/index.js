@@ -426,6 +426,12 @@ class FontPreviewContainer extends Component {
       "lineHeight": `${this.state.lineHeight}em`,
       "color": `${this.state.color}`      
     };
+    
+    /*
+    let backgroundStyle = {
+      "backgroundImage": "url(data/backgrounds/of-backdrop-00" + ( parseInt(Math.random()*9, 10)+1 ) + ".jpg)"
+    };
+    */
            
     return <div className="of-font-preview-container">
     <div className="of-grid-container"><div className="of-row">
@@ -441,9 +447,8 @@ class FontPreviewContainer extends Component {
   }
 }
 
-class FontList extends React.Component {  
+class FontList extends Component {  
   render() {
-    
     let fonts = this.props.fonts.map((font, i) => {
       let config  = font[0];
       let sources = font[1];
