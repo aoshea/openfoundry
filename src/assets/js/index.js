@@ -52,7 +52,6 @@ class Slider extends React.Component {
   }
 
   componentDidMount() {
-    console.log('componentDidMount', this);
     let { orientation } = this.props;
   	let dimension = capitalize(constants.orientation[orientation].dimension);
   	const sliderPos = findDOMNode(this.refs.slider)['offset' + dimension];
@@ -61,12 +60,14 @@ class Slider extends React.Component {
   		limit: sliderPos - handlePos,
   		grab: handlePos / 2,
   	});
-    console.log(sliderPos - handlePos, handlePos / 2);
   }
   
   handleTrackDown(e) {
-    let value;
-    console.log('handleTrackDown');
+    let value, { onChange } = this.props;
+    if (!onChange) return;
+
+    value = this.position(e);
+    onChange && onChange(value);
   }
   
   getPositionFromValue(value) {
@@ -116,19 +117,16 @@ class Slider extends React.Component {
   }
   
   handleDragEnd(e) {
-    console.log('dragEnd', this);
     document.removeEventListener('mousemove', this.handleDrag);
     document.removeEventListener('mouseup', this.handleDragEnd);
   }
   
   handleKnobDown(e) {
-    console.log('handleKNobDown', this);
     document.addEventListener('mousemove', this.handleDrag);
   	document.addEventListener('mouseup', this.handleDragEnd);
   }
   
   noop(e) {
-    console.log('noop');
     e.stopPropagation();
     e.preventDefault();
   }
@@ -155,8 +153,10 @@ class Slider extends React.Component {
   
   render() {
     let dimension, direction, position, coords, fillStyle, handleStyle;
-  	let { value, orientation, className } = this.props;
+  	let { value, orientation, className, label } = this.props;
 
+    let labelStr = label + " " + value;
+    
   	dimension = constants.orientation[orientation].dimension;
   	direction = constants.orientation[orientation].direction;
 
@@ -167,8 +167,10 @@ class Slider extends React.Component {
   	handleStyle = {[direction]: `${coords.handle}px`};
         
     return <div ref="slider" className="of-font-slider">
-    <span ref="fill" onClick={this.noop} onMouseDown={this.handleTrackDown} style={fillStyle} className="of-font-slider-track"></span>
-    <span ref="handle" onClick={this.noop} onMouseDown={this.handleKnobDown} style={handleStyle} className="of-font-slider-handle"></span>
+    <span className="of-font-slider-track"></span>
+    <span ref="fill" onClick={this.noop} onMouseDown={this.handleTrackDown} style={fillStyle} className="of-font-slider-fill"></span>
+    <span ref="handle" onClick={this.noop} onMouseDown={this.handleKnobDown} style={handleStyle} className="of-font-slider-handle"><span ref="label" className="of-font-slider-label">{labelStr}</span></span>
+    
     </div>
   }
 }
@@ -177,6 +179,7 @@ Slider.propTypes = {
   max: PropTypes.number,
   step: PropTypes.number,
   value: PropTypes.number,
+  label: PropTypes.string,
   orientation: PropTypes.string,
   onChange: PropTypes.func,
   onChange: PropTypes.func
@@ -186,6 +189,7 @@ Slider.defaultProps = {
   max: 100,
   step: 1,
   value: 0,
+  label: "size",
   orientation: 'horizontal'
 }
 
@@ -194,36 +198,79 @@ class FontSlider extends Component {
     super(props, context);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      value: 10 /** Start value **/
+      value: 0
     };
+  }
+  
+  componentDidMount() {
+    this.setState({
+      value: this.props.initial * 100
+    });
   }
 
   handleChange(value) {
-    console.log('handleChange', value);
+    let { onUpdate } = this.props;
+    
     this.setState({
       value: value
     });
-    console.log(this.state);
+    
+    onUpdate && onUpdate(value);
   }
 
   render() {
     return (
+      <div className="of-grid-container"><div className="of-row"><div className="col-2">
       <Slider
       value={this.state.value}
       orientation="horizontal"
+      label="size"
       onChange={this.handleChange} />
+      </div>
+      </div>
+      </div>
     );
   }
 }
 
-class FontPreviewContainer extends React.Component {
+class FontPreviewContainer extends Component {
+  
+  constructor() {
+    super();
+    
+    this.onUpdateSize = this.onUpdateSize.bind(this);
+    
+    this.state = {
+      size: 0
+    };
+  }
+  
+  componentDidMount() {
+    let fontSize = parseInt(this.props.settings['font-size'], 10);
+    
+    this.setState({
+      size: fontSize
+    });
+  }
+  
+  onUpdateSize(value) {
+    this.setState({
+      size: value
+    });
+  }
+  
   render() {
     
     let fontClassName = replaceNonAlphaNumeric(this.props.name).toLowerCase();
-    
+    let fontSize = parseInt(this.props.settings['font-size'], 10);
+    let maxFontSize = 100;
+    let fontSizePercentage = fontSize / maxFontSize;
+
+    let fontStyle = { "fontSize" : `${this.state.size}px` };
+        
     return <div className="of-font-preview-container">
-    <FontSlider value="10" />
-    <div data-font={this.props.name} className={"of-font-preview-text-container " + fontClassName}>
+    <FontSlider initial={fontSizePercentage} onUpdate={this.onUpdateSize} />
+    <div data-font={this.props.name} style={fontStyle} className={"of-font-preview-text-container " + fontClassName}>
     {this.props.name} . {this.props.creator}
     </div>
     </div>    
@@ -236,9 +283,9 @@ class FontList extends React.Component {
     let fonts = this.props.fonts.map((font, i) => {
       let config  = font[0];
       let sources = font[1];
-      
+            
       return (
-        <FontPreviewContainer key={i} name={config.name} creator={config.creator} />
+        <FontPreviewContainer key={i} name={config.name} creator={config.creator} settings={config.settings} />
       )
     })
     
