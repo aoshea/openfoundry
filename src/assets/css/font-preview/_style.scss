@@ -14,3 +14,17 @@
   padding-top: 150px;
   padding-bottom: 160px;
 }
+
+.of-font-preview-container:nth-child(even) {
+  .of-font-preview-text-container {
+    background: #000;
+    color: #fff;
+  }
+  .of-font-slider-handle {
+    border: 1px solid #000;
+    background: #fff;
+  }
+  .of-font-slider-track {
+    background: #fff;
+  }
+}
