@@ -236,20 +236,42 @@ class FontSlider extends Component {
 
 class FontBackgroundToggle extends Component {
   
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      image: 0
+    };
+  }
+  
+  handleClick(e) {
+    let currentImageState = ++this.state.image % 2;
+    console.log(currentImageState);
+    this.setState({
+      image: currentImageState
+    })
+  }
+  
   render() {
     
     let size = 32;
     let viewBox = [0, 0, size, size].join(' ');
-
+    let imageStyle = {
+      display: this.state.image < 1 ? "none" : "block"
+    };
+    let imageFirstStyle = {
+      display: this.state.image > 0 ? "none": "block"
+    };
+    
     return (
-      <svg xmlns="http://www.w3.org/svg/2000"
+      <svg onClick={this.handleClick} xmlns="http://www.w3.org/svg/2000"
         viewBox={viewBox}>
-        <g id="of-font-toggle-no-image" fill="none" stroke="black">
+        <g id="of-font-toggle-no-image" style={imageFirstStyle} fill="none" stroke="black">
 	        <circle cx="16" cy="12.8" r="5.5"/>
           <circle cx="12" cy="19.2" r="5.5"/>
           <circle cx="20" cy="19.2" r="5.5"/>
         </g>
-        <g id="of-font-toggle-image">
+        <g id="of-font-toggle-image" style={imageStyle}>
           <path fill="#0000FF" d="M14,19.2c0-0.3,0-0.6,0.1-0.8c-2.1-0.7-3.7-2.6-4-4.8c-2.4,0.8-4.1,3-4.1,5.7c0,3.3,2.7,6,6,6
           c1.5,0,2.9-0.6,4-1.5C14.8,22.6,14,21,14,19.2z"/>
           <path fill="#00FF00" d="M21.9,13.6c-0.3,2.3-1.9,4.1-4,4.8c0,0.3,0.1,0.5,0.1,0.8c0,1.8-0.8,3.4-2,4.5c1.1,1,2.5,1.5,4,1.5
