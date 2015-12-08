@@ -505,7 +505,10 @@ class FontPreviewContainer extends Component {
     
     let rankPadded = ("0" + this.props.rank).slice(-2); 
     
-    let rankLabel = rankPadded + " / " + this.props.name + ", " + this.props.creator; 
+    let rankLabel = rankPadded + " / " + this.props.name;
+    if (this.props.creator) {
+      rankLabel += ", " + this.props.creator; 
+    } 
     
     let fontClassName = "of-font-preview-text-container " + replaceNonAlphaNumeric(this.props.name).toLowerCase();
     
