@@ -523,7 +523,7 @@ class FontPreviewContainer extends Component {
       <FontColours initial={color} onUpdate={this.onUpdateColour} onUpdateBackground={this.onUpdateBackground} onUpdateTextTransform={this.onUpdateTextTransform} />
     </div></div>
     <div data-font={this.props.name} style={fontStyle} className={"of-font-preview-text-container " + fontClassName}>
-    {this.props.name} . {this.props.creator}
+    {this.props.settings.text}
     </div>
     </div>    
   }
