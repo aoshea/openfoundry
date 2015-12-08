@@ -11,6 +11,7 @@
         "font-size": "90px",
         "line-height": "1.05em",
         "letter-spacing": "0em",
+        "letter-spacing-min": "-0.1em",
         "text-transform": "none",
         "scrolling-text": "false",
         "background-state": "image",
