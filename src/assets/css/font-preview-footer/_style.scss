@@ -1,11 +1,12 @@
 .of-font-preview-footer {
   position: absolute;
   bottom: 40px;
+  padding: 0 50px;
   
   .rank {
     font-size: 15px;
     font-weight: 200;
-    color: $grey;
+    color: $trans-black-25;
   }
   
   .vote-container {
@@ -22,20 +23,13 @@
     left: 3px;
     
     svg {
-      fill: $grey;
+      fill: $trans-black-25;
     }
     
     :hover {
-      fill: $red;
+      fill: $trans-red-25;
     }
   }
-  
-  .like-button:hover {
-    svg {
-      fill: $red;
-    }
-  }
-  
   
   .num-likes {
     float: right;

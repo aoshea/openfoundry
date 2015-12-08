@@ -396,14 +396,19 @@ class FontUppercase extends Component {
 class FontColours extends Component {
   render() {
     return (
-      <div className="col-2">
-        <FontColourBox initial={this.props.initial} onUpdate={this.props.onUpdate} />
+      <div className="col-3">
+        
         <div className="of-font-background-toggle-container">
           <FontBackgroundToggle background={this.props.background} onUpdateColour={this.props.onUpdate} onUpdate={this.props.onUpdateBackground} />
         </div>
+      
         <div className="of-font-uppercase-toggle-container">
           <FontUppercase background={this.props.background} onUpdate={this.props.onUpdateTextTransform} />
         </div>
+        
+      
+        <FontColourBox initial={this.props.initial} onUpdate={this.props.onUpdate} />
+        
       </div>
     )
   }
@@ -543,37 +548,41 @@ class FontPreviewContainer extends Component {
     return (
       <div className={backgroundClassName} style={backgroundStyle}>
         
-        <div className="of-grid-container">
-          <div className="of-row">
-            <FontSlider label="size" 
-              initial={fontSize} 
-              max={maxFontSize} 
-              step={stepFontSize} 
-              min={minFontSize} 
-              onUpdate={this.onUpdateSize} />
+        <div className="of-font-preview-ui">
+          <div className="of-grid-container">
+            <div className="of-row">
+              <FontSlider label="size" 
+                initial={fontSize} 
+                max={maxFontSize} 
+                step={stepFontSize} 
+                min={minFontSize} 
+                onUpdate={this.onUpdateSize} />
               
-            <FontSlider 
-              label="leading" 
-              initial={lineHeight} 
-              min={minLineHeight}
-              max={maxLineHeight} 
-              step={stepLineHeight} 
-              onUpdate={this.onUpdateLineHeight} />
+              <FontSlider 
+                label="leading" 
+                initial={lineHeight} 
+                min={minLineHeight}
+                max={maxLineHeight} 
+                step={stepLineHeight} 
+                onUpdate={this.onUpdateLineHeight} />
               
-            <FontSlider 
-              label="kerning" 
-              initial={letterSpacing} 
-              min={minLetterSpacing} 
-              max={maxLetterSpacing} 
-              step={stepLetterSpacing}          
-              onUpdate={this.onUpdateLetterSpacing} />
+              <FontSlider 
+                label="kerning" 
+                initial={letterSpacing} 
+                min={minLetterSpacing} 
+                max={maxLetterSpacing} 
+                step={stepLetterSpacing}          
+                onUpdate={this.onUpdateLetterSpacing} />
               
-            <FontColours 
-              initial={color} 
-              background={backgroundState} 
-              onUpdate={this.onUpdateColour} 
-              onUpdateBackground={this.onUpdateBackground} 
-              onUpdateTextTransform={this.onUpdateTextTransform} />
+              <FontColours 
+                initial={color} 
+                background={backgroundState} 
+                onUpdate={this.onUpdateColour} 
+                onUpdateBackground={this.onUpdateBackground} 
+                onUpdateTextTransform={this.onUpdateTextTransform} />
+            
+              <div className="col-2 offset-3 more-button-container"><span className="more-button">More</span></div>
+            </div>
           </div>
         </div>
       
