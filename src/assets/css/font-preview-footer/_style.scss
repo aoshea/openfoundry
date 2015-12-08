@@ -4,8 +4,13 @@
   padding: 0;
   width: 100%;
   
-  .of-grid-container {
+  .of-footer-inner {
+    width: 100%;
     padding: 0 50px;
+    box-sizing: border-box;
+  }
+  .of-grid-container {
+    
   }
   
   .rank {
