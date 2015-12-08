@@ -584,14 +584,13 @@ class FontPreviewContainer extends Component {
         <div className="of-font-preview-footer of-grid-container">
           <div className="of-row">
             <div className="col-4 rank">{rankLabel}</div>
-            <div className="col-4 offset-4 rank vote-container">
+            <div className="col-2 offset-6 rank vote-container">
               <div className="like-button">
                 <svg xmlns="http://www.w3.org/svg/2000" viewBox="0 0 32 32">
                   <path d="M21.1,11.4c1.3,1.4,1.3,3.6,0,4.9L16,21.5l-5.1-5.2c-1.3-1.4-1.3-3.6,0-4.9c1.2-1.2,3.1-1.2,4.3,0l0.8,0.8l0.8-0.8
 	C18,10.2,19.9,10.2,21.1,11.4"/>
                 </svg>
               </div>
-              203 / 64
             </div>
           </div>
         </div>
