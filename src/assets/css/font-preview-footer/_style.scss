@@ -1,19 +1,37 @@
 .of-font-preview-footer {
   position: absolute;
   bottom: 40px;
+  padding: 0 50px;
   
   .rank {
     font-size: 15px;
     font-weight: 200;
-    color: $grey;
+    color: $trans-black-25;
   }
   
   .vote-container {
     text-align: right;
+    cursor: pointer;
   }
   
   .like-button {
-    width: 16px;
-    height: 16px;
+    position: relative;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    top: -8px;
+    left: 3px;
+    
+    svg {
+      fill: $trans-black-25;
+    }
+    
+    :hover {
+      fill: $trans-red-25;
+    }
+  }
+  
+  .num-likes {
+    float: right;
   }
 }

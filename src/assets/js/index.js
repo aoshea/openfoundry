@@ -154,8 +154,8 @@ class Slider extends React.Component {
   render() {
     let dimension, direction, position, coords, fillStyle, handleStyle;
   	let { value, orientation, className, label } = this.props;
-
-    let labelStr = label + " " + value.toFixed(2);
+    
+    let labelStr = label + " " + value;
     
   	dimension = constants.orientation[orientation].dimension;
   	direction = constants.orientation[orientation].direction;
@@ -396,14 +396,19 @@ class FontUppercase extends Component {
 class FontColours extends Component {
   render() {
     return (
-      <div className="col-2">
-        <FontColourBox initial={this.props.initial} onUpdate={this.props.onUpdate} />
+      <div className="col-3">
+        
         <div className="of-font-background-toggle-container">
           <FontBackgroundToggle background={this.props.background} onUpdateColour={this.props.onUpdate} onUpdate={this.props.onUpdateBackground} />
         </div>
+      
         <div className="of-font-uppercase-toggle-container">
           <FontUppercase background={this.props.background} onUpdate={this.props.onUpdateTextTransform} />
         </div>
+        
+      
+        <FontColourBox initial={this.props.initial} onUpdate={this.props.onUpdate} />
+        
       </div>
     )
   }
@@ -461,13 +466,13 @@ class FontPreviewContainer extends Component {
   
   onUpdateSize(value) {
     this.setState({
-      size: value
+      size: parseInt(value, 10)
     });
   }
   
   onUpdateLetterSpacing(value) {
     this.setState({
-      letterSpacing: value.toFixed(2)
+      letterSpacing: value.toFixed(3)
     });
   }
   
@@ -508,7 +513,7 @@ class FontPreviewContainer extends Component {
     let lineHeight = parseFloat(this.props.settings['line-height'], 10);
     let letterSpacing = parseFloat(this.props.settings['letter-spacing'], 10);
     let color = this.props.settings['color'];
-    
+
     let maxFontSize = 150;
     let minFontSize = 9;
     
@@ -543,37 +548,41 @@ class FontPreviewContainer extends Component {
     return (
       <div className={backgroundClassName} style={backgroundStyle}>
         
-        <div className="of-grid-container">
-          <div className="of-row">
-            <FontSlider label="size" 
-              initial={fontSize} 
-              max={maxFontSize} 
-              step={stepFontSize} 
-              min={minFontSize} 
-              onUpdate={this.onUpdateSize} />
+        <div className="of-font-preview-ui">
+          <div className="of-grid-container">
+            <div className="of-row">
+              <FontSlider label="size" 
+                initial={fontSize} 
+                max={maxFontSize} 
+                step={stepFontSize} 
+                min={minFontSize} 
+                onUpdate={this.onUpdateSize} />
               
-            <FontSlider 
-              label="leading" 
-              initial={lineHeight} 
-              min={minLineHeight}
-              max={maxLineHeight} 
-              step={stepLineHeight} 
-              onUpdate={this.onUpdateLineHeight} />
+              <FontSlider 
+                label="leading" 
+                initial={lineHeight} 
+                min={minLineHeight}
+                max={maxLineHeight} 
+                step={stepLineHeight} 
+                onUpdate={this.onUpdateLineHeight} />
               
-            <FontSlider 
-              label="kerning" 
-              initial={letterSpacing} 
-              min={minLetterSpacing} 
-              max={maxLetterSpacing} 
-              step={stepLetterSpacing}          
-              onUpdate={this.onUpdateLetterSpacing} />
+              <FontSlider 
+                label="kerning" 
+                initial={letterSpacing} 
+                min={minLetterSpacing} 
+                max={maxLetterSpacing} 
+                step={stepLetterSpacing}          
+                onUpdate={this.onUpdateLetterSpacing} />
               
-            <FontColours 
-              initial={color} 
-              background={backgroundState} 
-              onUpdate={this.onUpdateColour} 
-              onUpdateBackground={this.onUpdateBackground} 
-              onUpdateTextTransform={this.onUpdateTextTransform} />
+              <FontColours 
+                initial={color} 
+                background={backgroundState} 
+                onUpdate={this.onUpdateColour} 
+                onUpdateBackground={this.onUpdateBackground} 
+                onUpdateTextTransform={this.onUpdateTextTransform} />
+            
+              <div className="col-2 offset-1 more-button-container"><span className="more-button">More</span></div>
+            </div>
           </div>
         </div>
       
@@ -584,13 +593,14 @@ class FontPreviewContainer extends Component {
         <div className="of-font-preview-footer of-grid-container">
           <div className="of-row">
             <div className="col-4 rank">{rankLabel}</div>
-            <div className="col-2 offset-6 rank vote-container">
+            <div className="col-2 offset-5 rank vote-container">
               <div className="like-button">
                 <svg xmlns="http://www.w3.org/svg/2000" viewBox="0 0 32 32">
                   <path d="M21.1,11.4c1.3,1.4,1.3,3.6,0,4.9L16,21.5l-5.1-5.2c-1.3-1.4-1.3-3.6,0-4.9c1.2-1.2,3.1-1.2,4.3,0l0.8,0.8l0.8-0.8
 	C18,10.2,19.9,10.2,21.1,11.4"/>
-                </svg>
+                </svg>                
               </div>
+              <span className="num-likes">203</span>
             </div>
           </div>
         </div>
