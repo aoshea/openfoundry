@@ -155,7 +155,15 @@ class Slider extends React.Component {
     let dimension, direction, position, coords, fillStyle, handleStyle;
   	let { value, orientation, className, label } = this.props;
     
-    let labelStr = label + " " + value;
+    let labelValue = value;
+    
+    if (label === "leading") {
+      labelValue = value.toFixed(2);      
+    } else if (label === "kerning") {
+      labelValue = value.toFixed(3);
+    }
+    
+    let labelStr = label + " " + labelValue;
     
   	dimension = constants.orientation[orientation].dimension;
   	direction = constants.orientation[orientation].direction;
