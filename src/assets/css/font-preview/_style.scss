@@ -3,7 +3,7 @@
   
   background-color: $white;
   background-size: cover;
-  background-position: 50%;  
+  background-position: 50%;    
 }
 
 .of-font-preview-container .of-font-preview-ui {
@@ -74,5 +74,10 @@
   .of-font-preview-footer .like-button:hover svg {
     fill: $red;
   }
-  
+}
+.of-font-preview-container.black-image:before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: $trans-black-20;
 }
