@@ -15,9 +15,9 @@
     width: 100%;
     padding: 2px 8px;
     border-radius: 2px;
-    border: 1px solid #ccc;
+    border: 1px solid $trans-black-25;
     background: transparent;
-    color: #777;
+    color: $trans-black-25;
     
     &:focus {
       outline: none;

@@ -466,13 +466,13 @@ class FontPreviewContainer extends Component {
   
   onUpdateSize(value) {
     this.setState({
-      size: value
+      size: parseInt(value, 10)
     });
   }
   
   onUpdateLetterSpacing(value) {
     this.setState({
-      letterSpacing: value.toFixed(2)
+      letterSpacing: value.toFixed(3)
     });
   }
   
@@ -513,6 +513,7 @@ class FontPreviewContainer extends Component {
     let lineHeight = parseFloat(this.props.settings['line-height'], 10);
     let letterSpacing = parseFloat(this.props.settings['letter-spacing'], 10);
     let color = this.props.settings['color'];
+    
     
     let maxFontSize = 150;
     let minFontSize = 9;
@@ -581,7 +582,7 @@ class FontPreviewContainer extends Component {
                 onUpdateBackground={this.onUpdateBackground} 
                 onUpdateTextTransform={this.onUpdateTextTransform} />
             
-              <div className="col-2 offset-3 more-button-container"><span className="more-button">More</span></div>
+              <div className="col-2 offset-1 more-button-container"><span className="more-button">More</span></div>
             </div>
           </div>
         </div>

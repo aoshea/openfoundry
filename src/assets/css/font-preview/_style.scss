@@ -20,8 +20,11 @@
 
 .of-font-preview-container .more-button {
   cursor: pointer;
+  font-size: 15px;
+  color: $trans-black-25;
+  border: 1px solid $trans-black-25;
+  padding: 2px 8px;
 } 
-
 
 .of-font-preview-container .of-font-preview-text-container {
   
