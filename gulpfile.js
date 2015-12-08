@@ -151,17 +151,17 @@ gulp.task('images', function () {
     .pipe(gulp.dest(dir.build + 'assets/img'));
 });
 
-// Copy background image files to data folder 
-gulp.task('background-images', function () {
+// Copy exported json and fonts over 
+gulp.task('export-json', function () {
+  return gulp.src(sources.export)
+    .pipe(gulp.dest(dir.build + 'data'));
+});
+gulp.task('export-images', function () {
   return gulp.src(sources.backgrounds)
     .pipe(gulp.dest(dir.build + 'data/backgrounds'));
 });
 
-// Copy exported json and fonts over 
-gulp.task('export', function () {
-  return gulp.src(sources.export)
-    .pipe(gulp.dest(dir.build + 'data'));
-});
+gulp.task('export', ['export-json', 'export-images']);
 
 // Clean build folder 
 gulp.task('clean', function () {
