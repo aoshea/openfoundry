@@ -50,4 +50,11 @@
   .of-font-preview-footer .rank {
     color: $white;
   }
+  .of-font-preview-footer .like-button svg {
+    fill: $white;
+  }
+  .of-font-preview-footer .like-button:hover svg {
+    fill: $red;
+  }
+  
 }
