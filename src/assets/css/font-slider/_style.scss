@@ -28,19 +28,20 @@
   }
   .of-font-slider-label {
     position: relative;
-    top: 0;
-    left: 0;
-    transform: translate(0%,0%);
+    bottom: 28px;
+    left: -30px;
+    width: 60px;
+    transform: translate(-100%,0%);
     font-size: 12px;
     font-weight: lighter;
-    letter-spacing: $letter-spacing-s;
+    letter-spacing: $letter-spacing-xs;
     background: $black;
     color: $white;
     border-radius: 3px;
     padding: 5px 5px;
     text-align: center;
     opacity: 0;
-    transition: opacity 80ms linear;
+    transition: opacity .4s ease;
     white-space: nowrap;
     user-select: none;
   }
