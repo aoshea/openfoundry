@@ -1,8 +1,9 @@
 .of-font-preview-container {
-  background-color: #fff;
+  position: relative;
+  
+  background-color: $white;
   background-size: cover;
   background-position: 50%;
-  border: 1px dashed chartreuse;
 }
 
 .of-font-preview-container .of-grid-container {
@@ -15,33 +16,36 @@
   line-height: 1.15em;
   letter-spacing: -0.025em;
   text-transform: none;
-  color: #000;
+  color: $black;
   user-select: none;
   
   padding-top: 150px;
   padding-bottom: 160px;
 }
 
-.of-font-preview-container:nth-child(even) {
+.of-font-preview-container.black-image {
   
-  background-color: #000;
+  background-color: $black;
   
   .of-font-preview-text-container {
-    color: #fff;
+    color: $white;
   }
   .of-font-slider-handle {
-    border: 1px solid #000;
-    background: #fff;
+    border: 1px solid $black;
+    background: $white;
   }
   .of-font-slider-track, .of-font-slider-fill {
-    background: #fff;
+    background: $white;
   }
   .of-font-slider-label {
-    background: #fff;
-    color: #000;
+    background: $white;
+    color: $black;
     user-select: none;
   }
   #of-font-toggle-no-image {
-    stroke: white;
+    stroke: $white;
+  }
+  .of-font-preview-footer .rank {
+    color: $white;
   }
 }

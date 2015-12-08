@@ -11,8 +11,7 @@
         "letter-spacing": "0em",
         "text-transform": "none",
         "scrolling-text": "false",
-        "background-image": "false",
-        "background": "#fff",
+        "background-state": "image",
         "color": "#f00",
         "text": "Pregnant Georgina Dorsett puts on a very busty display on night out with husband Tom Cleverley"
     },
@@ -27,8 +26,8 @@
         "about": ""
     },
     "newcomer": {
-        "background-image": "false",
-        "background": "#fff",
+        "background-state": "white",
+        
         "color": "#000"
     },
     "votes": {
