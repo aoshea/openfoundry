@@ -245,11 +245,18 @@ class FontBackgroundToggle extends Component {
   }
   
   handleClick(e) {
-    let currentImageState = ++this.state.image % 2;
+    let { onUpdate, onUpdateColour } = this.props;
+    let currentImageState = ++this.state.image % 3;
     console.log(currentImageState);
     this.setState({
       image: currentImageState
-    })
+    });
+    let colour = "#000000";
+    if (currentImageState > 0) {
+      colour = "#ffffff";
+    }
+    onUpdate && onUpdate(currentImageState);
+    onUpdateColour && onUpdateColour(colour);
   }
   
   render() {
@@ -257,16 +264,17 @@ class FontBackgroundToggle extends Component {
     let size = 32;
     let viewBox = [0, 0, size, size].join(' ');
     let imageStyle = {
-      display: this.state.image < 1 ? "none" : "block"
+      display: this.state.image < 2 ? "none" : "block"
     };
     let imageFirstStyle = {
-      display: this.state.image > 0 ? "none": "block"
+      display: this.state.image > 1 ? "none": "block",
+      stroke: this.state.image === 0 ? "black" : "white"
     };
     
     return (
       <svg onClick={this.handleClick} xmlns="http://www.w3.org/svg/2000"
         viewBox={viewBox}>
-        <g id="of-font-toggle-no-image" style={imageFirstStyle} fill="none" stroke="black">
+        <g id="of-font-toggle-no-image" style={imageFirstStyle} fill="none" >
 	        <circle cx="16" cy="12.8" r="5.5"/>
           <circle cx="12" cy="19.2" r="5.5"/>
           <circle cx="20" cy="19.2" r="5.5"/>
@@ -328,13 +336,64 @@ class FontColourBox extends Component {
   }
 }
 
+class FontUppercase extends Component {
+  
+  constructor() {
+    super();
+    this.handleClick = this.handleClick.bind(this);
+    this.state = {
+      uppercase: false
+    };
+  }
+  
+  handleClick(e) {
+    let { onUpdate } = this.props;
+    let uppercase = !this.state.uppercase;
+    
+    this.setState({
+      uppercase: uppercase
+    });
+    
+    onUpdate && onUpdate(uppercase)
+  }
+  
+  render() {
+    
+    let size = 32;
+    let viewBox = [0, 0, size, size].join(' ');
+    let onStyle = {
+      display: this.state.uppercase ? "block" : "none"
+    };
+    let offStyle = {
+      display: this.state.uppercase ? "none" : "block"
+    };
+  
+    return (
+      <svg onClick={this.handleClick} xmlns="http://www.w3.org/svg/2000"
+        viewBox={viewBox}>
+        <g id="of-font-uppercase-on" style={onStyle} >
+          <path d="M10,21.6v-9.3H6.7v-1.9h8.8v1.9h-3.3v9.3H10z M19.8,21.6v-9.3h-3.3v-1.9h8.8v1.9H22v9.3H19.8z"/>
+        </g>
+        <g id="of-font-uppercase-off" style={offStyle}>
+          <path d="M10.8,21.6v-9.3H7.5v-1.9h8.8v1.9h-3.3v9.3H10.8z M24.3,13.5v1.7h-1.5v3.3c0,0.7,0,1,0,1.2c0,0.1,0.1,0.2,0.2,0.3
+	c0.1,0.1,0.2,0.1,0.4,0.1c0.2,0,0.5-0.1,0.9-0.2l0.2,1.7c-0.5,0.2-1.1,0.3-1.7,0.3c-0.4,0-0.7-0.1-1-0.2c-0.3-0.1-0.5-0.3-0.7-0.5
+	c-0.1-0.2-0.2-0.5-0.3-0.8c0-0.2-0.1-0.7-0.1-1.5v-3.5h-1v-1.7h1v-1.6l2.1-1.2v2.8H24.3z"/>
+        </g>
+      </svg>
+    )
+  }
+}
+
 class FontColours extends Component {
   render() {
     return (
       <div className="col-2">
         <FontColourBox initial={this.props.initial} onUpdate={this.props.onUpdate} />
         <div className="of-font-background-toggle-container">
-          <FontBackgroundToggle />
+          <FontBackgroundToggle onUpdateColour={this.props.onUpdate} onUpdate={this.props.onUpdateBackground} />
+        </div>
+        <div className="of-font-uppercase-toggle-container">
+          <FontUppercase onUpdate={this.props.onUpdateTextTransform} />
         </div>
       </div>
     )
@@ -350,12 +409,16 @@ class FontPreviewContainer extends Component {
     this.onUpdateLineHeight = this.onUpdateLineHeight.bind(this);
     this.onUpdateLetterSpacing = this.onUpdateLetterSpacing.bind(this);
     this.onUpdateColour = this.onUpdateColour.bind(this);
+    this.onUpdateBackground = this.onUpdateBackground.bind(this);
+    this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
     
     this.state = {
       size: 0,
       letterSpacing: 0,
       lineHeight: 0,
-      color: '#000'
+      color: '#000',
+      background: 0,
+      uppercase: false
     };
   }
   
@@ -369,7 +432,8 @@ class FontPreviewContainer extends Component {
       size: fontSize,
       lineHeight: lineHeight,
       letterSpacing: letterSpacing,
-      color: color
+      color: color,
+      background: 0
     });
   }
   
@@ -392,9 +456,22 @@ class FontPreviewContainer extends Component {
   }
   
   onUpdateColour(value) {
-    console.log('onUpdateColour', value);
     this.setState({
       color: value
+    });
+  }
+  
+  onUpdateBackground(value) {
+    this.setState({
+      background: value,
+      backgroundNum: ( parseInt(Math.random()*9, 10)+1 )
+    });
+  }
+  
+  onUpdateTextTransform(value) {
+    console.log('update text transform', value);
+    this.setState({
+      uppercase: value
     });
   }
   
@@ -420,25 +497,30 @@ class FontPreviewContainer extends Component {
     let stepLetterSpacing = 0.025;
     let stepLineHeight = 0.05;
     
+    let textTransform = this.state.uppercase ? "uppercase" : "none";
+    
     let fontStyle = { 
       "fontSize" : `${this.state.size}px`,
       "letterSpacing": `${this.state.letterSpacing}em`,
       "lineHeight": `${this.state.lineHeight}em`,
-      "color": `${this.state.color}`      
+      "color": `${this.state.color}`,
+      "textTransform": textTransform
     };
     
-    /*
+    let backgroundState = this.state.background;
+    
     let backgroundStyle = {
-      "backgroundImage": "url(data/backgrounds/of-backdrop-00" + ( parseInt(Math.random()*9, 10)+1 ) + ".jpg)"
+      "backgroundImage": backgroundState === 2 ? "url(data/backgrounds/of-backdrop-00" + this.state.backgroundNum + ".jpg)" : "none"
     };
-    */
+    
+    let backgroundClassName = backgroundState === 0 ? "of-font-preview-container" : "of-font-preview-container black-image";
            
-    return <div className="of-font-preview-container">
+    return <div className={backgroundClassName} style={backgroundStyle}>
     <div className="of-grid-container"><div className="of-row">
       <FontSlider label="size" initial={fontSize} max={maxFontSize} step={stepFontSize} min={minFontSize} onUpdate={this.onUpdateSize} />
       <FontSlider label="leading" initial={lineHeight} max={maxLineHeight} step={stepLineHeight} min={minLineHeight} onUpdate={this.onUpdateLineHeight} />
       <FontSlider label="kerning" initial={letterSpacing} max={maxLetterSpacing} step={stepLetterSpacing}  min={minLetterSpacing} onUpdate={this.onUpdateLetterSpacing} />
-      <FontColours initial={color} onUpdate={this.onUpdateColour} />
+      <FontColours initial={color} onUpdate={this.onUpdateColour} onUpdateBackground={this.onUpdateBackground} onUpdateTextTransform={this.onUpdateTextTransform} />
     </div></div>
     <div data-font={this.props.name} style={fontStyle} className={"of-font-preview-text-container " + fontClassName}>
     {this.props.name} . {this.props.creator}

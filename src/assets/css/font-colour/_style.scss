@@ -1,7 +1,8 @@
 .of-font-colour-input {
+  display: inline-block;
   position: relative;
   width: 70px;
-  top: 39px;
+  top: 25px;
   
   input {
     font-weight: 200;
@@ -22,14 +23,25 @@
 }
 
 .of-font-background-toggle-container {
+  display: inline-block;
   position: relative;
   width: 32px;
   height: 32px;
-  left: 80px;
-  top: 12px;
+  left: 10px;
+  top: 35px;
   cursor: pointer;
 }
 
 #of-font-toggle-image {
   display: none;
+}
+
+.of-font-uppercase-toggle-container {
+  display: inline-block;
+  position: relative;
+  width: 32px;
+  height: 32px;
+  left: 112px;
+  top: -2px;
+  cursor: pointer;
 }
