@@ -154,8 +154,8 @@ class Slider extends React.Component {
   render() {
     let dimension, direction, position, coords, fillStyle, handleStyle;
   	let { value, orientation, className, label } = this.props;
-
-    let labelStr = label + " " + value.toFixed(2);
+    
+    let labelStr = label + " " + value;
     
   	dimension = constants.orientation[orientation].dimension;
   	direction = constants.orientation[orientation].direction;
@@ -513,8 +513,7 @@ class FontPreviewContainer extends Component {
     let lineHeight = parseFloat(this.props.settings['line-height'], 10);
     let letterSpacing = parseFloat(this.props.settings['letter-spacing'], 10);
     let color = this.props.settings['color'];
-    
-    
+
     let maxFontSize = 150;
     let minFontSize = 9;
     
