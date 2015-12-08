@@ -8,6 +8,7 @@ html {
 
 #main {
   height: 4000px;
+  background: grey;
 }
 
 body {
@@ -61,10 +62,18 @@ ul.menu-header {
 
 .menu-logo {
   position: absolute;
-  left: 50px;
-  top: 11px;
+  top: 0px;
+  left: 0px;
   height: 28px;
+  transform: translate(50px,11px);
+  transition: all .4s ease 0s;
 }
+
+.menu-logo.up {
+  opacity: 0;
+  transform: translate(50px,-39px);
+}
+
 
 .menu-logo a {
   display: inline-block;
@@ -136,21 +145,22 @@ ul.menu-header {
 ul.menu-list {
   position: absolute;
   width: 100%;
-  height: 0px;
+  height: 50vh;
   top: 0px;
   z-index: -1;
   padding: 0 50px;
   overflow: hidden;
   background: black;
-  transition: all .4s ease;
   white-space: nowrap;
   font-size: 0;
   display: flex;
   justify-content: space-between;
+  transform: translateY(-50vh);
+  transition: all .4s ease;
 }
 
 ul.menu-list.open {
-  height: 50vh;
+  transform: translateY(0vh);
 }
 
 ul.menu-list a {
@@ -200,21 +210,26 @@ ul.menu-signup {
   position: absolute;
   width: 100%;
   height: 50vh;
-  top: -50vh;
-  z-index: -100000;
+  top: 0;
+  z-index: -2;
   padding: 0 50px;
   overflow: hidden;
   background: black;
-  transition: all .4s ease;
-}
-
-ul.menu-signup {
-  background: white;
+  transform: translateY(-50vh);
+  transition: all .4s ease 0s;
 }
 
 ul.menu-signup.open {
-  top: 50vh;
-  bottom: 0;
+  transform: translateY(50vh);
+}
+
+ul.menu-list.open + ul.menu-signup {
+  transition: all .4s ease .2s;
+}
+
+
+ul.menu-signup {
+  background: white;
 }
 
 input {
