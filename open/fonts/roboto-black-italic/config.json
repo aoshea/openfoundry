@@ -2,17 +2,18 @@
     "name": "Roboto Black Italic",
     "creator": "Christian Robertson",
     "creator-link": "http://betatype.com/",
+    "creator-twitter": "",
     "foundry": "Google",
     "foundry-link": "https://www.google.com/fonts/specimen/Roboto",
+    "foundry-twitter": "",
     "source-link": "https://www.google.com/fonts/specimen/Roboto",
     "settings": {
         "font-size": "135px",
         "line-height": "0.78em",
         "letter-spacing": "-0.1em",
-        "text-transform": "none",
+        "text-transform": "uppercase",
         "scrolling-text": "false",
         "background-state": "black",
-        
         "color": "#fff",
         "text": "Baby Yeezus is almost upon us! Kanye West expects his son with Kim Kardashian to 'arrive any day now'"
     },
@@ -24,11 +25,14 @@
     },
     "info": {
         "weight": "800",
-        "about": ""
+        "about": "",
+        "license": "SIL Open Font License",
+        "license-link": "http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL",
+        "discoverer": "Stefan Endress",
+        "discoverer-twitter": "stefanendress"
     },
     "newcomer": {
         "background-state": "white",
-        
         "color": "#fff"
     },
     "votes": {

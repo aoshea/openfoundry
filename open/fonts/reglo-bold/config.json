@@ -2,8 +2,10 @@
     "name": "Reglo Bold",
     "creator": "",
     "creator-link": "",
+    "creator-twitter": "",
     "foundry": "OSP-foundry",
     "foundry-link": "http://ospublish.constantvzw.org/foundry/reglo/",
+    "foundry-twitter": "",
     "source-link": "http://ospublish.constantvzw.org/foundry/files/OSP_Reglo.zip",
     "settings": {
         "font-size": "200px",
@@ -12,7 +14,6 @@
         "text-transform": "none",
         "scrolling-text": "true",
         "background-state": "image",
-        
         "color": "#fff",
         "text": "<a href=\"http://goo.gl/37Dqca\">http://goo.gl/37Dqca</a>"
     },
@@ -24,11 +25,14 @@
     },
     "info": {
         "weight": "200",
-        "about": ""
+        "about": "",
+        "license": "SIL Open Font License",
+        "license-link": "http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL",
+        "discoverer": "Stefan Endress",
+        "discoverer-twitter": "stefanendress"
     },
     "newcomer": {
-        "background-state": "white",
-        
+        "background-state": "white", 
         "color": "#000"
     },
     "votes": {

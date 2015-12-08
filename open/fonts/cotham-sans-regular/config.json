@@ -2,8 +2,10 @@
     "name": "Cotham Sans Regular",
     "creator": "Sebastien Sanfilippo",
     "creator-link": "http://www.love-letters.be/",
+    "creator-twitter": "",
     "foundry": "Love Letters",
     "foundry-link": "http://www.love-letters.be/",
+    "foundry-twitter": "",
     "source-link": "http://www.love-letters.be/fonts/CothamSans.otf",
     "settings": {
         "font-size": "90px",
@@ -23,11 +25,14 @@
     },
     "info": {
         "weight": "300",
-        "about": ""
+        "about": "",
+        "license": "SIL Open Font License",
+        "license-link": "http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL",
+        "discoverer": "Stefan Endress",
+        "discoverer-twitter": "stefanendress"
     },
     "newcomer": {
         "background-state": "white",
-        
         "color": "#000"
     },
     "votes": {

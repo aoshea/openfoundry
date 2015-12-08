@@ -2,8 +2,10 @@
     "name": "Bagnard Regular",
     "creator": "Sebastien Sanfilippo",
     "creator-link": "http://www.sebastiensanfilippo.be/",
+    "creator-twitter": "",
     "foundry": "",
     "foundry-link": "",
+    "foundry-twitter": "",
     "source-link": "https://github.com/sebsan/Bagnard",
     "settings": {
         "font-size": "95px",
@@ -12,7 +14,6 @@
         "text-transform": "none",
         "scrolling-text": "false",
         "background-state": "white",
-        
         "color": "#000",
         "text": "Tamara Ecclestone parties with sister Petra Stunt and daughter Sophia at Bernie’s 85th"
     },
@@ -24,11 +25,14 @@
     },
     "info": {
         "weight": "400",
-        "about": ""
+        "about": "",
+        "license": "SIL Open Font License",
+        "license-link": "http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL",
+        "discoverer": "Stefan Endress",
+        "discoverer-twitter": "stefanendress"
     },
     "newcomer": {
         "background-state": "white",
-        
         "color": "#000"
     },
     "votes": {  
