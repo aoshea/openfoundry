@@ -1,9 +1,14 @@
 .of-font-colour-input {
   display: inline-block;
   position: relative;
+<<<<<<< HEAD
+  width: 74px;
+  top: 23px;
+=======
   width: 70px;
   top: 25px;
   left: 10px;
+>>>>>>> 6470ec6da56a8ba412541bd49d1aed27b7505870
   background: transparent;
   
   input {
@@ -11,11 +16,17 @@
     font-size: 15px;
     font-family: 'Helvetica', 'Arial', sans-serif;
     text-align: center;
-    
+    letter-spacing: $letter-spacing-s;
     width: 100%;
+<<<<<<< HEAD
+    padding: 5px 8px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+=======
     padding: 2px 8px;
     border-radius: 2px;
     border: 1px solid $trans-black-25;
+>>>>>>> 6470ec6da56a8ba412541bd49d1aed27b7505870
     background: transparent;
     color: $trans-black-25;
     
