@@ -11,8 +11,8 @@
         "letter-spacing": "0.025em",
         "text-transform": "none",
         "scrolling-text": "true",
-        "background-image": "true",
-        "background": "#000",
+        "background-state": "image",
+        
         "color": "#fff",
         "text": "<a href=\"http://goo.gl/37Dqca\">http://goo.gl/37Dqca</a>"
     },
@@ -27,8 +27,8 @@
         "about": ""
     },
     "newcomer": {
-        "background-image": "false",
-        "background": "#fff",
+        "background-state": "white",
+        
         "color": "#000"
     },
     "votes": {

@@ -1,0 +1,19 @@
+.of-font-preview-footer {
+  position: absolute;
+  bottom: 40px;
+  
+  .rank {
+    font-size: 15px;
+    font-weight: 200;
+    color: $grey;
+  }
+  
+  .vote-container {
+    text-align: right;
+  }
+  
+  .like-button {
+    width: 16px;
+    height: 16px;
+  }
+}

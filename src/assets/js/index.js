@@ -244,13 +244,20 @@ class FontBackgroundToggle extends Component {
     };
   }
   
+  componentDidMount() {
+    let { background } = this.props;
+    this.setState({
+      image: background
+    });
+    
+  }
+  
   handleClick(e) {
     let { onUpdate, onUpdateColour } = this.props;
-    let currentImageState = ++this.state.image % 3;
-    console.log(currentImageState);
-    this.setState({
-      image: currentImageState
-    });
+    let bg = this.props.background;
+    
+    let currentImageState = ++bg % 3;
+
     let colour = "#000000";
     if (currentImageState > 0) {
       colour = "#ffffff";
@@ -260,15 +267,15 @@ class FontBackgroundToggle extends Component {
   }
   
   render() {
-    
+        
     let size = 32;
     let viewBox = [0, 0, size, size].join(' ');
     let imageStyle = {
-      display: this.state.image < 2 ? "none" : "block"
+      display: this.props.background < 2 ? "none" : "block"
     };
     let imageFirstStyle = {
-      display: this.state.image > 1 ? "none": "block",
-      stroke: this.state.image === 0 ? "black" : "white"
+      display: this.props.background > 1 ? "none": "block",
+      stroke: this.props.background === 0 ? "black" : "white"
     };
     
     return (
@@ -362,10 +369,12 @@ class FontUppercase extends Component {
     let size = 32;
     let viewBox = [0, 0, size, size].join(' ');
     let onStyle = {
-      display: this.state.uppercase ? "block" : "none"
+      display: this.state.uppercase ? "block" : "none",
+      fill: this.props.background > 0 ? "white" : "black"
     };
     let offStyle = {
-      display: this.state.uppercase ? "none" : "block"
+      display: this.state.uppercase ? "none" : "block",
+      fill: this.props.background > 0 ? "white" : "black"
     };
   
     return (
@@ -390,10 +399,10 @@ class FontColours extends Component {
       <div className="col-2">
         <FontColourBox initial={this.props.initial} onUpdate={this.props.onUpdate} />
         <div className="of-font-background-toggle-container">
-          <FontBackgroundToggle onUpdateColour={this.props.onUpdate} onUpdate={this.props.onUpdateBackground} />
+          <FontBackgroundToggle background={this.props.background} onUpdateColour={this.props.onUpdate} onUpdate={this.props.onUpdateBackground} />
         </div>
         <div className="of-font-uppercase-toggle-container">
-          <FontUppercase onUpdate={this.props.onUpdateTextTransform} />
+          <FontUppercase background={this.props.background} onUpdate={this.props.onUpdateTextTransform} />
         </div>
       </div>
     )
@@ -428,12 +437,25 @@ class FontPreviewContainer extends Component {
     let letterSpacing = parseFloat(this.props.settings['letter-spacing'], 10);
     let color = this.props.settings['color'];
     
+    let backgroundState = this.props.settings['background-state'];
+    let background = 0;
+    let backgroundNum = 0;
+    if (backgroundState === 'image') {
+      background = 2;
+      backgroundNum = ( parseInt(Math.random()*9, 10)+1 );
+    } else if (backgroundState === 'black') {
+      background = 1;
+    } else {
+      background = 0;
+    }
+    
     this.setState({
       size: fontSize,
       lineHeight: lineHeight,
       letterSpacing: letterSpacing,
       color: color,
-      background: 0
+      background: background,
+      backgroundNum: backgroundNum
     });
   }
   
@@ -469,7 +491,6 @@ class FontPreviewContainer extends Component {
   }
   
   onUpdateTextTransform(value) {
-    console.log('update text transform', value);
     this.setState({
       uppercase: value
     });
@@ -477,7 +498,11 @@ class FontPreviewContainer extends Component {
   
   render() {
     
-    let fontClassName = replaceNonAlphaNumeric(this.props.name).toLowerCase();
+    let rankPadded = ("0" + this.props.rank).slice(-2); 
+    
+    let rankLabel = rankPadded + " / " + this.props.name + ", " + this.props.creator; 
+    
+    let fontClassName = "of-font-preview-text-container " + replaceNonAlphaNumeric(this.props.name).toLowerCase();
     
     let fontSize = parseInt(this.props.settings['font-size'], 10);
     let lineHeight = parseFloat(this.props.settings['line-height'], 10);
@@ -508,24 +533,71 @@ class FontPreviewContainer extends Component {
     };
     
     let backgroundState = this.state.background;
-    
+        
     let backgroundStyle = {
       "backgroundImage": backgroundState === 2 ? "url(data/backgrounds/of-backdrop-00" + this.state.backgroundNum + ".jpg)" : "none"
     };
     
     let backgroundClassName = backgroundState === 0 ? "of-font-preview-container" : "of-font-preview-container black-image";
-           
-    return <div className={backgroundClassName} style={backgroundStyle}>
-    <div className="of-grid-container"><div className="of-row">
-      <FontSlider label="size" initial={fontSize} max={maxFontSize} step={stepFontSize} min={minFontSize} onUpdate={this.onUpdateSize} />
-      <FontSlider label="leading" initial={lineHeight} max={maxLineHeight} step={stepLineHeight} min={minLineHeight} onUpdate={this.onUpdateLineHeight} />
-      <FontSlider label="kerning" initial={letterSpacing} max={maxLetterSpacing} step={stepLetterSpacing}  min={minLetterSpacing} onUpdate={this.onUpdateLetterSpacing} />
-      <FontColours initial={color} onUpdate={this.onUpdateColour} onUpdateBackground={this.onUpdateBackground} onUpdateTextTransform={this.onUpdateTextTransform} />
-    </div></div>
-    <div data-font={this.props.name} style={fontStyle} className={"of-font-preview-text-container " + fontClassName}>
-    {this.props.settings.text}
-    </div>
-    </div>    
+    
+    return (
+      <div className={backgroundClassName} style={backgroundStyle}>
+        
+        <div className="of-grid-container">
+          <div className="of-row">
+            <FontSlider label="size" 
+              initial={fontSize} 
+              max={maxFontSize} 
+              step={stepFontSize} 
+              min={minFontSize} 
+              onUpdate={this.onUpdateSize} />
+              
+            <FontSlider 
+              label="leading" 
+              initial={lineHeight} 
+              min={minLineHeight}
+              max={maxLineHeight} 
+              step={stepLineHeight} 
+              onUpdate={this.onUpdateLineHeight} />
+              
+            <FontSlider 
+              label="kerning" 
+              initial={letterSpacing} 
+              min={minLetterSpacing} 
+              max={maxLetterSpacing} 
+              step={stepLetterSpacing}          
+              onUpdate={this.onUpdateLetterSpacing} />
+              
+            <FontColours 
+              initial={color} 
+              background={backgroundState} 
+              onUpdate={this.onUpdateColour} 
+              onUpdateBackground={this.onUpdateBackground} 
+              onUpdateTextTransform={this.onUpdateTextTransform} />
+          </div>
+        </div>
+      
+        <div className={fontClassName} style={fontStyle}>
+          {this.props.settings.text}
+        </div>
+          
+        <div className="of-font-preview-footer of-grid-container">
+          <div className="of-row">
+            <div className="col-4 rank">{rankLabel}</div>
+            <div className="col-4 offset-4 rank vote-container">
+              <div className="like-button">
+                <svg xmlns="http://www.w3.org/svg/2000" viewBox="0 0 32 32">
+                  <path d="M21.1,11.4c1.3,1.4,1.3,3.6,0,4.9L16,21.5l-5.1-5.2c-1.3-1.4-1.3-3.6,0-4.9c1.2-1.2,3.1-1.2,4.3,0l0.8,0.8l0.8-0.8
+	C18,10.2,19.9,10.2,21.1,11.4"/>
+                </svg>
+              </div>
+              203 / 64
+            </div>
+          </div>
+        </div>
+      
+      </div>
+    )
   }
 }
 
@@ -536,7 +608,7 @@ class FontList extends Component {
       let sources = font[1];
             
       return (
-        <FontPreviewContainer key={i} name={config.name} creator={config.creator} settings={config.settings} />
+        <FontPreviewContainer rank={i+1} key={i} name={config.name} creator={config.creator} settings={config.settings} />
       )
     })
     
@@ -547,4 +619,4 @@ class FontList extends Component {
 React.render(
   <FontList fonts={data} />,
   document.body
-);
+);  

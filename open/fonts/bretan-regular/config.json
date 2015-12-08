@@ -11,8 +11,7 @@
         "letter-spacing": "-0.025em",
         "text-transform": "none",
         "scrolling-text": "false",
-        "background-image": "false",
-        "background": "#000",
+        "background-state": "black",
         "color": "#fff",
         "text": "Is this evidence of a parallel universe? Sightings of a ‘floating city’ in China are simply an optical illusion, say scientists. I thought the tech world would be full of new voices and people. It hasn’t happened. The number of women in the sector is tiny. It’s such a waste."
     },
@@ -27,8 +26,7 @@
         "about": ""
     },
     "newcomer": {
-        "background-image": "false",
-        "background": "#fff",
+        "background-state": "white",
         "color": "#000"
     },
     "votes": {
