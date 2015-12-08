@@ -12,6 +12,11 @@
   padding: 0 50px;
   box-sizing: border-box;
   z-index: 999;
+  opacity: 0;
+  transition: opacity 200ms linear;
+}
+.of-font-preview-container:hover .of-font-preview-ui {
+  opacity: 1;
 }
 
 .of-font-preview-container .more-button-container {
