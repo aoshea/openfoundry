@@ -2,6 +2,7 @@ $('.menu-icon').click(function() {
   $(this).toggleClass('active');
   $('.menu-list').toggleClass('open');
   $('.menu-signup').toggleClass('open');
+  $('.menu-logo').removeClass('up');
 });
 
 // hide on scroll down
@@ -29,10 +30,15 @@ function hasScrolled(){
   return;
   // if they scrolled down and are past the navbar, add class .up.
   if (st > lastScrollTop && st > navbarHeight){
+    $('.menu-logo').addClass('up');
     $('.menu-list').removeClass('open');
     $('.menu-icon').removeClass('active');
     $('.menu-signup').removeClass('open');
-  } else {}
+  } else {
+    if(st + $(window).height() < $(document).height()){
+      $('.menu-logo').removeClass('up');
+    }
+  }
   lastScrollTop = st;
 }
 
