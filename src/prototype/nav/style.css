@@ -175,7 +175,6 @@ ul.menu-list li {
   position: relative;
   top: 50%;
   transform: translateY(-50%);
-  margin-top: -25px;
   display: inline-table;
 }
 
