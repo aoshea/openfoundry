@@ -13,7 +13,7 @@ var gulp        = require('gulp'),
     concat      = require('gulp-concat'),
     gulpif      = require('gulp-if'),
     sass        = require('gulp-sass'),
-    minifycss   = require('gulp-minify-css'),
+    nano        = require('gulp-cssnano'),
     del         = require('del'),
     argv        = require('yargs').argv
     ;
@@ -27,7 +27,7 @@ var production = !!argv.production;
 /**
  * Error handling  
  */
-var onError = function (task) {
+var onError = function (task, emit, context) {
   
   return function (err) {
     
@@ -36,6 +36,8 @@ var onError = function (task) {
     })(err);
 
     gutil.log( gutil.colors.bgRed(task + ' error:'), gutil.colors.red(err) );
+    
+    if (emit && context) emit.call(context, 'end');
   };
 };
 
@@ -63,7 +65,8 @@ var sources = {
  * Define static libs for js bundle 
  */
 var libs = [
-  "react"
+  "react",
+  "react-dom"
 ];
 
 /**
@@ -110,7 +113,7 @@ gulp.task('js', function () {
   });
   
   return b.bundle()
-    .on('error', onError('app-js'))
+    .on('error', onError('app-js', this.emit, this))
     .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
@@ -133,7 +136,7 @@ gulp.task('css', function () {
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefix())
     .pipe(concat('main.css'))
-    .pipe(gulpif(production, minifycss()))
+    .pipe(gulpif(production, nano()))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(dir.build + 'assets/css'))
     .pipe(livereload());
