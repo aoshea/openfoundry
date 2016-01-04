@@ -40,6 +40,8 @@
     "yargs": "^3.30.0"
   },
   "dependencies": {
+    "express": "^4.13.3",
+    "jade": "^1.11.0",
     "react": "^0.14.5",
     "react-dom": "^0.14.5"
   }

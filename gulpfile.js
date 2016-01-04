@@ -50,13 +50,15 @@ var dir = {
 };
 
 var sources = {
-  app:         [ dir.source + 'assets/js/index.js'],
-  js:          [ dir.source + 'assets/js/**/*.js' ],
-  imgs:        [ dir.source + 'assets/img/*'],
-  html:        [ dir.source + 'assets/html/*'],
-  fonts:       [ dir.source + 'assets/fonts/**'],
-  css:         [ dir.source + 'assets/css/main.scss'],
-  allcss:      [ dir.source + 'assets/css/**/*.scss'],
+  tpl:         [ dir.source + 'tpl/**/*'],
+  index:       [ dir.source + 'index.js'],
+  app:         [ dir.source + 'public/js/index.js'],
+  js:          [ dir.source + 'public/js/**/*.js' ],
+  imgs:        [ dir.source + 'public/img/*'],
+  html:        [ dir.source + 'public/html/*'],
+  fonts:       [ dir.source + 'public/fonts/**'],
+  css:         [ dir.source + 'public/css/main.scss'],
+  allcss:      [ dir.source + 'public/css/**/*.scss'],
   export:      [ dir.data + '**/*' ],
   backgrounds: [ dir.backgrounds +'**/*' ]
 };
@@ -92,7 +94,7 @@ gulp.task('vendor-js', function () {
     .pipe(source('vendor.js'))
     .pipe(buffer())
     .pipe(gulpif(production, uglify()))
-    .pipe(gulp.dest(dir.build + 'assets/js'));
+    .pipe(gulp.dest(dir.build + 'public/js'));
 });
 
 // Browserify & babelify & uglify 
@@ -119,7 +121,7 @@ gulp.task('js', function () {
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(gulpif(production, uglify()))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(dir.build + 'assets/js'));
+    .pipe(gulp.dest(dir.build + 'public/js'));
 });
 
 /**
@@ -138,30 +140,30 @@ gulp.task('css', function () {
     .pipe(concat('main.css'))
     .pipe(gulpif(production, nano()))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(dir.build + 'assets/css'))
+    .pipe(gulp.dest(dir.build + 'public/css'))
     .pipe(livereload());
 });
 
 // Copy html files to build folder 
 gulp.task('html', function () {
   return gulp.src(sources.html)
-    .pipe(gulp.dest(dir.build));
+    .pipe(gulp.dest(dir.build + 'public'));
 });
 
 // Copy image files to build folder 
 gulp.task('images', function () {
   return gulp.src(sources.imgs)
-    .pipe(gulp.dest(dir.build + 'assets/img'));
+    .pipe(gulp.dest(dir.build + 'public/img'));
 });
 
 // Copy exported json and fonts over 
 gulp.task('export-json', function () {
   return gulp.src(sources.export)
-    .pipe(gulp.dest(dir.build + 'data'));
+    .pipe(gulp.dest(dir.build + 'public/data'));
 });
 gulp.task('export-images', function () {
   return gulp.src(sources.backgrounds)
-    .pipe(gulp.dest(dir.build + 'data/backgrounds'));
+    .pipe(gulp.dest(dir.build + 'public/data/backgrounds'));
 });
 
 gulp.task('export', ['export-json', 'export-images']);
@@ -169,6 +171,18 @@ gulp.task('export', ['export-json', 'export-images']);
 // Clean build folder 
 gulp.task('clean', function () {
   del(dir.build + '**');
+});
+
+// Copy jade templates to destination folder  
+gulp.task('templates', function () {  
+  return gulp.src(sources.tpl)
+    .pipe(gulp.dest(dir.build + 'tpl/'));
+});
+
+// Copy index.js over 
+gulp.task('index', function () {
+  return gulp.src(sources.index)
+    .pipe(gulp.dest(dir.build));
 });
 
 // Watch for the changes
@@ -179,6 +193,8 @@ gulp.task('watch', function () {
   gulp.watch(sources.imgs, ['images']);
   gulp.watch(sources.allcss, ['css']);
   gulp.watch(sources.js, ['js']);
+  gulp.watch(sources.index, ['index']);
+  gulp.watch(sources.tpl, ['templates']);
   gulp.watch(dir.build + '**/*').on('change', livereload.changed);
 });
 

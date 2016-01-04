@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import FontList from './components/font-list/font-list.js';
 
 let data = window.siteJSON;
+console.log('hi');
 
 render(
   <FontList fonts={data} />,
