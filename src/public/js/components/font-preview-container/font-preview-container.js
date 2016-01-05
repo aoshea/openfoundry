@@ -56,7 +56,7 @@ export default class FontPreviewContainer extends Component {
       color: color,
       background: background,
       backgroundNum: backgroundNum,
-      locked: true
+      locked: false
     });
     
     // AJAX request for the real vote 
