@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
 import FontSlider from '../../components/font-slider/font-slider.js';
 import FontColours from '../../components/font-colours/font-colours.js';
+import FontLikeButton from '../../components/font-like-button/font-like-button.js';
+import $ from 'jquery';
 
 export default class FontPreviewContainer extends Component {
   
@@ -14,9 +16,11 @@ export default class FontPreviewContainer extends Component {
     this.onUpdateColour = this.onUpdateColour.bind(this);
     this.onUpdateBackground = this.onUpdateBackground.bind(this);
     this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
+    this.onUpdateLikes = this.onUpdateLikes.bind(this);
     
     this.state = {
       size: 0,
+      likes: 0,
       letterSpacing: 0,
       lineHeight: 0,
       color: '#000',
@@ -26,11 +30,12 @@ export default class FontPreviewContainer extends Component {
   }
   
   componentDidMount() {
+        
     let fontSize = parseInt(this.props.settings['font-size'], 10);
     let lineHeight = parseFloat(this.props.settings['line-height'], 10);
     let letterSpacing = parseFloat(this.props.settings['letter-spacing'], 10);
     let color = this.props.settings['color'];
-    
+    let likes = parseInt(this.props.votes.fontlist, 10);
     let backgroundState = this.props.settings['background-state'];
     let background = 0;
     let backgroundNum = 0;
@@ -45,11 +50,39 @@ export default class FontPreviewContainer extends Component {
     
     this.setState({
       size: fontSize,
+      likes: likes,
       lineHeight: lineHeight,
       letterSpacing: letterSpacing,
       color: color,
       background: background,
       backgroundNum: backgroundNum
+    });
+    
+    // AJAX request for the real vote 
+    $.get('api/fonts/' + replaceNonAlphaNumeric(this.props.name), function(res) {
+            
+      if (res && res.fontId) {
+        let likes = parseInt(res.likes, 10);        
+        
+        this.setState({
+          likes: likes
+        });
+      }
+            
+    }.bind(this));  
+  }
+  
+  onLikeResult(res) {
+    console.log('onLikeResult', res);
+  }
+  
+  onUpdateLikes(value) {
+    value = value || this.state.likes + 1;        
+        
+    $.get('api/like/' + replaceNonAlphaNumeric(this.props.name), this.onLikeResult); 
+    
+    this.setState({
+      likes: parseInt(value, 10)
     });
   }
   
@@ -181,20 +214,15 @@ export default class FontPreviewContainer extends Component {
         <div className={fontClassName} style={fontStyle}>
           {this.props.settings.text}
         </div>
-          
+                              
         <div className="of-font-preview-footer">
           <div className="of-footer-inner">
             <div className="of-grid-container">
               <div className="of-row">
                 <div className="col-4 rank">{rankLabel}</div>
+          
                 <div className="col-2 offset-5 rank vote-container">
-                  <div className="like-button">
-                    <svg xmlns="http://www.w3.org/svg/2000" viewBox="0 0 32 32">
-                      <path d="M21.1,11.4c1.3,1.4,1.3,3.6,0,4.9L16,21.5l-5.1-5.2c-1.3-1.4-1.3-3.6,0-4.9c1.2-1.2,3.1-1.2,4.3,0l0.8,0.8l0.8-0.8
-    	C18,10.2,19.9,10.2,21.1,11.4"/>
-                    </svg>                
-                  </div>
-                  <span className="num-likes">203</span>
+                  <FontLikeButton likes={this.state.likes} onUpdate={this.onUpdateLikes} />                  
                 </div>
               </div>
             </div>

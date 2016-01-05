@@ -68,7 +68,8 @@ var sources = {
  */
 var libs = [
   "react",
-  "react-dom"
+  "react-dom",
+  "jquery"
 ];
 
 /**
