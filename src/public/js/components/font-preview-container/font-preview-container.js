@@ -55,17 +55,20 @@ export default class FontPreviewContainer extends Component {
       letterSpacing: letterSpacing,
       color: color,
       background: background,
-      backgroundNum: backgroundNum
+      backgroundNum: backgroundNum,
+      locked: true
     });
     
     // AJAX request for the real vote 
     $.get('api/fonts/' + replaceNonAlphaNumeric(this.props.name), function(res) {
             
       if (res && res.fontId) {
-        let likes = parseInt(res.likes, 10);        
+        let likes = parseInt(res.likes, 10);
+        let locked = res.locked;  
         
         this.setState({
-          likes: likes
+          likes: likes,
+          locked: locked
         });
       }
             
@@ -222,7 +225,7 @@ export default class FontPreviewContainer extends Component {
                 <div className="col-4 rank">{rankLabel}</div>
           
                 <div className="col-2 offset-5 rank vote-container">
-                  <FontLikeButton likes={this.state.likes} onUpdate={this.onUpdateLikes} />                  
+                  <FontLikeButton locked={this.state.locked} likes={this.state.likes} onUpdate={this.onUpdateLikes} />                  
                 </div>
               </div>
             </div>

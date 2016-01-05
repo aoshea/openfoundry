@@ -26,9 +26,7 @@ app.get('/', function (req, res) {
  */
 app.get('/api/fonts/', function (req, res) {
   
-  var collection = db.get('usercollection');
-  
-  collection.find({}, function (err, doc) {
+  db.get('usercollection').find({}, function (err, doc) {
     if (err) {
       res.status(500, {
         error: err
@@ -45,7 +43,8 @@ app.get('/api/fonts/', function (req, res) {
  */
 app.get('/api/fonts/:fontId', function (req, res) {
   
-  var collection = db.get('usercollection');
+  var collection = db.get('usercollection'),
+      requestIp = reqip.getClientIp(req);
   
   collection.findOne({fontId: req.params.fontId}, function (err, doc) {
     if (err) {
@@ -53,6 +52,17 @@ app.get('/api/fonts/:fontId', function (req, res) {
         error: err
       });
     } else {
+      
+      if (doc) {
+        console.log(doc.fontId, doc.ip, doc.likes);
+      
+        if (doc.ip === requestIp) {
+          doc.locked = true;
+        } else {
+          doc.locked = false;
+        }
+      }
+      
       res.json(doc);
     }
   });

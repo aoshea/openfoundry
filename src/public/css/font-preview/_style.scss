@@ -49,6 +49,17 @@
   padding-right: 50px;
 }
 
+.of-font-preview-container {
+  .of-font-preview-footer .like-button svg {
+    fill: $trans-black-25;
+  }
+  .of-font-preview-footer .like-button.like-button-disabled svg {
+    fill: $trans-black-10;
+  }  
+  .of-font-preview-footer .like-button.like-button-disabled:hover svg {
+    fill: $trans-black-10;
+  }
+}
 .of-font-preview-container.black-image {
   
   background-color: $semi-black;
@@ -76,6 +87,12 @@
   }
   .of-font-preview-footer .like-button svg {
     fill: $trans-white-25;
+  }
+  .of-font-preview-footer .like-button.like-button-disabled svg {
+    fill: $trans-white-10;
+  }  
+  .of-font-preview-footer .like-button.like-button-disabled:hover svg {
+    fill: $trans-white-10;
   }
   .of-font-preview-footer .like-button:hover svg {
     fill: $red;
