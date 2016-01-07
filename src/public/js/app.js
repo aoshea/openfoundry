@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 let history = createBrowserHistory();
+import FontSpecimen from './components/font-specimen/font-specimen.js';
 
 import FontList from './components/font-list/font-list.js';
 
 let data = window.siteJSON;
-
 
 class App extends Component {
   render() {
@@ -67,24 +67,55 @@ class App extends Component {
 }
 
 class Open extends Component {
-  render() {
-    return <FontList fonts={data} />
+  
+  onEnter() {
+    console.log('Route:Open onEnter');
   }
+  
+  onLeave() {
+    console.log('Route:Open onLeave');
+  }
+  
+  render() {
+    return (
+      <div>
+        <FontList fonts={data} />
+       {this.props.children}
+      </div>
+    )
+  }
+}
+
+class Specimen extends Component {
+  render() {
+    let { fontId } = this.props.params;     
+    return <FontSpecimen font={fontId} />      
+  }
+}
+
+let handleEnter = function () {
+  console.log('handleEnter');
+}
+
+let handleSpecimenEnter = function () {
+  console.log('handleSpecimenEnter');
+}
+
+let handleSpecimenLeave = function () {
+  console.log('handleSpecimenLeave');
 }
 
 render((
   <Router history={history}>
     <Route path="/" component={App}>
-      <Route path="/open" component={Open} />
+      <Route path="open" component={Open} onEnter={handleEnter}>
+        <Route path="font/:fontId" 
+               component={Specimen} 
+               onEnter={handleSpecimenEnter}
+               onLeave={handleSpecimenLeave} />
+      </Route>  
     </Route>
   </Router>
 ),
 document.querySelector('.of-container')
 );
-
-/*
-render(
-  <FontList fonts={data} />,
-  document.querySelector('.of-container')
-);  
-*/

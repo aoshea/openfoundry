@@ -14,15 +14,23 @@ app.set('view engine', 'jade');
 app.engine('jade', require('jade').__express);
     
 /**
- * Routing 
+ * Routing / Index 
  */
 app.get('/', function (req, res) {  
   res.render('index');
 });
+
 /**
- * Routing 
+ * Routing / Open Foundry List 
  */
 app.get('/open', function (req, res) {  
+  res.render('index');
+});
+
+/**
+ * Routing / Font
+ */
+app.get('/open/font/:fontId', function (req, res) {  
   res.render('index');
 });
 
