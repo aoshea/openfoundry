@@ -7,6 +7,9 @@ header.of-navbar {
   top: 0px;
   background: black;
   transition: all .4s ease;
+  z-index: $zIndex-navbar;
+  transform: translateZ(0);
+  backface-visiblity: hidden;
 }
 
 header.of-navbar .up {

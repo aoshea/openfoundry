@@ -19,6 +19,12 @@ app.engine('jade', require('jade').__express);
 app.get('/', function (req, res) {  
   res.render('index');
 });
+/**
+ * Routing 
+ */
+app.get('/open', function (req, res) {  
+  res.render('index');
+});
 
 /**
  * API 

@@ -21,4 +21,7 @@ ul {
 .of-main {
   position: absolute;
   top: 50px;
+  z-index: $zIndex-main;
+  transform: translateZ(0);
+  backface-visiblity: hidden;
 }

@@ -1,6 +1,9 @@
 import { Router, Route, Link } from 'react-router'
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import createBrowserHistory from 'history/lib/createBrowserHistory'
+let history = createBrowserHistory();
+
 import FontList from './components/font-list/font-list.js';
 
 let data = window.siteJSON;
@@ -63,17 +66,6 @@ class App extends Component {
   }
 }
 
-class About extends Component {
-  render() {
-    return <h3>About</h3>
-  }
-}
-class Test extends Component {
-  render() {
-    return <h3>Test</h3>
-  }
-}
-
 class Open extends Component {
   render() {
     return <FontList fonts={data} />
@@ -81,10 +73,8 @@ class Open extends Component {
 }
 
 render((
-  <Router>
+  <Router history={history}>
     <Route path="/" component={App}>
-      <Route path="/about" component={About} />
-      <Route path="/test" component={Test} />
       <Route path="/open" component={Open} />
     </Route>
   </Router>
