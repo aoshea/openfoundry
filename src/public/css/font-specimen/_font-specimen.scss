@@ -1,0 +1,15 @@
+.of-font-specimen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: $trans-black-10;
+  
+  width: 100vw;
+  
+  .of-font-specimen-svg {
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}

@@ -1,4 +1,27 @@
 body {
   font-family: 'Helvetica', 'Arial', serif;
+  font-style: normal;
   margin: 0;
+}
+
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
+ul {
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+.of-main {
+  position: absolute;
+  top: 50px;
+  z-index: $zIndex-main;
+  transform: translateZ(0);
+  backface-visiblity: hidden;
 }

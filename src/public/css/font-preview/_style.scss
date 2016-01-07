@@ -34,6 +34,13 @@
   font-weight: lighter;
 } 
 
+.of-font-preview-container .share-container button {
+  appearance: none;
+}
+.of-font-preview-container .share-count {
+  display: inline-block;
+}
+
 .of-font-preview-container .of-font-preview-text-container {
   position: relative;
   font-size: 50px;
@@ -64,6 +71,11 @@
 .of-font-preview-container.black-image {
   
   background-color: $semi-black;
+  
+  .more-button {
+    color: $white;
+    border: 1px solid $trans-white-50;
+  } 
   
   .of-font-preview-text-container {
     color: $white;
