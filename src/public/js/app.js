@@ -67,24 +67,45 @@ class App extends Component {
 }
 
 class Open extends Component {
-  
-  onEnter() {
-    console.log('Route:Open onEnter');
+
+  constructor() {
+    super();
+    
+    this.state = {
+      isSpecimen: false
+    };
   }
   
-  onLeave() {
-    console.log('Route:Open onLeave');
+  componentDidUpdate() {    
+    let { location } = this.context;
+    let { isSpecimen} = this.state;
+    
+    let pathName = location.pathname;
+    
+    if (isSpecimen) {
+      if (pathName === '/open') this.setState({ isSpecimen: false });
+    } else {
+      if (pathName !== '/open') this.setState({ isSpecimen: true });
+    }
+    
+    console.log('didUpdate: isSpecimen:', this.state.isSpecimen);
   }
   
   render() {
+    let { isSpecimen } = this.state;
+    
     return (
       <div>
-        <FontList fonts={data} />
+        <FontList fixed={isSpecimen} fonts={data} />
        {this.props.children}
       </div>
     )
   }
 }
+
+Open.contextTypes = {
+  location: React.PropTypes.object
+};
 
 class Specimen extends Component {
   render() {
@@ -94,7 +115,7 @@ class Specimen extends Component {
 }
 
 let handleEnter = function () {
-  console.log('handleEnter');
+  console.log('handleEnter', arguments);
 }
 
 let handleSpecimenEnter = function () {
