@@ -24,7 +24,14 @@
     cursor: pointer;
   }
   
-  .like-button {
+  .share-count {
+    float: right;
+  }
+  .share-button {
+    float: right;
+  }
+  
+  .like-button, .share-button {
     position: relative;
     display: inline-block;
     width: 32px;

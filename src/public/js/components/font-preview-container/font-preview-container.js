@@ -3,6 +3,7 @@ import { replaceNonAlphaNumeric } from '../../util/util.js';
 import FontSlider from '../../components/font-slider/font-slider.js';
 import FontColours from '../../components/font-colours/font-colours.js';
 import FontLikeButton from '../../components/font-like-button/font-like-button.js';
+import FontShareButton from '../../components/font-share-button/font-share-button.js';
 import $ from 'jquery';
 
 export default class FontPreviewContainer extends Component {
@@ -17,6 +18,8 @@ export default class FontPreviewContainer extends Component {
     this.onUpdateBackground = this.onUpdateBackground.bind(this);
     this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
     this.onUpdateLikes = this.onUpdateLikes.bind(this);
+    
+    this.handleMoreClick = this.handleMoreClick.bind(this);
     
     this.state = {
       size: 0,
@@ -39,7 +42,9 @@ export default class FontPreviewContainer extends Component {
     let backgroundState = this.props.settings['background-state'];
     let background = 0;
     let backgroundNum = 0;
+        
     if (backgroundState === 'image') {
+      // If image, set random background image index with backgroundNum
       background = 2;
       backgroundNum = ( parseInt(Math.random()*9, 10)+1 );
     } else if (backgroundState === 'black') {
@@ -66,6 +71,8 @@ export default class FontPreviewContainer extends Component {
         let likes = parseInt(res.likes, 10);
         let locked = res.locked;  
         
+        console.log('res.fontId', res.fontId, 'likes', likes);
+        
         this.setState({
           likes: likes,
           locked: locked
@@ -73,6 +80,10 @@ export default class FontPreviewContainer extends Component {
       }
             
     }.bind(this));  
+  }
+  
+  handleMoreClick(e) {
+    console.log('handleMoreClick');
   }
   
   onLikeResult(res) {
@@ -209,7 +220,7 @@ export default class FontPreviewContainer extends Component {
                 onUpdateBackground={this.onUpdateBackground} 
                 onUpdateTextTransform={this.onUpdateTextTransform} />
             
-              <div className="col-2 offset-1 more-button-container"><span className="more-button">More</span></div>
+              <div className="col-2 offset-1 more-button-container"><span onClick={this.handleMoreClick} className="more-button">More</span></div>
             </div>
           </div>
         </div>
@@ -224,8 +235,11 @@ export default class FontPreviewContainer extends Component {
               <div className="of-row">
                 <div className="col-4 rank">{rankLabel}</div>
           
-                <div className="col-2 offset-5 rank vote-container">
+                <div className="col-2 offset-4 rank vote-container">
                   <FontLikeButton locked={this.state.locked} likes={this.state.likes} onUpdate={this.onUpdateLikes} />                  
+                </div>
+                <div className="col-2 rank share-container">
+                  <FontShareButton />
                 </div>
               </div>
             </div>
