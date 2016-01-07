@@ -36,8 +36,10 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
+    "history": "^1.17.0",
     "jquery": "^2.1.4",
     "monk": "^1.0.1",
+    "react-router": "^1.0.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "yargs": "^3.30.0"
