@@ -1,12 +1,12 @@
 import { Router, Route, Link } from 'react-router'
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import { replaceNonAlphaNumeric } from './util/util.js';
 import createBrowserHistory from 'history/lib/createBrowserHistory'
-let history = createBrowserHistory();
 import FontSpecimen from './components/font-specimen/font-specimen.js';
-
 import FontList from './components/font-list/font-list.js';
 
+let history = createBrowserHistory();
 let data = window.siteJSON;
 
 class App extends Component {
@@ -108,32 +108,26 @@ Open.contextTypes = {
 };
 
 class Specimen extends Component {
+    
   render() {
     let { fontId } = this.props.params;     
-    return <FontSpecimen font={fontId} />      
+    
+    // get font data from json 
+    let matches = data.filter(function (font) {
+      let f = font[0];
+      return replaceNonAlphaNumeric(f.name).toLowerCase() === fontId;
+    });
+    let match = matches[0] ? matches[0][0] : null;
+    
+    return <FontSpecimen font={match} fontId={fontId} />      
   }
-}
-
-let handleEnter = function () {
-  console.log('handleEnter', arguments);
-}
-
-let handleSpecimenEnter = function () {
-  console.log('handleSpecimenEnter');
-}
-
-let handleSpecimenLeave = function () {
-  console.log('handleSpecimenLeave');
 }
 
 render((
   <Router history={history}>
     <Route path="/" component={App}>
-      <Route path="open" component={Open} onEnter={handleEnter}>
-        <Route path=":fontId" 
-               component={Specimen} 
-               onEnter={handleSpecimenEnter}
-               onLeave={handleSpecimenLeave} />
+      <Route path="open" component={Open}>
+        <Route path=":fontId" component={Specimen} />
       </Route>  
     </Route>
   </Router>

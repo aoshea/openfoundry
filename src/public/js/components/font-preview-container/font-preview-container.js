@@ -71,9 +71,7 @@ export default class FontPreviewContainer extends Component {
       if (res && res.fontId) {
         let likes = parseInt(res.likes, 10);
         let locked = res.locked;  
-        
-        console.log('res.fontId', res.fontId, 'likes', likes);
-        
+                
         this.setState({
           likes: likes,
           locked: locked

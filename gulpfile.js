@@ -15,7 +15,9 @@ var gulp        = require('gulp'),
     sass        = require('gulp-sass'),
     nano        = require('gulp-cssnano'),
     del         = require('del'),
-    argv        = require('yargs').argv
+    exec        = require('child_process').exec,
+    argv        = require('yargs').argv,
+    osenv       = require('osenv')
     ;
 
 /**
@@ -186,6 +188,23 @@ gulp.task('index', function () {
     .pipe(gulp.dest(dir.build));
 });
 
+// Start database 
+gulp.task('db', function () {
+  var dbpath = osenv.home() + 'datadb';
+  exec('mongod -dbpath ' + dbpath, function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+  });
+});
+
+// Start server 
+gulp.task('server', function () {
+  exec('nodemon dist/index.js', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+  });
+});
+
 // Watch for the changes
 gulp.task('watch', function () {
 
@@ -200,6 +219,6 @@ gulp.task('watch', function () {
 });
 
 // Default task `gulp`
-gulp.task('default', ['html', 'images', 'css', 'vendor-js', 'js', 'watch']);
+gulp.task('default', ['html', 'images', 'css', 'vendor-js', 'js', 'watch', 'db', 'server']);
 
 
