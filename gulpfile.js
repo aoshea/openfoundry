@@ -190,7 +190,7 @@ gulp.task('index', function () {
 
 // Start database 
 gulp.task('db', function () {
-  var dbpath = osenv.home() + 'datadb';
+  var dbpath = osenv.home() + '/datadb';
   exec('mongod -dbpath ' + dbpath, function (err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
