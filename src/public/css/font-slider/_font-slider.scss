@@ -2,8 +2,10 @@
   width: 100%;
   max-width: 500px;
   height: 2px;
-  top: 50px;
   background: $black;
+}
+.black-image .slider {
+  background: $white;
 }
 .handle {
   font-size: 0.9em;
@@ -27,60 +29,33 @@
   background: $black;
   border: 2px solid $white;
 }
-
-.of-font-slider {
+.black-image .handle:after {
+  background: $white;
+}
+.of-font-slider-label {
   position: relative;
-  top: 40px;
-  height: 20px;
-  
-  .of-font-slider-handle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    background: $black;
-    border: 2px solid $white;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-  
-  .of-font-slider-track, .of-font-slider-fill {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    width: 100%;
-    height: 1px; 
-    display: inline-block;
-    background: $black;
-    cursor:pointer;
-  }
-  
+  display: inline-block;
+  transform: translateX(-50%);
+  top: -10px;
+  left: 0;
+  font-size: 12px;
+  font-weight: lighter;
+  letter-spacing: $letter-spacing-xs;
+  background: $black;
+  color: $white;
+  border-radius: 3px;
+  padding: 5px 5px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity .4s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+.of-font-slider {
+  top: 25px;
+}
+.of-font-slider:hover {
   .of-font-slider-label {
-    position: relative;
-    top: -22px;
-    left: 0;
-    transform: translate(0%,0%);
-    font-size: 12px;
-    font-weight: lighter;
-    letter-spacing: $letter-spacing-xs;
-    background: $black;
-    color: $white;
-    border-radius: 3px;
-    padding: 5px 5px;
-    text-align: center;
-    opacity: 0;
-    transition: opacity .4s ease;
-    white-space: nowrap;
-    user-select: none;
-  }
-  
-  &:hover {
-    .of-font-slider-label {
-      opacity: 1;
-    }
+    opacity: 1;
   }
 }
