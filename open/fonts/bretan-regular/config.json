@@ -11,6 +11,7 @@
         "font-size": "40px",
         "line-height": "1.5em",
         "letter-spacing": "-0.025em",
+        "letter-spacing-min": "-0.1em",
         "text-transform": "none",
         "scrolling-text": "false",
         "background-state": "black",
@@ -25,6 +26,8 @@
     },
     "info": {
         "weight": "400",
+        "style": "Regular",
+        "classification": "Sans-Serif",
         "about": "",
         "license": "SIL Open Font License",
         "license-link": "http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL",
@@ -34,10 +37,5 @@
     "newcomer": {
         "background-state": "white",
         "color": "#000"
-    },
-    "votes": {
-        "fontlist": "100",
-        "newcomer": "50"
-    },
-    "share": "0"
+    }
 }
