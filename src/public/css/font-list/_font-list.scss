@@ -1,0 +1,9 @@
+.of-font-list {
+  position: relative;
+}
+.of-font-list.is-fixed {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  border: 1px dashed chartreuse;
+}

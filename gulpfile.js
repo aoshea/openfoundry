@@ -52,7 +52,7 @@ var dir = {
 var sources = {
   tpl:         [ dir.source + 'tpl/**/*'],
   index:       [ dir.source + 'index.js'],
-  app:         [ dir.source + 'public/js/index.js'],
+  app:         [ dir.source + 'public/js/app.js'],
   js:          [ dir.source + 'public/js/**/*.js' ],
   imgs:        [ dir.source + 'public/img/*'],
   html:        [ dir.source + 'public/html/*'],

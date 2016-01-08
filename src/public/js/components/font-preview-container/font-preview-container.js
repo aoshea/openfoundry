@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
 import FontSlider from '../../components/font-slider/font-slider.js';
 import FontColours from '../../components/font-colours/font-colours.js';
@@ -139,6 +140,7 @@ export default class FontPreviewContainer extends Component {
   
   render() {
     
+    let fontName = replaceNonAlphaNumeric(this.props.name).toLowerCase();
     let rankPadded = ("0" + this.props.rank).slice(-2); 
     
     let rankLabel = rankPadded + " / " + this.props.name;
@@ -146,7 +148,7 @@ export default class FontPreviewContainer extends Component {
       rankLabel += ", " + this.props.creator; 
     } 
     
-    let fontClassName = "of-font-preview-text-container " + replaceNonAlphaNumeric(this.props.name).toLowerCase();
+    let fontClassName = "of-font-preview-text-container " + fontName;
     
     let fontSize = parseInt(this.props.settings['font-size'], 10);
     let lineHeight = parseFloat(this.props.settings['line-height'], 10);
@@ -220,7 +222,11 @@ export default class FontPreviewContainer extends Component {
                 onUpdateBackground={this.onUpdateBackground} 
                 onUpdateTextTransform={this.onUpdateTextTransform} />
             
-              <div className="col-2 offset-1 more-button-container"><span onClick={this.handleMoreClick} className="more-button">More</span></div>
+              <div className="col-2 offset-1 more-button-container">
+                <Link to={`/open/${fontName}`}>
+                  <span className="more-button">More</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import createBrowserHistory from 'history/lib/createBrowserHistory'
 let history = createBrowserHistory();
+import FontSpecimen from './components/font-specimen/font-specimen.js';
 
 import FontList from './components/font-list/font-list.js';
 
 let data = window.siteJSON;
-
 
 class App extends Component {
   render() {
@@ -67,24 +67,76 @@ class App extends Component {
 }
 
 class Open extends Component {
-  render() {
-    return <FontList fonts={data} />
+
+  constructor() {
+    super();
+    
+    this.state = {
+      isSpecimen: false
+    };
   }
+  
+  componentDidUpdate() {    
+    let { location } = this.context;
+    let { isSpecimen} = this.state;
+    
+    let pathName = location.pathname;
+    
+    if (isSpecimen) {
+      if (pathName === '/open') this.setState({ isSpecimen: false });
+    } else {
+      if (pathName !== '/open') this.setState({ isSpecimen: true });
+    }
+    
+    console.log('didUpdate: isSpecimen:', this.state.isSpecimen);
+  }
+  
+  render() {
+    let { isSpecimen } = this.state;
+    
+    return (
+      <div>
+        <FontList fixed={isSpecimen} fonts={data} />
+       {this.props.children}
+      </div>
+    )
+  }
+}
+
+Open.contextTypes = {
+  location: React.PropTypes.object
+};
+
+class Specimen extends Component {
+  render() {
+    let { fontId } = this.props.params;     
+    return <FontSpecimen font={fontId} />      
+  }
+}
+
+let handleEnter = function () {
+  console.log('handleEnter', arguments);
+}
+
+let handleSpecimenEnter = function () {
+  console.log('handleSpecimenEnter');
+}
+
+let handleSpecimenLeave = function () {
+  console.log('handleSpecimenLeave');
 }
 
 render((
   <Router history={history}>
     <Route path="/" component={App}>
-      <Route path="/open" component={Open} />
+      <Route path="open" component={Open} onEnter={handleEnter}>
+        <Route path=":fontId" 
+               component={Specimen} 
+               onEnter={handleSpecimenEnter}
+               onLeave={handleSpecimenLeave} />
+      </Route>  
     </Route>
   </Router>
 ),
 document.querySelector('.of-container')
 );
-
-/*
-render(
-  <FontList fonts={data} />,
-  document.querySelector('.of-container')
-);  
-*/

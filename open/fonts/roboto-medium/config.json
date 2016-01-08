@@ -26,6 +26,7 @@
     },
     "info": {
         "weight": "400",
+        "style": "Black Italic",
         "about": "",
         "license": "SIL Open Font License",
         "license-link": "http://scripts.sil.org/cms/scripts/page.php?site_id=nrsi&id=OFL",
@@ -35,10 +36,5 @@
     "newcomer": {
         "background-state": "white",
         "color": "#000"
-    },
-    "votes": {
-        "fontlist": "100",
-        "newcomer": "0"
-    },
-    "share": "0"
+    }
 }

@@ -11,7 +11,7 @@
   width: 100%;
   padding: 0 50px;
   box-sizing: border-box;
-  z-index: 999;
+  z-index: $zIndex-font-ui;
   opacity: 1;
   transition: opacity 200ms linear;
 }
@@ -22,6 +22,9 @@
 .of-font-preview-container .more-button-container {
   top: 43px;
   text-align: right;
+}
+.of-font-preview-container .more-button-container a {
+  text-decoration: none;
 }
 
 .of-font-preview-container .more-button {
