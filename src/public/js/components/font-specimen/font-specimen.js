@@ -10,6 +10,7 @@ export default class FontSpecimen extends Component {
 
     return (
       <div className="of-font-specimen">
+        <div className="of-font-specimen-spacer-top"></div>
       
         <div className="of-font-specimen-svg">
           <img src="/img/specimen-bagnard-regular.svg" />
@@ -46,6 +47,8 @@ export default class FontSpecimen extends Component {
         <div className="of-font-specimen-content">
           <button>Source</button>
         </div>      
+          
+        <div className="of-font-specimen-spacer-bottom"></div>
       </div>
     )
   }
