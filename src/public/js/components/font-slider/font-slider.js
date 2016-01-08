@@ -1,6 +1,41 @@
 import React, { Component } from 'react';
 import Slider from '../../components/slider/slider.js';
+import ReactSlider from 'react-slider';
 
+export default class FontSlider extends Component {
+  
+  constructor() {
+    super()    
+    this.state = { value: 0 };
+    this.handleChange = this.handleChange.bind(this);
+  }
+  
+  componentDidMount() {
+    this.setState({
+      value: this.props.initial
+    });
+  }
+  
+  handleChange(value) {
+    let { onUpdate } = this.props;
+    onUpdate && onUpdate(value);
+  }
+  
+  render() {
+    return (
+      <div className="col-2">
+        <ReactSlider 
+          min={this.props.min}
+          max={this.props.max}
+          step={this.props.step}
+          onChange={this.handleChange} 
+          defaultValue={this.props.initial} />
+      </div>
+    )
+  }
+}
+
+/*
 export default class FontSlider extends Component {
   constructor(props, context) {
     super(props, context);
@@ -41,3 +76,4 @@ export default class FontSlider extends Component {
     );
   }
 }
+*/

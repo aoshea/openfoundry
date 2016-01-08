@@ -1,3 +1,33 @@
+.slider {
+  width: 100%;
+  max-width: 500px;
+  height: 2px;
+  top: 50px;
+  background: $black;
+}
+.handle {
+  font-size: 0.9em;
+  text-align: center;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  
+  top: -4px;
+  width: 1px;
+  height: 1px;
+  line-height: 48px;    
+}
+.handle:after {
+  position: absolute;
+  content: '';
+  width: 10px;
+  height: 10px;
+  left: -5px;
+  border-radius: 50%;
+  background: $black;
+  border: 2px solid $white;
+}
+
 .of-font-slider {
   position: relative;
   top: 40px;
