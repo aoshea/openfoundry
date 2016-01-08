@@ -30,7 +30,7 @@ app.get('/open', function (req, res) {
 /**
  * Routing / Font
  */
-app.get('/open/font/:fontId', function (req, res) {  
+app.get('/open/:fontId', function (req, res) {  
   res.render('index');
 });
 

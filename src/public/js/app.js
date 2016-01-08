@@ -130,7 +130,7 @@ render((
   <Router history={history}>
     <Route path="/" component={App}>
       <Route path="open" component={Open} onEnter={handleEnter}>
-        <Route path="font/:fontId" 
+        <Route path=":fontId" 
                component={Specimen} 
                onEnter={handleSpecimenEnter}
                onLeave={handleSpecimenLeave} />

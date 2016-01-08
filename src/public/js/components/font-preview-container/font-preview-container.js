@@ -223,7 +223,7 @@ export default class FontPreviewContainer extends Component {
                 onUpdateTextTransform={this.onUpdateTextTransform} />
             
               <div className="col-2 offset-1 more-button-container">
-                <Link to={`/open/font/${fontName}`}>
+                <Link to={`/open/${fontName}`}>
                   <span className="more-button">More</span>
                 </Link>
               </div>
