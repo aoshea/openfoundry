@@ -1,9 +1,9 @@
 .of-font-preview-container {
   position: relative;
-  
   background-color: $white;
   background-size: cover;
-  background-position: 50%;    
+  background-position: 50%;
+  transition: all 0.5s ease;
 }
 
 .of-font-preview-container .of-font-preview-ui {
@@ -12,16 +12,27 @@
   padding: 0 50px;
   box-sizing: border-box;
   z-index: $zIndex-font-ui;
-  opacity: 1;
-  transition: opacity 200ms linear;
+  transition: opacity 0.2s linear;
 }
-.of-font-preview-container:hover .of-font-preview-ui {
-  opacity: 1;
+
+.of-font-preview-container {
+  .of-font-preview-ui,
+  .of-font-preview-footer {
+    opacity: 1;
+  }
+}
+
+.of-font-preview-container:hover {
+  .of-font-preview-ui,
+  .of-font-preview-footer {
+    opacity: 1;
+  }
 }
 
 .of-font-preview-container .more-button-container {
-  top: 43px;
+  top: 41px;
   text-align: right;
+  padding-right: 0px;
 }
 .of-font-preview-container .more-button-container a {
   text-decoration: none;
@@ -30,11 +41,17 @@
 .of-font-preview-container .more-button {
   cursor: pointer;
   font-size: 15px;
+  letter-spacing: $letter-spacing-xs;
   color: $trans-black-25;
   border: 1px solid $trans-black-25;
   padding: 5px 10px;
-  border-radius: 2px;
-  font-weight: lighter;
+  border-radius: $radius-button;
+  transition: all .2s ease;
+}
+
+.of-font-preview-container .more-button:hover {
+  color: $trans-black-100;
+  border: 1px solid $trans-black-100;
 } 
 
 .of-font-preview-container .share-container button {
@@ -53,7 +70,6 @@
   color: $black;
   user-select: none;
   word-break: break-all;
-  
   padding-top: 150px;
   padding-bottom: 160px;
   padding-left: 50px;
@@ -71,20 +87,26 @@
     fill: $trans-black-10;
   }
 }
+
 .of-font-preview-container.black-image {
-  
   background-color: $semi-black;
-  
+  font-weight: lighter;
+
   .more-button {
+    color: $trans-white-25;
+    border-color: $trans-white-25;
+  }
+
+  .more-button:hover {
     color: $white;
-    border: 1px solid $trans-white-50;
-  } 
-  
+    border-color: $white;
+  }
+
   .of-font-preview-text-container {
     color: $white;
   }
   .of-font-slider-handle {
-    border: 1px solid $black;
+    border-color: $black;
     background: $white;
   }
   .of-font-slider-track, .of-font-slider-fill {
@@ -98,9 +120,9 @@
   #of-font-toggle-no-image {
     stroke: $white;
   }
-  .of-font-preview-footer .rank {
-    color: $trans-white-25;
-  }
+  // .of-font-preview-footer .rank {
+  //   color: $trans-white-25;
+  // }
   .of-font-preview-footer .like-button svg {
     fill: $trans-white-25;
   }
@@ -114,6 +136,7 @@
     fill: $red;
   }
 }
+
 .of-font-preview-container.black-image:before {
   content: '';
   position: absolute;

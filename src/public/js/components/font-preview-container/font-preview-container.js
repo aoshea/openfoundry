@@ -220,7 +220,7 @@ export default class FontPreviewContainer extends Component {
                 onUpdateBackground={this.onUpdateBackground} 
                 onUpdateTextTransform={this.onUpdateTextTransform} />
             
-              <div className="col-2 offset-1 more-button-container">
+              <div className="col-2 more-button-container">
                 <Link to={`/open/${fontName}`}>
                   <span className="more-button">More</span>
                 </Link>
@@ -237,13 +237,9 @@ export default class FontPreviewContainer extends Component {
           <div className="of-footer-inner">
             <div className="of-grid-container">
               <div className="of-row">
-                <div className="col-4 rank">{rankLabel}</div>
-          
-                <div className="col-2 offset-4 rank vote-container">
-                  <FontLikeButton locked={this.state.locked} likes={this.state.likes} onUpdate={this.onUpdateLikes} />                  
-                </div>
-                <div className="col-2 rank share-container">
-                  <FontShareButton />
+                <div className="col-10 rank">{rankLabel}</div>
+                <div className="col-2 social">
+                  <FontLikeButton locked={this.state.locked} likes={this.state.likes} onUpdate={this.onUpdateLikes} /><FontShareButton />              
                 </div>
               </div>
             </div>

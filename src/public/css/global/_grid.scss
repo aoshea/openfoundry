@@ -57,10 +57,9 @@ $gutter: $spacing/2;
 
 .of-row {
   width: 100%;
-  
   padding-left: $gutter/2;
   margin-left: -$gutter/2;
-  margin-right: -$gutter/2;
+  // margin-right: -$gutter/2;
   
   &:after {
     content: '';

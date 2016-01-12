@@ -13,23 +13,23 @@
     
   }
   
-  .rank {
-    font-size: 15px;
-    font-weight: 200;
-    color: $trans-black-25;
-  }
+  // .rank {
+  //   font-size: 15px;
+  //   color: $trans-black-25;
+  //   letter-spacing: $letter-spacing-xs;
+  // }
   
-  .vote-container {
-    text-align: right;
-    cursor: pointer;
-  }
+  // .vote-container {
+  //   text-align: right;
+  //   cursor: pointer;
+  // }
   
-  .share-count {
-    float: right;
-  }
-  .share-button {
-    float: right;
-  }
+  // .share-count {
+  //   float: right;
+  // }
+  // .share-button {
+  //   float: right;
+  // }
   
   .like-button, .share-button {
     position: relative;
@@ -38,18 +38,18 @@
     height: 32px;
     top: -8px;
     left: 3px;
-    
-    svg {
-      fill: $trans-black-25;
-    }
-    
-    :hover {
-      fill: $trans-red-25;
-    }
   }
+  //   svg {
+  //     fill: $white;
+  //   }
+    
+  //   :hover {
+  //     fill: $trans-red-100;
+  //   }
+  // }
   
-  .num-likes {
-    float: right;
-    letter-spacing: $letter-spacing-m;
-  }
+  // .num-likes {
+  //   float: right;
+  //   letter-spacing: $letter-spacing-m;
+  // }
 }

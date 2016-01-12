@@ -4,14 +4,19 @@ $white: #fff;
 $grey: #888;
 $red: #c80000;
 
-$trans-red-25: rgba(200, 0, 0, 0.25);
+$trans-red-25:  rgba(200, 0, 0, 0.25);
+$trans-red-50:  rgba(200, 0, 0, 0.5);
+$trans-red-100: rgba(200, 0, 0, 1);
 
-$trans-black-10: rgba(0, 0, 0, 0.10);
-$trans-black-20: rgba(0, 0, 0, 0.20);
-$trans-black-25: rgba(0, 0, 0, 0.25);
-$trans-black-50: rgba(0, 0, 0, 0.50);
+$trans-black-10:  rgba(0, 0, 0, 0.10);
+$trans-black-20:  rgba(0, 0, 0, 0.20);
+$trans-black-25:  rgba(0, 0, 0, 0.25);
+$trans-black-50:  rgba(0, 0, 0, 0.50);
+$trans-black-75:  rgba(0, 0, 0, 0.75);
+$trans-black-100: rgba(0, 0, 0, 1);
 
-$trans-white-10: rgba(0, 0, 0, 0.10);
-$trans-white-25: rgba(255, 255, 255, 0.25);
-$trans-white-50: rgba(255, 255, 255, 0.50);
-
+$trans-white-10:  rgba(255, 255, 255, 0.10);
+$trans-white-25:  rgba(255, 255, 255, 0.25);
+$trans-white-50:  rgba(255, 255, 255, 0.50);
+$trans-white-75:  rgba(255, 255, 255, 0.75);
+$trans-white-100: rgba(255, 255, 255, 1);

@@ -1,37 +1,62 @@
 .slider {
   width: 100%;
   max-width: 500px;
-  height: 2px;
+  height: 1px;
   background: $black;
 }
 .black-image .slider {
   background: $white;
 }
+
+// .handle {
+//   font-size: 0.9em;
+//   text-align: center;
+//   background-color: black;
+//   color: white;
+//   cursor: pointer;
+//   top: -4px;
+//   width: 1px;
+//   height: 1px;
+//   line-height: 48px;    
+// }
+
 .handle {
-  font-size: 0.9em;
-  text-align: center;
-  background-color: black;
-  color: white;
   cursor: pointer;
-  
-  top: -4px;
-  width: 1px;
-  height: 1px;
-  line-height: 48px;    
+  top: -24px; 
 }
+
 .handle:after {
   position: absolute;
   content: '';
   width: 10px;
   height: 10px;
-  left: -5px;
+  left: -25px;
   border-radius: 50%;
   background: $black;
-  border: 2px solid $white;
+  transition: all 0.2s ease;
+  border: 20px solid rgba(0,0,0,0);
+  cursor: -webkit-grab;
 }
+
 .black-image .handle:after {
   background: $white;
 }
+
+.handle:after,
+.black-image .handle:after {
+  -moz-background-clip: border;     /* Firefox 3.6 */
+  -webkit-background-clip: border;  /* Safari 4? Chrome 6? */
+  background-clip: border-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
+
+  -moz-background-clip: padding;     /* Firefox 3.6 */
+  -webkit-background-clip: padding;  /* Safari 4? Chrome 6? */
+  background-clip: padding-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
+
+  -moz-background-clip: content;     /* Firefox 3.6 */
+  -webkit-background-clip: content;  /* Safari 4? Chrome 6? */
+  background-clip: content-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
+}
+
 .of-font-slider-label {
   position: relative;
   display: inline-block;
@@ -43,7 +68,7 @@
   letter-spacing: $letter-spacing-xs;
   background: $black;
   color: $white;
-  border-radius: 3px;
+  border-radius: $radius-button;
   padding: 5px 5px;
   text-align: center;
   opacity: 0;
@@ -53,8 +78,12 @@
 }
 .of-font-slider {
   top: 25px;
+  opacity: 0.5;
+  height: 50px;
 }
 .of-font-slider:hover {
+  opacity: 1;
+
   .of-font-slider-label {
     opacity: 1;
   }
