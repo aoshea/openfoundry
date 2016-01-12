@@ -3,22 +3,24 @@
   background-color: $white;
   background-size: cover;
   background-position: 50%;
-  transition: all 0.5s ease;
+  transition: all $ease;
+  border-top: 1px solid $trans-black-10;
 }
 
 .of-font-preview-container .of-font-preview-ui {
   position: absolute;
   width: 100%;
   padding: 0 50px;
+  margin-top: 10px;
   box-sizing: border-box;
   z-index: $zIndex-font-ui;
-  transition: opacity 0.2s linear;
+  transition: opacity $ease;
 }
 
 .of-font-preview-container {
   .of-font-preview-ui,
   .of-font-preview-footer {
-    opacity: 1;
+    opacity: 0;
   }
 }
 
@@ -46,19 +48,12 @@
   border: 1px solid $trans-black-25;
   padding: 5px 10px;
   border-radius: $radius-button;
-  transition: all .2s ease;
+  transition: all $ease;
 }
 
 .of-font-preview-container .more-button:hover {
   color: $trans-black-100;
   border: 1px solid $trans-black-100;
-} 
-
-.of-font-preview-container .share-container button {
-  appearance: none;
-}
-.of-font-preview-container .share-count {
-  display: inline-block;
 }
 
 .of-font-preview-container .of-font-preview-text-container {
@@ -76,32 +71,19 @@
   padding-right: 50px;
 }
 
-.of-font-preview-container {
-  .of-font-preview-footer .like-button svg {
-    fill: $trans-black-25;
-  }
-  .of-font-preview-footer .like-button.like-button-disabled svg {
-    fill: $trans-black-10;
-  }  
-  .of-font-preview-footer .like-button.like-button-disabled:hover svg {
-    fill: $trans-black-10;
-  }
-}
-
 .of-font-preview-container.black-image {
   background-color: $semi-black;
+  border-top: 1px solid $trans-white-10;
   font-weight: lighter;
 
   .more-button {
     color: $trans-white-25;
     border-color: $trans-white-25;
   }
-
   .more-button:hover {
     color: $white;
     border-color: $white;
   }
-
   .of-font-preview-text-container {
     color: $white;
   }
@@ -120,26 +102,14 @@
   #of-font-toggle-no-image {
     stroke: $white;
   }
-  // .of-font-preview-footer .rank {
-  //   color: $trans-white-25;
-  // }
-  .of-font-preview-footer .like-button svg {
-    fill: $trans-white-25;
-  }
-  .of-font-preview-footer .like-button.like-button-disabled svg {
-    fill: $trans-white-10;
-  }  
-  .of-font-preview-footer .like-button.like-button-disabled:hover svg {
-    fill: $trans-white-10;
-  }
-  .of-font-preview-footer .like-button:hover svg {
-    fill: $red;
-  }
 }
 
 .of-font-preview-container.black-image:before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: $trans-black-20;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: $trans-black-25;
 }

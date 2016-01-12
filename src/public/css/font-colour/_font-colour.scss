@@ -18,7 +18,7 @@
     border: 1px solid $trans-black-25;
     cursor: text;
     background: transparent;
-    transition: all .2s ease;
+    transition: all $ease;
     
     &:focus {
       color: $black;
@@ -68,7 +68,7 @@
   position: relative;
   width: 32px;
   height: 32px;
-  top: 35px;
+  top: 34px;
   cursor: pointer;
 }
 
@@ -88,4 +88,11 @@
 .of-font-background-toggle-container,
 .of-font-uppercase-toggle-container {
   margin-right: 5px;
+  opacity: 0.5;
+  transition: opacity $ease;
+}
+
+.of-font-background-toggle-container:hover,
+.of-font-uppercase-toggle-container:hover {
+  opacity: 1;
 }
