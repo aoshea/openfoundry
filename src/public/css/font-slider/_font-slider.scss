@@ -22,20 +22,24 @@
 
 .handle {
   cursor: pointer;
-  top: -24px; 
+  top: -23px; 
 }
 
 .handle:after {
   position: absolute;
   content: '';
-  width: 10px;
-  height: 10px;
-  left: -25px;
+  width: 8px;
+  height: 8px;
+  left: -24px;
   border-radius: 50%;
   background: $black;
-  transition: all 0.2s ease;
+  transition: all 0.1s linear;
   border: 20px solid rgba(0,0,0,0);
   cursor: -webkit-grab;
+}
+
+.handle:hover:after {
+  transform: scale3d(1.25,1.25,1.25);
 }
 
 .black-image .handle:after {
@@ -60,27 +64,35 @@
 .of-font-slider-label {
   position: relative;
   display: inline-block;
+  font-weight: lighter;
   transform: translateX(-50%);
   top: -10px;
   left: 0;
   font-size: 12px;
-  font-weight: lighter;
-  letter-spacing: $letter-spacing-xs;
+  letter-spacing: $letter-spacing-s;
   background: $black;
   color: $white;
   border-radius: $radius-button;
   padding: 5px 5px;
   text-align: center;
   opacity: 0;
-  transition: opacity .4s ease;
+  transition: opacity $ease-m;
   white-space: nowrap;
   user-select: none;
 }
+
+.of-font-preview-container.black-image {
+  .of-font-slider-label {
+    font-weight: normal;
+  }
+}
+
 .of-font-slider {
   top: 25px;
   opacity: 0.5;
   height: 50px;
 }
+
 .of-font-slider:hover {
   opacity: 1;
 

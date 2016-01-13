@@ -12,9 +12,9 @@ header.of-navbar {
   backface-visiblity: hidden;
 }
 
-header.of-navbar .up {
-  top: -50px;
-}
+// header.of-navbar .up {
+//   top: -50px;
+// }
 
 .menu-header {
   position: absolute;
@@ -28,6 +28,7 @@ header.of-navbar .up {
 ul.menu-header {
   white-space: nowrap;
   font-size: 0;
+  box-sizing: border-box;
 }
 
 .menu-logo .open {
@@ -49,11 +50,18 @@ ul.menu-header {
   transition: all $ease-m 0s;
 }
 
+// .menu-logo.up {
+//   opacity: 0;
+//   transform: translate(50px,-39px);
+// }
+
 .menu-logo.up {
-  opacity: 0;
-  transform: translate(50px,-39px);
+  opacity: .4;
 }
 
+.menu-logo.up:hover {
+  opacity: 1;
+}
 
 .menu-logo a {
   display: inline-block;
@@ -124,6 +132,7 @@ ul.menu-header {
 
 ul.menu-list {
   position: absolute;
+  box-sizing: border-box;
   width: 100%;
   height: 50vh;
   top: 0px;
@@ -187,6 +196,7 @@ ul.menu-list li:last-child:hover svg {
 
 ul.menu-signup {
   position: absolute;
+  box-sizing: border-box;
   width: 100%;
   height: 50vh;
   top: 0;

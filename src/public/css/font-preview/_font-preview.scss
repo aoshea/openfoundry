@@ -4,7 +4,6 @@
   background-size: cover;
   background-position: 50%;
   transition: all $ease;
-  border-top: 1px solid $trans-black-10;
 }
 
 .of-font-preview-container .of-font-preview-ui {
@@ -73,12 +72,11 @@
 
 .of-font-preview-container.black-image {
   background-color: $semi-black;
-  border-top: 1px solid $trans-white-10;
   font-weight: lighter;
 
   .more-button {
-    color: $trans-white-25;
-    border-color: $trans-white-25;
+    color: $trans-white-50;
+    border-color: $trans-white-50;
   }
   .more-button:hover {
     color: $white;

@@ -5,7 +5,12 @@
   top: 23px;
   margin-left: 5px;
   background: transparent;
-  
+
+  @include placeholder {
+    -webkit-font-smoothing: antialiased;
+    color: $trans-black-25;
+  }
+
   input {
     width: 100%;
     font-size: 15px;
@@ -37,8 +42,8 @@
 
   .of-font-colour-input {
     input {
-      color: $trans-white-25;
-      border-color: $trans-white-25;
+      color: $trans-white-50;
+      border-color: $trans-white-50;
       font-weight: lighter;
 
       &:focus {
@@ -54,13 +59,8 @@
   }
 
   @include placeholder {
-    color: $trans-white-25;
+    color: $trans-white-50;
   }
-}
-
-@include placeholder {
-  -webkit-font-smoothing: antialiased;
-  color: $trans-black-25;
 }
 
 .of-font-background-toggle-container {

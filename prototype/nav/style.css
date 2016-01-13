@@ -32,10 +32,6 @@ header {
   transition: all .4s ease;
 }
 
-.up {
-  top: -50px;
-}
-
 .menu-header {
   position: absolute;
   top: 0;
@@ -70,8 +66,12 @@ ul.menu-header {
 }
 
 .menu-logo.up {
-  opacity: 0;
-  transform: translate(50px,-39px);
+  opacity: .4;
+/*  transform: translate(50px,-39px);
+*/}
+
+.menu-logo.up:hover {
+  opacity: 1;
 }
 
 
