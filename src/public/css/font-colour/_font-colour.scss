@@ -1,29 +1,66 @@
 .of-font-colour-input {
   display: inline-block;
   position: relative;
-  width: 74px;
+  width: 60px;
   top: 23px;
-  left: 10px;
+  margin-left: 5px;
   background: transparent;
   
   input {
-    font-weight: 200;
+    width: 100%;
     font-size: 15px;
     font-family: 'Helvetica', 'Arial', sans-serif;
-    font-weight: lighter;
     text-align: center;
     letter-spacing: $letter-spacing-s;
-    width: 100%;
-    padding: 5px 8px;
-    border-radius: 3px;
-    border: 1px solid #ccc;
-    background: transparent;
     color: $trans-black-25;
+    padding: 5px 8px;
+    border-radius: $radius-button;
+    border: 1px solid $trans-black-25;
+    cursor: text;
+    background: transparent;
+    transition: all $ease;
     
     &:focus {
+      color: $black;
+      border: 1px solid $black;
       outline: none;
     }
+
+    &:hover {
+      color: $black;
+      border: 1px solid $black;
+    }
   }
+}
+
+.of-font-preview-container.black-image {
+
+  .of-font-colour-input {
+    input {
+      color: $trans-white-25;
+      border-color: $trans-white-25;
+      font-weight: lighter;
+
+      &:focus {
+        color: $white;
+        border-color: $white;
+      }
+
+      &:hover {
+        color: $white;
+        border-color: $white;
+      }
+    }
+  }
+
+  @include placeholder {
+    color: $trans-white-25;
+  }
+}
+
+@include placeholder {
+  -webkit-font-smoothing: antialiased;
+  color: $trans-black-25;
 }
 
 .of-font-background-toggle-container {
@@ -31,8 +68,7 @@
   position: relative;
   width: 32px;
   height: 32px;
-  left: 10px;
-  top: 35px;
+  top: 34px;
   cursor: pointer;
 }
 
@@ -45,7 +81,18 @@
   position: relative;
   width: 32px;
   height: 32px;
-  left: 6px;
   top: 34px;
   cursor: pointer;
+}
+
+.of-font-background-toggle-container,
+.of-font-uppercase-toggle-container {
+  margin-right: 5px;
+  opacity: 0.5;
+  transition: opacity $ease;
+}
+
+.of-font-background-toggle-container:hover,
+.of-font-uppercase-toggle-container:hover {
+  opacity: 1;
 }

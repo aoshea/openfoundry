@@ -6,7 +6,7 @@ header.of-navbar {
   width: 100%;
   top: 0px;
   background: black;
-  transition: all .4s ease;
+  transition: all $ease-m;
   z-index: $zIndex-navbar;
   transform: translateZ(0);
   backface-visiblity: hidden;
@@ -46,7 +46,7 @@ ul.menu-header {
   left: 0px;
   height: 28px;
   transform: translate(50px,11px);
-  transition: all .4s ease 0s;
+  transition: all $ease-m 0s;
 }
 
 .menu-logo.up {
@@ -86,7 +86,7 @@ ul.menu-header {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: all .4s ease;
+  transition: all $ease-m;
 }
 
 .menu-icon span,
@@ -136,7 +136,7 @@ ul.menu-list {
   display: flex;
   justify-content: space-between;
   transform: translateY(-50vh);
-  transition: all .4s ease;
+  transition: all $ease-m;
 }
 
 ul.menu-list.open {
@@ -195,7 +195,7 @@ ul.menu-signup {
   overflow: hidden;
   background: black;
   transform: translateY(-50vh);
-  transition: all .4s ease 0s;
+  transition: all $ease-m 0s;
 }
 
 ul.menu-signup.open {
@@ -203,7 +203,7 @@ ul.menu-signup.open {
 }
 
 ul.menu-list.open + ul.menu-signup {
-  transition: all .4s ease .2s;
+  transition: all $ease-m .2s;
 }
 
 

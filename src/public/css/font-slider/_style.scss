@@ -12,8 +12,7 @@
     width: 10px;
     height: 10px;
     background: $black;
-    border: 2px solid $white;
-    border-radius: 50%;
+    border-radius: $radius-50;
     cursor: pointer;
   }
   
@@ -35,11 +34,11 @@
     left: 0;
     transform: translate(0%,0%);
     font-size: 12px;
-    font-weight: lighter;
+    // font-weight: lighter;
     letter-spacing: $letter-spacing-xs;
     background: $black;
     color: $white;
-    border-radius: 3px;
+    border-radius: $radius-button;
     padding: 5px 5px;
     text-align: center;
     opacity: 0;
