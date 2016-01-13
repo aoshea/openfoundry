@@ -39,7 +39,7 @@ export default class FontPreviewContainer extends Component {
     let lineHeight = parseFloat(this.props.settings['line-height'], 10);
     let letterSpacing = parseFloat(this.props.settings['letter-spacing'], 10);
     let color = this.props.settings['color'];
-    let likes = parseInt(this.props.votes.fontlist, 10);
+    let likes = 0;//parseInt(this.props.votes.fontlist, 10);
     let backgroundState = this.props.settings['background-state'];
     let background = 0;
     let backgroundNum = 0;
