@@ -1,11 +1,11 @@
 var express = require('express'),
-    mongo   = require('mongodb'),
-    monk    = require('monk'),
-    db      = monk('localhost:27017/oftest'),
+    //mongo   = require('mongodb'),
+    //monk    = require('monk'),
+    //db      = monk('localhost:27017/oftest'),
     http    = require('http'),
     app     = express(),
     reqip   = require('request-ip'),
-    port    = 3700
+    port    = 7777
     ;
 
 // set up Jade
@@ -56,7 +56,7 @@ app.get('/api/fonts/', function (req, res) {
  * Get one font by fontId eg. 'Bagnan_Regular'
  */
 app.get('/api/fonts/:fontId', function (req, res) {
-  
+  /*
   var collection = db.get('usercollection'),
       requestIp = reqip.getClientIp(req);
   
@@ -80,10 +80,12 @@ app.get('/api/fonts/:fontId', function (req, res) {
       res.json(doc);
     }
   });
+  */
+  res.sendStatus(200);
 });
 
 app.get('/api/like/:fontId', function (req, res) {
-  
+  /*
   var ipadd = reqip.getClientIp(req); // on localhost > 127.0.0.1
   var collection = db.get('usercollection');
   var willAdd = false;
@@ -116,7 +118,8 @@ app.get('/api/like/:fontId', function (req, res) {
       }
     );
   });
-  
+  */
+  res.sendStatus(200);
 });
 
 /**

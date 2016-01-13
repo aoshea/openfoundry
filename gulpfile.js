@@ -8,7 +8,6 @@ var gulp        = require('gulp'),
     sourcemaps  = require('gulp-sourcemaps'),
     uglify      = require('gulp-uglify'),
     changed     = require('gulp-changed'),
-    livereload  = require('gulp-livereload'),
     notify      = require('gulp-notify'),
     concat      = require('gulp-concat'),
     gulpif      = require('gulp-if'),
@@ -17,7 +16,10 @@ var gulp        = require('gulp'),
     del         = require('del'),
     exec        = require('child_process').exec,
     argv        = require('yargs').argv,
-    osenv       = require('osenv')
+    osenv       = require('osenv'),
+    nodemon     = require('gulp-nodemon'),
+    browsersync = require('browser-sync'),
+    reload      = browsersync.reload
     ;
 
 /**
@@ -144,7 +146,7 @@ gulp.task('css', function () {
     .pipe(gulpif(production, nano()))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(dir.build + 'public/css'))
-    .pipe(livereload());
+    .pipe(reload({stream:true}));
 });
 
 // Copy html files to build folder 
@@ -183,7 +185,7 @@ gulp.task('templates', function () {
 });
 
 // Copy index.js over 
-gulp.task('index', function () {
+gulp.task('index', ['templates'], function () {
   return gulp.src(sources.index)
     .pipe(gulp.dest(dir.build));
 });
@@ -197,28 +199,43 @@ gulp.task('db', function () {
   });
 });
 
-// Start server 
-gulp.task('server', function () {
-  exec('nodemon dist/index.js', function (err, stdout, stderr) {
-    console.log(stdout);
-    console.log(stderr);
+// Run express with nodemon
+gulp.task('nodemon', ['index'], function (cb) {
+  var started = false;
+  return nodemon({
+    script: dir.build + 'index.js'
+  }).on('start', function () {
+    if (!started) {
+      cb();
+      started = true;
+    }
+  });
+});
+
+// Start BrowserSync
+gulp.task('browser-sync', ['nodemon'], function () {
+  browsersync.init(null, {
+    proxy: {
+      host: 'http://localhost',
+      port: 7777
+    }
   });
 });
 
 // Watch for the changes
 gulp.task('watch', function () {
 
-  livereload.listen();
   gulp.watch(sources.html, ['html']);
   gulp.watch(sources.imgs, ['images']);
   gulp.watch(sources.allcss, ['css']);
   gulp.watch(sources.js, ['js']);
   gulp.watch(sources.index, ['index']);
   gulp.watch(sources.tpl, ['templates']);
-  gulp.watch(dir.build + '**/*').on('change', livereload.changed);
+  
+  gulp.watch(dir.build + '**/*').on('change', reload);
 });
 
 // Default task `gulp`
-gulp.task('default', ['html', 'images', 'css', 'vendor-js', 'js', 'watch', 'db', 'server']);
+gulp.task('default', ['index', 'html', 'images', 'css', 'vendor-js', 'js', 'watch',]);
 
 
