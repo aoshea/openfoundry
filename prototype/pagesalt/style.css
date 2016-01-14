@@ -1,0 +1,67 @@
+.of-main section {
+  width: 100%;
+  padding: 0 50px;
+  box-sizing: border-box;
+  z-index: 200;
+  transition: opacity 0.2s ease;
+  font-weight: lighter;
+}
+
+.of-main h1 {
+  font-size: 36px;
+  font-weight: 600;
+  line-height: 1.2em;
+  letter-spacing: -0.025em;
+  margin: 50px 0 0 0;
+}
+
+.of-main p,
+.of-main blockquote {
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.35em;
+}
+
+.of-main a, 
+.of-main a:link {
+  font-weight: 600;
+  text-decoration: none;
+  color: rgba(0,0,0,1);
+  border-bottom: 3px solid rgba(0,0,0,0);
+  transition: all 0.2s ease;
+}
+
+.of-main a:hover {
+  text-decoration: none;
+  color: inherit;
+  padding: 0.05em 0;
+  border-bottom: 3px solid rgba(0,0,0,1);
+}
+
+.of-main blockquote {
+  margin: 50px 0;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
+.of-main blockquote:before,
+.of-main blockquote:after {
+  color: rgba(0,0,0,1);
+  font-size: 50px;
+  line-height: 0.1em;
+  vertical-align: -0.2em;
+}
+
+.of-main blockquote:before {
+  content: open-quote;
+  margin-left: -0.5em;
+  margin-right: 5px;
+}
+
+.of-main blockquote:after {
+  content: close-quote;
+  margin-left: 0px;
+}
+
+.of-main blockquote p {
+  display: inline;
+}
