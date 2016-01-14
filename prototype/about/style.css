@@ -1,0 +1,110 @@
+
+section {
+  width: 100%;
+  padding: 0 50px;
+  margin-bottom: 50px;
+  box-sizing: border-box;
+  z-index: 200;
+  transition: opacity 0.2s ease;
+  font-weight: lighter;
+}
+
+.headline {
+  background: rgba(0,0,0,1);
+  color: rgba(255,255,255,1);
+  padding-bottom: 50px;
+}
+
+section h1 {
+  font-size: 70px;
+  font-weight: 400;
+  line-height: 1.15em;
+  letter-spacing: 0em;
+  letter-spacing: 0.01em;
+  color: rgba(255,255,255,1);
+}
+
+.more-button {
+  position: relative;
+  top: -7px;
+  font-size: 15px;
+  letter-spacing: 0.025em;
+  padding: 5px 10px;
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.more-button:hover {
+  color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(255, 255, 255, 1);
+}
+
+section a,
+section a:link,
+strong,
+h2 {
+  font-weight: 400;
+}
+
+h2,
+section {
+  font-size: 18px;
+}
+
+h2 {
+  margin-top: 30px;
+}
+
+section {
+  line-height: 1.6em;
+  letter-spacing: 0.025em;
+}
+
+section a,
+section a:link {
+  text-decoration: none;
+  color: rgba(0,0,0,1);
+  padding: 0;
+  border-bottom: 1px solid rgba(0,0,0,0);
+  transition: all 0.1s ease;
+}
+
+section a:hover {
+  text-decoration: none;
+  color: inherit;
+  padding: 0.15em 0;
+  border-bottom: 1px solid rgba(0,0,0,0.75);
+}
+
+blockquote {
+  padding: 50px 0;
+  margin: 0;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
+blockquote:before,
+blockquote:after {
+  color: rgba(0,0,0,1);
+  font-size: 1.5em;
+  line-height: 0.1em;
+  vertical-align: -0.25em;
+}
+
+blockquote:before {
+  content: open-quote;
+  margin-left: -0.625em;
+  margin-right: 5px;
+}
+
+blockquote:after {
+  content: close-quote;
+  margin-left: 5px;
+}
+
+blockquote p {
+  display: inline;
+  font-weight: 400;
+}

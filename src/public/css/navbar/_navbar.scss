@@ -154,8 +154,9 @@ ul.menu-list.open {
 
 ul.menu-list a {
   color: white;
-  font-weight: 600;
-  font-size: 64px;
+  font-size: 70px;
+  font-weight: 400;
+  letter-spacing: 0em;
   text-decoration: none;
   display: inline-block;
 }
@@ -216,7 +217,6 @@ ul.menu-list.open + ul.menu-signup {
   transition: all $ease-m .2s;
 }
 
-
 ul.menu-signup {
   background: white;
 }
@@ -226,17 +226,20 @@ header.of-navbar input {
   box-sizing: border-box;
   top: 25vh;
   width: 100%;
-  font-size: 64px;
-  font-weight: bold;
+  font-size: 70px;
+  font-weight: 400;
   color: black;
   padding: 5px 10px;
   transform: translateY(-50%);
-  border: 4px solid black;
+  border: 4px solid rgba(0,0,0,1);
 }
 
 header.of-navbar input:hover {
+  border-color: rgba(0,0,0,1);
   cursor: pointer;
 }
+
 header.of-navbar input:focus {
   outline: none;
+  border-color: rgba(0,0,0,1);
 }
