@@ -187,6 +187,10 @@
 	content: '';
 }
 
+.questions input:focus .simform .progress::before {
+	transform: translateY(0%);
+}
+
 /* Number indicator */
 .simform .number {
 	position: absolute;
