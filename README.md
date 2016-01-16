@@ -1,6 +1,7 @@
 # Open Foundry
 ### Prerequisites 
 - [Node](https://nodejs.org/ "Node") v.4.1.1 installed  (to manage node versions use [NVM](https://github.com/creationix/nvm) )
+- If using nvm, run command `nvm use`
 - [NPM](https://www.npmjs.com/ "NPM Package Manager") installed
 
 ### Setup
