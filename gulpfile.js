@@ -200,7 +200,7 @@ gulp.task('db', function () {
 });
 
 // Run express with nodemon
-gulp.task('nodemon', ['index'], function (cb) {
+gulp.task('server', ['build'], function () {
   var started = false;
   return nodemon({
     script: dir.build + 'index.js'
@@ -236,6 +236,7 @@ gulp.task('watch', function () {
 });
 
 // Default task `gulp`
-gulp.task('default', ['index', 'html', 'images', 'css', 'vendor-js', 'js', 'watch',]);
+gulp.task('build', ['index', 'html', 'images', 'css', 'vendor-js', 'js', 'watch']);
+gulp.task('default', ['server']);
 
 

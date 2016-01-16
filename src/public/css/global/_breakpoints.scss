@@ -1,13 +1,7 @@
-$bp-medium: 667px;
+$bp-mobile: 667px;
 
-@mixin medium {
-  @media only screen and (min-width: $bp-medium)  {       
+@mixin mobile {
+  @media only screen and (max-width: $bp-mobile)  {       
     @content;
   }
-}
-
-@mixin desktop {
-	@media only screen  and (min-width : 1224px) {
-		@content;
-	}
 }

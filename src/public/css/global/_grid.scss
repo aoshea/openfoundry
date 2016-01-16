@@ -10,41 +10,41 @@ $gutter: $spacing/2;
   margin-left: 100% / $cols * $i;
 }
 
-// Columns for screens < iphone landscape 
-@for $i from 1 through $num-sm-cols {
-  .col-sm-#{$i} {    
-    @include col($i, $num-sm-cols);
+@for $i from 1 through $num-cols {          
+  .col-#{$i} {     
+    @include col($i, $num-cols);    
   }
-  .offset-sm-#{$i} {
-    @include offset($i, $num-sm-cols);
+  .offset-#{$i} {
+    @include offset($i, $num-cols);
   }
-}
-
-@include medium {
-	  
-	@for $i from 1 through $num-cols {          
-	  .col-#{$i} {     
-	    @include col($i, $num-cols);    
-	  }
-	  .offset-#{$i} {
-	    @include offset($i, $num-cols);
-	  }
-		.neg-offset-#{$i} {
-			@include offset($i*-1, $num-cols);
-		}
+	.neg-offset-#{$i} {
+		@include offset($i*-1, $num-cols);
 	}
 }
 
-.of-grid-container {
-  width: 90%;
-  margin: 0 auto;
+@include mobile {
+  // Columns for screens < iphone landscape 
+  @for $i from 1 through $num-sm-cols {
+    .col-sm-#{$i} {    
+      @include col($i, $num-sm-cols);
+    }
+    .offset-sm-#{$i} {
+      @include offset($i, $num-sm-cols);
+    }
+  }
 }
 
-@include medium {
+.of-grid-container {
+  width: 100%;
+}  
+
+@include mobile {
   .of-grid-container {
-    width: 100%;
-  }  
+    width: 90%;
+    margin: 0 auto;
+  }
 }
+
 
 [class^="col-"] {
   position: relative;
