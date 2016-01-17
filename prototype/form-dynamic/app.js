@@ -2,6 +2,7 @@ var express = require('express')
 var app = express()
 
 var ofSubmission = require('./of-submission')
+//var ofMailchimp = require('./of-mailchimp')
 
 var bodyParser = require('body-parser')
 
@@ -11,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 app.use(express.static('public'))
 
 app.get('/', function (req, res) {
-  //res.sendfile('/public/index.html')
+  res.sendFile('index.html', { root: 'public' })
 })
 
 app.post('/submit', function (req, res, next) {
@@ -21,19 +22,18 @@ app.post('/submit', function (req, res, next) {
   })
 })
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
+app.get('/newsletter', function (req, res) {
+  res.sendFile('newsletter.html', { root: 'public' })
+})
+
+app.post('/newsletter-submit', function (req, res, next) {
+  ofSubmission.process(req.body, function (result) {
+    console.log(req.body)
+    res.json(result)
+  })
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
+app.listen(3000, function () {
+  console.log('Example app listening on port 3000!')
+})
