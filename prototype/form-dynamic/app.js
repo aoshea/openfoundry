@@ -2,7 +2,7 @@ var express = require('express')
 var app = express()
 
 var ofSubmission = require('./of-submission')
-//var ofMailchimp = require('./of-mailchimp')
+var ofMailchimp = require('./of-mailchimp')
 
 var bodyParser = require('body-parser')
 
@@ -17,7 +17,6 @@ app.get('/', function (req, res) {
 
 app.post('/submit', function (req, res, next) {
   ofSubmission.process(req.body, function (result) {
-    console.log(req.body)
     res.json(result)
   })
 })
@@ -27,12 +26,11 @@ app.get('/newsletter', function (req, res) {
 })
 
 app.post('/newsletter-submit', function (req, res, next) {
-  ofSubmission.process(req.body, function (result) {
-    console.log(req.body)
+  console.log(req.body)
+  ofMailchimp.subscribe(req.body.EMAIL, function (result) {
     res.json(result)
   })
 })
-
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
