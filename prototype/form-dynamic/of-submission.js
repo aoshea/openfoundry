@@ -17,7 +17,7 @@ var transporter = nodemailer.createTransport({
 var mailOptions = {
   from: 'Open-Foundry <noreply@open-foundry.com>', // sender address
   to: 'hello@open-foundry.com', // list of receivers
-  subject: 'OF Submission', // Subject line
+  subject: 'OF Submission', // Subject line,
 }
 
 function process (formdata, cb) {
@@ -36,9 +36,9 @@ function process (formdata, cb) {
   mailOptions.html += '<b>Who made it:</b> ' + formdata.q5 + '<br>'
   mailOptions.html += '<b>Share Link:</b> ' + formdata.q6 + '<br>'
 
-  // mailOptions = {
-  //   bcc: ' + formdata.q2 + '
-  // }
+  if (validateEmail(formdata.q2)) {
+    mailOptions.bcc = formdata.q2
+  }
 
   // send mail with defined transport object
   transporter.sendMail(mailOptions, function(error, info){
@@ -49,6 +49,11 @@ function process (formdata, cb) {
 
     cb(result)
   })
+}
+
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
 }
 
 module.exports = {
