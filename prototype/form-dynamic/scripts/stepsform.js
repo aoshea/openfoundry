@@ -204,9 +204,16 @@ stepsForm.prototype._submit = function() {
 // the validation function
 stepsForm.prototype._validade = function() {
   // current question´s input
-  var input = this.questions[ this.current ].querySelector( 'input' ).value;
+  var field = this.questions[ this.current ].querySelector( 'input' )
+  var input = field.value;
+
   if( input === '' ) {
     this._showError( 'EMPTYSTR' );
+    return false;
+  }
+
+  if( field.getAttribute('type') === 'email' && !validateEmail(input) ) {
+    this._showError( 'INVALIDEMAIL' );
     return false;
   }
 
@@ -232,6 +239,11 @@ stepsForm.prototype._showError = function( err ) {
 // clears/hides the current error message
 stepsForm.prototype._clearError = function() {
   this.error.classList.remove('show');
+}
+
+function validateEmail(email) {
+  var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
 }
 
 // add to global namespace
