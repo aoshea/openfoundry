@@ -35,32 +35,35 @@ section h1 {
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.2s ease;
+  font-weight: 400;
 }
 
 .more-button:hover {
   color: rgba(255, 255, 255, 1);
-  border: 1px solid rgba(255, 255, 255, 1);
+  border-color: rgba(255, 255, 255, 1);
 }
 
 section a,
 section a:link,
 strong,
 h2 {
-  font-weight: 400;
+  font-weight: 600;
+  letter-spacing: -0.015em;
 }
 
-h2,
+/*h2,
 section {
   font-size: 18px;
 }
-
+*/
 h2 {
   margin-top: 30px;
 }
 
 section {
-  line-height: 1.6em;
-  letter-spacing: 0.025em;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.35em;
 }
 
 section a,
@@ -68,15 +71,15 @@ section a:link {
   text-decoration: none;
   color: rgba(0,0,0,1);
   padding: 0;
-  border-bottom: 1px solid rgba(0,0,0,0);
+  border-bottom: 3px solid rgba(0,0,0,0);
   transition: all 0.1s ease;
 }
 
 section a:hover {
   text-decoration: none;
   color: inherit;
-  padding: 0.15em 0;
-  border-bottom: 1px solid rgba(0,0,0,0.75);
+  padding: 0.1em 0;
+  border-color: rgba(0,0,0,1);
 }
 
 blockquote {
@@ -95,7 +98,7 @@ blockquote:after {
 
 blockquote:before {
   content: open-quote;
-  margin-left: -0.625em;
+  margin-left: -0.48em;
   margin-right: 5px;
 }
 

@@ -1,11 +1,15 @@
 .simform {
   position: relative;
-  font-size: 70px;
   top: 50%;
-  transform: translateY(-50%);
-  margin: 0 auto;
   width: 100%;
+  margin: 0 auto;
+  font-size: 70px;
   text-align: left;
+  -webkit-transform: translateY(-50%);
+     -moz-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 .simform .submit {
@@ -17,27 +21,33 @@
   padding: 0;
   list-style: none;
   position: relative;
-  -webkit-transition: height 0.4s;
-  transition: height 0.4s;
+  -webkit-transition: height .4s;
+     -moz-transition: height .4s;
+      -ms-transition: height .4s;
+       -o-transition: height .4s;
+          transition: height .4s;
 }
 
 .simform ol:before {
-  content: '';
-  border: 4px solid rgba(0,0,0,1);
   position: absolute;
+  content: '';
   left: 0;
   bottom: 0;
   width: 100%;
   height: 100px;
+  border: 4px solid rgba(0,0,0,1);
 }
 
 .questions li {
-  z-index: 100;
   position: relative;
-  visibility: hidden;
   height: 0;
-  -webkit-transition: visibility 0s 0.4s, height 0s 0.4s;
-  transition: visibility 0s 0.4s, height 0s 0.4s;
+  z-index: 100;
+  visibility: hidden;
+  -webkit-transition: visibility 0s .4s, height 0s .4s;
+     -moz-transition: visibility 0s .4s, height 0s .4s;
+      -ms-transition: visibility 0s .4s, height 0s .4s;
+       -o-transition: visibility 0s .4s, height 0s .4s;
+          transition: visibility 0s .4s, height 0s .4s;
 }
 
 .questions li.current,
@@ -45,7 +55,10 @@
   visibility: visible;
   height: auto;
   -webkit-transition: none;
-  transition: none;
+     -moz-transition: none;
+      -ms-transition: none;
+       -o-transition: none;
+          transition: none;
 }
 
 .questions li > span {
@@ -55,47 +68,65 @@
 
 .questions li > span label {
   display: block;
-  -webkit-transition: -webkit-transform 0.4s;
-  transition: transform 0.4s;
+  -webkit-transform: -webkit-transform .4s;
+     -moz-transform:    -moz-transform .4s;
+      -ms-transform:     -ms-transform .4s;
+       -o-transform:      -o-transform .4s;
+          transform:         transform .4s;
   -webkit-transform: translateY(-100%);
-  transform: translateY(-100%);
+     -moz-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+       -o-transform: translateY(-100%);
+          transform: translateY(-100%);
 }
 
 .questions li.current > span label,
 .no-js .questions li > span label {
   -webkit-transition: none;
-  transition: none;
+     -moz-transition: none;
+      -ms-transition: none;
+       -o-transition: none;
+          transition: none;
   -webkit-transform: translateY(0);
-  transform: translateY(0);
+     -moz-transform: translateY(0);
+      -ms-transform: translateY(0);
+       -o-transform: translateY(0);
+          transform: translateY(0);
 }
 
 .show-next .questions li.current > span label {
-  -webkit-animation: moveUpFromDown 0.4s both;
-  animation: moveUpFromDown 0.4s both;
+  -webkit-animation: moveUpFromDown .4s both;
+     -moz-animation: moveUpFromDown .4s both;
+      -ms-animation: moveUpFromDown .4s both;
+       -o-animation: moveUpFromDown .4s both;
+          animation: moveUpFromDown .4s both;
 }
 
 @-webkit-keyframes moveUpFromDown {
-  from { -webkit-transform: translateY(100%); }
-  to { -webkit-transform: translateY(0); }
+  from {-webkit-transform: translateY(100%);}
+  to   {-webkit-transform: translateY(0);}
 }
 
 @keyframes moveUpFromDown {
-  from { -webkit-transform: translateY(100%); transform: translateY(100%); }
-  to { -webkit-transform: translateY(0); transform: translateY(0); }
+  from {-webkit-transform: translateY(100%); transform: translateY(100%);}
+  to   {-webkit-transform: translateY(0); transform: translateY(0);}
 }
 
 /* Input field */
 .questions input {
   display: block;
-  padding: 8px 15px;
   width: calc(100% - 100px);
-  border: none;
+  padding: 8px 15px;
   background: transparent;
   color: rgba(0,0,0,1);
   line-height: 1;
   opacity: 0;
-  -webkit-transition: opacity 0.3s;
-  transition: opacity 0.3s;
+  border: none;
+  -webkit-transition: opacity .3s;
+     -moz-transition: opacity .3s;
+      -ms-transition: opacity .3s;
+       -o-transition: opacity .3s;
+          transition: opacity .3s;
 }
 
 .questions input::-webkit-input-placeholder {
@@ -115,22 +146,29 @@
 
 .next {
   position: absolute;
+  z-index: 100;
   top: 0;
   right: 0;
-  display: block;
   width: 100px;
   height: 92px;
+  display: block;
+  color: rgba(0,0,0,.5);
+  text-align: right;
   border: none;
   background: none;
-  color: rgba(0,0,0,0.5);
-  text-align: right;
   opacity: 0;
-  z-index: 100;
   cursor: pointer;
-  -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
-  transition: all .2s ease, opacity 0.3s;
   pointer-events: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+     -moz-tap-highlight-color: rgba(0, 0, 0, 0);
+      -ms-tap-highlight-color: rgba(0, 0, 0, 0);
+       -o-tap-highlight-color: rgba(0, 0, 0, 0);
+          tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-transition: all .2s ease, opacity .3s;
+     -moz-transition: all .2s ease, opacity .3s;
+      -ms-transition: all .2s ease, opacity .3s;
+       -o-transition: all .2s ease, opacity .3s;
+          transition: all .2s ease, opacity .3s;
 }
 
 .next:hover {
@@ -139,12 +177,12 @@
 
 .next::after {
   position: absolute;
+  content: "ok";
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   padding: 8px 15px 0 0;
-  content: "ok";
   text-transform: none;
   font-weight: normal;
   font-style: normal;
@@ -157,9 +195,12 @@
 
 .next.show {
   opacity: 1;
-  -webkit-transform: translateX(0);
-  transform: translateX(0);
   pointer-events: auto;
+  -webkit-transform: translateX(0);
+     -moz-transform: translateX(0);
+      -ms-transform: translateX(0);
+       -o-transform: translateX(0);
+          transform: translateX(0);
 }
 
 .simform .progress {
@@ -168,8 +209,15 @@
   width: 0%;
   height: 100px;
   -webkit-transition: width .2s ease-in-out;
-  transition: width .2s ease-in-out;
-  transform: translateY(-100%);
+     -moz-transition: width .2s ease-in-out;
+      -ms-transition: width .2s ease-in-out;
+       -o-transition: width .2s ease-in-out;
+          transition: width .2s ease-in-out;
+  -webkit-transform: translateY(-100%);
+     -moz-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+       -o-transform: translateY(-100%);
+          transform: translateY(-100%);
 }
 
 .simform .progress { 
@@ -185,36 +233,44 @@
 }
     
 .simform .progress { 
-  animation: animateLoad 8s linear infinite;
+  -webkit-animation: animateLoad 8s linear infinite;
+     -moz-animation: animateLoad 8s linear infinite;
+      -ms-animation: animateLoad 8s linear infinite;
+       -o-animation: animateLoad 8s linear infinite;
+          animation: animateLoad 8s linear infinite;
 }
 
 .simform .progress::before {
   position: absolute;
+  content: '';
   top: auto;
   width: 100%;
   height: inherit;
   background: rgba(0,0,0,0x);
-  content: '';
 }
 
 .questions input:focus .simform .progress::before {
-  transform: translateY(0%);
+  -webkit-transform: translateY(0%);
+     -moz-transform: translateY(0%);
+      -ms-transform: translateY(0%);
+       -o-transform: translateY(0%);
+          transform: translateY(0%);
 }
 
 /* Number indicator */
 .simform .number {
   position: absolute;
-  right: 0;
-  overflow: hidden;
-  margin: 5px 0;
   width: 2em;
+  right: 0;
+  margin: 5px 0;
+  overflow: hidden;
 }
 
 .simform .number,
 .simform .error-message {
-  color: rgba(0,0,0,0.5);
-  font-weight: 400;
+  color: rgba(0,0,0,.5);
   font-size: 18px;
+  font-weight: 400;
 }
 
 .simform .number:after {
@@ -222,7 +278,10 @@
   left: 50%;
   content: '/';
   -webkit-transform: translateX(-50%);
-  transform: translateX(-50%);
+     -moz-transform: translateX(-50%);
+      -ms-transform: translateX(-50%);
+       -o-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 
 .simform .number span {
@@ -240,58 +299,137 @@
 }
 
 .simform.show-next .number-current {
-  -webkit-transition: -webkit-transform .2s ease;
-  transition: transform .2s ease;
+  -webkit-transform: -webkit-transform .2s ease;
+     -moz-transform:    -moz-transform .2s ease;
+      -ms-transform:     -ms-transform .2s ease;
+       -o-transform:      -o-transform .2s ease;
+          transform:         transform .2s ease;
   -webkit-transform: translateY(-100%);
-  transform: translateY(-100%);
+     -moz-transform: translateY(-100%);
+      -ms-transform: translateY(-100%);
+       -o-transform: translateY(-100%);
+          transform: translateY(-100%);
 }
 
 .simform.show-next .number-next {
   -webkit-animation: moveUpFromDown .2s ease both;
-  animation: moveUpFromDown .2s ease both;
+     -moz-animation: moveUpFromDown .2s ease both;
+      -ms-animation: moveUpFromDown .2s ease both;
+       -o-animation: moveUpFromDown .2s ease both;
+          animation: moveUpFromDown .2s ease both;
 }
 
 /* Error and final message */
 .simform .error-message,
-.simform .final-message {
+.simform .final-message,
+.simform .loader {
   position: absolute;
   visibility: hidden;
   opacity: 0;
   -webkit-transition: opacity .2s ease;
-  transition: opacity .2s ease;
+     -moz-transition: opacity .2s ease;
+      -ms-transition: opacity .2s ease;
+       -o-transition: opacity .2s ease;
+          transition: opacity .2s ease;
 }
 
 .simform .error-message {
+  width: 100%;
   padding: 5px 0;
-  width: 100%;}
+}
 
 .final-message {
+  width: 100%;
   top: 50%;
   left: 0;
-  padding: 0.5em;
-  width: 100%;
+  padding: .5em;
   text-align: center;
   -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
+     -moz-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+       -o-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 .error-message.show,
-.final-message.show {
+.final-message.show,
+.loader.show {
   visibility: visible;
   opacity: 1;
 }
 
-.final-message.show {
-  -webkit-transition-delay: 0.5s;
-  transition-delay: 0.5s;
+.final-message.show,
+.loader.show {
+  -webkit-transition-delay: .5s;
+     -moz-transition-delay: .5s;
+      -ms-transition-delay: .5s;
+       -o-transition-delay: .5s;
+          transition-delay: .5s;
 }
+
+.loader::after {
+  content: '';
+  width: 32px;
+  height: 32px;
+  display: block;
+  background-color: black;
+  -webkit-border-radius: 32px;
+     -moz-border-radius: 32px;
+      -ms-border-radius: 32px;
+       -o-border-radius: 32px;
+          border-radius: 32px;
+  -webkit-animation: growUp .9s infinite; /* You can remove 1.5s if you don't want delay */
+     -moz-animation: growUp .9s infinite;
+      -ms-animation: growUp .9s infinite;
+       -o-animation: growUp .9s infinite;
+          animation: growUp .9s infinite;
+  -webkit-transition-property: all ease-out;
+     -moz-transition-property: all ease-out;
+      -ms-transition-property: all ease-out;
+       -o-transition-property: all ease-out;
+          transition-property: all ease-out;
+}
+
+@-webkit-keyframes growUp {   
+  0%   {-webkit-transform: scale(0); opacity: 0;}
+  50%  {opacity: .4;}
+  100% {-webkit-transform: scale(1); opacity: 0;}
+}
+
+@-moz-keyframes growUp {
+  0%   {-moz-transform: scale(0); opacity: 0;}
+  50%  {opacity: .4;}
+  100% {-moz-transform: scale(1); opacity: 0;}
+}
+
+@-o-keyframes growUp {
+  0%   {-o-transform: scale(0); opacity: 0;}
+  50%  {opacity: .4;}
+  100% {-o-transform: scale(1); opacity: 0;}
+}
+
+@-ms-keyframes growUp {
+  0%   {-ms-transform: scale(0); opacity: 0;}
+  50%  {opacity: .4;}
+  100% {-ms-transform: scale(1); opacity: 0;}
+}
+
+@keyframes growUp {
+  0%   {transform: scale(0); opacity: 0;}
+  50%  {opacity: .4;}
+  100% {transform: scale(1); opacity: 0;}
+}
+
 
 /* Final hiding of form / showing message */
 .simform-inner.hide {
   visibility: hidden;
   opacity: 0;
-  -webkit-transition: opacity 0.3s, visibility 0s 0.3s;
-  transition: opacity 0.3s, visibility 0s 0.3s;
+  -webkit-transition: opacity .3s, visibility 0s .3s;
+     -moz-transition: opacity .3s, visibility 0s .3s;
+      -ms-transition: opacity .3s, visibility 0s .3s;
+       -o-transition: opacity .3s, visibility 0s .3s;
+          transition: opacity .3s, visibility 0s .3s; 
 }
 
 /* No JS Fallback */
@@ -304,12 +442,12 @@
 }
 
 .no-js .simform .submit {
-  display: block;
   float: right;
   padding: 10px 20px;
+  display: block;
+  color: rgba(0,0,0,.4);
+  background: rgba(0,0,0,.3);
   border: none;
-  background: rgba(0,0,0,0.3);
-  color: rgba(0,0,0,0.4);
 }
 
 .no-js .simform .controls {
