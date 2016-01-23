@@ -21,6 +21,10 @@ app.post('/submit', function (req, res, next) {
   })
 })
 
+app.get('/newsletter-external', function (req, res) {
+  res.sendFile('newsletter-external.html', { root: 'public' })
+})
+
 app.get('/newsletter', function (req, res) {
   res.sendFile('newsletter.html', { root: 'public' })
 })

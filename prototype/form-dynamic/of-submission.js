@@ -8,16 +8,16 @@ var transporter = nodemailer.createTransport({
   secure: false, // use SSL
   requireTLS: true,
   auth: {
-    user: 'noreply@open-foundry.com',
+    user: 'submit@open-foundry.com',
     pass: '8WYYZpbzqg3K'
   }
 })
 
 // setup e-mail data with unicode symbols
 var mailOptions = {
-  from: 'Open-Foundry <noreply@open-foundry.com>', // sender address
-  to: 'hello@open-foundry.com', // list of receivers
-  subject: 'OF Submission', // Subject line,
+  from: 'Open-Foundry <submit@open-foundry.com>', // sender address
+  // to: 'Open-Foundry <hello@open-foundry.com>', // list of receivers
+  subject: 'Font Submission', // Subject line,
 }
 
 function process (formdata, cb) {
@@ -29,15 +29,34 @@ function process (formdata, cb) {
     'message': 'Thank you! We’ll be in touch.'
   }
 
-  mailOptions.html = '<b>Name:</b> ' + formdata.q1 + '<br>'
-  mailOptions.html += '<b>Email:</b> ' + formdata.q2 + '<br>'
-  mailOptions.html += '<b>Font Name:</b> ' + formdata.q3 + '<br>'
-  mailOptions.html += '<b>Open Source:</b> ' + formdata.q4 + '<br>'
+  mailOptions.html = '<div style="line-height: 1.2em;">'
+  mailOptions.html += '<p>Hi ' + formdata.q1 + ',</p>'
+  mailOptions.html += '<p>thanks so much for submitting ‘' + formdata.q3 + '’ to Open-Foundry.</p>'
+  mailOptions.html += '<b>Your Name:</b> ' + formdata.q1 + '<br>'
+  mailOptions.html += '<b>Font Email:</b> ' + formdata.q2 + '<br>'
+  mailOptions.html += '<b>Font Name:</b> ' + formdata.q3 + '<br>'  
+  mailOptions.html += '<b>Open-Source:</b> ' + formdata.q4 + '<br>'
   mailOptions.html += '<b>Who made it:</b> ' + formdata.q5 + '<br>'
   mailOptions.html += '<b>Share Link:</b> ' + formdata.q6 + '<br>'
+  mailOptions.html += '<p style="margin-top: 3em; color: #cccccc;">If you did not submit a font on open-foundry.com, please get in touch.</p>'
+  mailOptions.html += '</div>'
+
+  // mailOptions.html = '<b>Your Name:</b> ' + formdata.q1 + '<br>'
+  // mailOptions.html += '<b>Your Email:</b> ' + formdata.q2 + '<br>'
+  // mailOptions.html += '<b>Font Name:</b> ' + formdata.q3 + '<br>'
+  // mailOptions.html += '<b>Open-Source:</b> ' + formdata.q4 + '<br>'
+  // mailOptions.html += '<b>Who made it:</b> ' + formdata.q5 + '<br>'
+  // mailOptions.html += '<b>Share Link:</b> ' + formdata.q6 + '<br>'
+  // mailOptions.html += '<p style="margin-top:3em; color:#cccccc;">If you received this message in error and did not submit a font on <a href="http://open-foundry.com/">Open-Foundry</a>, please get in touch.</p>'
+
+  // if (validateEmail(formdata.q2)) {
+  //   mailOptions.to = formdata.q2
+  //   mailOptions.bcc += 'Open-Foundry <submit@open-foundry.com>'
+  // }
 
   if (validateEmail(formdata.q2)) {
-    mailOptions.bcc = formdata.q2
+    mailOptions.to = formdata.q2
+    mailOptions.bcc += 'Open-Foundry <submit@open-foundry.com>'
   }
 
   // send mail with defined transport object
