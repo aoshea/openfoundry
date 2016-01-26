@@ -1,5 +1,5 @@
 {
-    "name": "Cotham Sans Regular",
+    "name": "Cotham Regular",
     "creator": "Sebastien Sanfilippo",
     "creator-link": "http://www.love-letters.be/",
     "creator-twitter": "",
@@ -26,7 +26,7 @@
     },
     "info": {
         "weight": "300",
-        "style": "Sans Regular",
+        "style": "Regular",
         "classification": "Sans-Serif",
         "about": "",
         "license": "SIL Open Font License",
