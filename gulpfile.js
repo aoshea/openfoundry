@@ -254,6 +254,6 @@ gulp.task('watch', function () {
 
 // Default task `gulp`
 gulp.task('build', ['index', 'html', 'images', 'css', 'vendor-js', 'js', 'watch']);
-gulp.task('default', ['server']);
+gulp.task('default', ['build']);
 
 

@@ -68,10 +68,10 @@ export default class FontPreviewContainer extends Component {
     });
 
     // AJAX request for the real vote
-    $.get('api/fonts/' + replaceNonAlphaNumeric(font['font-name']), function (res) {
+    $.get('api/fonts/' + replaceNonAlphaNumeric(font['font-id']), function (res) {
 
-      if (res && res.fontId) {
-        let likes = parseInt(res.likes, 10);
+      if (res.doc && res.doc.fontId) {
+        let likes = parseInt(res.doc.likes, 10);
         let locked = res.locked;
 
         this.setState({
@@ -94,10 +94,11 @@ export default class FontPreviewContainer extends Component {
   onUpdateLikes(value) {
     value = value || this.state.likes + 1;
 
-    $.get('api/like/' + replaceNonAlphaNumeric(this.props.name), this.onLikeResult);
+    $.get('api/like/' + replaceNonAlphaNumeric(this.props.font['font-id']), this.onLikeResult);
 
     this.setState({
-      likes: parseInt(value, 10)
+      likes: parseInt(value, 10),
+      locked: true
     });
   }
 
@@ -151,7 +152,7 @@ export default class FontPreviewContainer extends Component {
       rankLabel += ", " + font['font-creator'];
     }
 
-    let fontClassName = "of-font-preview-text-container " + fontName;
+    let fontClassName = "of-font-preview-text-container " + fontId;
 
     let fontSize = parseInt(font['settings-font-size'], 10);
     let lineHeight = parseFloat(font['settings-line-height'], 10);

@@ -1,6 +1,5 @@
 var express  = require('express'),
     mongoose = require('mongoose'),
-    //db      = monk('localhost:27017/oftest'),
     http    = require('http'),
     app     = express(),
     reqip   = require('request-ip'),
@@ -8,12 +7,27 @@ var express  = require('express'),
     ;
 
 // Connect to database
-mongoose.connect('mongodb://localhost:27017/oftest');
+mongoose.connect('mongodb://localhost:27017/openfoundry');
+
+var fontSchema, Font;
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
   console.log('database connection');
+
+  fontSchema = mongoose.Schema({
+    fontId: String,
+    likes: Number,
+    ip: String
+  });
+
+  Font = mongoose.model('Font', fontSchema);
+  Font.find(function (err, fonts) {
+    if (err) console.error(err);
+    else console.log(fonts);
+  });
 });
 
 // set up Jade
@@ -65,70 +79,42 @@ app.get('/api/fonts/', function (req, res) {
  * Get one font by fontId eg. 'Bagnan_Regular'
  */
 app.get('/api/fonts/:fontId', function (req, res) {
-  /*
-  var collection = db.get('usercollection'),
-      requestIp = reqip.getClientIp(req);
+  var requestIp = reqip.getClientIp(req);
 
-  collection.findOne({fontId: req.params.fontId}, function (err, doc) {
-    if (err) {
-      res.status(500, {
-        error: err
-      });
-    } else {
-
-      if (doc) {
-        console.log(doc.fontId, doc.ip, doc.likes);
-
-        if (doc.ip === requestIp) {
-          doc.locked = true;
+  Font.findOne(
+    {fontId: req.params.fontId},
+    function (err, doc) {
+      if (err) {
+        res.status(500, {
+          error: err
+        });
+      } else {
+        if (doc) {
+          res.json({
+            doc: doc,
+            locked: (doc.ip === requestIp)
+          });
         } else {
-          doc.locked = false;
+          res.sendStatus(200);
         }
       }
-
-      res.json(doc);
     }
-  });
-  */
-  res.sendStatus(200);
+  );
 });
 
 app.get('/api/like/:fontId', function (req, res) {
-  /*
-  var ipadd = reqip.getClientIp(req); // on localhost > 127.0.0.1
-  var collection = db.get('usercollection');
-  var willAdd = false;
 
-  collection.findOne({
-    fontId: req.params.fontId,
-    ip: ipadd
-  },
-  function (err, doc) {
-    if (err) {
-      willAdd = true;
-    } else {
-      if (doc) {
-        willAdd = false;
-      } else {
-        willAdd = true;
-      }
+  var ipAddress = reqip.getClientIp(req);
+
+  Font.findOneAndUpdate(
+    {fontId: req.params.fontId},
+    {$inc: {likes: 1}, $set: {ip: ipAddress}},
+    {upsert: true},
+    function (err, doc) {
+      if (err) return res.send(500, { error: err });
+      return res.send("Saved");
     }
-  }).then(function () {
-
-    if (!willAdd) return;
-
-    collection.update(
-      { fontId: req.params.fontId },
-      { $inc: { likes:1 }, $set: { ip: ipadd } },
-      { upsert: true },
-      function (err, doc) {
-        if (err) res.sendStatus(404)
-        else res.sendStatus(200);
-      }
-    );
-  });
-  */
-  res.sendStatus(200);
+  );
 });
 
 /**
