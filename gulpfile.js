@@ -179,16 +179,18 @@ gulp.task('images', function () {
 });
 
 // Copy exported json and fonts over
-gulp.task('export-json', function () {
+gulp.task('export-fonts', function () {
   return gulp.src(sources.export)
     .pipe(gulp.dest(dir.build + 'public/data'));
 });
+
+// Copy exported images over
 gulp.task('export-images', function () {
   return gulp.src(sources.backgrounds)
     .pipe(gulp.dest(dir.build + 'public/data/backgrounds'));
 });
 
-gulp.task('export', ['export-json', 'export-images']);
+gulp.task('export', ['export-fonts', 'export-images']);
 
 // Clean build folder
 gulp.task('clean', function () {

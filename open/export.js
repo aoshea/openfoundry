@@ -3,14 +3,14 @@
 var fs    = require('fs'),
     path  = require('path')
     ;
-    
+
 var dirs = {
   src: __dirname + '/fonts',
   out: __dirname + '/build/',
 };
 
 /**
- * Create directory if it doesnt exist 
+ * Create directory if it doesnt exist
  */
 var mkdirSync = function (path) {
   try {
@@ -25,13 +25,13 @@ var mkdirSync = function (path) {
  */
 function copyFile(src, target, callback) {
   var isCallback, rd, wr;
-  
+
   rd = fs.createReadStream(src);
   rd.on('error', done);
   wr = fs.createWriteStream(target);
   wr.on('error', done);
   rd.pipe(wr);
-  
+
   function done(err) {
     if (!isCallback) {
       callback(err);
@@ -43,7 +43,7 @@ function copyFile(src, target, callback) {
 var output = {};
 
 function getConfig(file) {
-  return new Promise(function (resolve, reject) { 
+  return new Promise(function (resolve, reject) {
     fs.exists(file, function (exists) {
       if (!exists) {
         reject('Missing "config.json" in ' + path.basename(file) + '/');
@@ -57,22 +57,21 @@ function getConfig(file) {
         } catch(e) {
           console.warn("Error: JSON parse", e, file);
           reject(e);
-        }    
+        }
       });
     })
   });
 }
 
-function getSources(list) { 
-  
+function copyFontSources(list) {
   return list.map(function (o) {
     var n = path.basename(o), fontdir = 'fonts';
     mkdirSync(path.join(dirs.out, fontdir));
     copyFile(o, path.join(dirs.out, fontdir, n), function () {
       console.warn('Error: Copy file', o);
     });
-    return path.join(fontdir, path.basename(o));
-  });  
+    return path.join(path.basename(o));
+  });
 }
 
 function getFonts(dir) {
@@ -81,22 +80,20 @@ function getFonts(dir) {
       if (err) reject(err);
       else resolve(list);
     });
-  }).then(function (list) {    
-    return getSources(list.map(function(o) {
+  }).then(function (list) {
+    return copyFontSources(list.map(function(o) {
       return path.join(dir, o);
     }).filter(function (o) {
-      return o.match(/\.(woff|ttf|svg|eot|woff2)$/);
-    }));        
+      return o.match(/\.(otf|woff|ttf|svg|eot|woff2)$/);
+    }));
   }).catch(function (err) {
     console.warn('Error: Listing font sources', err);
   });
 }
 
 function listContents(dir) {
-  return Promise.all([
-    getConfig(path.join(dir, 'config.json')),
-    getFonts(path.join(dir, 'fonts'))
-  ]).then(function (list) {
+  return getFonts(path.join(dir, 'fonts')).then(function (list) {
+    console.log('arguments', arguments);
     return list;
   }).catch(function (err) {
     console.warn('Error: Listing contents', err.stack);
@@ -104,7 +101,7 @@ function listContents(dir) {
 }
 
 function listFonts(dir) {
-  return new Promise(function (resolve, reject) {    
+  return new Promise(function (resolve, reject) {
     fs.readdir(dir, function (err, list) {
       if (err) {
         reject(err);
@@ -115,14 +112,16 @@ function listFonts(dir) {
           var stats = fs.statSync(o);
           return !o.match(/^\./) && stats.isDirectory();
         }));
-      }      
-    });    
-  });  
+      }
+    });
+  });
 }
 
 function getFontFormat(str) {
-  var res = str.match(/\.(woff|ttf|svg|eot|woff2)$/);
+  var res = str.match(/\.(otf|woff|ttf|svg|eot|woff2)$/);
   if (res) {
+    if (res[1] === 'ttf') res[1] = 'truetype';
+    if (res[1] === 'otf') res[1] = 'opentype';
     if (res[1] === 'eot') res[1] = 'eot?';
     return res[1].toString();
   } else {
@@ -142,21 +141,28 @@ function replaceNonAlphaNumeric(str, replacement) {
   return str.replace(/[^a-z0-9\.]/gim, replacement);
 }
 
+function stripExt(str) {
+  return str.substr(0, str.lastIndexOf('.')) || str;
+}
+
 function outputCSS(result) {
   var ret = '', fontFamily;
+
   result.filter(function (o) {
-    fontFamily = o[0].name;    
-    o.filter(Array.isArray).map(function (x) {
-      ret += "@font-face {\n";
-      ret += "\tfont-family: '" + fontFamily + "';\n";
-      ret += "\tsrc: " + getFontSource(x) + ";";
-      ret += "\n}\n";
-      
-      ret += "." + replaceNonAlphaNumeric(fontFamily).toLowerCase() + " {\n";
-      ret += "\tfont-family: '" + fontFamily + "';\n";
-      ret += "}\n";
-      
-    });
+
+    if (!o[0]) return;
+
+    fontFamily = stripExt(o[0]);
+
+    ret += "@font-face {\n";
+    ret += "\tfont-family: '" + fontFamily + "';\n";
+    ret += "\tsrc: " + getFontSource(['fonts/' + o[0]]) + ";";
+    ret += "\n}\n";
+
+    ret += "." + replaceNonAlphaNumeric(fontFamily).toLowerCase() + " {\n";
+    ret += "\tfont-family: '" + fontFamily + "';\n";
+    ret += "}\n";
+
   });
   fs.writeFile(path.join(dirs.out, 'fonts.css'), ret, function (err) {
     if (err) return console.error('Error: Write file:', err);
@@ -178,5 +184,5 @@ listFonts(dirs.src).then(function (list) {
   outputJSON(result);
   outputCSS(result);
 }).catch(function (err) {
-  console.warn('END: Error...:', err);
+  console.warn('Export: Error:', err);
 });
