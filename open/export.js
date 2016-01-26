@@ -120,6 +120,8 @@ function listFonts(dir) {
 function getFontFormat(str) {
   var res = str.match(/\.(otf|woff|ttf|svg|eot|woff2)$/);
   if (res) {
+    if (res[1] === 'ttf') res[1] = 'truetype';
+    if (res[1] === 'otf') res[1] = 'opentype';
     if (res[1] === 'eot') res[1] = 'eot?';
     return res[1].toString();
   } else {
@@ -161,8 +163,6 @@ function outputCSS(result) {
     ret += "\tfont-family: '" + fontFamily + "';\n";
     ret += "}\n";
 
-    console.log(ret);
-
   });
   fs.writeFile(path.join(dirs.out, 'fonts.css'), ret, function (err) {
     if (err) return console.error('Error: Write file:', err);
@@ -181,11 +181,8 @@ function outputJSON(result) {
 listFonts(dirs.src).then(function (list) {
   return Promise.all(list.map(listContents));
 }).then(function (result) {
-
-  console.log('result', result);
-
   outputJSON(result);
   outputCSS(result);
 }).catch(function (err) {
-  console.warn('END: Error...:', err);
+  console.warn('Export: Error:', err);
 });
