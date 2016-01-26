@@ -5,13 +5,9 @@ input {
   margin: 0;
 }
 
-html {
+* {
   box-sizing: border-box;
 }
-*, *:before, *:after {
-  // box-sizing: inherit;
-}
-
 
 ul {
   margin: 0 auto;
@@ -23,6 +19,4 @@ ul {
   position: absolute;
   top: 50px;
   z-index: $zIndex-main;
-  transform: translateZ(0);
-  backface-visiblity: hidden;
 }
