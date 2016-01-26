@@ -58,24 +58,6 @@ app.get('/open/:id', function (req, res) {
 
 /**
  * API
- * Get all fonts
- */
-app.get('/api/fonts/', function (req, res) {
-  /*
-  db.get('usercollection').find({}, function (err, doc) {
-    if (err) {
-      res.status(500, {
-        error: err
-      });
-    } else {
-      res.json(doc);
-    }
-  });
-  */
-});
-
-/**
- * API
  * Get one font by fontId eg. 'Bagnan_Regular'
  */
 app.get('/api/fonts/:fontId', function (req, res) {
@@ -102,6 +84,10 @@ app.get('/api/fonts/:fontId', function (req, res) {
   );
 });
 
+/**
+ * API : Like font
+ * Increment like count for font with fontId
+ */
 app.get('/api/like/:fontId', function (req, res) {
 
   var ipAddress = reqip.getClientIp(req);

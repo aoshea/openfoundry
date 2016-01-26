@@ -8,7 +8,7 @@ import FontList from './components/font-list/font-list.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
 
-let data = window.siteJSON;
+var cache = {};
 
 class App extends Component {
   render() {
@@ -99,12 +99,17 @@ class Open extends Component {
       key: 'https://docs.google.com/spreadsheets/d/155IMLrVayr863mCW9C7dwc-gqiMmRG59UdwoBqnoDFw/pubhtml',
       // Set callback to resolve data
       callback: function (data, Tabletop) {
+        cache.sheet = data;
         defer.resolve([data, Tabletop]);
       }
     };
 
-    // Request data
-    Tabletop.init(options);
+    if (cache.sheet) {
+      defer.resolve([cache.sheet]);
+    } else {
+      // Request data
+      Tabletop.init(options);
+    }
 
     promise.then(this.setFonts);
   }
@@ -140,13 +145,57 @@ Open.contextTypes = {
 
 class Specimen extends Component {
 
+  constructor() {
+    super();
+
+    this.setFonts = this.setFonts.bind(this);
+
+    this.state = {
+      fonts: []
+    };
+  }
+
+  setFonts(res) {
+    let data = res[0];
+    let fonts = data.Sheet1.all();
+
+    this.setState({
+      fonts: fonts
+    });
+  }
+
+  componentDidMount() {
+    let defer, promise, options;
+
+    defer = $.Deferred();
+    promise = defer.promise();
+
+    options = {
+      // Set Google Sheets key for Tabletop.js
+      key: 'https://docs.google.com/spreadsheets/d/155IMLrVayr863mCW9C7dwc-gqiMmRG59UdwoBqnoDFw/pubhtml',
+      // Set callback to resolve data
+      callback: function (data, Tabletop) {
+        cache.sheet = data;
+        defer.resolve([data, Tabletop]);
+      }
+    };
+
+    if (cache.sheet) {
+      defer.resolve([cache.sheet]);
+    } else {
+      // Request data
+      Tabletop.init(options);
+    }
+
+    promise.then(this.setFonts);
+  }
+
   render() {
     let { fontId } = this.props.params;
 
-    // get font data from json
-    let matches = data.filter(function (font) {
-      let f = font[0];
-      return replaceNonAlphaNumeric(f.name).toLowerCase() === fontId;
+    let matches = this.state.fonts.filter(function (font) {
+      let id = font['font-id'];
+      return replaceNonAlphaNumeric(id).toLowerCase() === fontId;
     });
     let match = matches[0] ? matches[0][0] : null;
 
