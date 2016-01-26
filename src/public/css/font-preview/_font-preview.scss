@@ -70,6 +70,13 @@
   padding-right: 50px;
 }
 
+.of-font-preview-container.white-noimage + .of-font-preview-container.white-noimage {
+  border-top: 1px solid $trans-black-10;
+}
+.of-font-preview-container.black-image + .of-font-preview-container.black-image {
+  border-top: 1px solid $trans-white-10;
+}
+
 .of-font-preview-container.black-image {
   background-color: $semi-black;
   font-weight: lighter;

@@ -188,7 +188,7 @@ export default class FontPreviewContainer extends Component {
       backgroundImage: backgroundState === 2 ? "url(data/backgrounds/of-backdrop-00" + this.state.backgroundNum + ".jpg)" : "none"
     };
 
-    let backgroundClassName = backgroundState === 0 ? "of-font-preview-container" : "of-font-preview-container black-image";
+    let backgroundClassName = backgroundState === 0 ? "of-font-preview-container white-noimage" : "of-font-preview-container black-image";
 
     return (
       <div className={backgroundClassName} style={backgroundStyle}>
