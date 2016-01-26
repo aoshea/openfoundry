@@ -2,16 +2,17 @@ import { Router, Route, Link } from 'react-router'
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { replaceNonAlphaNumeric } from './util/util.js';
-import createBrowserHistory from 'history/lib/createBrowserHistory'
+import { hashHistory } from 'react-router'
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
+import $ from 'jquery';
+import Tabletop from 'tabletop';
 
-let history = createBrowserHistory();
 let data = window.siteJSON;
 
 class App extends Component {
   render() {
-    return (      
+    return (
       <div>
         <header className="of-navbar">
         	<nav>
@@ -39,8 +40,8 @@ class App extends Component {
         					</span>
         				</Link>
         			</li>
-			
-        		</ul>	
+
+        		</ul>
         		<ul className="menu-list">
         			<li><a href="#" className="active">Open 30</a></li>
         			<li><a href="#">Newcomer</a></li>
@@ -57,7 +58,7 @@ class App extends Component {
         		</ul>
         	</nav>
         </header>
-      
+
         <div className="of-main">
           {this.props.children}
         </div>
@@ -70,33 +71,63 @@ class Open extends Component {
 
   constructor() {
     super();
-    
+
+    this.setFonts = this.setFonts.bind(this);
+
     this.state = {
-      isSpecimen: false
+      isSpecimen: false,
+      fonts: []
     };
   }
-  
-  componentDidUpdate() {    
-    let { location } = this.context;
+
+  setFonts(res) {
+    let data = res[0];
+    let fonts = data.Sheet1.all();
+
+    this.setState({
+      fonts: fonts
+    });
+  }
+
+  componentDidMount() {
+    let defer, promise, options;
+
+    defer = $.Deferred();
+    promise = defer.promise();
+    options = {
+      // Set Google Sheets key for Tabletop.js
+      key: 'https://docs.google.com/spreadsheets/d/155IMLrVayr863mCW9C7dwc-gqiMmRG59UdwoBqnoDFw/pubhtml',
+      // Set callback to resolve data
+      callback: function (data, Tabletop) {
+        defer.resolve([data, Tabletop]);
+      }
+    };
+
+    // Request data
+    Tabletop.init(options);
+
+    promise.then(this.setFonts);
+  }
+
+  componentDidUpdate() {
+    let { location } = this.props;
     let { isSpecimen} = this.state;
-    
+
     let pathName = location.pathname;
-    
+
     if (isSpecimen) {
       if (pathName === '/open') this.setState({ isSpecimen: false });
     } else {
       if (pathName !== '/open') this.setState({ isSpecimen: true });
     }
-    
-    console.log('didUpdate: isSpecimen:', this.state.isSpecimen);
   }
-  
+
   render() {
     let { isSpecimen } = this.state;
-    
+
     return (
       <div>
-        <FontList fixed={isSpecimen} fonts={data} />
+        <FontList fixed={isSpecimen} fonts={this.state.fonts} />
        {this.props.children}
       </div>
     )
@@ -108,27 +139,27 @@ Open.contextTypes = {
 };
 
 class Specimen extends Component {
-    
+
   render() {
-    let { fontId } = this.props.params;     
-    
-    // get font data from json 
+    let { fontId } = this.props.params;
+
+    // get font data from json
     let matches = data.filter(function (font) {
       let f = font[0];
       return replaceNonAlphaNumeric(f.name).toLowerCase() === fontId;
     });
     let match = matches[0] ? matches[0][0] : null;
-    
-    return <FontSpecimen font={match} fontId={fontId} />      
+
+    return <FontSpecimen font={match} fontId={fontId} />
   }
 }
 
 render((
-  <Router history={history}>
+  <Router history={hashHistory}>
     <Route path="/" component={App}>
       <Route path="open" component={Open}>
         <Route path=":fontId" component={Specimen} />
-      </Route>  
+      </Route>
     </Route>
   </Router>
 ),
