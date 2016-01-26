@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 export default class FontBackgroundToggle extends Component {
-  
+
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
@@ -9,19 +9,19 @@ export default class FontBackgroundToggle extends Component {
       image: 0
     };
   }
-  
+
   componentDidMount() {
     let { background } = this.props;
     this.setState({
       image: background
     });
-    
+
   }
-  
+
   handleClick(e) {
     let { onUpdate, onUpdateColour } = this.props;
     let bg = this.props.background;
-    
+
     let currentImageState = ++bg % 3;
 
     let colour = "#000000";
@@ -31,24 +31,24 @@ export default class FontBackgroundToggle extends Component {
     onUpdate && onUpdate(currentImageState);
     onUpdateColour && onUpdateColour(colour);
   }
-  
+
   render() {
-        
+
     let size = 32;
     let viewBox = [0, 0, size, size].join(' ');
     let imageStyle = {
       display: this.props.background < 2 ? "none" : "block"
     };
     let imageFirstStyle = {
-      display: this.props.background > 1 ? "none": "block",
+      display: this.props.background > 1 ? "none" : "block",
       stroke: this.props.background === 0 ? "black" : "white"
     };
-    
+
     return (
       <svg onClick={this.handleClick} xmlns="http://www.w3.org/svg/2000"
         viewBox={viewBox}>
         <g id="of-font-toggle-no-image" style={imageFirstStyle} fill="none" >
-	        <circle cx="16" cy="12.8" r="5.5"/>
+          <circle cx="16" cy="12.8" r="5.5"/>
           <circle cx="12" cy="19.2" r="5.5"/>
           <circle cx="20" cy="19.2" r="5.5"/>
         </g>

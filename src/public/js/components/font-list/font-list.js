@@ -3,38 +3,38 @@ import FontPreviewContainer from '../../components/font-preview-container/font-p
 import FontSpecimen from '../../components/font-specimen/font-specimen.js';
 import classNames from 'classnames';
 
-export default class FontList extends Component {  
-  
+export default class FontList extends Component {
+
   constructor() {
-    super() 
-    
+    super()
+
     this.state = {
       specimen: false
     };
   }
-  
+
   componentDidMount() {
     this.setState({
       specimen: false
     });
   }
-    
+
   render() {
-    
-    let fontListClassNames = classNames({
-      'of-font-list': true,
-      'is-fixed': this.props.fixed,      
-    });
-    
-    let fonts = this.props.fonts.map((font, i) => {      
-      let config  = font[0], 
-          sources = font[1];     
+
+    let fonts = this.props.fonts.map((font, i) => {
       return (
-        <FontPreviewContainer rank={i+1} key={i} name={config.name} creator={config.creator} votes={config.votes} settings={config.settings} />
-        
+        <FontPreviewContainer
+          rank={ i + 1 }
+          key={i}
+          font={font} />
       )
     });
-    
+
+    let fontListClassNames = classNames({
+      'of-font-list': true,
+      'is-fixed': this.props.fixed
+    });
+
     return (
       <div className={fontListClassNames}>
         {fonts}
