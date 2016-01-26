@@ -37,8 +37,6 @@ export default class FontPreviewContainer extends Component {
 
     let { font } = this.props;
 
-    console.log('comonentDidMount', font['font-name']);
-
     let fontSize = parseInt(font['settings-font-size'], 10);
     let lineHeight = parseFloat(font['settings-line-height'], 10);
     let letterSpacing = parseFloat(font['settings-letter-spacing'], 10);
@@ -51,7 +49,7 @@ export default class FontPreviewContainer extends Component {
     if (backgroundState === 'image') {
       // If image, set random background image index with backgroundNum
       background = 2;
-      backgroundNum = ( parseInt(Math.random()*9, 10)+1 );
+      backgroundNum = (parseInt(Math.random() * 9, 10) + 1);
     } else if (backgroundState === 'black') {
       background = 1;
     } else {
@@ -70,7 +68,7 @@ export default class FontPreviewContainer extends Component {
     });
 
     // AJAX request for the real vote
-    $.get('api/fonts/' + replaceNonAlphaNumeric(font['font-name']), function(res) {
+    $.get('api/fonts/' + replaceNonAlphaNumeric(font['font-name']), function (res) {
 
       if (res && res.fontId) {
         let likes = parseInt(res.likes, 10);
@@ -130,7 +128,7 @@ export default class FontPreviewContainer extends Component {
   onUpdateBackground(value) {
     this.setState({
       background: value,
-      backgroundNum: ( parseInt(Math.random()*9, 10)+1 )
+      backgroundNum: (parseInt(Math.random() * 9, 10) + 1)
     });
   }
 
@@ -154,7 +152,6 @@ export default class FontPreviewContainer extends Component {
 
     let fontClassName = "of-font-preview-text-container " + fontName;
 
-
     let fontSize = parseInt(font['settings-font-size'], 10);
     let lineHeight = parseFloat(font['settings-line-height'], 10);
     let letterSpacing = parseFloat(font['settings-letter-spacing'], 10);
@@ -176,17 +173,17 @@ export default class FontPreviewContainer extends Component {
     let textTransform = this.state.uppercase ? "uppercase" : "none";
 
     let fontStyle = {
-      "fontSize" : `${this.state.size}px`,
-      "letterSpacing": `${this.state.letterSpacing}em`,
-      "lineHeight": `${this.state.lineHeight}em`,
-      "color": `${this.state.color}`,
-      "textTransform": textTransform
+      fontSize: `${this.state.size}px`,
+      letterSpacing: `${this.state.letterSpacing}em`,
+      lineHeight: `${this.state.lineHeight}em`,
+      color: `${this.state.color}`,
+      textTransform : textTransform
     };
 
     let backgroundState = this.state.background;
 
     let backgroundStyle = {
-      "backgroundImage": backgroundState === 2 ? "url(data/backgrounds/of-backdrop-00" + this.state.backgroundNum + ".jpg)" : "none"
+      backgroundImage: backgroundState === 2 ? "url(data/backgrounds/of-backdrop-00" + this.state.backgroundNum + ".jpg)" : "none"
     };
 
     let backgroundClassName = backgroundState === 0 ? "of-font-preview-container" : "of-font-preview-container black-image";

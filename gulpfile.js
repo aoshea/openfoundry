@@ -103,8 +103,24 @@ gulp.task('vendor-js', function () {
     .pipe(gulp.dest(dir.build + 'public/js'));
 });
 
+/**
+ * Process javascript
+ * Lint with `gulp-eslint`
+ * @usage `gulp lint`
+ */
+gulp.task('lint', function () {
+
+  return gulp.src(sources.js)
+    .pipe(eslint())
+    .pipe(eslint.format())
+    // To have the process exit with an error code (1) on
+    // lint error, return the stream and pipe to failAfterError last.
+    .pipe(eslint.failAfterError())
+    .on('error', onError);
+});
+
 // Browserify & babelify & uglify
-gulp.task('js', function () {
+gulp.task('js', ['lint'], function () {
 
   var b = browserify({
     entries: sources.app,

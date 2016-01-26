@@ -22,10 +22,9 @@ export default class FontList extends Component {
   render() {
 
     let fonts = this.props.fonts.map((font, i) => {
-      console.log(font['font-name'], i);
       return (
         <FontPreviewContainer
-          rank={i+1}
+          rank={ i + 1 }
           key={i}
           font={font} />
       )
@@ -33,7 +32,7 @@ export default class FontList extends Component {
 
     let fontListClassNames = classNames({
       'of-font-list': true,
-      'is-fixed': this.props.fixed,
+      'is-fixed': this.props.fixed
     });
 
     return (

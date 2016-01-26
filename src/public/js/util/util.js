@@ -4,11 +4,11 @@ export function replaceNonAlphaNumeric(str, replacement) {
 }
 
 export function capitalize(str) {
-	return str.charAt(0).toUpperCase() + str.substr(1);
+  return str.charAt(0).toUpperCase() + str.substr(1);
 }
 
 export function maxmin(pos, min, max) {
-	if (pos < min) { return min; }
-	if (pos > max) { return max; }
-	return pos;
+  if (pos < min) { return min; }
+  if (pos > max) { return max; }
+  return pos;
 }

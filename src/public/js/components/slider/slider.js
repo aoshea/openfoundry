@@ -7,18 +7,18 @@ const constants = {
     horizontal: {
       dimension: 'width',
       direction: 'left',
-      coordinate: 'x',
+      coordinate: 'x'
     },
     vertical: {
       dimension: 'height',
       direction: 'top',
-      coordinate: 'y',
+      coordinate: 'y'
     }
   }
 };
 
 export default class Slider extends Component {
-  
+
   constructor() {
     super();
     this.handleDrag = this.handleDrag.bind(this);
@@ -29,7 +29,7 @@ export default class Slider extends Component {
     this.coordinates = this.coordinates.bind(this);
     this.getPositionFromValue = this.getPositionFromValue.bind(this);
     this.getValueFromPosition = this.getValueFromPosition.bind(this);
-    
+
     this.state = {
       limit: 0,
       grab: 0
@@ -38,15 +38,15 @@ export default class Slider extends Component {
 
   componentDidMount() {
     let { orientation } = this.props;
-  	let dimension = capitalize(constants.orientation[orientation].dimension);
-  	const sliderPos = findDOMNode(this.refs.slider)['offset' + dimension];
-  	const handlePos = findDOMNode(this.refs.handle)['offset' + dimension]
-  	this.setState({
-  		limit: sliderPos - handlePos,
-  		grab: handlePos / 2,
-  	});
+    let dimension = capitalize(constants.orientation[orientation].dimension);
+    const sliderPos = findDOMNode(this.refs.slider)['offset' + dimension];
+    const handlePos = findDOMNode(this.refs.handle)['offset' + dimension]
+    this.setState({
+      limit: sliderPos - handlePos,
+      grab: handlePos / 2
+    });
   }
-  
+
   handleTrackDown(e) {
     let value, { onChange } = this.props;
     if (!onChange) return;
@@ -54,7 +54,7 @@ export default class Slider extends Component {
     value = this.position(e);
     onChange && onChange(value);
   }
-  
+
   getPositionFromValue(value) {
     let percentage, pos;
     let { limit } = this.state;
@@ -78,7 +78,7 @@ export default class Slider extends Component {
     }
     return value;
   }
-  
+
   position(e) {
     let pos, value, { grab } = this.state;
     let { orientation } = this.props;
@@ -93,37 +93,37 @@ export default class Slider extends Component {
 
     return value;
   }
-  
+
   handleDrag(e) {
     let value, { onChange } = this.props;
     if (!onChange) return;
     value = this.position(e);
     onChange && onChange(value);
   }
-  
+
   handleDragEnd(e) {
     document.removeEventListener('mousemove', this.handleDrag);
     document.removeEventListener('mouseup', this.handleDragEnd);
   }
-  
+
   handleKnobDown(e) {
     document.addEventListener('mousemove', this.handleDrag);
-  	document.addEventListener('mouseup', this.handleDragEnd);
+    document.addEventListener('mouseup', this.handleDragEnd);
   }
-  
+
   noop(e) {
     e.stopPropagation();
     e.preventDefault();
   }
-  
-  coordinates (pos) {
+
+  coordinates(pos) {
     let value, fillPos, handlePos;
     let { limit, grab } = this.state;
     let { orientation } = this.props;
 
     value = this.getValueFromPosition(pos);
     handlePos = this.getPositionFromValue(value);
-    
+
     if (orientation === 'horizontal') {
       fillPos = handlePos + grab;
     } else {
@@ -132,38 +132,38 @@ export default class Slider extends Component {
 
     return {
       fill: fillPos,
-      handle: handlePos,
+      handle: handlePos
     };
   }
-  
+
   render() {
     let dimension, direction, position, coords, fillStyle, handleStyle;
-  	let { value, orientation, className, label } = this.props;
-    
+    let { value, orientation, className, label } = this.props;
+
     let labelValue = value;
-    
+
     if (label === "leading") {
-      labelValue = value.toFixed(2);      
+      labelValue = value.toFixed(2);
     } else if (label === "kerning") {
       labelValue = value.toFixed(3);
     }
-    
+
     let labelStr = label + " " + labelValue;
-    
-  	dimension = constants.orientation[orientation].dimension;
-  	direction = constants.orientation[orientation].direction;
 
-  	position = this.getPositionFromValue(value);
-  	coords = this.coordinates(position);
+    dimension = constants.orientation[orientation].dimension;
+    direction = constants.orientation[orientation].direction;
 
-  	fillStyle = {[dimension]: `${coords.fill}px`};
-  	handleStyle = {[direction]: `${coords.handle}px`};
-        
+    position = this.getPositionFromValue(value);
+    coords = this.coordinates(position);
+
+    fillStyle = {[dimension]: `${coords.fill}px`};
+    handleStyle = {[direction]: `${coords.handle}px`};
+
     return <div ref="slider" className="of-font-slider">
     <span className="of-font-slider-track"></span>
     <span ref="fill" onClick={this.noop} onMouseDown={this.handleTrackDown} style={fillStyle} className="of-font-slider-fill"></span>
     <span ref="handle" onClick={this.noop} onMouseDown={this.handleKnobDown} style={handleStyle} className="of-font-slider-handle"><span ref="label" className="of-font-slider-label">{labelStr}</span></span>
-    
+
     </div>
   }
 }
@@ -174,7 +174,6 @@ Slider.propTypes = {
   value: PropTypes.number,
   label: PropTypes.string,
   orientation: PropTypes.string,
-  onChange: PropTypes.func,
   onChange: PropTypes.func
 };
 Slider.defaultProps = {
