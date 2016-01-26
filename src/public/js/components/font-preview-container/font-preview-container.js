@@ -142,6 +142,7 @@ export default class FontPreviewContainer extends Component {
 
     let { font } = this.props;
 
+    let fontId = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
     let fontName = replaceNonAlphaNumeric(font['font-name']).toLowerCase();
     let rankPadded = ("0" + this.props.rank).slice(-2);
 
