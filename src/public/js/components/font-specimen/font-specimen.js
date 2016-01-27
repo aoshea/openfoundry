@@ -17,6 +17,11 @@ export default class FontSpecimen extends Component {
     onCompleteScroll && onCompleteScroll();
   }
 
+  componentDidUpdate() {
+    console.log('font specimen componentDidUpdate');
+    console.log(this.props);
+  }
+
   componentDidMount() {
 
     var inner = $('.of-font-specimen');
@@ -43,6 +48,7 @@ export default class FontSpecimen extends Component {
   render() {
 
     let { font } = this.props;
+
     let creator;
     let creatorLink;
 
@@ -53,6 +59,7 @@ export default class FontSpecimen extends Component {
     let foundBy;
     let foundByLink;
 
+    let specimenClassName;
     if (font) {
       creator = font['font-creator'];
       creatorLink = font['font-creator-link'];
@@ -61,6 +68,8 @@ export default class FontSpecimen extends Component {
 
       foundry = font['font-foundry'];
       foundBy = font['info-discoverer'];
+
+      specimenClassName = 'of-font-specimen-image specimen-' + font['font-id'];
     }
 
     return (
@@ -68,9 +77,7 @@ export default class FontSpecimen extends Component {
         <div className="of-font-specimen">
           <div className="of-font-specimen-spacer-top"></div>
 
-          <div className="of-font-specimen-svg">
-            <img src="/img/specimen-bagnard-regular.svg" />
-          </div>
+          { specimenClassName && <div className={specimenClassName}></div> }
 
           <div className="of-font-specimen-content">
             <h3>Specimen Artwork by</h3>

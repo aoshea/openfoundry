@@ -205,9 +205,15 @@ class Specimen extends Component {
 
     let matches = this.state.fonts.filter(function (font) {
       let id = font['font-id'];
+
+      console.log(id, fontId, font);
+
       return replaceNonAlphaNumeric(id).toLowerCase() === fontId;
     });
-    let match = matches[0] ? matches[0][0] : null;
+
+    console.log('matches', matches);
+
+    let match = matches.length ? matches[0] : null;
 
     return <FontSpecimen onCompleteScroll={this.onComplete} font={match} fontId={fontId} />
   }

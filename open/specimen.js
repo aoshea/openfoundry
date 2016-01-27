@@ -9,6 +9,12 @@ var dirs = {
   out: __dirname + '/build/',
 };
 
+function replaceNonAlphaNumeric(str, replacement) {
+  if (replacement === undefined || replacement === null) replacement = '_';
+  return str.replace(/[^a-z0-9\.]/gim, replacement);
+}
+
+
 /**
  * Create directory if it doesnt exist
  */
@@ -40,25 +46,9 @@ function copyFile(src, target, callback) {
   }
 }
 
-/*
-function getFonts(dir) {
-  return new Promise(function (resolve, reject) {
-    fs.readdir(dir, function (err, list) {
-      if (err) reject(err);
-      else resolve(list);
-    });
-  }).then(function (list) {
-    return copyFontSources(list.map(function(o) {
-      return path.join(dir, o);
-    }).filter(function (o) {
-      return o.match(/\.(otf|woff|ttf|svg|eot|woff2)$/);
-    }));
-  }).catch(function (err) {
-    console.warn('Error: Listing font sources', err);
-  });
-}
-*/
-
+/**
+ * Copy specimen images to build folder
+ */
 function copySpecimens(list) {
   var targetDir = 'specimens';
 
@@ -77,8 +67,12 @@ function copySpecimens(list) {
   });
 }
 
+/**
+ * List contents of font folder
+ */
 function listContents(obj) {
 
+  var id = obj.id;
   var dir = obj.path;
 
   return new Promise(function (resolve, reject) {
@@ -91,12 +85,22 @@ function listContents(obj) {
       }));
     });
   }).then(function (list) {
+
     // Copy to build
-    return copySpecimens(list.map(function (o) {
+    copySpecimens(list.map(function (o) {
       return path.join(dir, o);
     })).filter(function (o) {
       return o.match(/\.(jpg|png|gif|svg)$/);
     });
+
+    // Return with id
+    return list.map(function (o) {
+      return {
+        id: id,
+        value: o
+      };
+    });
+
   }).catch(function (err) {
     console.error('Error: Listing specimens', err);
   });
@@ -110,16 +114,10 @@ function listFontSpecimens(dir) {
       } else {
         resolve(list.map(function (o) {
           return {
-            path: path.join(dir, o)
-          };
-          /*
-          return {
             id: o,
             path: path.join(dir, o)
           };
-          */
         }).filter(function (o) {
-          // return o.match(/\.(jpg|png|gif|svg)$/);
           var stats = fs.statSync(o.path);
           return !o.path.match(/^\./) && stats.isDirectory();
         }));
@@ -128,10 +126,29 @@ function listFontSpecimens(dir) {
   });
 }
 
+function outputCSS(result) {
+
+  var ret = '';
+
+  result.map(function (o) {
+
+    var specimen = o[0];
+
+    var className = 'specimen-' + replaceNonAlphaNumeric(specimen.id).toLowerCase();
+    var imageUrl = 'specimens/' + specimen.value;
+
+    ret += "." + className + ' { ' + "background-image: url(" + imageUrl + "); } \n";
+  });
+
+  fs.writeFile(path.join(dirs.out, 'specimen.css'), ret, function (err) {
+    if (err) return console.error('Error: Write CSS file: ' + err);
+    else return console.log('Write specimen CSS complete');
+  });
+}
+
 listFontSpecimens(dirs.src).then(function (res) {
-
   return Promise.all(res.map(listContents));
-
 }).then(function (res) {
-  console.log('res', res);
+  console.log(res);
+  outputCSS(res);
 });

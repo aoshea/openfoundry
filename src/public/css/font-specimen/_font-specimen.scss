@@ -13,11 +13,11 @@
   width: 100vw;
   background: $trans-black-50;
 
-  .of-font-specimen-svg {
-    img {
-      width: 100%;
-      height: auto;
-    }
+  .of-font-specimen-image {
+    background-size: cover;
+    background-position: center;
+    width: 100vw;
+    height: 200vh;
   }
 
   .of-font-specimen-spacer-top {
