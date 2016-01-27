@@ -165,7 +165,7 @@ export default class FontPreviewContainer extends Component {
     let maxLineHeight = 2;
     let minLineHeight = 0.5;
 
-    let minLetterSpacing = 0;
+    let minLetterSpacing = parseFloat(font['settings-letter-spacing-min'], 10);
     let maxLetterSpacing = 1;
 
     let stepFontSize = 1;

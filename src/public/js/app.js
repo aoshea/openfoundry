@@ -205,13 +205,8 @@ class Specimen extends Component {
 
     let matches = this.state.fonts.filter(function (font) {
       let id = font['font-id'];
-
-      console.log(id, fontId, font);
-
       return replaceNonAlphaNumeric(id).toLowerCase() === fontId;
     });
-
-    console.log('matches', matches);
 
     let match = matches.length ? matches[0] : null;
 
