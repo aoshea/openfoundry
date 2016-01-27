@@ -199,6 +199,9 @@ export default class FontPreviewContainer extends Component {
       backgroundImage: backgroundState === 2 ? "url(data/backgrounds/of-backdrop-00" + this.state.backgroundNum + ".jpg)" : "none"
     };
 
+    let letterSpacingDigits = 3;
+    let leadingDigits = 2;
+
     let backgroundClassName = backgroundState === 0 ? "of-font-preview-container white-noimage" : "of-font-preview-container black-image";
 
     return (
@@ -217,6 +220,7 @@ export default class FontPreviewContainer extends Component {
               <FontSlider
                 label="leading"
                 initial={lineHeight}
+                fixed={leadingDigits}
                 min={minLineHeight}
                 max={maxLineHeight}
                 step={stepLineHeight}
@@ -225,6 +229,7 @@ export default class FontPreviewContainer extends Component {
               <FontSlider
                 label="kerning"
                 initial={letterSpacing}
+                fixed={letterSpacingDigits}
                 min={minLetterSpacing}
                 max={maxLetterSpacing}
                 step={stepLetterSpacing}
