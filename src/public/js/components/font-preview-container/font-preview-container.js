@@ -46,6 +46,8 @@ export default class FontPreviewContainer extends Component {
     let background = 0;
     let backgroundNum = 0;
 
+    let uppercase = font['settings-text-transform'] === 'uppercase';
+
     if (backgroundState === 'image') {
       // If image, set random background image index with backgroundNum
       background = 2;
@@ -64,7 +66,8 @@ export default class FontPreviewContainer extends Component {
       color: color,
       background: background,
       backgroundNum: backgroundNum,
-      locked: false
+      locked: false,
+      uppercase: uppercase
     });
 
     // AJAX request for the real vote
