@@ -179,33 +179,29 @@ gulp.task('images', function () {
 });
 
 
-gulp.task('build-specimens', function (cb) {
-  exec('node open/specimen.js', function (err, stdout, stderr) {
+gulp.task('build-export', function (cb) {
+  exec('node open/export.js && node open/specimen.js', function (err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
     if (err) cb(err);
   });
 });
-gulp.task('build-fonts', function (cb) {
-  exec('node open/export.js', function (err, stdout, stderr) {
-    console.log(stdout);
-    console.log(stderr);
-    if (err) cb(err);
-  });
-});
+
 // Copy exported json and fonts over
-gulp.task('export-fonts', ['build-specimens', 'build-fonts'], function () {
+gulp.task('copy-fonts', function () {
   return gulp.src(sources.export)
     .pipe(gulp.dest(dir.build + 'public/data'));
 });
 
 // Copy exported images over
-gulp.task('export-images', function () {
+gulp.task('copy-images', function () {
   return gulp.src(sources.backgrounds)
     .pipe(gulp.dest(dir.build + 'public/data/backgrounds'));
 });
 
-gulp.task('export', ['export-fonts', 'export-images']);
+gulp.task('copy', ['copy-fonts', 'copy-images']);
+
+gulp.task('export', ['build-export']);
 
 // Clean build folder
 gulp.task('clean', function () {

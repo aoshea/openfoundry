@@ -1,7 +1,8 @@
 'use strict';
 
-var fs    = require('fs'),
-    path  = require('path')
+var sizeOf = require('image-size'),
+    fs     = require('fs'),
+    path   = require('path')
     ;
 
 var dirs = {
@@ -54,16 +55,29 @@ function copySpecimens(list) {
 
   return list.map(function (o) {
 
-    var base = path.basename(o);
+    var p = o.path;
+
+    var base = path.basename(p);
 
     // Create directory if not exist
     mkdirSync(path.join(dirs.out, targetDir));
 
     // Copy file to target dir
-    copyFile(o, path.join(dirs.out, targetDir, base), function () {
+    copyFile(p, path.join(dirs.out, targetDir, base), function () {
       console.log('copy callback');
     });
-    return path.join(base);
+
+    var dim = sizeOf(p);
+
+    console.log(dim.width, dim.height);
+
+    return {
+      id: o.id,
+      path: path.basename(p),
+      width: dim.width,
+      height: dim.height,
+      value: o.value
+    };
   });
 }
 
@@ -86,20 +100,19 @@ function listContents(obj) {
     });
   }).then(function (list) {
 
-    // Copy to build
-    copySpecimens(list.map(function (o) {
-      return path.join(dir, o);
+    // Copy to build and get dimensions
+    var ret = copySpecimens(list.map(function (o) {
+      return {
+        id: id,
+        path: path.join(dir, o),
+        value: o
+      };
     })).filter(function (o) {
-      return o.match(/\.(jpg|png|gif|svg)$/);
+      return o.path.match(/\.(jpg|png|gif|svg)$/);
     });
 
     // Return with id
-    return list.map(function (o) {
-      return {
-        id: id,
-        value: o
-      };
-    });
+    return ret;
 
   }).catch(function (err) {
     console.error('Error: Listing specimens', err);
@@ -133,11 +146,16 @@ function outputCSS(result) {
   result.map(function (o) {
 
     var specimen = o[0];
+    var id = replaceNonAlphaNumeric(specimen.id).toLowerCase();
 
-    var className = 'specimen-' + replaceNonAlphaNumeric(specimen.id).toLowerCase();
+    var className = 'specimen-' + id;
     var imageUrl = 'specimens/' + specimen.value;
 
+    var ratio = ((specimen.height / specimen.width) * 100) + '%';
+    var ratioClassName = 'ratio-' + id;
+
     ret += "." + className + ' { ' + "background-image: url(" + imageUrl + "); } \n";
+    ret += "." + ratioClassName + " { padding-bottom: " + ratio + " }\n";
   });
 
   fs.writeFile(path.join(dirs.out, 'specimen.css'), ret, function (err) {
@@ -149,5 +167,6 @@ function outputCSS(result) {
 listFontSpecimens(dirs.src).then(function (res) {
   return Promise.all(res.map(listContents));
 }).then(function (res) {
+  console.log(res);
   outputCSS(res);
 });

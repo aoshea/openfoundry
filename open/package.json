@@ -1,0 +1,17 @@
+{
+  "name": "open",
+  "version": "1.0.0",
+  "description": "",
+  "main": "daily.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "image-size": "^0.4.0"
+  },
+  "dependencies": {
+    "image-size": "^0.4.0"
+  }
+}
