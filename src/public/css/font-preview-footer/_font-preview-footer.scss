@@ -5,13 +5,25 @@
   width: 100%;
   font-size: 15px;
   letter-spacing: $letter-spacing-xs;
-  
+
   .of-footer-inner {
     width: 100%;
     padding: 0 50px;
     box-sizing: border-box;
   }
-  
+
+  .rank a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .rank a {
+    opacity: 0.8;
+    transform: opacity 500ms linear;
+  }
+  .rank a:hover {
+    opacity: 1;
+  }
+
   // .rank {
   //   font-size: 15px;
   // }
@@ -25,7 +37,7 @@
     display: inline-block;
     margin-left: 15px;
   }
-  
+
   .like-button,
   .share-button {
     position: relative;
@@ -68,7 +80,7 @@
   }
   .of-font-preview-footer .like-button.like-button-disabled svg {
     fill: $trans-red-100;
-  }  
+  }
   .of-font-preview-footer .like-button.like-button-disabled:hover svg {
     fill: $trans-red-50;
     transform: scale3d(1, 1, 1);
@@ -100,7 +112,7 @@
   }
   .of-font-preview-footer .like-button.like-button-disabled svg {
     fill: $trans-red-100;
-  }  
+  }
   .of-font-preview-footer .like-button.like-button-disabled:hover svg {
     fill: $trans-red-50;
   }

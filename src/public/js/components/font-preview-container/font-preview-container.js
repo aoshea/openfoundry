@@ -147,10 +147,18 @@ export default class FontPreviewContainer extends Component {
     let fontName = replaceNonAlphaNumeric(font['font-name']).toLowerCase();
     let rankPadded = ("0" + this.props.rank).slice(-2);
 
-    let rankLabel = rankPadded + " – " + font['font-name'];
-    if (font['font-creator']) {
-      rankLabel += ", " + font['font-creator'];
-    }
+    let rhyphen = " -";
+    let rankSpace = " ";
+
+    let oFontName = font['font-name'];
+
+    let oFontCreator = ", " + font['font-creator'];
+    let oFontCreatorLink = font['font-creator-link'];
+    let spanFontCreator = oFontCreatorLink ? <span><a href={oFontCreatorLink}>{oFontCreator}</a></span> : <span>{oFontCreator}</span>
+
+    let oFontStyle = font['font-style'];
+
+    let rankLabel = <div><span>{rankPadded}</span><span>{rhyphen} </span><span>{oFontName}</span><span>{rankSpace}</span><span>{oFontStyle}</span>{spanFontCreator}</div>
 
     let fontClassName = "of-font-preview-text-container " + fontId;
 

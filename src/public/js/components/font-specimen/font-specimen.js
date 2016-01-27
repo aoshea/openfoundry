@@ -63,6 +63,7 @@ export default class FontSpecimen extends Component {
     let fontName;
 
     let specimenClassName;
+    let specimenRatioClassName;
 
     let aboutText;
 
@@ -80,32 +81,34 @@ export default class FontSpecimen extends Component {
       fontName = font['font-name'];
 
       specimenClassName = 'of-font-specimen-image specimen-' + replaceNonAlphaNumeric(font['font-id']);
+      specimenRatioClassName = 'of-font-specimen-image-wrapper ratio-' + replaceNonAlphaNumeric(font['font-id']);
 
       let classification = font['info-classification'];
       let discoverer = foundBy;
 
       let about1 = fontName + ' was created by ' + creator;
-      let about2 = foundry ? 'and is currently distributed by ' + foundry : '.';
+      let about2 = foundry ? 'and is currently distributed by ' + foundry : '. ';
       let about3 = 'It was submitted to us by ' + discoverer + '.' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family.';
 
       aboutText = about1 + about2 + about3;
 
-      fontClassName = font['font-id'];
+      fontClassName = replaceNonAlphaNumeric(font['font-id']);
     }
-
-    console.log('specimenClassName', specimenClassName);
 
     return (
       <div className="of-font-specimen-wrapper">
         <div className="of-font-specimen">
           <div className="of-font-specimen-spacer-top"></div>
 
-          { specimenClassName && <div className={specimenClassName}></div> }
+          { specimenClassName
+            && <div className={specimenRatioClassName}>
+                 <div className={specimenClassName}></div>
+                </div> }
 
           <div className="of-font-specimen-content">
             <h3>Specimen Artwork by</h3>
             { creatorLink
-              ? <a href={creatorLink}><h4>{creator}</h4></a>
+              ? <a href={creatorLink}><h4 className={fontClassName}>{creator}</h4></a>
               : <h4 className={fontClassName}>{creator}</h4>
             }
           </div>
@@ -124,7 +127,7 @@ export default class FontSpecimen extends Component {
           }
 
           { foundBy
-            && <div className="of-font-specimen-content"><h3>Found by</h3><h4>{foundBy}</h4></div>
+            && <div className="of-font-specimen-content"><h3>Found by</h3><h4 className={fontClassName}>{foundBy}</h4></div>
           }
 
           <div className="of-font-specimen-content">
@@ -133,7 +136,7 @@ export default class FontSpecimen extends Component {
           </div>
 
           <div className="of-font-specimen-content">
-            <button>Source</button>
+            <button className="of-font-specimen-button">Source</button>
           </div>
 
           <div className="of-font-specimen-spacer-bottom"></div>
