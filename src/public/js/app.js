@@ -5,22 +5,59 @@ import { replaceNonAlphaNumeric } from './util/util.js';
 import { hashHistory } from 'react-router'
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
+import AboutPage from './components/about/about.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
 
 var cache = {};
 
 class App extends Component {
+
+  constructor() {
+    super()
+    this.handleBurgerClick = this.handleBurgerClick.bind(this);
+    this.handleMenuClick = this.handleMenuClick.bind(this);
+
+    this.state = {
+      isMenuOpen: false
+    };
+  }
+
+  handleBurgerClick() {
+    let { isMenuOpen } = this.state;
+
+    isMenuOpen = !isMenuOpen;
+    this.setState({
+      isMenuOpen: isMenuOpen
+    });
+  }
+
+  handleMenuClick() {
+    console.log('handleMenuClick');
+    let { isMenuOpen } = this.state;
+    if (isMenuOpen) {
+      this.setState({
+        isMenuOpen: false
+      });
+    }
+  }
+
   render() {
+
+    let iconClassName = this.state.isMenuOpen ? 'menu-icon active' : 'menu-icon';
+    let listClassName = this.state.isMenuOpen ? 'menu-list open' : 'menu-list';
+    let signupClassName = this.state.isMenuOpen ? 'menu-signup open' : 'menu-signup';
+    let logoClassName = this.state.isMenuOpen ? 'menu-logo open' : 'menu-logo';
+
     return (
       <div>
         <header className="of-navbar">
           <nav>
             <ul className="menu-header">
-              <li className="menu-icon">
-                <Link to="/open"><span></span></Link>
+              <li onClick={ this.handleBurgerClick } className={iconClassName}>
+                <a><span></span></a>
               </li>
-              <li className="menu-logo">
+              <li className={logoClassName}>
                 <Link to="/open">
                   <span className="open">
                     <svg id="open" x="0px" y="0px" viewBox="719 269.5 54 28" enable-background="new 719 269.5 54 28">
@@ -42,18 +79,18 @@ class App extends Component {
               </li>
 
             </ul>
-            <ul className="menu-list">
-              <li><a href="#" className="active">Open 30</a></li>
-              <li><a href="#">Newcomer</a></li>
-              <li><a href="#">About</a></li>
+            <ul className={listClassName}>
+              <li><Link to="/open" activeClassName="active">Open 30</Link></li>
+              <li><Link to="/open" activeClassName="active">Newcomer</Link></li>
+              <li><Link onClick={ this.handleMenuClick } to="/about" activeClassName="active">About</Link></li>
               <li>
-                <a href="#">OF Blog</a>
+                <a href="http://open-foundry.tumblr.com/">OF Blog</a>
                 <svg x="0px" y="0px" viewBox="0 0 32 32" enable-background="new 0 0 32 32">
                   <path id="external-icon" d="M19.7,18.3L17,15.7l-4,4L12.3,19l4-4l-2.6-2.6h6V18.3z"/>
                 </svg>
               </li>
             </ul>
-            <ul className="menu-signup">
+            <ul className={signupClassName}>
               <li><input type="text" className="form-control" placeholder="Open Foundry Club" /></li>
             </ul>
           </nav>
@@ -218,12 +255,19 @@ Specimen.contextTypes = {
   router: React.PropTypes.object.isRequired
 }
 
+class About extends Component {
+  render() {
+    return <AboutPage />
+  }
+}
+
 render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <Route path="open" component={Open}>
         <Route path=":fontId" component={Specimen} />
       </Route>
+      <Route path="about" component={About} />
     </Route>
   </Router>
 ),
