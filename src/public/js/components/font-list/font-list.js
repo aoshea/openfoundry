@@ -1,22 +1,26 @@
 import React, { Component } from 'react';
 import FontPreviewContainer from '../../components/font-preview-container/font-preview-container.js';
 import FontSpecimen from '../../components/font-specimen/font-specimen.js';
+import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 
 export default class FontList extends Component {
 
   constructor() {
-    super()
-
+    super();
     this.state = {
-      specimen: false
+      exampleTop: 0
     };
   }
 
-  componentDidMount() {
-    this.setState({
-      specimen: false
-    });
+  componentDidUpdate() {
+    console.log('font-list componentDidUpdate');
+
+    if (this.props.fixed) {
+      document.body.classList.add('noscroll');
+    } else {
+      document.body.classList.remove('noscroll');
+    }
   }
 
   render() {
@@ -24,7 +28,7 @@ export default class FontList extends Component {
     let fonts = this.props.fonts.map((font, i) => {
       return (
         <FontPreviewContainer
-          rank={ i + 1 }
+        rank={ i + 1 }
           key={i}
           font={font} />
       )
@@ -36,7 +40,7 @@ export default class FontList extends Component {
     });
 
     return (
-      <div className={fontListClassNames}>
+      <div ref="list" className={fontListClassNames}>
         {fonts}
         { this.state.specimen ? <FontSpecimen /> : null }
       </div>

@@ -149,10 +149,20 @@ class Specimen extends Component {
     super();
 
     this.setFonts = this.setFonts.bind(this);
+    this.onComplete = this.onComplete.bind(this);
+    this.navigateToOpen = this.navigateToOpen.bind(this);
 
     this.state = {
       fonts: []
     };
+  }
+
+  navigateToOpen() {
+    this.context.router.push('/open');
+  }
+
+  onComplete() {
+    this.navigateToOpen();
   }
 
   setFonts(res) {
@@ -199,8 +209,12 @@ class Specimen extends Component {
     });
     let match = matches[0] ? matches[0][0] : null;
 
-    return <FontSpecimen font={match} fontId={fontId} />
+    return <FontSpecimen onCompleteScroll={this.onComplete} font={match} fontId={fontId} />
   }
+}
+
+Specimen.contextTypes = {
+  router: React.PropTypes.object.isRequired
 }
 
 render((

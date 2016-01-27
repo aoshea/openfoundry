@@ -5,6 +5,12 @@ input {
   margin: 0;
 }
 
+// Prevent scroll
+body.noscroll {
+  height: 100%;
+  overflow: hidden;
+}
+
 * {
   box-sizing: border-box;
 }

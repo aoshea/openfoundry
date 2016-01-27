@@ -1,6 +1,44 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 
 export default class FontSpecimen extends Component {
+
+  constructor() {
+    super()
+
+    this.onScrollFinish = this.onScrollFinish.bind(this);
+  }
+
+  onScrollFinish() {
+
+    console.log('onScrollFinsh');
+
+    let { onCompleteScroll } = this.props;
+    onCompleteScroll && onCompleteScroll();
+  }
+
+  componentDidMount() {
+
+    var inner = $('.of-font-specimen');
+    var self = this;
+
+    $('.of-font-specimen-wrapper').on('scroll', function (e) {
+
+      let innerHeight = inner.height();
+      let scrollY = window.innerHeight + e.target.scrollTop;
+
+      let isBottom = scrollY >= innerHeight;
+
+      if (isBottom) {
+        self.onScrollFinish();
+        $('.of-font-specimen-wrapper').off('scroll');
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    $('.of-font-specimen-wrapper').off('scroll');
+  }
 
   render() {
 
@@ -25,46 +63,46 @@ export default class FontSpecimen extends Component {
       foundBy = font['info-discoverer'];
     }
 
-
-
     return (
-      <div className="of-font-specimen">
-        <div className="of-font-specimen-spacer-top"></div>
+      <div className="of-font-specimen-wrapper">
+        <div className="of-font-specimen">
+          <div className="of-font-specimen-spacer-top"></div>
 
-        <div className="of-font-specimen-svg">
-          <img src="/img/specimen-bagnard-regular.svg" />
-        </div>
+          <div className="of-font-specimen-svg">
+            <img src="/img/specimen-bagnard-regular.svg" />
+          </div>
 
-        <div className="of-font-specimen-content">
-          <h3>Specimen Artwork by</h3>
-          { creatorLink
-            ? <a href={creatorLink}><h4>{creator}</h4></a>
-            : <h4>{creator}</h4>
+          <div className="of-font-specimen-content">
+            <h3>Specimen Artwork by</h3>
+            { creatorLink
+              ? <a href={creatorLink}><h4>{creator}</h4></a>
+              : <h4>{creator}</h4>
+            }
+          </div>
+
+          { styleDesc
+            && <div className="of-font-specimen-content"><h3>Style</h3><h4>{styleDesc}</h4></div>
           }
+
+          <div className="of-font-specimen-content">
+            <h3>Characters</h3>
+            <h4>!@£$%^&*()</h4>
+          </div>
+
+          { foundry
+            && <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><a><h4>{foundry}</h4></a></div>
+          }
+
+          { foundBy
+            && <div className="of-font-specimen-content"><h3>Found by</h3><h4>{foundBy}</h4></div>
+          }
+
+          <div className="of-font-specimen-content">
+            <button>Source</button>
+          </div>
+
+          <div className="of-font-specimen-spacer-bottom"></div>
         </div>
-
-        { styleDesc
-          && <div className="of-font-specimen-content"><h3>Style</h3><h4>{styleDesc}</h4></div>
-        }
-
-        <div className="of-font-specimen-content">
-          <h3>Characters</h3>
-          <h4>!@£$%^&*()</h4>
-        </div>
-
-        { foundry
-          && <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><a><h4>{foundry}</h4></a></div>
-        }
-
-        { foundBy
-          && <div className="of-font-specimen-content"><h3>Found by</h3><h4>{foundBy}</h4></div>
-        }
-
-        <div className="of-font-specimen-content">
-          <button>Source</button>
-        </div>
-
-        <div className="of-font-specimen-spacer-bottom"></div>
       </div>
     )
   }

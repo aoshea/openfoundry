@@ -15,8 +15,6 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   // we're connected!
-  console.log('database connection');
-
   fontSchema = mongoose.Schema({
     fontId: String,
     likes: Number,
@@ -24,10 +22,6 @@ db.once('open', function() {
   });
 
   Font = mongoose.model('Font', fontSchema);
-  Font.find(function (err, fonts) {
-    if (err) console.error(err);
-    else console.log(fonts);
-  });
 });
 
 // set up Jade

@@ -1,50 +1,56 @@
-.of-font-specimen {
-  position: absolute;
+.of-font-specimen-wrapper {
+  position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: scroll;
   background: $trans-black-10;
   z-index: $zIndex-font-specimen;
-  
+}
+.of-font-specimen {
+  position: relative;
   width: 100vw;
-  
-  .of-font-specimen-svg {    
+  background: $trans-black-50;
+
+  .of-font-specimen-svg {
     img {
       width: 100%;
       height: auto;
     }
   }
-  
+
   .of-font-specimen-spacer-top {
     width: 100vw;
     height: 90vh;
     background: $trans-black-10;
   }
-  
+
   .of-font-specimen-spacer-bottom {
     width: 100vw;
     height: 100vh;
     background: $trans-black-25;
   }
-  
+
   .of-font-specimen-content {
     background: $semi-black;
-    
+
     h3, h4 {
       margin: 0;
       padding: 0;
     }
-    
+
     a {
       text-decoration: none;
     }
-    
-    h3 {      
+
+    h3 {
       font-size: 16px;
       font-weight: 100;
       color: $grey;
       padding-bottom: 10px;
     }
-    
+
     h4 {
       font-size: 48px;
       color: $white;
