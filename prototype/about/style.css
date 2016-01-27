@@ -12,7 +12,7 @@ section {
 .headline {
   background: rgba(0,0,0,1);
   color: rgba(255,255,255,1);
-  padding-bottom: 50px;
+  padding: 50px;
 }
 
 section h1 {
@@ -43,19 +43,20 @@ section h1 {
   border-color: rgba(255, 255, 255, 1);
 }
 
-section a,
-section a:link,
+section p a,
+section p a:link,
 strong,
 h2 {
   font-weight: 600;
   letter-spacing: -0.015em;
 }
 
-/*h2,
-section {
-  font-size: 18px;
+section.headline a,
+section.headline a:link  {
+  display: inline-block;
 }
-*/
+
+
 h2 {
   margin-top: 30px;
 }
@@ -75,7 +76,7 @@ section a:link {
   transition: all 0.1s ease;
 }
 
-section a:hover {
+section p a:hover {
   text-decoration: none;
   color: inherit;
   padding: 0.1em 0;
@@ -83,7 +84,7 @@ section a:hover {
 }
 
 blockquote {
-  padding: 50px 0;
+  padding: 25px 0;
   margin: 0;
   quotes: "\201C""\201D""\2018""\2019";
 }
@@ -110,4 +111,13 @@ blockquote:after {
 blockquote p {
   display: inline;
   font-weight: 400;
+}
+
+svg.love {
+  width: 24px;
+  height: auto;
+}
+
+svg.love path {
+  fill: rgba(226, 38, 77, 1);
 }
