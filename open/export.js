@@ -183,15 +183,13 @@ function outputJSON(result) {
   mkdirSync(path.join(dirs.out));
   fs.writeFile(path.join(dirs.out, 'site.json'), "window.siteJSON = " + JSON.stringify(result, null, 2), function (err){
     if (err) return console.warn('Error: Write file:', err);
-    return console.log('Complete');
+    return result;
   });
 }
 
 listFonts(dirs.src).then(function (list) {
   return Promise.all(list.map(listContents));
 }).then(function (result) {
-  console.log(result);
-
   outputJSON(result);
   outputCSS(result);
 }).catch(function (err) {

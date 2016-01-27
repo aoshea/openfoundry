@@ -178,8 +178,23 @@ gulp.task('images', function () {
     .pipe(gulp.dest(dir.build + 'public/img'));
 });
 
+
+gulp.task('build-specimens', function (cb) {
+  exec('node open/specimen.js', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    if (err) cb(err);
+  });
+});
+gulp.task('build-fonts', function (cb) {
+  exec('node open/export.js', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    if (err) cb(err);
+  });
+});
 // Copy exported json and fonts over
-gulp.task('export-fonts', function () {
+gulp.task('export-fonts', ['build-specimens', 'build-fonts'], function () {
   return gulp.src(sources.export)
     .pipe(gulp.dest(dir.build + 'public/data'));
 });

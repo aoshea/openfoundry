@@ -149,6 +149,5 @@ function outputCSS(result) {
 listFontSpecimens(dirs.src).then(function (res) {
   return Promise.all(res.map(listContents));
 }).then(function (res) {
-  console.log(res);
   outputCSS(res);
 });
