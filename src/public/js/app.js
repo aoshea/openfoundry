@@ -5,6 +5,7 @@ import { replaceNonAlphaNumeric } from './util/util.js';
 import { hashHistory } from 'react-router'
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
+import NewsletterSignup from './components/newsletter/newsletter.js';
 import AboutPage from './components/about/about.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
@@ -33,8 +34,8 @@ class App extends Component {
   }
 
   handleMenuClick() {
-    console.log('handleMenuClick');
     let { isMenuOpen } = this.state;
+
     if (isMenuOpen) {
       this.setState({
         isMenuOpen: false
@@ -91,7 +92,7 @@ class App extends Component {
               </li>
             </ul>
             <ul className={signupClassName}>
-              <li><input type="text" className="form-control" placeholder="Open Foundry Club" /></li>
+              <li><NewsletterSignup /></li>
             </ul>
           </nav>
         </header>
