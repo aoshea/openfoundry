@@ -51,6 +51,7 @@ export default class FontSpecimen extends Component {
     let { font } = this.props;
 
     let creator;
+    let creatorLink;
 
     let specimenCreator;
     let specimenCreatorLink;
@@ -83,6 +84,7 @@ export default class FontSpecimen extends Component {
     if (font) {
 
       creator = font['font-creator'];
+      creatorLink = font['font-creator-link'];
 
       specimenCreator = font['specimen-creator'];
       specimenCreatorLink = font['specimen-creator-link'];
@@ -142,8 +144,8 @@ export default class FontSpecimen extends Component {
                 && <div className="of-font-specimen-content"><h3>Style, Weight</h3><h4 className={fontClassName}>{styleDesc}, {infoWeight}</h4></div>
               }
 
-              <div className="of-font-specimen-content">
-                <h3>Characters</h3>
+              <div className="of-font-specimen-content of-font-specimen-content-characterset">
+                <h3>Characters: Basic Latin</h3>
                 <h4 className={fontClassName}>
                   <ul>
                     <li className="character">&#033;</li>
@@ -245,7 +247,8 @@ export default class FontSpecimen extends Component {
               </div>
 
               { creator, foundry
-                && <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><a><h4 className={fontClassName}>{creator}, {foundry}</h4></a></div>
+                ? <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a>, {foundry}</h4></div>
+                : <div className="of-font-specimen-content"><h3>Typedesigner</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a></h4></div>
               }
 
               { foundBy
