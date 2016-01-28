@@ -68,6 +68,7 @@ export default class FontSpecimen extends Component {
     let fontName;
 
     let fontInfoLicense;
+    let fontInfoFamily;
     let fontFoundLink;
     let fontOpenSourceLink;
 
@@ -83,25 +84,24 @@ export default class FontSpecimen extends Component {
 
     if (font) {
 
+      fontName = font['font-name'];
+
       creator = font['font-creator'];
       creatorLink = font['font-creator-link'];
+
+      fontDownloadLink = font['font-download-link'];
+      styleDesc = font['font-style'];
+      foundry = font['font-foundry'];
 
       specimenCreator = font['specimen-creator'];
       specimenCreatorLink = font['specimen-creator-link'];
 
-      fontDownloadLink = font['font-download-link'];
-
-      styleDesc = font['font-style'];
-
-      foundry = font['font-foundry'];
       foundBy = font['info-discoverer'];
-
       infoAbout = font['info-about'];
       infoWeight = font['info-weight'];
-
-      fontName = font['font-name'];
-
       fontInfoLicense = font['info-license'];
+      fontInfoFamily = font['info-family'];
+
       fontOpenSourceLink = font['font-open-source-link'];
       fontFoundLink = font['font-found-link'];
 
@@ -115,9 +115,10 @@ export default class FontSpecimen extends Component {
       let about2 = foundry ? ' and is currently distributed by ' + foundry : '';
       let about3 = '. ';
       let about4 = 'It was submitted to us by ' + discoverer + '.  ' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family. ';
-      let about5 = 'It is licensed under the ' + fontInfoLicense + ' and available for contribution, modification or download on its open-source ' + fontOpenSourceLink + ' page. Please find more about ' + fontName + ' here ' + fontFoundLink + '.';
+      let about5 = 'It comes in ' + fontInfoFamily + ' faces. ';
+      let about6 = 'It is licensed under the ' + fontInfoLicense + ' and available for contribution, modification or download on its open-source ' + fontOpenSourceLink + ' page. Please find more about ' + fontName + ' here ' + fontFoundLink + '.';
 
-      aboutText = about1 + about2 + about3 + about4 + about5;
+      aboutText = about1 + about2 + about3 + about4 + about5 + about6;
 
       fontClassName = replaceNonAlphaNumeric(font['font-id']);
     }
