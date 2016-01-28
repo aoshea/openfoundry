@@ -3,6 +3,7 @@ $('.menu-icon').click(function() {
   $('.menu-list').toggleClass('open');
   $('.menu-signup').toggleClass('open');
   $('.menu-logo').removeClass('up');
+  $('.menu-breadcrumb').toggleClass('up');
 });
 
 // hide on scroll down
@@ -38,7 +39,6 @@ function hasScrolled(){
   } else {
     if(st + $(window).height() < $(document).height()){
       $('.menu-logo').removeClass('up');
-      $('.menu-breadcrumb').addClass('up');
     }
   }
   lastScrollTop = st;
