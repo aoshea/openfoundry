@@ -13,14 +13,14 @@ export default class FontSlider extends Component {
   componentDidMount() {
     this.setState({
       value: this.props.initial,
-      unitValue: this.props.initial / this.props.max
+      unitValue: (this.props.initial - this.props.min) / (this.props.max - this.props.min)
     });
   }
 
   handleChange(value) {
     let { onUpdate } = this.props;
 
-    let unitValue = value / this.props.max;
+    let unitValue = (value - this.props.min) / (this.props.max - this.props.min);
 
     this.setState({
       value: value,
