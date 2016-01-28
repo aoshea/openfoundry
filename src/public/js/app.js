@@ -7,6 +7,7 @@ import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
 import NewsletterSignup from './components/newsletter/newsletter.js';
 import AboutPage from './components/about/about.js';
+import SubmissionPage from './components/submission/submission.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
 
@@ -262,12 +263,19 @@ class About extends Component {
   }
 }
 
+class Submission extends Component {
+  render() {
+    return <SubmissionPage />
+  }
+}
+
 render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
       <Route path="open" component={Open}>
         <Route path=":fontId" component={Specimen} />
       </Route>
+      <Route path="submit" component={Submission} />
       <Route path="about" component={About} />
     </Route>
   </Router>
