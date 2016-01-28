@@ -66,11 +66,17 @@ export default class FontSpecimen extends Component {
 
     let fontName;
 
+    let fontInfoLicense;
+    let fontFoundLink;
+    let fontOpenSourceLink;
+
     let specimenClassName;
     let specimenRatioClassName;
 
     let aboutText;
     let infoAbout;
+
+    let infoWeight;
 
     let fontClassName;
 
@@ -89,8 +95,13 @@ export default class FontSpecimen extends Component {
       foundBy = font['info-discoverer'];
 
       infoAbout = font['info-about'];
+      infoWeight = font['info-weight'];
 
       fontName = font['font-name'];
+
+      fontInfoLicense = font['info-license'];
+      fontOpenSourceLink = font['font-open-source-link'];
+      fontFoundLink = font['font-found-link'];
 
       specimenClassName = 'of-font-specimen-image specimen-' + replaceNonAlphaNumeric(font['font-id']);
       specimenRatioClassName = 'of-font-specimen-image-wrapper ratio-' + replaceNonAlphaNumeric(font['font-id']);
@@ -101,9 +112,10 @@ export default class FontSpecimen extends Component {
       let about1 = 'It was created by ' + creator;
       let about2 = foundry ? ' and is currently distributed by ' + foundry : '';
       let about3 = '. ';
-      let about4 = 'It was submitted to us by ' + discoverer + '.  ' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family.';
+      let about4 = 'It was submitted to us by ' + discoverer + '.  ' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family. ';
+      let about5 = 'It is licensed under the ' + fontInfoLicense + ' and available for contribution, modification or download on its open-source ' + fontOpenSourceLink + ' page. Please find more about ' + fontName + ' here ' + fontFoundLink + '.';
 
-      aboutText = about1 + about2 + about3 + about4;
+      aboutText = about1 + about2 + about3 + about4 + about5;
 
       fontClassName = replaceNonAlphaNumeric(font['font-id']);
     }
@@ -127,7 +139,7 @@ export default class FontSpecimen extends Component {
               </div>
 
               { styleDesc
-                && <div className="of-font-specimen-content"><h3>Style</h3><h4 className={fontClassName}>{styleDesc}</h4></div>
+                && <div className="of-font-specimen-content"><h3>Style, Weight</h3><h4 className={fontClassName}>{styleDesc}, {infoWeight}</h4></div>
               }
 
               <div className="of-font-specimen-content">
@@ -237,7 +249,7 @@ export default class FontSpecimen extends Component {
               }
 
               { foundBy
-                && <div className="of-font-specimen-content"><h3>Found by</h3><h4 className={fontClassName}>{foundBy}</h4></div>
+                && <div className="of-font-specimen-content"><h3>Project Page</h3><a href={fontOpenSourceLink}><h4 className={fontClassName}>{fontOpenSourceLink}</h4></a></div>
               }
 
               <div className="of-font-specimen-content">
