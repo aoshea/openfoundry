@@ -3,3 +3,4 @@ dist
 open/build
 *.DS_Store
 *.swp
+.editorconfig
