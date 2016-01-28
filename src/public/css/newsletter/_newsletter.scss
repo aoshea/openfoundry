@@ -3,6 +3,14 @@
   padding: 0 50px;
   height: 50vh;
 }
+
+.submission-wrapper {
+  // position: relative;
+  padding: 0 50px;
+  height: 100vh;
+      text-align: center;
+}
+
 .simform {
   position: relative;
   top: 50%;
@@ -10,11 +18,11 @@
   margin: 0 auto;
   font-size: 70px;
   text-align: left;
-  -webkit-transform: translateY(-50%);
-     -moz-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-       -o-transform: translateY(-50%);
-          transform: translateY(-50%);
+  -webkit-transform: translateY(calc(-50% - 50px));
+     -moz-transform: translateY(calc(-50% - 50px));
+      -ms-transform: translateY(calc(-50% - 50px));
+       -o-transform: translateY(calc(-50% - 50px));
+          transform: translateY(calc(-50% - 50px));
 }
 
 .simform .submit {
