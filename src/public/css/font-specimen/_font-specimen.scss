@@ -93,10 +93,17 @@
       color: $white;
       font-weight: 400;
       font-style: italic;
+      transition: all $ease;
     }
 
+    a h4 {
+      color: $white;
+      transition: all $ease;
+    }
+
+    a h4:hover,
     p a:hover {
-      color: $trans-white-75;
+      color: $trans-white-50;
     }
 
     a {
@@ -115,6 +122,9 @@
     h4 {
       font-size: 100px;
       color: $white;
+      font-weight: normal;
+      word-break: break-all;
+      line-height: 1em;
     }
 
     ul {
@@ -140,8 +150,7 @@
       -ms-transform: scale(1);
       -o-transform: scale(1);
       transform: scale(1);
-      transition: transform $ease;
-      cursor: crosshair;
+      transition: transform $ease-xs;
     }
 
     li.character:hover {
@@ -155,7 +164,9 @@
       -ms-transform: scale(3);
       -o-transform: scale(3);
       transform: scale(3);
-      cursor: crosshair;
+      cursor: -moz-zoom-in; 
+      cursor: -webkit-zoom-in; 
+      cursor: zoom-in;
     }
   }
 }
