@@ -32,7 +32,7 @@ header {
   transition: all .4s ease;
 }
 
-.menu-header {
+/*.menu-header {
   position: absolute;
   top: 0;
   left: 0;
@@ -67,14 +67,13 @@ ul.menu-header {
 
 .menu-logo.up {
   opacity: .4;
-/*  transform: translate(50px,-39px);
-*/}
+}
 
 .menu-logo.up:hover {
   opacity: 1;
-}
+}*/
 
-
+/*
 .menu-logo a {
   display: inline-block;
 }
@@ -204,7 +203,7 @@ ul.menu-list li:last-child:hover svg {
   color: white;
   fill: rgba(255,255,255,1);
 }
-
+*/
 ul.menu-signup {
   position: absolute;
   width: 100%;
@@ -232,12 +231,14 @@ ul.menu-signup {
 }
 
 input {
+  font-family: helvetica;
+  font-style: normal;
+  font-weight: normal;
   position: relative;
   box-sizing: border-box;
   top: 25vh;
   width: 100%;
   font-size: 66px;
-  font-weight: bold;
   color: black;
   padding: 5px 10px;
   transform: translateY(-50%);
