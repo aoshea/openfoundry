@@ -31,12 +31,14 @@ function hasScrolled(){
   // if they scrolled down and are past the navbar, add class .up.
   if (st > lastScrollTop && st > navbarHeight){
     $('.menu-logo').addClass('up');
+    $('.menu-breadcrumb').removeClass('up');
     $('.menu-list').removeClass('open');
     $('.menu-icon').removeClass('active');
     $('.menu-signup').removeClass('open');
   } else {
     if(st + $(window).height() < $(document).height()){
       $('.menu-logo').removeClass('up');
+      $('.menu-breadcrumb').addClass('up');
     }
   }
   lastScrollTop = st;
