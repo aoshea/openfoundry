@@ -145,7 +145,7 @@ export default class FontSpecimen extends Component {
               }
 
               <div className="of-font-specimen-content of-font-specimen-content-characterset">
-                <h3>Characters</h3>
+                <h3>Characters: Basic Latin</h3>
                 <h4 className={fontClassName}>
                   <ul>
                     <li className="character">&#033;</li>
