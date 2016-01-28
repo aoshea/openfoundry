@@ -81,8 +81,8 @@ class App extends Component {
 
             </ul>
             <ul className={listClassName}>
-              <li><Link to="/open" activeClassName="active">Open 30</Link></li>
-              <li><Link to="/open" activeClassName="active">Newcomer</Link></li>
+              <li><Link to="/open" activeClassName="active">Hot 30s</Link></li>
+              <li><Link onClick={ this.handleMenuClick } to="/submit" activeClassName="active">Submit</Link></li>
               <li><Link onClick={ this.handleMenuClick } to="/about" activeClassName="active">About</Link></li>
               <li>
                 <a href="http://open-foundry.tumblr.com/">OF Blog</a>

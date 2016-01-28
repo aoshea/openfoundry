@@ -51,7 +51,11 @@ export default class FontSpecimen extends Component {
     let { font } = this.props;
 
     let creator;
-    let creatorLink;
+
+    let specimenCreator;
+    let specimenCreatorLink;
+
+    let fontDownloadLink;
 
     let styleDesc;
 
@@ -66,17 +70,25 @@ export default class FontSpecimen extends Component {
     let specimenRatioClassName;
 
     let aboutText;
+    let infoAbout;
 
     let fontClassName;
 
     if (font) {
+
       creator = font['font-creator'];
-      creatorLink = font['font-creator-link'];
+
+      specimenCreator = font['specimen-creator'];
+      specimenCreatorLink = font['specimen-creator-link'];
+
+      fontDownloadLink = font['font-download-link'];
 
       styleDesc = font['font-style'];
 
       foundry = font['font-foundry'];
       foundBy = font['info-discoverer'];
+
+      infoAbout = font['info-about'];
 
       fontName = font['font-name'];
 
@@ -86,11 +98,12 @@ export default class FontSpecimen extends Component {
       let classification = font['info-classification'];
       let discoverer = foundBy;
 
-      let about1 = fontName + ' was created by ' + creator;
-      let about2 = foundry ? 'and is currently distributed by ' + foundry : '. ';
-      let about3 = 'It was submitted to us by ' + discoverer + '.' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family.';
+      let about1 = 'It was created by ' + creator;
+      let about2 = foundry ? ' and is currently distributed by ' + foundry : '';
+      let about3 = '. ';
+      let about4 = 'It was submitted to us by ' + discoverer + '.  ' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family.';
 
-      aboutText = about1 + about2 + about3;
+      aboutText = about1 + about2 + about3 + about4;
 
       fontClassName = replaceNonAlphaNumeric(font['font-id']);
     }
@@ -105,39 +118,149 @@ export default class FontSpecimen extends Component {
                  <div className={specimenClassName}></div>
                 </div> }
 
-          <div className="of-font-specimen-content">
-            <h3>Specimen Artwork by</h3>
-            { creatorLink
-              ? <a href={creatorLink}><h4 className={fontClassName}>{creator}</h4></a>
-              : <h4 className={fontClassName}>{creator}</h4>
-            }
-          </div>
+              <div className="of-font-specimen-content of-font-specimen-content-first">
+                <h3>Specimen Artwork by</h3>
+                { specimenCreatorLink
+                  ? <a href={specimenCreatorLink}><h4 className={fontClassName}>{specimenCreator}</h4></a>
+                  : <h4 className={fontClassName}>{specimenCreator}</h4>
+                }
+              </div>
 
-          { styleDesc
-            && <div className="of-font-specimen-content"><h3>Style</h3><h4 className={fontClassName}>{styleDesc}</h4></div>
-          }
+              { styleDesc
+                && <div className="of-font-specimen-content"><h3>Style</h3><h4 className={fontClassName}>{styleDesc}</h4></div>
+              }
 
-          <div className="of-font-specimen-content">
-            <h3>Characters</h3>
-            <h4 className={fontClassName}>!@£$%^&*()</h4>
-          </div>
+              <div className="of-font-specimen-content">
+                <h3>Characters</h3>
+                <h4 className={fontClassName}>
+                  <ul>
+                    <li className="character">&#033;</li>
+                    <li className="character">&#034;</li>
+                    <li className="character">&#035;</li>
+                    <li className="character">&#036;</li>
+                    <li className="character">&#037;</li>
+                    <li className="character">&#038;</li>
+                    <li className="character">&#039;</li>
+                    <li className="character">&#040;</li>
+                    <li className="character">&#041;</li>
+                    <li className="character">&#042;</li>
+                    <li className="character">&#043;</li>
+                    <li className="character">&#044;</li>
+                    <li className="character">&#045;</li>
+                    <li className="character">&#046;</li>
+                    <li className="character">&#047;</li>
+                    <li className="character">&#048;</li>
+                    <li className="character">&#049;</li>
+                    <li className="character">&#050;</li>
+                    <li className="character">&#051;</li>
+                    <li className="character">&#052;</li>
+                    <li className="character">&#053;</li>
+                    <li className="character">&#054;</li>
+                    <li className="character">&#055;</li>
+                    <li className="character">&#056;</li>
+                    <li className="character">&#057;</li>
+                    <li className="character">&#058;</li>
+                    <li className="character">&#059;</li>
+                    <li className="character">&#060;</li>
+                    <li className="character">&#061;</li>
+                    <li className="character">&#062;</li>
+                    <li className="character">&#063;</li>
+                    <li className="character">&#064;</li>
+                    <li className="character">&#065;</li>
+                    <li className="character">&#066;</li>
+                    <li className="character">&#067;</li>
+                    <li className="character">&#068;</li>
+                    <li className="character">&#069;</li>
+                    <li className="character">&#070;</li>
+                    <li className="character">&#071;</li>
+                    <li className="character">&#072;</li>
+                    <li className="character">&#073;</li>
+                    <li className="character">&#074;</li>
+                    <li className="character">&#075;</li>
+                    <li className="character">&#076;</li>
+                    <li className="character">&#077;</li>
+                    <li className="character">&#078;</li>
+                    <li className="character">&#079;</li>
+                    <li className="character">&#080;</li>
+                    <li className="character">&#081;</li>
+                    <li className="character">&#082;</li>
+                    <li className="character">&#083;</li>
+                    <li className="character">&#084;</li>
+                    <li className="character">&#085;</li>
+                    <li className="character">&#086;</li>
+                    <li className="character">&#087;</li>
+                    <li className="character">&#088;</li>
+                    <li className="character">&#089;</li>
+                    <li className="character">&#090;</li>
+                    <li className="character">&#091;</li>
+                    <li className="character">&#092;</li>
+                    <li className="character">&#093;</li>
+                    <li className="character">&#094;</li>
+                    <li className="character">&#095;</li>
+                    <li className="character">&#096;</li>
+                    <li className="character">&#097;</li>
+                    <li className="character">&#098;</li>
+                    <li className="character">&#099;</li>
+                    <li className="character">&#100;</li>
+                    <li className="character">&#101;</li>
+                    <li className="character">&#102;</li>
+                    <li className="character">&#103;</li>
+                    <li className="character">&#104;</li>
+                    <li className="character">&#105;</li>
+                    <li className="character">&#106;</li>
+                    <li className="character">&#107;</li>
+                    <li className="character">&#108;</li>
+                    <li className="character">&#109;</li>
+                    <li className="character">&#110;</li>
+                    <li className="character">&#111;</li>
+                    <li className="character">&#112;</li>
+                    <li className="character">&#113;</li>
+                    <li className="character">&#114;</li>
+                    <li className="character">&#115;</li>
+                    <li className="character">&#116;</li>
+                    <li className="character">&#117;</li>
+                    <li className="character">&#118;</li>
+                    <li className="character">&#119;</li>
+                    <li className="character">&#120;</li>
+                    <li className="character">&#121;</li>
+                    <li className="character">&#122;</li>
+                    <li className="character">&#123;</li>
+                    <li className="character">&#124;</li>
+                    <li className="character">&#125;</li>
+                    <li className="character">&#126;</li>
+                  </ul>
+                </h4>
+              </div>
 
-          { foundry
-            && <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><a><h4 className={fontClassName}>{foundry}</h4></a></div>
-          }
+              { creator, foundry
+                && <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><a><h4 className={fontClassName}>{creator}, {foundry}</h4></a></div>
+              }
 
-          { foundBy
-            && <div className="of-font-specimen-content"><h3>Found by</h3><h4 className={fontClassName}>{foundBy}</h4></div>
-          }
+              { foundBy
+                && <div className="of-font-specimen-content"><h3>Found by</h3><h4 className={fontClassName}>{foundBy}</h4></div>
+              }
 
-          <div className="of-font-specimen-content">
-            <h3>About</h3>
-            <p>{aboutText}</p>
-          </div>
+              <div className="of-font-specimen-content">
+                <div className="of-row">
+                  <div className="col-6">
+                    <h3>About</h3>
+                    { infoAbout
+                      ? <p>{infoAbout} {aboutText}</p>
+                      : <p>{aboutText}</p>
+                    }
+                    
+                  </div>
+                </div>
+              </div>
 
-          <div className="of-font-specimen-content">
-            <button className="of-font-specimen-button">Source</button>
-          </div>
+              <div className="of-font-specimen-content of-font-specimen-content-last">
+                <div className="of-row">
+                  <div className="col-12">
+                    <h3>Download Type</h3>
+                    <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
+                  </div>
+                </div>
+              </div>
 
           <div className="of-font-specimen-spacer-bottom"></div>
         </div>

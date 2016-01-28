@@ -10,7 +10,7 @@ export default class AboutPage extends Component {
           <div className="of-grid-container">
             <div className="of-row ">
               <div className="col-12">
-                <h1>A new platform for open-source fonts available on a noise-free platform, to highlight their beauty and encourage further exploration. <a href="/open"><span className="more-button">Hot 30</span></a></h1>
+                <h1>A new platform for open-source fonts available on a noise-free platform, to highlight their beauty and encourage further exploration. <a href="/open"><span className="hot30-button">Hot 30</span></a></h1>
               </div>
             </div>
           </div>
@@ -53,7 +53,7 @@ export default class AboutPage extends Component {
 
                 <p><strong>Special Thanks</strong> to Jonathan McKay, Wolfgang Schoeffel, Thomas Traum, Marc Kremers,  Michael Seibert, Adam Rodgers and Tilman Zitzmann for their constructive criticism and always pushing things forward. <svg className="love" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 23.3023"><title>Untitled-4</title><path d="M23.8679,1.9224a7.4057,7.4057,0,0,1,0,10.3987L13.0011,23.3023,2.1321,12.3147a7.4057,7.4057,0,0,1,0-10.3987,6.4188,6.4188,0,0,1,9.1489,0l1.72,1.7349L14.719,1.9224a6.4188,6.4188,0,0,1,9.1489,0"/></svg></p>
 
-                <p><a href="/submit">Submit a font</a>, <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#101;&#108;&#108;&#111;&#64;&#111;&#112;&#101;&#110;&#45;&#102;&#111;&#117;&#110;&#100;&#114;&#121;&#46;&#99;&#111;&#109;">mail</a> or follow us on <a href="https://twitter.com/open_foundry">twitter</a> or <a href="open-foundry.tumblr.com">tumblr</a>.</p>
+                <p><a href="/submit">Submit a font</a>, <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#104;&#101;&#108;&#108;&#111;&#64;&#111;&#112;&#101;&#110;&#45;&#102;&#111;&#117;&#110;&#100;&#114;&#121;&#46;&#99;&#111;&#109;">mail</a> or follow us on <a href="https://twitter.com/open_foundry">twitter</a> or <a href="http://open-foundry.tumblr.com/">tumblr</a>.</p>
               </div>
             </div>
           </div>
