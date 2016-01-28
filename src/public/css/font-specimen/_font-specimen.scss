@@ -69,6 +69,10 @@
   .of-font-specimen-content.of-font-specimen-content-last {
     padding-bottom: 75px;
   }
+  
+  .of-font-specimen-content.of-font-specimen-content-characterset h4 {
+    line-height: 1.2em;
+  }
 
   .of-font-specimen-content {
     background: $semi-black;
@@ -96,12 +100,14 @@
       transition: all $ease;
     }
 
-    a h4 {
+    a h4,
+    h4 a {
       color: $white;
       transition: all $ease;
     }
 
     a h4:hover,
+    h4 a:hover,
     p a:hover {
       color: $trans-white-50;
     }
@@ -124,9 +130,9 @@
       color: $white;
       font-weight: normal;
       word-break: break-all;
-      line-height: 1em;
+      line-height: 1.1em;
     }
-
+  
     ul {
       margin: 0 auto;
       margin-top: 15px;
