@@ -33,7 +33,7 @@ export default class FontSpecimen extends Component {
       let innerHeight = inner.height();
       let scrollY = window.innerHeight + e.target.scrollTop;
 
-      let isBottom = scrollY >= innerHeight;
+      let isBottom = scrollY >= innerHeight - 1;
 
       if (isBottom) {
         self.onScrollFinish();
@@ -264,7 +264,7 @@ export default class FontSpecimen extends Component {
                       ? <p>{infoAbout} {aboutText}</p>
                       : <p>{aboutText}</p>
                     }
-                    
+
                   </div>
                 </div>
               </div>
