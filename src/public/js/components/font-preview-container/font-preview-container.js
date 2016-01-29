@@ -150,8 +150,8 @@ export default class FontPreviewContainer extends Component {
     let fontName = replaceNonAlphaNumeric(font['font-name']).toLowerCase();
     let rankPadded = ("0" + this.props.rank).slice(-2);
 
-    let rhyphen = ' —';
-    let rankSpace = ' ';
+    let rhyphen = " —";
+    let rankSpace = " ";
 
     let oFontName = font['font-name'];
 
