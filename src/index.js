@@ -6,6 +6,8 @@ var express  = require('express'),
     port    = 7777
     ;
 
+var ofSubmission = require('./of-submission')
+
 // Connect to database
 mongoose.connect('mongodb://localhost:27017/openfoundry');
 
@@ -95,6 +97,21 @@ app.get('/api/like/:fontId', function (req, res) {
       return res.send("Saved");
     }
   );
+});
+
+
+/**
+ * Use body parser so we can work with form data
+ */
+
+var bodyParser = require('body-parser')
+app.use(bodyParser.json()) // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+app.post('/submit', function (req, res, next) {
+  ofSubmission.process(req.body, function (result) {
+    res.json(result);
+  });
 });
 
 /**

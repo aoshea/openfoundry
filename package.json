@@ -53,5 +53,9 @@
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "yargs": "^3.30.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.14.2",
+    "nodemailer": "^2.0.0"
   }
 }
