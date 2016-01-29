@@ -84,11 +84,11 @@ class App extends Component {
 
             </ul>
             <ul className={listClassName}>
-              <li><Link onClick={ this.handleMenuClick } to="/open" activeClassName="active">Hot 30s</Link></li>
+              <li><Link onClick={ this.handleMenuClick } to="/open" activeClassName="active">Hot 30</Link></li>
               <li><Link onClick={ this.handleMenuClick } to="/submit" activeClassName="active">Submit</Link></li>
               <li><Link onClick={ this.handleMenuClick } to="/about" activeClassName="active">About</Link></li>
               <li>
-                <a href="http://open-foundry.tumblr.com/">OF Blog</a>
+                <a href="http://open-foundry.tumblr.com/">Blog</a>
                 <svg x="0px" y="0px" viewBox="0 0 32 32" enable-background="new 0 0 32 32">
                   <path id="external-icon" d="M19.7,18.3L17,15.7l-4,4L12.3,19l4-4l-2.6-2.6h6V18.3z"/>
                 </svg>

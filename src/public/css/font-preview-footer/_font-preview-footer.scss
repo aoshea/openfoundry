@@ -1,3 +1,16 @@
+// .white-noimage .of-font-preview-footer {
+
+//   .rank a {
+//     text-decoration: none;
+//     color: inherit;
+//     transition: color $ease;
+//   }
+//   .rank a:hover {
+//     color: $white;
+//   }
+
+// }
+
 .of-font-preview-footer {
   position: absolute;
   bottom: 40px;
@@ -14,11 +27,7 @@
 
   .rank a {
     text-decoration: none;
-    color: inherit;
     transition: color $ease;
-  }
-  .rank a:hover {
-    color: $white;
   }
 
   .social {
@@ -94,8 +103,26 @@
   }
 }
 
+.of-font-preview-container.white-noimage {
+
+  .rank a {
+    color: $trans-black-25;
+  }
+  .rank a:hover {
+    color: $trans-black-100;
+  }
+
+}
+
 .of-font-preview-container.black-image {
   color: $trans-white-50;
+
+  .rank a {
+    color: $trans-white-50;
+  }
+  .rank a:hover {
+    color: $trans-white-100;
+  }
 
   .of-font-preview-footer .like-button svg {
     fill: $trans-white-50;
