@@ -51,7 +51,7 @@ export default class FontPreviewContainer extends Component {
     if (backgroundState === 'image') {
       // If image, set random background image index with backgroundNum
       background = 2;
-      backgroundNum = (parseInt(Math.random() * 9, 10) + 1);
+      backgroundNum = FontPreviewContainer.getRandomBackground(); // (parseInt(Math.random() * 9, 10) + 1);
     } else if (backgroundState === 'black') {
       background = 1;
     } else {
@@ -132,7 +132,7 @@ export default class FontPreviewContainer extends Component {
   onUpdateBackground(value) {
     this.setState({
       background: value,
-      backgroundNum: (parseInt(Math.random() * 9, 10) + 1)
+      backgroundNum: FontPreviewContainer.getRandomBackground()
     });
   }
 
@@ -196,7 +196,7 @@ export default class FontPreviewContainer extends Component {
     let backgroundState = this.state.background;
 
     let backgroundStyle = {
-      backgroundImage: backgroundState === 2 ? "url(data/backgrounds/of-backdrop-00" + this.state.backgroundNum + ".jpg)" : "none"
+      backgroundImage: backgroundState === 2 ? "url(data/backgrounds/of-backdrop-0" + this.state.backgroundNum + ".jpg)" : "none"
     };
 
     let letterSpacingDigits = 3;
@@ -272,3 +272,16 @@ export default class FontPreviewContainer extends Component {
     )
   }
 }
+
+var numBackgrounds = 41;
+
+FontPreviewContainer.getRandomBackground = function () {
+  let randNum = --numBackgrounds;
+  if (randNum < 0) randNum = 0;
+
+  var num = Math.floor(Math.random() * randNum) + 1;
+  var len = num.toString().length;
+  if (len < 2) num = "0" + num;
+  return num;
+
+};

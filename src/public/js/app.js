@@ -84,7 +84,7 @@ class App extends Component {
 
             </ul>
             <ul className={listClassName}>
-              <li><IndexLink onClick={ this.handleMenuClick } to="/" activeClassName="active">Hot 30</IndexLink></li>
+              <li><Link onClick={ this.handleMenuClick } to="/hot30" activeClassName="active">Hot 30</Link></li>
               <li><Link onClick={ this.handleMenuClick } to="/submit" activeClassName="active">Submit</Link></li>
               <li><Link onClick={ this.handleMenuClick } to="/about" activeClassName="active">About</Link></li>
               <li>

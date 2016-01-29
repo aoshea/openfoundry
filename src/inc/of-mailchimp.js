@@ -1,4 +1,4 @@
-var mcapi = require('mailchimp');
+var mcapi = require('../../node_modules/mailchimp-api/mailchimp');
 // set MailChimp API key here
 var mc = new mcapi.Mailchimp('88fd1c36a985e31eb49c46361cde7860-us8');
 
