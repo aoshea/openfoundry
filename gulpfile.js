@@ -65,7 +65,8 @@ var sources = {
   css:         [ dir.source + 'public/css/main.scss'],
   allcss:      [ dir.source + 'public/css/**/*.scss'],
   export:      [ dir.data + '**/*' ],
-  backgrounds: [ dir.backgrounds +'**/*' ]
+  backgrounds: [ dir.backgrounds +'**/*' ],
+  includes:    [ dir.source + 'inc/**/*' ] // serverside includes
 };
 
 /**
@@ -220,6 +221,12 @@ gulp.task('index', ['templates'], function () {
     .pipe(gulp.dest(dir.build));
 });
 
+// Copy includes over
+gulp.task('includes', function () {
+  return gulp.src(sources.includes)
+    .pipe(gulp.dest(dir.build + '/inc'));
+});
+
 // Start database
 gulp.task('db', function () {
   var dbpath = osenv.home() + '/datadb';
@@ -266,7 +273,7 @@ gulp.task('watch', function () {
 });
 
 // Default task `gulp`
-gulp.task('build', ['index', 'html', 'images', 'css', 'vendor-js', 'js', 'watch']);
+gulp.task('build', ['index', 'includes', 'html', 'images', 'css', 'vendor-js', 'js', 'watch']);
 gulp.task('default', ['db', 'server']);
 
 

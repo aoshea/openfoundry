@@ -6,8 +6,8 @@ var express  = require('express'),
     port    = 7777
     ;
 
-var ofSubmission = require('./of-submission')
-var ofMailchimp = require('./of-mailchimp')
+var ofSubmission = require('./inc/of-submission')
+var ofMailchimp = require('./inc/of-mailchimp')
 
 // Connect to database
 mongoose.connect('mongodb://localhost:27017/openfoundry');
