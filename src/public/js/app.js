@@ -1,4 +1,4 @@
-import { Router, Route, Link } from 'react-router'
+import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link } from 'react-router'
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { replaceNonAlphaNumeric } from './util/util.js';
@@ -60,7 +60,7 @@ class App extends Component {
                 <a><span></span></a>
               </li>
               <li className={logoClassName}>
-                <Link to="/open">
+                <Link to="/hot30">
                   <span className="open">
                     <svg id="open" x="0px" y="0px" viewBox="719 269.5 54 28" enable-background="new 719 269.5 54 28">
                       <g>
@@ -84,7 +84,7 @@ class App extends Component {
 
             </ul>
             <ul className={listClassName}>
-              <li><Link onClick={ this.handleMenuClick } to="/open" activeClassName="active">Hot 30</Link></li>
+              <li><IndexLink onClick={ this.handleMenuClick } to="/" activeClassName="active">Hot 30</IndexLink></li>
               <li><Link onClick={ this.handleMenuClick } to="/submit" activeClassName="active">Submit</Link></li>
               <li><Link onClick={ this.handleMenuClick } to="/about" activeClassName="active">About</Link></li>
               <li>
@@ -164,9 +164,9 @@ class Open extends Component {
     let pathName = location.pathname;
 
     if (isSpecimen) {
-      if (pathName === '/open') this.setState({ isSpecimen: false });
+      if (pathName === '/hot30') this.setState({ isSpecimen: false });
     } else {
-      if (pathName !== '/open') this.setState({ isSpecimen: true });
+      if (pathName !== '/hot30') this.setState({ isSpecimen: true });
     }
   }
 
@@ -201,7 +201,7 @@ class Specimen extends Component {
   }
 
   navigateToOpen() {
-    this.context.router.push('/open');
+    this.context.router.push('/hot30');
   }
 
   onComplete() {
@@ -276,7 +276,8 @@ class Submission extends Component {
 render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
-      <Route path="open" component={Open}>
+      <IndexRedirect to="/hot30" />
+      <Route path="/hot30" component={Open}>
         <Route path=":fontId" component={Specimen} />
       </Route>
       <Route path="submit" component={Submission} />

@@ -20,7 +20,8 @@ var gulp        = require('gulp'),
     osenv       = require('osenv'),
     nodemon     = require('gulp-nodemon'),
     browsersync = require('browser-sync'),
-    reload      = browsersync.reload
+    reload      = browsersync.reload,
+    rsync       = require('gulp-rsync')
     ;
 
 /**
@@ -46,6 +47,7 @@ var onError = function (task, emit, context) {
   };
 };
 
+
 // Define folders and files
 var dir = {
   data: 'open/build/',
@@ -53,6 +55,39 @@ var dir = {
   source: 'src/',
   build: 'dist/'
 };
+
+/**
+ * Rsync config
+ */
+var config = {
+  rsync: {
+    src: dir.build + '**',
+    options: {
+      destination: '/home/of/html/beta/',
+      root: 'dist',
+      //destination: '/var/www/html/wp-content/themes/',
+      //root: 'wp/wp-content/themes',
+      hostname: 'alpheca.uberspace.de',
+      username: 'of',
+      incremental: true,
+      progress: true,
+      relative: true,
+      emptyDirectories: true,
+      recursive: true,
+      clean: false,
+      exclude: ['.DS_Store']
+    }
+  }
+};
+
+/**
+ * Rsync files to server
+ */
+gulp.task('deploy', function () {
+  return gulp.src(config.rsync.src)
+    .pipe(rsync(config.rsync.options));
+});
+
 
 var sources = {
   tpl:         [ dir.source + 'tpl/**/*'],

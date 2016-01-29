@@ -1,10 +1,8 @@
-var mcapi = require('../../node_modules/mailchimp-api/mailchimp')
+var mcapi = require('mailchimp');
 // set MailChimp API key here
-var mc = new mcapi.Mailchimp('88fd1c36a985e31eb49c46361cde7860-us8')
+var mc = new mcapi.Mailchimp('88fd1c36a985e31eb49c46361cde7860-us8');
 
-module.exports = { subscribe }
-
-function subscribe (email, cb) {
+module.exports = function subscribe (email, cb) {
   var result = {}
   console.log(email)
   mc.lists.subscribe({
@@ -30,4 +28,4 @@ function subscribe (email, cb) {
     }
     cb(result)
   })
-}
+};

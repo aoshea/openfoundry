@@ -42,14 +42,14 @@ app.get('/', function (req, res) {
 /**
  * Routing / Open Foundry List
  */
-app.get('/open', function (req, res) {
+app.get('/hot30', function (req, res) {
   res.render('index');
 });
 
 /**
  * Routing / Font
  */
-app.get('/open/:id', function (req, res) {
+app.get('/hot30/:id', function (req, res) {
   res.render('index');
 });
 
