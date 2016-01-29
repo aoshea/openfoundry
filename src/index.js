@@ -7,6 +7,7 @@ var express  = require('express'),
     ;
 
 var ofSubmission = require('./of-submission')
+var ofMailchimp = require('./of-mailchimp')
 
 // Connect to database
 mongoose.connect('mongodb://localhost:27017/openfoundry');
@@ -110,6 +111,13 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 
 app.post('/submit', function (req, res, next) {
   ofSubmission.process(req.body, function (result) {
+    res.json(result);
+  });
+});
+
+app.post('/newsletter-submit', function (req, res, next) {
+  console.log(req.body)
+  ofMailchimp.subscribe(req.body.EMAIL, function (result) {
     res.json(result);
   });
 });
