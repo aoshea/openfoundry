@@ -1,4 +1,4 @@
-import { Router, Route, Link } from 'react-router'
+import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link } from 'react-router'
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { replaceNonAlphaNumeric } from './util/util.js';
@@ -20,9 +20,50 @@ class App extends Component {
     this.handleBurgerClick = this.handleBurgerClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
 
+    this.isScrolled = false;
+    this.delta = 100;
+    this.lastScrollTop = 100;
+
     this.state = {
-      isMenuOpen: false
+      isMenuOpen: false,
+      isLogoUp: false,
+      isBreadCrumbUp: false
     };
+  }
+
+  componentDidMount() {
+    var self = this;
+    var navbarHeight = 50;
+
+    $(window).on('scroll', function () {
+      self.isScrolled = true;
+      requestAnimationFrame(function () {
+        var st = $(window).scrollTop();
+
+        // scroll more than delta
+        if (Math.abs(self.lastScrollTop - st) <= self.delta) return;
+        // if they scrolled down and are past the navbar, add class .up.
+        if (st > self.lastScrollTop && st > navbarHeight) {
+          self.setState({
+            isMenuOpen: false,
+            isLogoUp: true,
+            isBreadCrumbUp: false
+          });
+
+        } else {
+          if (st + $(window).height() < $(document).height()) {
+            self.setState({
+              isLogoUp: false
+            });
+          }
+        }
+        self. lastScrollTop = st;
+      })
+    });
+  }
+
+  componentWillUnmount() {
+    $(window).off('scroll');
   }
 
   handleBurgerClick() {
@@ -30,7 +71,9 @@ class App extends Component {
 
     isMenuOpen = !isMenuOpen;
     this.setState({
-      isMenuOpen: isMenuOpen
+      isMenuOpen: isMenuOpen,
+      isBreadCrumbUp: isMenuOpen,
+      isLogoUp: !isMenuOpen
     });
   }
 
@@ -39,7 +82,9 @@ class App extends Component {
 
     if (isMenuOpen) {
       this.setState({
-        isMenuOpen: false
+        isMenuOpen: false,
+        isBreadCrumbUp: false,
+        isLogoUp: true
       });
     }
   }
@@ -50,6 +95,25 @@ class App extends Component {
     let listClassName = this.state.isMenuOpen ? 'menu-list open' : 'menu-list';
     let signupClassName = this.state.isMenuOpen ? 'menu-signup open' : 'menu-signup';
     let logoClassName = this.state.isMenuOpen ? 'menu-logo open' : 'menu-logo';
+    let breadClassName = this.state.isBreadCrumpUp ? 'menu-breadcrumb up' : 'menu-breadcrumb'
+
+    if (this.state.isLogoUp) {
+      logoClassName += ' up';
+    }
+
+    let { location } = this.props;
+
+    let pathName = location.pathname;
+
+    let breadcrumb = '';
+
+    if (pathName === '/hot30') {
+      breadcrumb = 'Hot 30';
+    } else if (pathName === '/about') {
+      breadcrumb = 'About';
+    } else if (pathName === '/submit') {
+      breadcrumb = 'Submit';
+    }
 
     return (
       <div>
@@ -60,7 +124,7 @@ class App extends Component {
                 <a><span></span></a>
               </li>
               <li className={logoClassName}>
-                <Link to="/open">
+                <Link to="/hot30">
                   <span className="open">
                     <svg id="open" x="0px" y="0px" viewBox="719 269.5 54 28" enable-background="new 719 269.5 54 28">
                       <g>
@@ -80,11 +144,11 @@ class App extends Component {
                 </Link>
               </li>
 
-              <li className="menu-breadcrumb">Hot 30s</li>
+      { breadcrumb && <li className={breadClassName}>{breadcrumb}</li> }
 
             </ul>
             <ul className={listClassName}>
-              <li><Link onClick={ this.handleMenuClick } to="/open" activeClassName="active">Hot 30</Link></li>
+              <li><Link onClick={ this.handleMenuClick } to="/hot30" activeClassName="active">Hot 30</Link></li>
               <li><Link onClick={ this.handleMenuClick } to="/submit" activeClassName="active">Submit</Link></li>
               <li><Link onClick={ this.handleMenuClick } to="/about" activeClassName="active">About</Link></li>
               <li>
@@ -107,6 +171,12 @@ class App extends Component {
     )
   }
 }
+
+App.contextTypes = {
+  location: React.PropTypes.object
+};
+
+
 
 class Open extends Component {
 
@@ -164,9 +234,9 @@ class Open extends Component {
     let pathName = location.pathname;
 
     if (isSpecimen) {
-      if (pathName === '/open') this.setState({ isSpecimen: false });
+      if (pathName === '/hot30') this.setState({ isSpecimen: false });
     } else {
-      if (pathName !== '/open') this.setState({ isSpecimen: true });
+      if (pathName !== '/hot30') this.setState({ isSpecimen: true });
     }
   }
 
@@ -201,7 +271,7 @@ class Specimen extends Component {
   }
 
   navigateToOpen() {
-    this.context.router.push('/open');
+    this.context.router.push('/hot30');
   }
 
   onComplete() {
@@ -276,7 +346,8 @@ class Submission extends Component {
 render((
   <Router history={hashHistory}>
     <Route path="/" component={App}>
-      <Route path="open" component={Open}>
+      <IndexRedirect to="/hot30" />
+      <Route path="/hot30" component={Open}>
         <Route path=":fontId" component={Specimen} />
       </Route>
       <Route path="submit" component={Submission} />
