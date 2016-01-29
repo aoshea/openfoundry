@@ -95,7 +95,7 @@ class App extends Component {
     let listClassName = this.state.isMenuOpen ? 'menu-list open' : 'menu-list';
     let signupClassName = this.state.isMenuOpen ? 'menu-signup open' : 'menu-signup';
     let logoClassName = this.state.isMenuOpen ? 'menu-logo open' : 'menu-logo';
-    let breadClassName = this.state.isBreadCrumpUp ? 'menu-breadcrumb up' : 'menu-breadcrumb'
+    let breadClassName = this.state.isBreadCrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb'
 
     if (this.state.isLogoUp) {
       logoClassName += ' up';
