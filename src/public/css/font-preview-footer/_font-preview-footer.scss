@@ -15,18 +15,11 @@
   .rank a {
     text-decoration: none;
     color: inherit;
-  }
-  .rank a {
-    opacity: 0.8;
-    transform: opacity 500ms linear;
+    transition: color $ease;
   }
   .rank a:hover {
-    opacity: 1;
+    color: $white;
   }
-
-  // .rank {
-  //   font-size: 15px;
-  // }
 
   .social {
     text-align: right;
