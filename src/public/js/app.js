@@ -20,9 +20,56 @@ class App extends Component {
     this.handleBurgerClick = this.handleBurgerClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
 
+    this.isScrolled = false;
+    this.delta = 100;
+    this.lastScrollTop = 100;
+
     this.state = {
-      isMenuOpen: false
+      isMenuOpen: false,
+      isLogoUp: false,
+      isBreadCrumbUp: false
     };
+  }
+
+  componentDidMount() {
+    var self = this;
+    var navbarHeight = 50;
+
+    $(window).on('scroll', function () {
+      self.isScrolled = true;
+      requestAnimationFrame(function () {
+        var st = $(window).scrollTop();
+
+        // scroll more than delta
+        if (Math.abs(self.lastScrollTop - st) <= self.delta) return;
+        // if they scrolled down and are past the navbar, add class .up.
+        if (st > self.lastScrollTop && st > navbarHeight) {
+
+          console.log('add class up ');
+
+          self.setState({
+            isMenuOpen: false,
+            isLogoUp: true,
+            isBreadCrumbUp: false
+          });
+
+        } else {
+          if (st + $(window).height() < $(document).height()) {
+
+            console.log('remove class up from loggo');
+            // $('.menu-logo').removeClass('up');
+            self.setState({
+              isLogoUp: false
+            });
+          }
+        }
+        self. lastScrollTop = st;
+      })
+    });
+  }
+
+  componentWillUnmount() {
+    $(window).off('scroll');
   }
 
   handleBurgerClick() {
@@ -30,7 +77,9 @@ class App extends Component {
 
     isMenuOpen = !isMenuOpen;
     this.setState({
-      isMenuOpen: isMenuOpen
+      isMenuOpen: isMenuOpen,
+      isBreadCrumbUp: isMenuOpen,
+      isLogoUp: !isMenuOpen
     });
   }
 
@@ -39,7 +88,9 @@ class App extends Component {
 
     if (isMenuOpen) {
       this.setState({
-        isMenuOpen: false
+        isMenuOpen: false,
+        isBreadCrumbUp: false,
+        isLogoUp: true
       });
     }
   }
@@ -50,6 +101,11 @@ class App extends Component {
     let listClassName = this.state.isMenuOpen ? 'menu-list open' : 'menu-list';
     let signupClassName = this.state.isMenuOpen ? 'menu-signup open' : 'menu-signup';
     let logoClassName = this.state.isMenuOpen ? 'menu-logo open' : 'menu-logo';
+    let breadClassName = this.state.isBreadCrumpUp ? 'menu-breadcrumb up' : 'menu-breadcrumb'
+
+    if (this.state.isLogoUp) {
+      logoClassName += ' up';
+    }
 
     return (
       <div>
@@ -80,7 +136,7 @@ class App extends Component {
                 </Link>
               </li>
 
-              <li className="menu-breadcrumb">Hot 30s</li>
+              <li className={breadClassName}>Hot 30</li>
 
             </ul>
             <ul className={listClassName}>
