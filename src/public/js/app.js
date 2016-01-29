@@ -44,9 +44,6 @@ class App extends Component {
         if (Math.abs(self.lastScrollTop - st) <= self.delta) return;
         // if they scrolled down and are past the navbar, add class .up.
         if (st > self.lastScrollTop && st > navbarHeight) {
-
-          console.log('add class up ');
-
           self.setState({
             isMenuOpen: false,
             isLogoUp: true,
@@ -55,9 +52,6 @@ class App extends Component {
 
         } else {
           if (st + $(window).height() < $(document).height()) {
-
-            console.log('remove class up from loggo');
-            // $('.menu-logo').removeClass('up');
             self.setState({
               isLogoUp: false
             });
@@ -107,6 +101,20 @@ class App extends Component {
       logoClassName += ' up';
     }
 
+    let { location } = this.props;
+
+    let pathName = location.pathname;
+
+    let breadcrumb = '';
+
+    if (pathName === '/hot30') {
+      breadcrumb = 'Hot 30';
+    } else if (pathName === '/about') {
+      breadcrumb = 'About';
+    } else if (pathName === '/submit') {
+      breadcrumb = 'Submit';
+    }
+
     return (
       <div>
         <header className="of-navbar">
@@ -136,7 +144,7 @@ class App extends Component {
                 </Link>
               </li>
 
-              <li className={breadClassName}>Hot 30</li>
+      { breadcrumb && <li className={breadClassName}>{breadcrumb}</li> }
 
             </ul>
             <ul className={listClassName}>
@@ -163,6 +171,12 @@ class App extends Component {
     )
   }
 }
+
+App.contextTypes = {
+  location: React.PropTypes.object
+};
+
+
 
 class Open extends Component {
 
