@@ -80,6 +80,8 @@ class App extends Component {
                 </Link>
               </li>
 
+              <li className="menu-breadcrumb">Hot 30s</li>
+
             </ul>
             <ul className={listClassName}>
               <li><Link onClick={ this.handleMenuClick } to="/open" activeClassName="active">Hot 30s</Link></li>
