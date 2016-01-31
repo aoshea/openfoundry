@@ -16,6 +16,15 @@
   transition: opacity $ease;
 }
 
+// stefan
+@include mobile {
+  .of-font-preview-container .of-font-preview-ui {
+    margin-top: 0px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+  }
+}
+
 .of-font-preview-container {
   .of-font-preview-ui,
   .of-font-preview-footer {
@@ -35,6 +44,23 @@
   text-align: right;
   padding-right: 0px;
 }
+
+// stefan
+@include mobile {
+  .of-font-preview-container .of-font-preview-ui {
+    // padding-right: 0;
+  }
+  .of-font-preview-container .more-button-container {
+    padding-right: 8px;
+  }
+  .of-font-preview-container {
+    .of-font-preview-ui,
+    .of-font-preview-footer {
+      opacity: 0.5;
+    }
+  }
+}
+
 .of-font-preview-container .more-button-container a {
   text-decoration: none;
 }
@@ -68,6 +94,14 @@
   padding-bottom: 160px;
   padding-left: 50px;
   padding-right: 50px;
+}
+
+// stefan
+@include mobile {
+  .of-font-preview-container .of-font-preview-text-container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
 }
 
 .of-font-preview-container.white-noimage + .of-font-preview-container.white-noimage {

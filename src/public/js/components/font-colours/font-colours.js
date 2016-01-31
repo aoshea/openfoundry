@@ -6,7 +6,7 @@ import FontColourBox from '../../components/font-colour-box/font-colour-box.js';
 export default class FontColours extends Component {
   render() {
     return (
-      <div className="col-4">        
+      <div className="col-4 of-font-colour">        
       
         <div className="of-font-background-toggle-container">
           <FontBackgroundToggle background={this.props.background} onUpdateColour={this.props.onUpdate} onUpdate={this.props.onUpdateBackground} />

@@ -38,6 +38,13 @@
   }
 }
 
+// stefan
+@include mobile {
+  .of-font-colour-input {
+    margin-left: 20px;
+  }
+}
+
 .of-font-preview-container.black-image {
 
   .of-font-colour-input {
@@ -90,6 +97,14 @@
   margin-right: 5px;
   opacity: 0.5;
   transition: opacity $ease;
+}
+
+// stefan
+@include mobile {
+  .of-font-background-toggle-container,
+  .of-font-uppercase-toggle-container {
+    margin-right: 15px;
+  }
 }
 
 .of-font-background-toggle-container:hover,

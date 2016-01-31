@@ -93,6 +93,13 @@
   height: 50px;
 }
 
+// stefan
+@include mobile {
+  .of-font-slider {
+    box-sizing: border-box;
+  }
+}
+
 .of-font-slider:hover {
   opacity: 1;
 

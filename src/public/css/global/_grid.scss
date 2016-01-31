@@ -1,7 +1,8 @@
 $spacing: 40px;
 $num-cols: 12;
-$num-sm-cols: 4;
+$num-sm-cols: 6;
 $gutter: $spacing/2;
+$gutter-sm: $spacing/5;
 
 @mixin col($i, $cols: $num-cols) {
   width: 100% / $cols * $i;
@@ -22,10 +23,11 @@ $gutter: $spacing/2;
 	}
 }
 
+// stefan
 @include mobile {
   // Columns for screens < iphone landscape 
   @for $i from 1 through $num-sm-cols {
-    .col-sm-#{$i} {    
+    .col-#{$i} {    
       @include col($i, $num-sm-cols);
     }
     .offset-sm-#{$i} {
@@ -34,17 +36,33 @@ $gutter: $spacing/2;
   }
 }
 
+// @include mobile {
+//   // Columns for screens < iphone landscape 
+//   @for $i from 1 through $num-sm-cols {
+//     .col-sm-#{$i} {    
+//       @include col($i, $num-sm-cols);
+//     }
+//     .offset-sm-#{$i} {
+//       @include offset($i, $num-sm-cols);
+//     }
+//   }
+// }
+
 .of-grid-container {
   width: 100%;
 }  
 
 @include mobile {
+  // .of-grid-container {
+  //   width: 90%;
+  //   margin: 0 auto;
+  // }
   .of-grid-container {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
+    padding: 0;
   }
 }
-
 
 [class^="col-"] {
   position: relative;
@@ -55,15 +73,34 @@ $gutter: $spacing/2;
   padding-right: $gutter;
 }
 
+// stefan
+@include mobile {
+  [class^="col-"] {
+    padding-right: 0px;
+    padding: 0 $gutter-sm;
+  }
+}
+
 .of-row {
   width: 100%;
   padding-left: $gutter/2;
   margin-left: -$gutter/2;
   // margin-right: -$gutter/2;
-  
+  box-sizing: content-box;
+
   &:after {
     content: '';
     display: table;
     clear: both;
+  }
+}
+
+// mobile input stefan
+@include mobile {
+  .of-row {
+    width: 100%;
+    // padding: 0px;
+    // margin-left: 0px;
+    // box-sizing: border-box;
   }
 }

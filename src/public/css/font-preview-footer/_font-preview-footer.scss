@@ -25,6 +25,17 @@
     box-sizing: border-box;
   }
 
+  // stefan
+  @include mobile {
+    .of-footer-inner {
+      padding: 0 10px;
+    }
+    .rank {
+      width: 66.6666666%;
+    }
+  }
+
+
   .rank a {
     text-decoration: none;
     transition: color $ease;
@@ -32,6 +43,7 @@
 
   .social {
     text-align: right;
+    // padding-right: 0;
   }
 
   .vote-container,
@@ -55,6 +67,38 @@
   .share-count {
     position: absolute;
     letter-spacing: $letter-spacing-m;
+  }
+}
+
+@include mobile {
+  .of-font-preview-footer .social {
+    text-align: left;
+  }
+  .of-font-preview-footer .rank {
+    overflow: hidden;
+  }
+  .of-font-preview-footer .rank:before {
+    content: '';
+    position: absolute;
+    right: 0;
+    height: 20px;
+    width: 30px;
+    pointer-events: none;
+  }
+  // .of-font-preview-container.black-image > .of-font-preview-footer .rank:before {
+  //   background: -webkit-linear-gradient(left, $trans-black-00, $semi-black);
+  //   background:    -moz-linear-gradient(right, $trans-black-00, $semi-black);
+  //   background:      -o-linear-gradient(right, $trans-black-00, $semi-black);
+  //   background:         linear-gradient(to right, $trans-black-00, $semi-black);
+  // }
+  .of-font-preview-container.white-noimage > .of-font-preview-footer .rank:before {
+    background: -webkit-linear-gradient(left, $trans-white-00, $white);
+    background:    -moz-linear-gradient(right, $trans-white-00, $white);
+    background:      -o-linear-gradient(right, $trans-white-00, $white);
+    background:         linear-gradient(to right, $trans-white-00, $white);
+  }
+  .of-font-preview-footer .rank div {
+    white-space: nowrap;
   }
 }
 
