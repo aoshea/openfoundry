@@ -37,6 +37,8 @@ export default class FontPreviewContainer extends Component {
 
     let { font } = this.props;
 
+    if (!font) return;
+
     let fontSize = parseInt(font['settings-font-size'], 10);
     let lineHeight = parseFloat(font['settings-line-height'], 10);
     let letterSpacing = parseFloat(font['settings-letter-spacing'], 10);
@@ -146,6 +148,12 @@ export default class FontPreviewContainer extends Component {
 
     let { font } = this.props;
 
+    console.log(font);
+
+    if (!font) {
+      return <div>No font id</div>
+    }
+
     let fontId = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
     let fontName = replaceNonAlphaNumeric(font['font-name']).toLowerCase();
     let rankPadded = ("0" + this.props.rank).slice(-2);
@@ -251,7 +259,7 @@ export default class FontPreviewContainer extends Component {
           </div>
         </div>
 
-        <div className={fontClassName} style={fontStyle}>
+        <div className={fontClassName} contentEditable style={fontStyle}>
           {font['settings-text']}
         </div>
 

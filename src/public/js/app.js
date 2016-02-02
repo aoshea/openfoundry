@@ -375,7 +375,7 @@ function setupForm() {
     form.querySelector('.simform-inner').classList.add('hide')
 
     $.ajax({
-      url: '/newsletter-submit',
+      url: 'newsletter',
       type: 'post',
       dataType: 'json',
       data: $(form).serialize(),

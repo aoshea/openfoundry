@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
+import FontPreviewContainer from '../../components/font-preview-container/font-preview-container.js';
 
 export default class FontSpecimen extends Component {
 
@@ -11,16 +12,8 @@ export default class FontSpecimen extends Component {
   }
 
   onScrollFinish() {
-
-    console.log('onScrollFinsh');
-
     let { onCompleteScroll } = this.props;
     onCompleteScroll && onCompleteScroll();
-  }
-
-  componentDidUpdate() {
-    console.log('font specimen componentDidUpdate');
-    console.log(this.props);
   }
 
   componentDidMount() {
@@ -48,7 +41,11 @@ export default class FontSpecimen extends Component {
 
   render() {
 
-    let { font } = this.props;
+    const props = this.props;
+
+    let { font } = props;
+
+    console.log('font-specimen', font);
 
     let creator;
     let creatorLink;
@@ -126,6 +123,7 @@ export default class FontSpecimen extends Component {
     return (
       <div className="of-font-specimen-wrapper">
         <div className="of-font-specimen">
+
           <div className="of-font-specimen-spacer-top"></div>
 
           { specimenClassName
