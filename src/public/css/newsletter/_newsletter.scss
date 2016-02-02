@@ -48,7 +48,7 @@
   bottom: 0;
   width: 100%;
   height: 100px;
-  border: 4px solid rgba(0,0,0,1);
+  border: 4px solid $trans-black-100;
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -135,7 +135,6 @@
   width: calc(100% - 100px);
   padding: 8px 15px;
   background: transparent;
-  color: rgba(0,0,0,1);
   line-height: 1;
   opacity: 0;
   border: none;
@@ -148,7 +147,12 @@
 
 .questions input::-webkit-input-placeholder {
   padding: 5px 5px;
-  color: rgba(0,0,0,.5);
+}
+
+.questions input,
+.questions input::-webkit-input-placeholder {
+  color: $trans-black-40;
+  letter-spacing: 0em;
 }
 
 .questions .current input,
@@ -169,18 +173,18 @@
   width: 100px;
   height: 92px;
   display: block;
-  color: rgba(0,0,0,.5);
+  color: $trans-black-40;
   text-align: right;
   border: none;
   background: none;
   opacity: 0;
   cursor: pointer;
   pointer-events: none;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-     -moz-tap-highlight-color: rgba(0, 0, 0, 0);
-      -ms-tap-highlight-color: rgba(0, 0, 0, 0);
-       -o-tap-highlight-color: rgba(0, 0, 0, 0);
-          tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: $trans-black-00;
+     -moz-tap-highlight-color: $trans-black-00;
+      -ms-tap-highlight-color: $trans-black-00;
+       -o-tap-highlight-color: $trans-black-00;
+          tap-highlight-color: $trans-black-00;
   -webkit-transition: all .2s ease, opacity .3s;
      -moz-transition: all .2s ease, opacity .3s;
       -ms-transition: all .2s ease, opacity .3s;
@@ -266,7 +270,7 @@
   top: auto;
   width: 100%;
   height: inherit;
-  background: rgba(0,0,0,0x);
+  background: rgba(0,0,0,0);
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -294,9 +298,14 @@
 
 .simform .number,
 .simform .error-message {
-  color: rgba(0,0,0,.5);
+  color: $trans-black-50;
   font-size: 18px;
   font-weight: 400;
+  letter-spacing: 0.025em;
+}
+
+.simform .error-message {
+  color: $trans-red-100;
 }
 
 .simform .number:after {
@@ -474,8 +483,8 @@
   float: right;
   padding: 10px 20px;
   display: block;
-  color: rgba(0,0,0,.4);
-  background: rgba(0,0,0,.3);
+  color: $trans-black-25;
+  background: rgba(0,0,0,0);
   border: none;
 }
 
