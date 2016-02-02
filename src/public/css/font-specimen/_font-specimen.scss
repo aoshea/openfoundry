@@ -33,13 +33,15 @@
   .of-font-specimen-spacer-top {
     width: 100vw;
     height: 90vh;
-    background: $trans-black-75;
+    background: $trans-green-10;
+    pointer-events: none;
   }
 
   .of-font-specimen-spacer-bottom {
     width: 100vw;
     height: 100vh;
-    background: $trans-black-75;
+    background: $trans-green-10;
+    pointer-events: none;
   }
 
   .of-font-specimen-button {
@@ -69,7 +71,7 @@
   .of-font-specimen-content.of-font-specimen-content-last {
     padding-bottom: 75px;
   }
-  
+
   .of-font-specimen-content.of-font-specimen-content-characterset h4 {
     line-height: 1.2em;
   }
@@ -132,7 +134,7 @@
       word-break: break-all;
       line-height: 1.1em;
     }
-  
+
     ul {
       margin: 0 auto;
       margin-top: 15px;
@@ -170,8 +172,8 @@
       -ms-transform: scale(3);
       -o-transform: scale(3);
       transform: scale(3);
-      cursor: -moz-zoom-in; 
-      cursor: -webkit-zoom-in; 
+      cursor: -moz-zoom-in;
+      cursor: -webkit-zoom-in;
       cursor: zoom-in;
     }
   }

@@ -5,6 +5,7 @@ import FontSlider from '../../components/font-slider/font-slider.js';
 import FontColours from '../../components/font-colours/font-colours.js';
 import FontLikeButton from '../../components/font-like-button/font-like-button.js';
 import FontShareButton from '../../components/font-share-button/font-share-button.js';
+import FontText from './font-text/font-text.js';
 import $ from 'jquery';
 
 export default class FontPreviewContainer extends Component {
@@ -146,9 +147,11 @@ export default class FontPreviewContainer extends Component {
 
   render() {
 
-    let { font } = this.props;
+    const props = this.props;
 
-    console.log(font);
+    let { font } = props;
+
+    console.log(font, 'fixed:' + props.fixed);
 
     if (!font) {
       return <div>No font id</div>
@@ -259,9 +262,10 @@ export default class FontPreviewContainer extends Component {
           </div>
         </div>
 
-        <div className={fontClassName} contentEditable style={fontStyle}>
-          {font['settings-text']}
-        </div>
+        <FontText
+          fontClasses={fontClassName}
+          fontStyle={fontStyle}
+          content={font['settings-text']}/>
 
         <div className="of-font-preview-footer">
           <div className="of-footer-inner">

@@ -25,18 +25,21 @@ export default class FontList extends Component {
 
   render() {
 
-    let fonts = this.props.fonts.map((font, i) => {
+    const props = this.props;
+
+    let fonts = props.fonts.map((font, i) => {
       return (
         <FontPreviewContainer
-        rank={ i + 1 }
+          fixed={props.fixed}
+          rank={ i + 1 }
           key={i}
           font={font} />
       )
     });
 
-    let fontListClassNames = classNames({
+    const fontListClassNames = classNames({
       'of-font-list': true,
-      'is-fixed': this.props.fixed
+      'is-fixed': props.fixed
     });
 
     return (
