@@ -8,7 +8,7 @@
 
   @include placeholder {
     -webkit-font-smoothing: antialiased;
-    color: $trans-black-25;
+    color: $trans-black-50;
   }
 
   input {
@@ -17,10 +17,10 @@
     font-family: 'Helvetica', 'Arial', sans-serif;
     text-align: center;
     letter-spacing: $letter-spacing-s;
-    color: $trans-black-25;
+    color: $trans-black-50;
     padding: 5px 8px;
     border-radius: $radius-button;
-    border: 1px solid $trans-black-25;
+    border: 1px solid $trans-black-50;
     cursor: text;
     background: transparent;
     transition: all $ease;
