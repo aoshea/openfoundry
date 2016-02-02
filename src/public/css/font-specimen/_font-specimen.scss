@@ -158,8 +158,7 @@
       transform: scale(1);
       transition: transform $ease-xs;
 
-          // stefan
-
+      // stefan
       @include desktop-1280 {
         width: 11.111111111%;
       }
@@ -176,10 +175,10 @@
       position: relative;
       z-index: 10;
       border: none;
-      font-size: 120%;
+      font-size: 125%;
       border: 1px solid $trans-white-10;
       background-color: $semi-black;
-      // box-shadow: 0px 0px 40px $trans-black-50;
+      box-shadow: 0px 0px 50px $trans-black-50;
       -webkit-transform: scale(2);
       -moz-transform: scale(2);
       -ms-transform: scale(2);
@@ -189,6 +188,5 @@
       cursor: -webkit-zoom-in; 
       cursor: zoom-in;
     }
-
   }
 }
