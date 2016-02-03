@@ -1,7 +1,21 @@
 $bp-mobile: 667px;
+$bp-1280: 1280px;
+$bp-960: 960px;
 
 @mixin mobile {
   @media only screen and (max-width: $bp-mobile)  {       
+    @content;
+  }
+}
+
+@mixin desktop-1280 {
+  @media only screen and (max-width: $bp-1280)  {       
+    @content;
+  }
+}
+
+@mixin desktop-960 {
+  @media only screen and (max-width: $bp-960)  {       
     @content;
   }
 }

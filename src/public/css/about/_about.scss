@@ -9,8 +9,8 @@ section {
 }
 
 .headline {
-  background: rgba(0,0,0,1);
-  color: rgba(255,255,255,1);
+  background: $trans-black-100;
+  color: $trans-white-100;
   padding: 50px;
 }
 
@@ -20,7 +20,7 @@ section h1 {
   line-height: 1.15em;
   letter-spacing: 0em;
   letter-spacing: 0.01em;
-  color: rgba(255,255,255,1);
+  color: $trans-white-100;
 }
 
 .hot30-button {
@@ -29,8 +29,8 @@ section h1 {
   font-size: 15px;
   letter-spacing: 0.025em;
   padding: 5px 10px;
-  color: rgba(255, 255, 255, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  color: $trans-white-50;
+  border: 1px solid $trans-white-50;
   border-radius: 3px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -38,8 +38,8 @@ section h1 {
 }
 
 .hot30-button:hover {
-  color: rgba(255, 255, 255, 1);
-  border-color: rgba(255, 255, 255, 1);
+  color: $trans-white-100;
+  border-color: $trans-white-100;
 }
 
 section p a,
@@ -61,7 +61,7 @@ h2 {
 }
 
 section {
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 400;
   line-height: 1.35em;
 }
@@ -69,9 +69,9 @@ section {
 section a,
 section a:link {
   text-decoration: none;
-  color: rgba(0,0,0,1);
+  color: $trans-black-100;
   padding: 0;
-  border-bottom: 3px solid rgba(0,0,0,0);
+  border-bottom: 3px solid $trans-black-00;
   transition: all 0.1s ease;
 }
 
@@ -79,7 +79,7 @@ section p a:hover {
   text-decoration: none;
   color: inherit;
   padding: 0.1em 0;
-  border-color: rgba(0,0,0,1);
+  border-color: $trans-black-100;
 }
 
 blockquote {
@@ -90,7 +90,7 @@ blockquote {
 
 blockquote:before,
 blockquote:after {
-  color: rgba(0,0,0,1);
+  color: $trans-black-100;
   font-size: 1.5em;
   line-height: 0.1em;
   vertical-align: -0.25em;
@@ -113,7 +113,7 @@ blockquote p {
 }
 
 svg.love {
-  width: 24px;
+  width: 20px;
   height: auto;
 }
 

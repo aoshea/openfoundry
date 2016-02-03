@@ -4,21 +4,10 @@
   height: 1px;
   background: $black;
 }
+
 .black-image .slider {
   background: $white;
 }
-
-// .handle {
-//   font-size: 0.9em;
-//   text-align: center;
-//   background-color: black;
-//   color: white;
-//   cursor: pointer;
-//   top: -4px;
-//   width: 1px;
-//   height: 1px;
-//   line-height: 48px;    
-// }
 
 .handle {
   cursor: pointer;
@@ -48,37 +37,35 @@
 
 .handle:after,
 .black-image .handle:after {
-  -moz-background-clip: border;     /* Firefox 3.6 */
-  -webkit-background-clip: border;  /* Safari 4? Chrome 6? */
-  background-clip: border-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
-
-  -moz-background-clip: padding;     /* Firefox 3.6 */
-  -webkit-background-clip: padding;  /* Safari 4? Chrome 6? */
-  background-clip: padding-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
-
-  -moz-background-clip: content;     /* Firefox 3.6 */
-  -webkit-background-clip: content;  /* Safari 4? Chrome 6? */
-  background-clip: content-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
+  -webkit-background-clip: border;
+     -moz-background-clip: border;
+          background-clip: border-box;
+  -webkit-background-clip: padding;
+     -moz-background-clip: padding;
+          background-clip: padding-box;
+  -webkit-background-clip: content;
+     -moz-background-clip: content;
+          background-clip: content-box;
 }
 
 .of-font-slider-label {
   position: relative;
-  display: inline-block;
-  font-weight: lighter;
-  transform: translateX(-50%);
   top: -10px;
   left: 0;
-  font-size: 12px;
-  letter-spacing: $letter-spacing-s;
   background: $black;
   color: $white;
   border-radius: $radius-button;
   padding: 5px 5px;
+  display: inline-block;
+  font-weight: lighter;
   text-align: center;
-  opacity: 0;
-  transition: opacity $ease-m;
+  font-size: 12px;
+  letter-spacing: $letter-spacing-s;
   white-space: nowrap;
   user-select: none;
+  transform: translateX(-50%);
+  transition: opacity $ease-m;
+  opacity: 0;
 }
 
 .of-font-preview-container.black-image {
