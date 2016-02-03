@@ -222,7 +222,7 @@ class Open extends Component {
       Tabletop.init(options);
     }
 
-    setupForm()
+    // setupForm()
 
     promise.then(this.setFonts);
   }
@@ -264,10 +264,14 @@ class Specimen extends Component {
     this.setFonts = this.setFonts.bind(this);
     this.onComplete = this.onComplete.bind(this);
     this.navigateToOpen = this.navigateToOpen.bind(this);
+    this.onScrollUpdate = this.onScrollUpdate.bind(this);
 
     this.state = {
       fonts: []
     };
+  }
+
+  onScrollUpdate(x) {
   }
 
   navigateToOpen() {
@@ -323,7 +327,10 @@ class Specimen extends Component {
 
     let match = matches.length ? matches[0] : null;
 
-    return <FontSpecimen onCompleteScroll={this.onComplete} font={match} fontId={fontId} />
+    return <FontSpecimen onScrollUpdate={this.onScrollUpdate}
+                         onCompleteScroll={this.onComplete}
+                         font={match}
+                         fontId={fontId} />
   }
 }
 
@@ -358,6 +365,7 @@ render((
 document.querySelector('.of-container')
 );
 
+/*
 function setupForm() {
   var form = document.getElementById('newsletter-form')
 
@@ -393,3 +401,4 @@ function setupForm() {
   }
 
 }
+*/
