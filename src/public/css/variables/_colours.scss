@@ -1,14 +1,15 @@
 $black: #000;
-$semi-black: rgba(26, 26, 26, 1);
+$semi-black: rgba(26, 26, 26, 1.00);
 $white: #fff;
 $grey: #888;
+$blue: rgba(0, 100, 255, 1.00);
 $red: #c80000;
 
-$trans-green-10: rgba(0, 255, 0, 0.1);
+$trans-green-10: rgba(0, 255, 0, 0.10);
 
 $trans-red-25:  rgba(226, 38, 77, 0.25);
-$trans-red-50:  rgba(226, 38, 77, 0.5);
-$trans-red-100: rgba(226, 38, 77, 1);
+$trans-red-50:  rgba(226, 38, 77, 0.50);
+$trans-red-100: rgba(226, 38, 77, 1.00);
 
 $trans-black-00:  rgba(0, 0, 0, 0.00);
 $trans-black-10:  rgba(0, 0, 0, 0.10);
@@ -17,9 +18,9 @@ $trans-black-40:  rgba(0, 0, 0, 0.40);
 $trans-black-50:  rgba(0, 0, 0, 0.50);
 $trans-black-75:  rgba(0, 0, 0, 0.75);
 $trans-black-90:  rgba(0, 0, 0, 0.90);
-$trans-black-100: rgba(0, 0, 0, 1);
+$trans-black-100: rgba(0, 0, 0, 1.00);
 
-$trans-grey-100: rgba(126, 126, 126, 1);
+$trans-grey-100: rgba(126, 126, 126, 1.00);
 
 $trans-white-00:  rgba(255, 255, 255, 0.00);
 $trans-white-10:  rgba(255, 255, 255, 0.10);
@@ -27,4 +28,4 @@ $trans-white-25:  rgba(255, 255, 255, 0.25);
 $trans-white-50:  rgba(255, 255, 255, 0.50);
 $trans-white-75:  rgba(255, 255, 255, 0.75);
 $trans-white-90:  rgba(255, 255, 255, 0.90);
-$trans-white-100: rgba(255, 255, 255, 1);
+$trans-white-100: rgba(255, 255, 255, 1.00);

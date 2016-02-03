@@ -76,16 +76,20 @@
 .of-font-preview-container .more-button {
   cursor: pointer;
   font-size: 15px;
+  font-weight: 100;
+  -webkit-font-smoothing: antialiased;
   letter-spacing: $letter-spacing-xs;
-  color: $trans-black-50;
-  border: 1px solid $trans-black-50;
+  color: $white;
+  background: $trans-black-50;
+  border: 1px solid $trans-black-00;
   padding: 5px 10px;
   border-radius: $radius-button;
   transition: all $ease;
 
   &:hover {
-    color: $trans-black-100;
-    border: 1px solid $trans-black-100;
+    color: $white;
+    background: $black;
+    border-color: $trans-black-00;
   }
 }
 
@@ -102,6 +106,19 @@
   padding-bottom: 160px;
   padding-left: 50px;
   padding-right: 50px;
+  -webkit-user-modify: read-write;
+}
+
+
+input[type=text],
+textarea,
+.of-font-preview-text-container {
+  outline: none;
+}
+
+::selection,
+-moz-::selection {
+    background-color: $blue;
 }
 
 // stefan
@@ -124,12 +141,14 @@
   font-weight: lighter;
 
   .more-button {
-    color: $trans-white-50;
-    border-color: $trans-white-50;
+    color: $black;
+    background: $trans-white-50;
+    border-color: $trans-white-00;
   }
   .more-button:hover {
-    color: $white;
-    border-color: $white;
+    color: $black;
+    background: $white;
+    border-color: $trans-white-00;
   }
   .of-font-preview-text-container {
     color: $white;

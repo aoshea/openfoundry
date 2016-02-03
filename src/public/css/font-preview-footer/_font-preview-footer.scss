@@ -114,10 +114,10 @@
 }
 
 .of-font-preview-container {
-  color: $trans-black-25;
+  color: $trans-black-50;
 
   .of-font-preview-footer .like-button svg {
-    fill: $trans-black-25;
+    fill: $trans-black-50;
     transition: all $ease;
   }
   .of-font-preview-footer .like-button:hover svg {
@@ -133,7 +133,7 @@
   }
 
   .of-font-preview-footer .share-button svg {
-    fill: $trans-black-25;
+    fill: $trans-black-50;
     transition: all $ease;
   }
   .of-font-preview-footer .share-button:hover svg {
@@ -148,9 +148,10 @@
 }
 
 .of-font-preview-container.white-noimage {
-
+  -webkit-font-smoothing: antialiased;
+  
   .rank a {
-    color: $trans-black-25;
+    color: $trans-black-50;
   }
   .rank a:hover {
     color: $trans-black-100;
