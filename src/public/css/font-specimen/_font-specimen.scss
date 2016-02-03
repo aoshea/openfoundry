@@ -1,18 +1,52 @@
-.of-font-specimen-wrapper {
+$b: 50px;
+$preview-height: 80vh;
+
+.of-spec-holder {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow-y: scroll;
-  background: $trans-black-10;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow: visible;
+  background-color: $trans-black-10;
   z-index: $zIndex-font-specimen;
+
+  transition: transform 300ms ease-in-out;
+  transform: scale3d(0.95,0.95,0.95);
+}
+.of-spec-holder.enter {
+  transform: scale3d(1,1,1);
+}
+.of-spec-wrapper {
+  position: fixed;
+  top: $b; left: 0; right: 0; bottom: 0;
+  overflow: hidden;
+  max-height: none;
+}
+.of-spec-scrollable {
+  max-height: 100%;
+  position: absolute;
+  overflow-y: scroll;
+  top: 0; left: 0; right: 0; bottom: 0;
+}
+.of-preview-wrapper {
+  position: fixed;
+  height: $preview-height;
+  width: 100%;
+  z-index: $zIndex-font-specimen-preview;
+}
+.of-specimen-wrapper {
+  position: relative;
+  z-index: $zIndex-font-specimen-example;
 }
 
+.of-font-specimen.enter {
+  transform: translate3d(0, 0vh, 0);
+}
 .of-font-specimen {
   position: relative;
-  width: 100vw;
+  width: 100%;
+  margin-top: $preview-height;
   background: $trans-black-50;
+  transition: transform 300ms ease-in-out;
+  transform: translate3d(0, 10vh, 0);
 
   .of-font-specimen-image-wrapper {
     position: relative;
@@ -30,16 +64,12 @@
     background-position: center;
   }
 
-  .of-font-specimen-spacer-top {
-    width: 100vw;
-    height: 90vh;
-    background: $trans-black-75;
-  }
-
   .of-font-specimen-spacer-bottom {
     width: 100vw;
     height: 100vh;
-    background: $trans-black-75;
+    pointer-events: none;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#000000', endColorstr='#000000', GradientType=0 );
   }
 
   .of-font-specimen-button {
@@ -69,7 +99,7 @@
   .of-font-specimen-content.of-font-specimen-content-last {
     padding-bottom: 75px;
   }
-  
+
   .of-font-specimen-content.of-font-specimen-content-characterset h4 {
     line-height: 1.2em;
   }
@@ -132,7 +162,7 @@
       word-break: break-all;
       line-height: 1.1em;
     }
-  
+
     ul {
       margin: 0 auto;
       margin-top: 15px;
@@ -184,8 +214,8 @@
       -ms-transform: scale(2);
       -o-transform: scale(2);
       transform: scale(2);
-      cursor: -moz-zoom-in; 
-      cursor: -webkit-zoom-in; 
+      cursor: -moz-zoom-in;
+      cursor: -webkit-zoom-in;
       cursor: zoom-in;
     }
   }

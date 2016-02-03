@@ -5,7 +5,9 @@ import FontSlider from '../../components/font-slider/font-slider.js';
 import FontColours from '../../components/font-colours/font-colours.js';
 import FontLikeButton from '../../components/font-like-button/font-like-button.js';
 import FontShareButton from '../../components/font-share-button/font-share-button.js';
+import FontText from './font-text/font-text.js';
 import $ from 'jquery';
+import classNames from 'classnames';
 
 export default class FontPreviewContainer extends Component {
 
@@ -36,6 +38,8 @@ export default class FontPreviewContainer extends Component {
   componentDidMount() {
 
     let { font } = this.props;
+
+    if (!font) return;
 
     let fontSize = parseInt(font['settings-font-size'], 10);
     let lineHeight = parseFloat(font['settings-line-height'], 10);
@@ -88,6 +92,11 @@ export default class FontPreviewContainer extends Component {
 
   handleMoreClick(e) {
     console.log('handleMoreClick');
+
+    var scrollTop = $(window).scrollTop();
+
+    const { onMoreUpdate } = this.props;
+    onMoreUpdate && onMoreUpdate(scrollTop);
   }
 
   onLikeResult(res) {
@@ -144,7 +153,13 @@ export default class FontPreviewContainer extends Component {
 
   render() {
 
-    let { font } = this.props;
+    const props = this.props;
+
+    let { font } = props;
+
+    if (!font) {
+      return <div>No font id</div>
+    }
 
     let fontId = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
     let fontName = replaceNonAlphaNumeric(font['font-name']).toLowerCase();
@@ -202,10 +217,17 @@ export default class FontPreviewContainer extends Component {
     let letterSpacingDigits = 3;
     let leadingDigits = 2;
 
-    let backgroundClassName = backgroundState === 0 ? "of-font-preview-container white-noimage" : "of-font-preview-container black-image";
+    const previewClassName = classNames({
+      'of-font-preview-container': true,
+      'is-image': backgroundState === 2,
+      'is-black': backgroundState === 1,
+      'white-noimage is-white': backgroundState === 0,
+      'black-image': backgroundState !== 0,
+      'is-fixed': props.fixed
+    });
 
     return (
-      <div className={backgroundClassName} style={backgroundStyle}>
+      <div className={previewClassName} style={backgroundStyle}>
 
         <div className="of-font-preview-ui">
           <div className="of-grid-container">
@@ -243,17 +265,20 @@ export default class FontPreviewContainer extends Component {
                 onUpdateTextTransform={this.onUpdateTextTransform} />
 
               <div className="col-2 more-button-container">
-                <Link to={`/hot30/${fontId}`}>
-                  <span className="more-button">More</span>
+                <Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>
+                  { props.fixed
+                    ? <span className="more-button source-mode">Source &lsaquo; &rsaquo;</span>
+                    : <span className="more-button default-mode">More</span> }
                 </Link>
               </div>
             </div>
           </div>
         </div>
 
-        <div className={fontClassName} style={fontStyle}>
-          {font['settings-text']}
-        </div>
+        <FontText
+          fontClasses={fontClassName}
+          fontStyle={fontStyle}
+          content={font['settings-text']}/>
 
         <div className="of-font-preview-footer">
           <div className="of-footer-inner">
