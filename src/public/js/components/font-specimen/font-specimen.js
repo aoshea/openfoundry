@@ -27,8 +27,17 @@ export default class FontSpecimen extends Component {
     const { onScrollUpdate } = this.props;
 
     this.setState({
-      onEnter: true
+      tempOffset: isNaN(window.tempOffset) ? 0 : window.tempOffset - 50
     });
+
+    setTimeout(() => {
+      this.setState({
+        tempOffset: 0,
+        onEnter: true
+      });
+    }, 0);
+
+    console.log('did mount', window.tempOffset);
 
     var scrollableEl = $('.of-spec-scrollable');
     var inner = $('.of-font-specimen');
@@ -154,14 +163,22 @@ export default class FontSpecimen extends Component {
       enter: state.onEnter
     });
 
+    const specimenWrapperStyle = {
+
+    };
+
     let spacerStyle = {
       opacity: 1 - state.delta
     };
 
-    let holderStyle = cx({
+    let holderClassName = cx({
       'of-spec-holder': true,
       enter: state.onEnter
     });
+
+    const holderStyle = {
+      transform: 'translate3d(0,' + state.tempOffset + 'px,0)'
+    };
 
     const previewWrapperStyle = cx({
       'of-preview-wrapper': true,
@@ -170,7 +187,7 @@ export default class FontSpecimen extends Component {
 
     return (
 
-      <div className={holderStyle}>
+      <div style={holderStyle} className={holderClassName}>
         <div className="of-spec-wrapper">
           <div className="of-spec-scrollable">
 

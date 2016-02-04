@@ -91,12 +91,16 @@ export default class FontPreviewContainer extends Component {
   }
 
   handleMoreClick(e) {
-    console.log('handleMoreClick');
+
+    const fontPreview = this.refs.fontPreview;
+    const offsetTop = fontPreview.getBoundingClientRect().top;
+
+    window.tempOffset = offsetTop;
 
     var scrollTop = $(window).scrollTop();
 
     const { onMoreUpdate } = this.props;
-    onMoreUpdate && onMoreUpdate(scrollTop);
+    onMoreUpdate && onMoreUpdate(scrollTop, offsetTop);
   }
 
   onLikeResult(res) {
@@ -227,7 +231,7 @@ export default class FontPreviewContainer extends Component {
     });
 
     return (
-      <div className={previewClassName} style={backgroundStyle}>
+      <div ref="fontPreview" className={previewClassName} style={backgroundStyle}>
 
         <div className="of-font-preview-ui">
           <div className="of-grid-container">

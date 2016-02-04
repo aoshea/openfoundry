@@ -201,6 +201,9 @@ class Open extends Component {
   }
 
   componentDidMount() {
+
+    setupForm();
+
     let defer, promise, options;
 
     defer = $.Deferred();
@@ -221,8 +224,6 @@ class Open extends Component {
       // Request data
       Tabletop.init(options);
     }
-
-    // setupForm()
 
     promise.then(this.setFonts);
   }
@@ -366,7 +367,6 @@ render((
 document.querySelector('.of-container')
 );
 
-/*
 function setupForm() {
   var form = document.getElementById('newsletter-form')
 
@@ -400,6 +400,4 @@ function setupForm() {
     }
     messageEl.classList.add('show')
   }
-
 }
-*/
