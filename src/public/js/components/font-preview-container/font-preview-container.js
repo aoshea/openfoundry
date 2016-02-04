@@ -268,7 +268,7 @@ export default class FontPreviewContainer extends Component {
                 <Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>
                   { props.fixed
                     ? <span className="more-button source-mode">Source &lsaquo; &rsaquo;</span>
-                    : <span className="more-button default-mode">More</span> }
+                    : <span className="more-button default-mode">Explore</span> }
                 </Link>
               </div>
             </div>
