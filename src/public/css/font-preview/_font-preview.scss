@@ -22,6 +22,7 @@
   box-sizing: border-box;
   z-index: $zIndex-font-ui;
   transition: opacity $ease;
+  pointer-events: auto;
 }
 
 // stefan

@@ -272,6 +272,7 @@ class Specimen extends Component {
   }
 
   onScrollUpdate(x) {
+    console.log(this.props, x);
   }
 
   navigateToOpen() {

@@ -12,6 +12,7 @@ export default class FontSpecimen extends Component {
     this.onScrollFinish = this.onScrollFinish.bind(this);
     this.state = {
       onEnter: false,
+      isScroll: false,
       delta: 0
     };
   }
@@ -31,7 +32,15 @@ export default class FontSpecimen extends Component {
 
     var scrollableEl = $('.of-spec-scrollable');
     var inner = $('.of-font-specimen');
+    var fontList = $('.of-font-list').parent();
     var self = this;
+
+    $(window).on('scroll', function () {
+      self.setState({
+        isScroll: true
+      });
+      $(window).off('scroll');
+    });
 
     scrollableEl.on('scroll', function (e) {
 
@@ -39,14 +48,8 @@ export default class FontSpecimen extends Component {
       let scrollY = window.innerHeight + e.target.scrollTop;
 
       let delta = ((scrollY - innerHeight) / window.innerHeight) + 1;
+
       if (delta > 0) {
-
-        /*
-        self.setState({
-          delta: delta
-        });
-        */
-
         onScrollUpdate && onScrollUpdate(delta);
       }
 
@@ -160,13 +163,18 @@ export default class FontSpecimen extends Component {
       enter: state.onEnter
     });
 
+    const previewWrapperStyle = cx({
+      'of-preview-wrapper': true,
+      'is-scroll': state.isScroll
+    });
+
     return (
 
       <div className={holderStyle}>
         <div className="of-spec-wrapper">
           <div className="of-spec-scrollable">
 
-            <div className="of-preview-wrapper">
+            <div className={previewWrapperStyle}>
               <FontPreviewContainer
                 fixed={true}
                 rank={previewKey}
