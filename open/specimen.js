@@ -64,12 +64,9 @@ function copySpecimens(list) {
 
     // Copy file to target dir
     copyFile(p, path.join(dirs.out, targetDir, base), function () {
-      console.log('copy callback');
     });
 
     var dim = sizeOf(p);
-
-    console.log(dim.width, dim.height);
 
     return {
       id: o.id,
@@ -145,7 +142,10 @@ function outputCSS(result) {
 
   result.map(function (o) {
 
+    if (o.length < 1) return;
+
     var specimen = o[0];
+
     var id = replaceNonAlphaNumeric(specimen.id).toLowerCase();
 
     var className = 'specimen-' + id;
@@ -167,6 +167,5 @@ function outputCSS(result) {
 listFontSpecimens(dirs.src).then(function (res) {
   return Promise.all(res.map(listContents));
 }).then(function (res) {
-  console.log(res);
   outputCSS(res);
 });
