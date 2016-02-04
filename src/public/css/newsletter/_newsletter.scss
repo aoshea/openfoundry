@@ -5,10 +5,13 @@
 }
 
 .submission-wrapper {
-  // position: relative;
   padding: 0 50px;
   height: calc(100vh - 50px);
-      text-align: center;
+  text-align: center;
+
+  @include mobile {
+    padding: 0 20px;
+  }
 }
 
 .simform {
@@ -18,11 +21,11 @@
   margin: 0 auto;
   font-size: 70px;
   text-align: left;
-  -webkit-transform: translateY(-75%);
-     -moz-transform: translateY(-75%);
-      -ms-transform: translateY(-75%);
-       -o-transform: translateY(-75%);
-          transform: translateY(-75%);
+  transform: translateY(-75%);
+
+  @include mobile {
+    font-size: 18px;
+  }
 }
 
 .simform .submit {
@@ -34,11 +37,7 @@
   padding: 0;
   list-style: none;
   position: relative;
-  -webkit-transition: height .4s;
-     -moz-transition: height .4s;
-      -ms-transition: height .4s;
-       -o-transition: height .4s;
-          transition: height .4s;
+  transition: height .4s;
 }
 
 .simform ol:before {
@@ -49,33 +48,22 @@
   width: 100%;
   height: 100px;
   border: 4px solid $trans-black-100;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
-
 
 .questions li {
   position: relative;
   height: 0;
   z-index: 100;
   visibility: hidden;
-  -webkit-transition: visibility 0s .4s, height 0s .4s;
-     -moz-transition: visibility 0s .4s, height 0s .4s;
-      -ms-transition: visibility 0s .4s, height 0s .4s;
-       -o-transition: visibility 0s .4s, height 0s .4s;
-          transition: visibility 0s .4s, height 0s .4s;
+  transition: visibility 0s .4s, height 0s .4s;
 }
 
 .questions li.current,
 .no-js .questions li {
   visibility: visible;
   height: auto;
-  -webkit-transition: none;
-     -moz-transition: none;
-      -ms-transition: none;
-       -o-transition: none;
-          transition: none;
+  transition: none;
 }
 
 .questions li > span {
@@ -85,48 +73,22 @@
 
 .questions li > span label {
   display: block;
-  -webkit-transform: -webkit-transform .4s;
-     -moz-transform:    -moz-transform .4s;
-      -ms-transform:     -ms-transform .4s;
-       -o-transform:      -o-transform .4s;
-          transform:         transform .4s;
-  -webkit-transform: translateY(-100%);
-     -moz-transform: translateY(-100%);
-      -ms-transform: translateY(-100%);
-       -o-transform: translateY(-100%);
-          transform: translateY(-100%);
+  transform: transform .4s;
+  transform: translateY(-100%);
 }
 
 .questions li.current > span label,
 .no-js .questions li > span label {
-  -webkit-transition: none;
-     -moz-transition: none;
-      -ms-transition: none;
-       -o-transition: none;
-          transition: none;
-  -webkit-transform: translateY(0);
-     -moz-transform: translateY(0);
-      -ms-transform: translateY(0);
-       -o-transform: translateY(0);
-          transform: translateY(0);
+  transition: none;
+  transform: translateY(0);
 }
 
 .show-next .questions li.current > span label {
-  -webkit-animation: moveUpFromDown .4s both;
-     -moz-animation: moveUpFromDown .4s both;
-      -ms-animation: moveUpFromDown .4s both;
-       -o-animation: moveUpFromDown .4s both;
-          animation: moveUpFromDown .4s both;
-}
-
-@-webkit-keyframes moveUpFromDown {
-  from {-webkit-transform: translateY(100%);}
-  to   {-webkit-transform: translateY(0);}
+  animation: moveUpFromDown .4s both;
 }
 
 @keyframes moveUpFromDown {
-  from {-webkit-transform: translateY(100%); transform: translateY(100%);}
-  to   {-webkit-transform: translateY(0); transform: translateY(0);}
+  from {transform: translateY(100%);} to {transform: translateY(0);}
 }
 
 /* Input field */
@@ -138,15 +100,20 @@
   line-height: 1;
   opacity: 0;
   border: none;
-  -webkit-transition: opacity .3s;
-     -moz-transition: opacity .3s;
-      -ms-transition: opacity .3s;
-       -o-transition: opacity .3s;
-          transition: opacity .3s;
+  transition: opacity .3s;
+
+  @include mobile {
+    padding: 10px 10px;
+    width: calc(100% - 25px);
+  }
 }
 
 .questions input::-webkit-input-placeholder {
   padding: 5px 5px;
+
+  @include mobile {
+    padding: 2px 1px;
+  }
 }
 
 .questions input,
@@ -170,7 +137,7 @@
   z-index: 100;
   top: 0;
   right: 0;
-  width: 100px;
+  width: 100%;
   height: 92px;
   display: block;
   color: $trans-black-40;
@@ -180,16 +147,9 @@
   opacity: 0;
   cursor: pointer;
   pointer-events: none;
-  -webkit-tap-highlight-color: $trans-black-00;
-     -moz-tap-highlight-color: $trans-black-00;
-      -ms-tap-highlight-color: $trans-black-00;
-       -o-tap-highlight-color: $trans-black-00;
-          tap-highlight-color: $trans-black-00;
-  -webkit-transition: all .2s ease, opacity .3s;
-     -moz-transition: all .2s ease, opacity .3s;
-      -ms-transition: all .2s ease, opacity .3s;
-       -o-transition: all .2s ease, opacity .3s;
-          transition: all .2s ease, opacity .3s;
+  // -webkit-tap-highlight-color: $trans-black-00;
+  tap-highlight-color: $trans-black-00;
+  transition: all .2s ease, opacity .3s;
 }
 
 .next:hover {
@@ -198,9 +158,9 @@
 
 .next::after {
   position: absolute;
-  content: "ok";
+  content: 'ok';
   top: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   height: 100%;
   padding: 8px 15px 0 0;
@@ -212,19 +172,17 @@
   speak: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
+
+  @include mobile {
+    padding: 8px 10px 0 0;
+  }
 }
 
 .next.show {
   opacity: 1;
   pointer-events: auto;
-  -webkit-transform: translateX(0);
-     -moz-transform: translateX(0);
-      -ms-transform: translateX(0);
-       -o-transform: translateX(0);
-          transform: translateX(0);
+  transform: translateX(0);
 }
 
 .simform .progress {
@@ -232,16 +190,8 @@
   z-index: -1;
   width: 0%;
   height: 100px;
-  -webkit-transition: width .2s ease-in-out;
-     -moz-transition: width .2s ease-in-out;
-      -ms-transition: width .2s ease-in-out;
-       -o-transition: width .2s ease-in-out;
-          transition: width .2s ease-in-out;
-  -webkit-transform: translateY(-100%);
-     -moz-transform: translateY(-100%);
-      -ms-transform: translateY(-100%);
-       -o-transform: translateY(-100%);
-          transform: translateY(-100%);
+  transition: width .2s ease-in-out;
+  transform: translateY(-100%);
 }
 
 .simform .progress {
@@ -252,16 +202,11 @@
 }
 
 @keyframes animateLoad {
-  from { background-position: 0 0; }
-  to { background-position: 100% 0; }
+  from { background-position: 0 0; } to { background-position: 100% 0; }
 }
 
 .simform .progress {
-  -webkit-animation: animateLoad 8s linear infinite;
-     -moz-animation: animateLoad 8s linear infinite;
-      -ms-animation: animateLoad 8s linear infinite;
-       -o-animation: animateLoad 8s linear infinite;
-          animation: animateLoad 8s linear infinite;
+  animation: animateLoad 8s linear infinite;
 }
 
 .simform .progress::before {
@@ -271,20 +216,12 @@
   width: 100%;
   height: inherit;
   background: rgba(0,0,0,0);
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .questions input:focus .simform .progress::before {
-  -webkit-transform: translateY(0%);
-     -moz-transform: translateY(0%);
-      -ms-transform: translateY(0%);
-       -o-transform: translateY(0%);
-          transform: translateY(0%);
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
+  transform: translateY(0%);
+  box-sizing: border-box;
 }
 
 /* Number indicator */
@@ -312,11 +249,7 @@
   position: absolute;
   left: 50%;
   content: '/';
-  -webkit-transform: translateX(-50%);
-     -moz-transform: translateX(-50%);
-      -ms-transform: translateX(-50%);
-       -o-transform: translateX(-50%);
-          transform: translateX(-50%);
+  transform: translateX(-50%);
 }
 
 .simform .number span {
@@ -334,24 +267,12 @@
 }
 
 .simform.show-next .number-current {
-  -webkit-transform: -webkit-transform .2s ease;
-     -moz-transform:    -moz-transform .2s ease;
-      -ms-transform:     -ms-transform .2s ease;
-       -o-transform:      -o-transform .2s ease;
-          transform:         transform .2s ease;
-  -webkit-transform: translateY(-100%);
-     -moz-transform: translateY(-100%);
-      -ms-transform: translateY(-100%);
-       -o-transform: translateY(-100%);
-          transform: translateY(-100%);
+  transform: transform .2s ease;
+  transform: translateY(-100%);
 }
 
 .simform.show-next .number-next {
-  -webkit-animation: moveUpFromDown .2s ease both;
-     -moz-animation: moveUpFromDown .2s ease both;
-      -ms-animation: moveUpFromDown .2s ease both;
-       -o-animation: moveUpFromDown .2s ease both;
-          animation: moveUpFromDown .2s ease both;
+  animation: moveUpFromDown .2s ease both;
 }
 
 /* Error and final message */
@@ -361,11 +282,7 @@
   position: absolute;
   visibility: hidden;
   opacity: 0;
-  -webkit-transition: opacity .2s ease;
-     -moz-transition: opacity .2s ease;
-      -ms-transition: opacity .2s ease;
-       -o-transition: opacity .2s ease;
-          transition: opacity .2s ease;
+  transition: opacity .2s ease;
 }
 
 .simform .error-message {
@@ -379,11 +296,7 @@
   left: 0;
   padding: .5em;
   text-align: center;
-  -webkit-transform: translateY(-50%);
-     -moz-transform: translateY(-50%);
-      -ms-transform: translateY(-50%);
-       -o-transform: translateY(-50%);
-          transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .error-message.show,
@@ -395,11 +308,7 @@
 
 .final-message.show,
 .loader.show {
-  -webkit-transition-delay: .5s;
-     -moz-transition-delay: .5s;
-      -ms-transition-delay: .5s;
-       -o-transition-delay: .5s;
-          transition-delay: .5s;
+  transition-delay: .5s;
 }
 
 .loader::after {
@@ -408,49 +317,35 @@
   height: 32px;
   display: block;
   background-color: black;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-  -webkit-border-radius: 32px;
-     -moz-border-radius: 32px;
-      -ms-border-radius: 32px;
-       -o-border-radius: 32px;
-          border-radius: 32px;
-  -webkit-animation: growUp .9s infinite; /* You can remove 1.5s if you don't want delay */
-     -moz-animation: growUp .9s infinite;
-      -ms-animation: growUp .9s infinite;
-       -o-animation: growUp .9s infinite;
-          animation: growUp .9s infinite;
-  -webkit-transition-property: all ease-out;
-     -moz-transition-property: all ease-out;
-      -ms-transition-property: all ease-out;
-       -o-transition-property: all ease-out;
-          transition-property: all ease-out;
+  box-sizing: border-box;
+  border-radius: 32px;
+  animation: growUp .9s infinite;
+  transition-property: all ease-out;
 }
 
-@-webkit-keyframes growUp {
-  0%   {-webkit-transform: scale(0); opacity: 0;}
-  50%  {opacity: .4;}
-  100% {-webkit-transform: scale(1); opacity: 0;}
-}
+// @-webkit-keyframes growUp {
+//   0%   {-webkit-transform: scale(0); opacity: 0;}
+//   50%  {opacity: .4;}
+//   100% {-webkit-transform: scale(1); opacity: 0;}
+// }
 
-@-moz-keyframes growUp {
-  0%   {-moz-transform: scale(0); opacity: 0;}
-  50%  {opacity: .4;}
-  100% {-moz-transform: scale(1); opacity: 0;}
-}
+// @-moz-keyframes growUp {
+//   0%   {-moz-transform: scale(0); opacity: 0;}
+//   50%  {opacity: .4;}
+//   100% {-moz-transform: scale(1); opacity: 0;}
+// }
 
-@-o-keyframes growUp {
-  0%   {-o-transform: scale(0); opacity: 0;}
-  50%  {opacity: .4;}
-  100% {-o-transform: scale(1); opacity: 0;}
-}
+// @-o-keyframes growUp {
+//   0%   {-o-transform: scale(0); opacity: 0;}
+//   50%  {opacity: .4;}
+//   100% {-o-transform: scale(1); opacity: 0;}
+// }
 
-@-ms-keyframes growUp {
-  0%   {-ms-transform: scale(0); opacity: 0;}
-  50%  {opacity: .4;}
-  100% {-ms-transform: scale(1); opacity: 0;}
-}
+// @-ms-keyframes growUp {
+//   0%   {-ms-transform: scale(0); opacity: 0;}
+//   50%  {opacity: .4;}
+//   100% {-ms-transform: scale(1); opacity: 0;}
+// }
 
 @keyframes growUp {
   0%   {transform: scale(0); opacity: 0;}
@@ -461,11 +356,7 @@
 .simform-inner.hide {
   visibility: hidden;
   opacity: 0;
-  -webkit-transition: opacity .3s, visibility 0s .3s;
-     -moz-transition: opacity .3s, visibility 0s .3s;
-      -ms-transition: opacity .3s, visibility 0s .3s;
-       -o-transition: opacity .3s, visibility 0s .3s;
-          transition: opacity .3s, visibility 0s .3s;
+  transition: opacity .3s, visibility 0s .3s;
 }
 
 /* No JS Fallback */
@@ -493,21 +384,4 @@
 /* Remove IE clear cross */
 input[type=text]::-ms-clear {
     display: none;
-}
-
-/* Adjust form for smaller screens */
-@media screen and (max-width: 44.75em) {
-  .simform {
-    font-size: 18px;
-  }
-
-  .questions input::-webkit-input-placeholder {
-    padding: 0px;
-  }
-}
-
-@media screen and (max-width: 33.5625em) {
-  .simform {
-    font-size: 18px;
-  }
 }

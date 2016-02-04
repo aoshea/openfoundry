@@ -1,9 +1,17 @@
 $bp-mobile: 667px;
+$bp-1920: 1920px;
 $bp-1280: 1280px;
+$bp-1440: 1440px;
 $bp-960: 960px;
 
 @mixin mobile {
   @media only screen and (max-width: $bp-mobile)  {       
+    @content;
+  }
+}
+
+@mixin desktop-960 {
+  @media only screen and (max-width: $bp-960)  {       
     @content;
   }
 }
@@ -14,8 +22,14 @@ $bp-960: 960px;
   }
 }
 
-@mixin desktop-960 {
-  @media only screen and (max-width: $bp-960)  {       
+@mixin desktop-1440 {
+  @media only screen and (max-width: $bp-1440)  {       
+    @content;
+  }
+}
+
+@mixin desktop-1920 {
+  @media only screen and (max-width: $bp-1920)  {       
     @content;
   }
 }
