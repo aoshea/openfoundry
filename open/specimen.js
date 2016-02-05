@@ -15,7 +15,6 @@ function replaceNonAlphaNumeric(str, replacement) {
   return str.replace(/[^a-z0-9\.]/gim, replacement);
 }
 
-
 /**
  * Create directory if it doesnt exist
  */

@@ -58,8 +58,8 @@ $preview-height: 80vh;
   width: 100%;
   margin-top: $preview-height;
   background: $trans-black-50;
-  transition: transform 500ms ease-in-out 200ms;
-  transform: translate3d(0, 10vh, 0);
+  // transition: transform 300ms ease-in-out;
+  transform: translate3d(0, 0vh, 0);
 
   .of-font-specimen-image-wrapper {
     position: relative;
