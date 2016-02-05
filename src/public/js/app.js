@@ -1,8 +1,7 @@
-import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link } from 'react-router'
+import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHistory } from 'react-router'
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { replaceNonAlphaNumeric } from './util/util.js';
-import { hashHistory } from 'react-router'
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
 import NewsletterSignup from './components/newsletter/newsletter.js';
@@ -209,12 +208,6 @@ class Open extends Component {
       $.get('../../data/sheet.json')
         .done(function (res) {
           self.setFonts(res);
-        })
-        .fail(function () {
-          console.log('fail');
-        })
-        .always(function () {
-          console.log('always');
         });
     }
   }
@@ -264,7 +257,6 @@ class Specimen extends Component {
   }
 
   onScrollUpdate(x) {
-    console.log(this.props, x);
   }
 
   navigateToOpen() {
@@ -291,12 +283,6 @@ class Specimen extends Component {
       $.get('../../data/sheet.json')
         .done(function (res) {
           self.setFonts(res);
-        })
-        .fail(function () {
-          console.log('fail');
-        })
-        .always(function () {
-          console.log('always');
         });
     }
   }
@@ -337,7 +323,7 @@ class Submission extends Component {
 }
 
 render((
-  <Router history={hashHistory}>
+  <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRedirect to="/hot30" />
       <Route path="/hot30" component={Open}>

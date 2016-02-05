@@ -24,6 +24,8 @@ export default class FontPreviewContainer extends Component {
 
     this.handleMoreClick = this.handleMoreClick.bind(this);
 
+    this.isMount = false;
+
     this.state = {
       size: 0,
       likes: 0,
@@ -35,7 +37,13 @@ export default class FontPreviewContainer extends Component {
     };
   }
 
+  componentWillUnmount() {
+    this.isMount = false;
+  }
+
   componentDidMount() {
+
+    this.isMount = true;
 
     let { font } = this.props;
 
@@ -75,16 +83,18 @@ export default class FontPreviewContainer extends Component {
     });
 
     // AJAX request for the real vote
-    $.get('api/fonts/' + replaceNonAlphaNumeric(font['font-id']), function (res) {
+    $.get('/api/fonts/' + replaceNonAlphaNumeric(font['font-id']), function (res) {
 
       if (res.doc && res.doc.fontId) {
         let likes = parseInt(res.doc.likes, 10);
         let locked = res.locked;
 
-        this.setState({
-          likes: likes,
-          locked: locked
-        });
+        if (this.isMount) {
+          this.setState({
+            likes: likes,
+            locked: locked
+          });
+        }
       }
 
     }.bind(this));
@@ -215,7 +225,7 @@ export default class FontPreviewContainer extends Component {
     let backgroundState = this.state.background;
 
     let backgroundStyle = {
-      backgroundImage: backgroundState === 2 ? "url(data/backgrounds/of-backdrop-0" + this.state.backgroundNum + ".jpg)" : "none"
+      backgroundImage: backgroundState === 2 ? "url(/data/backgrounds/of-backdrop-0" + this.state.backgroundNum + ".jpg)" : "none"
     };
 
     let letterSpacingDigits = 3;

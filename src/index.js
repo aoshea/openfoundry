@@ -3,11 +3,17 @@ var express  = require('express'),
     http    = require('http'),
     app     = express(),
     reqip   = require('request-ip'),
+    fonts   = require('./public/data/sheet.json'),
     port    = 7777
     ;
 
 var ofSubmission = require('./inc/of-submission');
 var ofMailchimp = require('./inc/of-mailchimp');
+
+function replaceNonAlphaNumeric(str, replacement) {
+  if (replacement === undefined || replacement === null) replacement = '_';
+  return str.replace(/[^a-z0-9\.]/gim, replacement);
+}
 
 // Connect to database
 mongoose.connect('mongodb://localhost:27017/openfoundry');
@@ -36,7 +42,12 @@ app.engine('jade', require('jade').__express);
  * Routing / Index
  */
 app.get('/', function (req, res) {
-  res.render('index');
+  res.render('index', {
+    url: decodeURIComponent('http://open-foundry.com'),
+    title: decodeURIComponent('Open Foundry'),
+    description: 'The ‘open’ stands for open-source, free and easily available. The word ‘foundry’ is taken from the ‘type foundry’ and suggests professional quality and industrial heritage. open-foundry was founded by Stefan Endress and Alastair O’Shea.'
+  });
+  console.log('rootindex');
 });
 
 /**
@@ -44,13 +55,27 @@ app.get('/', function (req, res) {
  */
 app.get('/hot30', function (req, res) {
   res.render('index');
+  console.log('hot30');
 });
 
 /**
  * Routing / Font
  */
 app.get('/hot30/:id', function (req, res) {
-  res.render('index');
+  var fontId = req.params.id
+  var matches = fonts.filter(function (font) {
+    var id = font['font-id'];
+    return replaceNonAlphaNumeric(id).toLowerCase() === fontId;
+  });
+  var currentFont = matches.length ? matches[0] : null;
+
+  console.log('currentFont', currentFont);
+
+  res.render('index', {
+    url: decodeURIComponent('http://open-foundry.com/hot30/' + fontId),
+    title: decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style']),
+    description: decodeURIComponent(currentFont['info-about'])
+  });
 });
 
 /**
