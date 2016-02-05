@@ -217,7 +217,7 @@ gulp.task('images', function () {
 
 
 gulp.task('build-export', function (cb) {
-  exec('node open/export.js && node open/specimen.js', function (err, stdout, stderr) {
+  exec('node open/export.js && node open/specimen.js && node open/spreadsheet.js', function (err, stdout, stderr) {
     console.log(stdout);
     console.log(stderr);
     if (err) cb(err);
