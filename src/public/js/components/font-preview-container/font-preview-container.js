@@ -177,20 +177,28 @@ export default class FontPreviewContainer extends Component {
 
     let fontId = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
     let fontName = replaceNonAlphaNumeric(font['font-name']).toLowerCase();
-    let rankPadded = ("0" + this.props.rank).slice(-2);
 
-    let rhyphen = " —";
-    let rankSpace = " ";
+
 
     let oFontName = font['font-name'];
 
     let oFontCreator = font['font-creator'];
     let oFontCreatorLink = font['font-creator-link'];
+
     let spanFontCreator = oFontCreatorLink ? <span><a href={oFontCreatorLink}>{oFontCreator}</a></span> : <span>{oFontCreator}</span>
 
     let oFontStyle = font['font-style'] + ', ';
 
+    /*
     let rankLabel = <div><span>{rankPadded}</span><span>{rhyphen} </span><span>{oFontName}</span><span>{rankSpace}</span><span>{oFontStyle}</span>{spanFontCreator}</div>
+    */
+    // Sort rank
+    const rhyphen = " —";
+    const rankSpace = " ";
+    const rankPaddedNum = ("0" + props.rank).slice(-2);
+    const rankNum = <span>{rankPaddedNum}{rhyphen}</span>
+    const rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
+    const rankCreator = spanFontCreator;
 
     let fontClassName = "of-font-preview-text-container " + fontId;
 
@@ -298,7 +306,9 @@ export default class FontPreviewContainer extends Component {
           <div className="of-footer-inner">
             <div className="of-grid-container">
               <div className="of-row">
-                <div className="col-10 rank">{rankLabel}</div>
+                <div className="col-10 rank">
+                  {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankCreator}
+                </div>
                 <div className="col-2 social">
                   <FontLikeButton locked={this.state.locked} likes={this.state.likes} onUpdate={this.onUpdateLikes} /><FontShareButton />
                 </div>

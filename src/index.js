@@ -69,12 +69,11 @@ app.get('/hot30/:id', function (req, res) {
   });
   var currentFont = matches.length ? matches[0] : null;
 
-  console.log('currentFont', currentFont);
-
   res.render('index', {
     url: decodeURIComponent('http://open-foundry.com/hot30/' + fontId),
     title: decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style']),
-    description: decodeURIComponent(currentFont['info-about'])
+    description: decodeURIComponent(currentFont['info-about']),
+    img: decodeURIComponent('http://open-foundry.com/data/specimens/specimen-' + fontId + '.svg')
   });
 });
 
