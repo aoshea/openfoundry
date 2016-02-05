@@ -11,7 +11,9 @@ import SubmissionPage from './components/submission/submission.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
 
-var cache = {};
+var cache = {
+  fonts: null
+};
 
 class App extends Component {
 
@@ -176,8 +178,6 @@ App.contextTypes = {
   location: React.PropTypes.object
 };
 
-
-
 class Open extends Component {
 
   constructor() {
@@ -191,10 +191,7 @@ class Open extends Component {
     };
   }
 
-  setFonts(res) {
-    let data = res[0];
-    let fonts = data.Sheet1.all();
-
+  setFonts(fonts) {
     this.setState({
       fonts: fonts
     });
@@ -204,28 +201,22 @@ class Open extends Component {
 
     setupForm();
 
-    let defer, promise, options;
+    const self = this;
 
-    defer = $.Deferred();
-    promise = defer.promise();
-    options = {
-      // Set Google Sheets key for Tabletop.js
-      key: 'https://docs.google.com/spreadsheets/d/155IMLrVayr863mCW9C7dwc-gqiMmRG59UdwoBqnoDFw/pubhtml',
-      // Set callback to resolve data
-      callback: function (data, Tabletop) {
-        cache.sheet = data;
-        defer.resolve([data, Tabletop]);
-      }
-    };
-
-    if (cache.sheet) {
-      defer.resolve([cache.sheet]);
+    if (cache.fonts) {
+      this.setFonts(cache.fonts);
     } else {
-      // Request data
-      Tabletop.init(options);
+      $.get('../../data/sheet.json')
+        .done(function (res) {
+          self.setFonts(res);
+        })
+        .fail(function () {
+          console.log('fail');
+        })
+        .always(function () {
+          console.log('always');
+        });
     }
-
-    promise.then(this.setFonts);
   }
 
   componentDidUpdate() {
@@ -284,43 +275,36 @@ class Specimen extends Component {
     this.navigateToOpen();
   }
 
-  setFonts(res) {
-    let data = res[0];
-    let fonts = data.Sheet1.all();
-
+  setFonts(fonts) {
     this.setState({
       fonts: fonts
     });
   }
 
   componentDidMount() {
-    let defer, promise, options;
 
-    defer = $.Deferred();
-    promise = defer.promise();
+    const self = this;
 
-    options = {
-      // Set Google Sheets key for Tabletop.js
-      key: 'https://docs.google.com/spreadsheets/d/155IMLrVayr863mCW9C7dwc-gqiMmRG59UdwoBqnoDFw/pubhtml',
-      // Set callback to resolve data
-      callback: function (data, Tabletop) {
-        cache.sheet = data;
-        defer.resolve([data, Tabletop]);
-      }
-    };
-
-    if (cache.sheet) {
-      defer.resolve([cache.sheet]);
+    if (cache.fonts) {
+      this.setFonts(cache.fonts);
     } else {
-      // Request data
-      Tabletop.init(options);
+      $.get('../../data/sheet.json')
+        .done(function (res) {
+          self.setFonts(res);
+        })
+        .fail(function () {
+          console.log('fail');
+        })
+        .always(function () {
+          console.log('always');
+        });
     }
-
-    promise.then(this.setFonts);
   }
 
   render() {
     let { fontId } = this.props.params;
+
+    if (!this.state.fonts) return <div>Loading...</div>
 
     let matches = this.state.fonts.filter(function (font) {
       let id = font['font-id'];
