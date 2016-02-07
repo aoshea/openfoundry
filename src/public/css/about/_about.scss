@@ -12,7 +12,7 @@ section {
   background: $black;
   color: $trans-white-100;
   padding: 0 50px;
-  background-image: linear-gradient(90deg, $trans-white-20 1px, $trans-black-00 1px), linear-gradient(0deg, $trans-white-20 1px, $trans-black-00 1px);
+  background-image: linear-gradient(90deg, $white-15 1px, $trans-black-00 1px), linear-gradient(0deg, $white-15 1px, $trans-black-00 1px);
   background-position: 5px 7px;
   background-repeat: repeat;
   background-size: 44px 44px;
@@ -93,7 +93,7 @@ section a:link {
 section p a:hover {
   text-decoration: none;
   color: inherit;
-  padding: 0.1em 0;
+  padding: 0.075em 0;
   border-color: $trans-black-100;
 }
 

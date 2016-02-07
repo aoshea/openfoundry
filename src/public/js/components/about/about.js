@@ -26,14 +26,14 @@ export default class AboutPage extends Component {
             </div>
             <div className="of-row">
               <div className="col-6 offset-1">
-                <blockquote><p>Hundreds of free, open-source fonts optimised for the web. Just 3 quick steps between you and a good lookin website.</p></blockquote>
+                <blockquote><p>Hundreds of free, open-source fonts optimised for the web. Just 3 quick steps between you and a good lookin' website.</p></blockquote>
               </div>
             </div>
             <div className="of-row">
               <div className="col-7">
-                <p>Seems promising, but the word ‘hundreds’ is the first clue to the problem. It seems fairly easy to find a good font, but the sheer number of options, and the cluttered way in which 1they are presented, makes it very difficult. What is missing is the human touch and a professional eye.</p>
+                <p>Seems promising, but the word ‘hundreds’ is the first clue to the problem. It seems fairly easy to find a good font, but the sheer number of options, and the cluttered way in which they are presented, makes it very difficult.</p>
 
-                <p>We went through hundreds of open-source fonts that we have been collecting for several years. We refined this collection of open-source fonts and made a an even sharper, more discerning selection.</p>
+                <p>We went through hundreds of open-source fonts that we have been collecting in the past. We refined this collection of open-source fonts and made a an even sharper, more discerning selection.</p>
 
                 <p><a href="https://en.wikipedia.org/wiki/Jan_Tschichold">Jan Tschichold</a> (2.4.1902 Leipzig, Germany – 11.8.1974 Locarno, Switzerland) was a master typographer:</p>
               </div>
@@ -45,7 +45,7 @@ export default class AboutPage extends Component {
             </div>
             <div className="of-row">
               <div className="col-7">
-                <p>Tschicholds understanding of typography may now be outdated, but it serves to illustrate  that the choice of the font and its style is never arbitrary and should always be itself.</p>
+                <p>Tschicholds understanding of typography may now be outdated, but it serves to illustrate that the choice of the font and its style is never arbitrary and should always be itself.</p>
 
                 <p>Our solution is to offer a carefully controlled number of fonts in the most clear and dynamic way possible. Instead of overwhelming the user, open-foundry provides enough interest and excitement to encourage further exploration and font development.</p>
 

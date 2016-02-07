@@ -64,7 +64,7 @@
   white-space: nowrap;
   user-select: none;
   transform: translate(-50%,10%);
-  transition: opacity $ease-m, transform $ease-xs;
+  transition: opacity $ease, transform $ease;
   opacity: 0;
 }
 
