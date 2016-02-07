@@ -23,6 +23,7 @@
   z-index: $zIndex-font-ui;
   transition: opacity $ease;
   pointer-events: auto;
+  user-select: none;
 }
 
 // stefan

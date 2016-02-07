@@ -97,6 +97,7 @@ $preview-height: 80vh;
     cursor: pointer;
     background: $trans-white-50;
     transition: all 0.2s ease;
+    user-select: none;
   }
 
   .of-font-specimen-button:hover {
