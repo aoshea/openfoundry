@@ -179,6 +179,7 @@ app.post('/newsletter', function (req, res, next) {
  * Public files served as static
  */
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/beta/public'));
 
 /**
  * Create server
