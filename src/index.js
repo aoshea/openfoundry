@@ -50,6 +50,16 @@ app.get('/', function (req, res) {
   console.log('rootindex');
 });
 
+app.get('/about', function (req, res) {
+  console.log('about');
+  res.render('index');
+});
+
+app.get('/submit', function (req, res) {
+  console.log('submit');
+  res.render('index');
+});
+
 /**
  * Routing / Open Foundry List
  */
