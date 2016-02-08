@@ -77,6 +77,25 @@ app.get('/hot30/:id', function (req, res) {
   });
 });
 
+
+/**
+ * API
+ * Get all fonts
+ */
+app.get('/api/fonts/', function (req, res) {
+  Font.find({}, function (err, docs) {
+    if (err) {
+      res.sendStatus(500, {
+        error: err
+      });
+    } else {
+      res.json({
+        docs: docs
+      });
+    }
+  });
+});
+
 /**
  * API
  * Get one font by fontId eg. 'Bagnan_Regular'

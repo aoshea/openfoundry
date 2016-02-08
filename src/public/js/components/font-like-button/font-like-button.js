@@ -25,6 +25,8 @@ export default class FontLikeButton extends Component {
       'like-button-disabled': this.props.locked
     });
 
+    const { likes } = this.props;
+
     return (
       <div className="vote-container">
         <div onClick={ this.handleClick } className={btnClass}>
@@ -33,7 +35,7 @@ export default class FontLikeButton extends Component {
   C18,10.2,19.9,10.2,21.1,11.4"/>
           </svg>
         </div>
-        <span className="num-likes">{this.props.likes}</span>
+        <span className="num-likes">{likes}</span>
       </div>
     )
   }

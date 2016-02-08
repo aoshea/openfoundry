@@ -45,7 +45,7 @@ export default class FontPreviewContainer extends Component {
 
     this.isMount = true;
 
-    let { font } = this.props;
+    const { font, likes } = this.props;
 
     if (!font) return;
 
@@ -53,7 +53,7 @@ export default class FontPreviewContainer extends Component {
     let lineHeight = parseFloat(font['settings-line-height'], 10);
     let letterSpacing = parseFloat(font['settings-letter-spacing'], 10);
     let color = font['settings-color'];
-    let likes = 0;
+
     let backgroundState = font['settings-background-state'];
     let background = 0;
     let backgroundNum = 0;
@@ -82,6 +82,8 @@ export default class FontPreviewContainer extends Component {
       uppercase: uppercase
     });
 
+    /*
+
     // AJAX request for the real vote
     $.get('/api/fonts/' + replaceNonAlphaNumeric(font['font-id']), function (res) {
 
@@ -98,6 +100,8 @@ export default class FontPreviewContainer extends Component {
       }
 
     }.bind(this));
+
+    */
   }
 
   handleMoreClick(e) {
@@ -118,9 +122,11 @@ export default class FontPreviewContainer extends Component {
   }
 
   onUpdateLikes(value) {
-    value = value || this.state.likes + 1;
+    const { font, likes } = this.props;
 
-    $.get('api/like/' + replaceNonAlphaNumeric(this.props.font['font-id']), this.onLikeResult);
+    value = value || likes + 1;
+
+    $.get('api/like/' + replaceNonAlphaNumeric(font['font-id']), this.onLikeResult);
 
     this.setState({
       likes: parseInt(value, 10),
@@ -169,7 +175,7 @@ export default class FontPreviewContainer extends Component {
 
     const props = this.props;
 
-    let { font } = props;
+    let { font, likes } = props;
 
     if (!font) {
       return <div>No font id</div>
@@ -177,8 +183,6 @@ export default class FontPreviewContainer extends Component {
 
     let fontId = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
     let fontName = replaceNonAlphaNumeric(font['font-name']).toLowerCase();
-
-
 
     let oFontName = font['font-name'];
 
@@ -189,9 +193,6 @@ export default class FontPreviewContainer extends Component {
 
     let oFontStyle = font['font-style'] + ', ';
 
-    /*
-    let rankLabel = <div><span>{rankPadded}</span><span>{rhyphen} </span><span>{oFontName}</span><span>{rankSpace}</span><span>{oFontStyle}</span>{spanFontCreator}</div>
-    */
     // Sort rank
     const rhyphen = " —";
     const rankSpace = " ";
@@ -310,7 +311,7 @@ export default class FontPreviewContainer extends Component {
                   {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankCreator}
                 </div>
                 <div className="col-2 social">
-                  <FontLikeButton locked={this.state.locked} likes={this.state.likes} onUpdate={this.onUpdateLikes} /><FontShareButton />
+                  <FontLikeButton locked={this.state.locked} likes={likes} onUpdate={this.onUpdateLikes} /><FontShareButton />
                 </div>
               </div>
             </div>

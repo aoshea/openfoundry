@@ -11,7 +11,8 @@ import $ from 'jquery';
 import Tabletop from 'tabletop';
 
 var cache = {
-  fonts: null
+  fonts: null,
+  likes: null
 };
 
 class App extends Component {
@@ -183,16 +184,27 @@ class Open extends Component {
     super();
 
     this.setFonts = this.setFonts.bind(this);
+    this.setLikes = this.setLikes.bind(this);
 
     this.state = {
       isSpecimen: false,
-      fonts: []
+      fonts: [],
+      likes: []
     };
   }
 
   setFonts(fonts) {
     this.setState({
       fonts: fonts
+    });
+  }
+
+  setLikes(likes) {
+
+    console.log('setLikes', likes);
+
+    this.setState({
+      likes: likes
     });
   }
 
@@ -208,6 +220,23 @@ class Open extends Component {
       $.get('../../data/sheet.json')
         .done(function (res) {
           self.setFonts(res);
+        });
+    }
+
+    if (cache.likes) {
+      this.setLikes(cache.likes);
+    } else {
+      $.get('/api/fonts/')
+        .done(function (res) {
+          console.log('got likes');
+          if (res.docs) {
+            self.setLikes(res.docs);
+          } else {
+            console.error('Like request: No docs found');
+          }
+        })
+        .fail(function () {
+          console.log('did not get likes');
         });
     }
   }
@@ -226,11 +255,11 @@ class Open extends Component {
   }
 
   render() {
-    let { isSpecimen } = this.state;
+    const { fonts, likes, isSpecimen } = this.state;
 
     return (
       <div>
-        <FontList fixed={isSpecimen} fonts={this.state.fonts} />
+        <FontList fixed={isSpecimen} likes={likes} fonts={fonts} />
        {this.props.children}
       </div>
     )
