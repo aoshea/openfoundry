@@ -8,7 +8,7 @@
   transition: min-height 500ms ease-in-out;
 }
 .of-font-preview-container.is-fixed {
-  min-height: 80vh;
+  min-height: $preview-height;
 }
 .of-font-preview-container.is-fixed .of-font-preview-ui {
   opacity: 1;
@@ -23,6 +23,7 @@
   z-index: $zIndex-font-ui;
   transition: opacity $ease;
   pointer-events: auto;
+  user-select: none;
 }
 
 // stefan

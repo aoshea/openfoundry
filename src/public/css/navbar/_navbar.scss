@@ -23,6 +23,7 @@ header.of-navbar {
   width: 100%;
   height: 50px;
   background: black;
+  user-select: none;
 }
 
 ul.menu-header {
@@ -48,6 +49,9 @@ ul.menu-header {
   height: 28px;
   transform: translate(50px,11px);
   transition: all $ease-m 0s;
+  z-index: $zIndex-10;
+  background: $black;
+  box-shadow: 10px 0px 20px $black;
 }
 
 // .menu-logo.up {

@@ -63,8 +63,8 @@
   letter-spacing: $letter-spacing-s;
   white-space: nowrap;
   user-select: none;
-  transform: translateX(-50%);
-  transition: opacity $ease-m;
+  transform: translate(-50%,10%);
+  transition: opacity $ease, transform $ease;
   opacity: 0;
 }
 
@@ -92,5 +92,6 @@
 
   .of-font-slider-label {
     opacity: 1;
+    transform: translate(-50%,-10%);
   }
 }

@@ -1,5 +1,7 @@
-/* z-index scale */
+$b: 50px;
+$preview-height: 85vh;
 
+/* z-index scale */
 $zIndex-1:   100;
 $zIndex-2:   200;
 $zIndex-3:   300;
@@ -12,7 +14,6 @@ $zIndex-9:   900;
 $zIndex-10: 1000;
 
 /* z-index layers */
-
 $zIndex-main: $zIndex-1;
 $zIndex-font-ui: $zIndex-2;
 $zIndex-font-specimen: $zIndex-3;

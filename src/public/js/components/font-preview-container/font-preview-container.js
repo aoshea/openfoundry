@@ -191,11 +191,13 @@ export default class FontPreviewContainer extends Component {
 
     let spanFontCreator = oFontCreatorLink ? <span><a href={oFontCreatorLink}>{oFontCreator}</a></span> : <span>{oFontCreator}</span>
 
-    let oFontStyle = font['font-style'] + ', ';
+    let oFontStyle = font['font-style'];
+    // let oFontStyle = font['font-style'] + ', ';
 
     // Sort rank
-    const rhyphen = " —";
+    const rhyphen = " — ";
     const rankSpace = " ";
+    const rankComma = ", ";
     const rankPaddedNum = ("0" + props.rank).slice(-2);
     const rankNum = <span>{rankPaddedNum}{rhyphen}</span>
     const rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
@@ -308,7 +310,7 @@ export default class FontPreviewContainer extends Component {
             <div className="of-grid-container">
               <div className="of-row">
                 <div className="col-10 rank">
-                  {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankCreator}
+                  {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankComma}{rankCreator}
                 </div>
                 <div className="col-2 social">
                   <FontLikeButton locked={this.state.locked} likes={likes} onUpdate={this.onUpdateLikes} /><FontShareButton />

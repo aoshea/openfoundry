@@ -9,15 +9,19 @@ section {
 }
 
 .headline {
-  background: $trans-black-100;
+  background: $black;
   color: $trans-white-100;
-  padding: 50px;
+  padding: 0 50px;
+  background-image: linear-gradient(90deg, $white-15 1px, $trans-black-00 1px), linear-gradient(0deg, $white-15 1px, $trans-black-00 1px);
+  background-position: 5px 7px;
+  background-repeat: repeat;
+  background-size: 44px 44px;
 }
 
 section h1 {
-  font-size: 70px;
+  font-size: 80px;
   font-weight: 400;
-  line-height: 1.15em;
+  line-height: 1.11em;
   letter-spacing: 0em;
   letter-spacing: 0.01em;
   color: $trans-white-100;
@@ -25,30 +29,33 @@ section h1 {
 
 .hot30-button {
   position: relative;
-  top: -7px;
-  font-size: 15px;
-  letter-spacing: 0.025em;
-  padding: 5px 10px;
-  color: $trans-white-50;
-  border: 1px solid $trans-white-50;
-  -webkit-font-smoothing: antialiased;
-  border-radius: 3px;
+  top: -8px;
   cursor: pointer;
-  transition: all 0.2s ease;
-  font-weight: 400;
-}
+  font-size: 15px;
+  font-weight: 100;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: $letter-spacing-xs;
+  color: $black;
+  background: $trans-white-50;
+  border: 1px solid $trans-black-00;
+  padding: 5px 10px;
+  border-radius: $radius-button;
+  transition: all $ease;
+  user-select: none;
 
-.hot30-button:hover {
-  color: $trans-white-100;
-  border-color: $trans-white-100;
+  &:hover {
+    color: $black;
+    background: $white;
+    border-color: $trans-black-00;
+  }
 }
 
 section p a,
 section p a:link,
 strong,
 h2 {
-  font-weight: 600;
-  letter-spacing: -0.015em;
+  font-weight: 400;
+  // letter-spacing: -0.015em;
 }
 
 section.headline a,
@@ -61,10 +68,17 @@ h2 {
   margin-top: 30px;
 }
 
+// section {
+//   font-size: 26px;
+//   font-weight: 400;
+//   line-height: 1.35em;
+// }
+
 section {
-  font-size: 26px;
-  font-weight: 400;
-  line-height: 1.35em;
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 1.6em;
+  letter-spacing: 0.025em;
 }
 
 section a,
@@ -72,14 +86,14 @@ section a:link {
   text-decoration: none;
   color: $trans-black-100;
   padding: 0;
-  border-bottom: 3px solid $trans-black-00;
+  border-bottom: 2px solid $trans-black-00;
   transition: all 0.1s ease;
 }
 
 section p a:hover {
   text-decoration: none;
   color: inherit;
-  padding: 0.1em 0;
+  padding: 0.075em 0;
   border-color: $trans-black-100;
 }
 
@@ -99,7 +113,7 @@ blockquote:after {
 
 blockquote:before {
   content: open-quote;
-  margin-left: -0.48em;
+  margin-left: -0.6em;
   margin-right: 5px;
 }
 
@@ -110,11 +124,10 @@ blockquote:after {
 
 blockquote p {
   display: inline;
-  font-weight: 400;
 }
 
 svg.love {
-  width: 20px;
+  width: 16px;
   height: auto;
 }
 
