@@ -170,6 +170,7 @@ function bundle() {
     .pipe(gulpif(production, uglify()))
     .pipe(sourcemaps.write('./'))
     .pipe(gulp.dest(dir.build + 'public/js'))
+    .pipe(reload({stream:true}))
 }
 
 var watchifyBundler;
@@ -307,7 +308,8 @@ gulp.task('db', function () {
 gulp.task('server', ['build'], function () {
   var started = false;
   return nodemon({
-    script: dir.build + 'index.js'
+    script: dir.build + 'index.js',
+    env: { 'NODE_ENV': 'development' }
   }).on('start', function () {
     if (!started) {
       cb();
@@ -317,17 +319,15 @@ gulp.task('server', ['build'], function () {
 });
 
 // Start BrowserSync
-gulp.task('browser-sync', ['nodemon'], function () {
-  browsersync.init(null, {
-    proxy: {
-      host: 'http://localhost',
-      port: 7777
-    }
-  });
+gulp.task('browser-sync', function () {
+  // NOTE: the client-side snipped has been added
+  // manually in index.jade, it seems to be too
+  // complicated to hook up nodemon etc.
+  return browsersync.init({})
 });
 
 // Watch for the changes
-gulp.task('watch', function () {
+gulp.task('watch', ['browser-sync'], function () {
 
   gulp.watch(sources.html, ['html']);
   gulp.watch(sources.imgs, ['images']);
