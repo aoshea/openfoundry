@@ -3,6 +3,7 @@
 - [Node](https://nodejs.org/ "Node") v.4.1.1 installed  (to manage node versions use [NVM](https://github.com/creationix/nvm) )
 - If using nvm, run command `nvm use`
 - [NPM](https://www.npmjs.com/ "NPM Package Manager") installed
+- [MongoDB](https://www.mongodb.org/) installed
 
 ### Setup
 - Clone this repository
@@ -13,9 +14,9 @@
 - `gulp copy` copies over generated css and images
 - `gulp` starts it up
 - Files are copied to `dist` folder
-- Point browser to `localhost:7777/open`
+- Point browser to `localhost:7777`
+- TIP: on OSX create ~/datadb/ in case of database connection issues
 
 ### Notes
 - Breakpoint mixin is `mobile`
 - eg. `@include mobile { /* add styles */ }`
-
