@@ -184,6 +184,7 @@ function getBrowserifyBundler() {
         debug: !production,
         cache: {},
         packageCache: {},
+        paths: ['./src/public/js/'],
         fullPaths: true,
         transform: [babelify.configure({
           presets: ["es2015", "react"]
