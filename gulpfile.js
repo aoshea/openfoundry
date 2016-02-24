@@ -21,7 +21,8 @@ var gulp        = require('gulp'),
     nodemon     = require('gulp-nodemon'),
     browsersync = require('browser-sync'),
     reload      = browsersync.reload,
-    rsync       = require('gulp-rsync')
+    rsync       = require('gulp-rsync'),
+    watchify    = require('watchify')
     ;
 
 /**
@@ -157,31 +158,56 @@ gulp.task('lint', function () {
 });
 
 // Browserify & babelify & uglify
-gulp.task('js', ['lint'], function () {
+gulp.task('js', bundle);
 
-  var b = browserify({
-    entries: sources.app,
-    debug: !production,
-    transform: [babelify.configure({
-      presets: ["es2015", "react"]
-    })]
-  });
+function bundle() {
 
-  // let browserify know we will libs from an external source
-  // vendor.js in this case
-  libs.forEach(function (lib) {
-    b.external(lib);
-  });
-
-  return b.bundle()
+  return getBrowserifyBundler().bundle()
     .on('error', onError('app-js', this.emit, this))
     .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({ loadMaps: true }))
     .pipe(gulpif(production, uglify()))
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest(dir.build + 'public/js'));
-});
+    .pipe(gulp.dest(dir.build + 'public/js'))
+    .pipe(reload({stream:true}))
+}
+
+var watchifyBundler;
+
+function getBrowserifyBundler() {
+
+    // only creates the watchifyBundler once
+    if ('undefined' === typeof watchifyBundler) {
+
+      var bfy = browserify({
+        entries: sources.app,
+        debug: !production,
+        cache: {},
+        packageCache: {},
+        paths: ['./src/public/js/'],
+        fullPaths: true,
+        transform: [babelify.configure({
+          presets: ["es2015", "react"]
+        })]
+      });
+
+      // let browserify know we will libs from an external source
+      // vendor.js in this case
+      libs.forEach(function (lib) {
+        bfy.external(lib);
+      });
+
+      watchifyBundler = watchify(bfy, {
+        delay: 25,
+        ignoreWatch: ['**/node_modules/**'],
+        // poll: false
+      });
+    }
+
+    return watchifyBundler;
+
+};
 
 /**
  * Process SASS
@@ -282,7 +308,8 @@ gulp.task('db', function () {
 gulp.task('server', ['build'], function () {
   var started = false;
   return nodemon({
-    script: dir.build + 'index.js'
+    script: dir.build + 'index.js',
+    env: { 'NODE_ENV': 'development' }
   }).on('start', function () {
     if (!started) {
       cb();
@@ -292,26 +319,29 @@ gulp.task('server', ['build'], function () {
 });
 
 // Start BrowserSync
-gulp.task('browser-sync', ['nodemon'], function () {
-  browsersync.init(null, {
-    proxy: {
-      host: 'http://localhost',
-      port: 7777
-    }
-  });
+gulp.task('browser-sync', function () {
+  // NOTE: the client-side snipped has been added
+  // manually in index.jade, it seems to be too
+  // complicated to hook up nodemon etc.
+  return browsersync.init({})
 });
 
 // Watch for the changes
-gulp.task('watch', function () {
+gulp.task('watch', ['browser-sync'], function () {
 
   gulp.watch(sources.html, ['html']);
   gulp.watch(sources.imgs, ['images']);
   gulp.watch(sources.allcss, ['css']);
-  gulp.watch(sources.js, ['js']);
+  gulp.watch(sources.js, ['lint']);
+  getBrowserifyBundler().on('update', bundle);
   gulp.watch(sources.index, ['index']);
   gulp.watch(sources.tpl, ['templates']);
 
-  gulp.watch(dir.build + '**/*').on('change', reload);
+  // FIXME: leaving this out since JS is handled by watchify
+  //        however it might be a better solution to just
+  //        ignore 'js/map' etc.
+
+  // gulp.watch(dir.build + '**/*').on('change', reload);
 });
 
 // Default task `gulp`

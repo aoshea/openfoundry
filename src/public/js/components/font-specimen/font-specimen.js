@@ -13,6 +13,7 @@ export default class FontSpecimen extends Component {
     this.state = {
       onEnter: false,
       isScroll: false,
+      isTopPassed: false,
       delta: 0
     };
   }
@@ -60,6 +61,18 @@ export default class FontSpecimen extends Component {
 
       if (delta > 0) {
         onScrollUpdate && onScrollUpdate(delta);
+      }
+
+      let isTopPassed = e.target.scrollTop > window.innerHeight
+
+      if (!self.state.isTopPassed && isTopPassed) {
+        self.state.isTopPassed = true
+        $('.of-preview-wrapper').css({ visibility: 'hidden' })
+      }
+
+      if (self.state.isTopPassed && !isTopPassed) {
+        self.state.isTopPassed = false
+        $('.of-preview-wrapper').css({ visibility: 'visible' })
       }
 
       let isBottom = scrollY >= innerHeight - 1;

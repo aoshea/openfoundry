@@ -7,6 +7,9 @@ var express  = require('express'),
     port    = 7777
     ;
 
+// NOTE: the env is set to 'development' by gulp-nodemon
+var nodeEnv = process.env.NODE_ENV || 'production';
+
 var ofSubmission = require('./inc/of-submission');
 var ofMailchimp = require('./inc/of-mailchimp');
 
@@ -45,26 +48,27 @@ app.get('/', function (req, res) {
   res.render('index', {
     url: decodeURIComponent('http://open-foundry.com'),
     title: decodeURIComponent('Open Foundry'),
-    description: 'The ‘open’ stands for open-source, free and easily available. The word ‘foundry’ is taken from the ‘type foundry’ and suggests professional quality and industrial heritage. open-foundry was founded by Stefan Endress and Alastair O’Shea.'
+    description: 'The ‘open’ stands for open-source, free and easily available. The word ‘foundry’ is taken from the ‘type foundry’ and suggests professional quality and industrial heritage. open-foundry was founded by Stefan Endress and Alastair O’Shea.',
+    nodeEnv: nodeEnv
   });
   console.log('rootindex');
 });
 
 app.get('/about', function (req, res) {
   console.log('about');
-  res.render('index');
+  res.render('index', { nodeEnv: nodeEnv });
 });
 
 app.get('/submit', function (req, res) {
   console.log('submit');
-  res.render('index');
+  res.render('index', { nodeEnv: nodeEnv });
 });
 
 /**
  * Routing / Open Foundry List
  */
 app.get('/hot30', function (req, res) {
-  res.render('index');
+  res.render('index', { nodeEnv: nodeEnv });
   console.log('hot30');
 });
 
@@ -83,7 +87,8 @@ app.get('/hot30/:id', function (req, res) {
     url: decodeURIComponent('http://open-foundry.com/hot30/' + fontId),
     title: decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style']),
     description: decodeURIComponent(currentFont['info-about']),
-    img: decodeURIComponent('http://open-foundry.com/data/specimens/specimen-' + fontId + '.svg')
+    img: decodeURIComponent('http://open-foundry.com/data/specimens/specimen-' + fontId + '.svg'),
+    nodeEnv: nodeEnv
   });
 });
 
