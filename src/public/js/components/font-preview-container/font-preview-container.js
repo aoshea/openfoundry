@@ -334,6 +334,7 @@ export default class FontPreviewContainer extends Component {
             <div className="of-row">
               <FontSlider label="size"
                 initial={fontSize}
+                value={fontSize}
                 max={maxFontSize}
                 step={stepFontSize}
                 min={minFontSize}
@@ -342,6 +343,7 @@ export default class FontPreviewContainer extends Component {
               <FontSlider
                 label="leading"
                 initial={lineHeight}
+                value={lineHeight}
                 fixed={leadingDigits}
                 min={minLineHeight}
                 max={maxLineHeight}
@@ -351,6 +353,7 @@ export default class FontPreviewContainer extends Component {
               <FontSlider
                 label="kerning"
                 initial={letterSpacing}
+                value={letterSpacing}
                 fixed={letterSpacingDigits}
                 min={minLetterSpacing}
                 max={maxLetterSpacing}
@@ -359,6 +362,7 @@ export default class FontPreviewContainer extends Component {
 
               <FontColours
                 initial={color}
+                value={color}
                 background={backgroundState}
                 onUpdate={this.onUpdateColour}
                 onUpdateBackground={this.onUpdateBackground}
