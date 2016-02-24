@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Dispatcher } from 'flux';
 import { Link } from 'react-router';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
 import FontSlider from '../../components/font-slider/font-slider.js';
@@ -14,14 +15,14 @@ export default class FontPreviewContainer extends Component {
   constructor() {
     super();
 
-    this.onUpdateSize = this.onUpdateSize.bind(this);
+    this.onUpdateFontSize = this.onUpdateFontSize.bind(this);
     this.onUpdateLineHeight = this.onUpdateLineHeight.bind(this);
     this.onUpdateLetterSpacing = this.onUpdateLetterSpacing.bind(this);
     this.onUpdateColour = this.onUpdateColour.bind(this);
     this.onUpdateBackground = this.onUpdateBackground.bind(this);
     this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
     this.onUpdateLikes = this.onUpdateLikes.bind(this);
-
+    this.handleFontModelEvent = this.handleFontModelEvent.bind(this)
     this.handleMoreClick = this.handleMoreClick.bind(this);
 
     this.isMount = false;
@@ -38,6 +39,7 @@ export default class FontPreviewContainer extends Component {
   }
 
   componentWillUnmount() {
+    this.props.font && this.props.font.dispatcher.unregister(this.handleFontModelEventToken)
     this.isMount = false;
   }
 
@@ -49,37 +51,41 @@ export default class FontPreviewContainer extends Component {
 
     if (!font) return;
 
-    let fontSize = parseInt(font['settings-font-size'], 10);
-    let lineHeight = parseFloat(font['settings-line-height'], 10);
-    let letterSpacing = parseFloat(font['settings-letter-spacing'], 10);
-    let color = font['settings-color'];
+    if (!font.dispatcher) {
+      // we're using the font object as a model to be reflected
+      // by any views referencing it (i.e. list & specimen).
+      // This could be done better by implementing Flux entirely,
+      // however this seems to work fine for now.
+      font.dispatcher = new Dispatcher
+    }
 
-    let backgroundState = font['settings-background-state'];
-    let background = 0;
-    let backgroundNum = 0;
+    this.handleFontModelEventToken = font.dispatcher.register(this.handleFontModelEvent)
 
-    let uppercase = font['settings-text-transform'] === 'uppercase';
+    // get the font settings from the default settings if not changed by the user
+    font.fontSize = font.fontSize || parseInt(font['settings-font-size'], 10);
+    font.lineHeight = font.lineHeight || parseFloat(font['settings-line-height'], 10);
+    font.letterSpacing = font.letterSpacing || parseFloat(font['settings-letter-spacing'], 10);
+    font.color = font.color || font['settings-color'];
+    font.uppercase = font.uppercase || font['settings-text-transform'] === 'uppercase';
+    font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
 
-    if (backgroundState === 'image') {
-      // If image, set random background image index with backgroundNum
-      background = 2;
-      backgroundNum = FontPreviewContainer.getRandomBackground(); // (parseInt(Math.random() * 9, 10) + 1);
-    } else if (backgroundState === 'black') {
-      background = 1;
-    } else {
-      background = 0;
+    if (typeof font.background === 'undefined') {
+      // set background to 0, 1, 2
+      font.background = ['white', 'black', 'image'].indexOf(font['settings-background-state']);
+      // safeguard in case of invalid value
+      font.background = font.background > -1 ? font.background : 0;
     }
 
     this.setState({
-      size: fontSize,
+      size: font.fontSize,
       likes: likes,
-      lineHeight: lineHeight,
-      letterSpacing: letterSpacing,
-      color: color,
-      background: background,
-      backgroundNum: backgroundNum,
+      lineHeight: font.lineHeight,
+      letterSpacing: font.letterSpacing,
+      color: font.color,
+      background: font.background,
+      backgroundNum: font.backgroundNum,
       locked: false,
-      uppercase: uppercase
+      uppercase: font.uppercase
     });
 
     /*
@@ -102,6 +108,53 @@ export default class FontPreviewContainer extends Component {
     }.bind(this));
 
     */
+  }
+
+  /**
+   * Handles a change on the font model
+   * @param  {Event} e Event describing the action and the changed value
+   */
+  handleFontModelEvent(e) {
+
+    switch(e.actionType) {
+
+      case 'background-update':
+        this.setState({
+          background: e.background,
+          backgroundNum: e.backgroundNum,
+        });
+        break;
+
+      case 'font-size-update':
+        this.setState({
+          size: e.fontSize,
+        });
+        break;
+
+      case 'letter-spacing-update':
+        this.setState({
+          letterSpacing: e.letterSpacing,
+        });
+        break;
+
+      case 'line-height-update':
+        this.setState({
+          lineHeight: e.lineHeight,
+        });
+        break;
+
+      case 'text-transform-update':
+        this.setState({
+          uppercase: e.uppercase
+        });
+        break;
+
+      case 'color-update':
+        this.setState({
+          color: e.color
+        });
+        break;
+    }
   }
 
   handleMoreClick(e) {
@@ -134,40 +187,62 @@ export default class FontPreviewContainer extends Component {
     });
   }
 
-  onUpdateSize(value) {
-    this.setState({
-      size: parseInt(value, 10)
+  onUpdateFontSize(value) {
+    var font = this.props.font;
+    font.fontSize = parseInt(value, 10)
+    font.dispatcher.dispatch({
+      actionType: 'font-size-update',
+      fontSize: font.fontSize
     });
   }
 
   onUpdateLetterSpacing(value) {
-    this.setState({
-      letterSpacing: value.toFixed(3)
+    var font = this.props.font;
+    font.letterSpacing = value.toFixed(3)
+    font.dispatcher.dispatch({
+      actionType: 'letter-spacing-update',
+      letterSpacing: font.letterSpacing
     });
   }
 
   onUpdateLineHeight(value) {
-    this.setState({
-      lineHeight: value.toFixed(2)
+    var font = this.props.font;
+    font.lineHeight = value.toFixed(2)
+    font.dispatcher.dispatch({
+      actionType: 'line-height-update',
+      lineHeight: font.lineHeight
     });
   }
 
   onUpdateColour(value) {
-    this.setState({
-      color: value
+    var font = this.props.font;
+    font.color = value
+    font.dispatcher.dispatch({
+      actionType: 'color-update',
+      color: font.color
     });
   }
+
 
   onUpdateBackground(value) {
-    this.setState({
-      background: value,
-      backgroundNum: FontPreviewContainer.getRandomBackground()
+    var font = this.props.font;
+    font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
+    font.background = value;
+    font.dispatcher.dispatch({
+      actionType: 'background-update',
+      background: font.background,
+      backgroundNum: font.backgroundNum
     });
+
   }
 
+
   onUpdateTextTransform(value) {
-    this.setState({
-      uppercase: value
+    var font = this.props.font;
+    font.uppercase = value;
+    font.dispatcher.dispatch({
+      actionType: 'text-transform-update',
+      uppercase: font.uppercase
     });
   }
 
@@ -205,10 +280,10 @@ export default class FontPreviewContainer extends Component {
 
     let fontClassName = "of-font-preview-text-container " + fontId;
 
-    let fontSize = parseInt(font['settings-font-size'], 10);
-    let lineHeight = parseFloat(font['settings-line-height'], 10);
-    let letterSpacing = parseFloat(font['settings-letter-spacing'], 10);
-    let color = font['settings-color'];
+    let fontSize = this.state.size || parseInt(font['settings-font-size'], 10);
+    let lineHeight = this.state.lineHeight || parseFloat(font['settings-line-height'], 10);
+    let letterSpacing = this.state.letterSpacing || parseFloat(font['settings-letter-spacing'], 10);
+    let color = this.state.colol || font['settings-color'];
 
     let maxFontSize = 150;
     let minFontSize = 9;
@@ -259,14 +334,16 @@ export default class FontPreviewContainer extends Component {
             <div className="of-row">
               <FontSlider label="size"
                 initial={fontSize}
+                value={fontSize}
                 max={maxFontSize}
                 step={stepFontSize}
                 min={minFontSize}
-                onUpdate={this.onUpdateSize} />
+                onUpdate={this.onUpdateFontSize} />
 
               <FontSlider
                 label="leading"
                 initial={lineHeight}
+                value={lineHeight}
                 fixed={leadingDigits}
                 min={minLineHeight}
                 max={maxLineHeight}
@@ -276,6 +353,7 @@ export default class FontPreviewContainer extends Component {
               <FontSlider
                 label="kerning"
                 initial={letterSpacing}
+                value={letterSpacing}
                 fixed={letterSpacingDigits}
                 min={minLetterSpacing}
                 max={maxLetterSpacing}
@@ -284,6 +362,7 @@ export default class FontPreviewContainer extends Component {
 
               <FontColours
                 initial={color}
+                value={color}
                 background={backgroundState}
                 onUpdate={this.onUpdateColour}
                 onUpdateBackground={this.onUpdateBackground}

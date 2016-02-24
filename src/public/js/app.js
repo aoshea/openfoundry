@@ -219,7 +219,8 @@ class Open extends Component {
     } else {
       $.get('../../data/sheet.json')
         .done(function (res) {
-          self.setFonts(res);
+          cache.fonts = cache.fonts || res;
+          self.setFonts(cache.fonts);
         });
     }
 
@@ -311,7 +312,8 @@ class Specimen extends Component {
     } else {
       $.get('../../data/sheet.json')
         .done(function (res) {
-          self.setFonts(res);
+          cache.fonts = cache.fonts || res;
+          self.setFonts(cache.fonts);
         });
     }
   }
