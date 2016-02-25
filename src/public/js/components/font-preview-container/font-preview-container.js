@@ -116,30 +116,30 @@ export default class FontPreviewContainer extends Component {
    */
   handleFontModelEvent(e) {
 
-    switch(e.actionType) {
+    switch (e.actionType) {
 
       case 'background-update':
         this.setState({
           background: e.background,
-          backgroundNum: e.backgroundNum,
+          backgroundNum: e.backgroundNum
         });
         break;
 
       case 'font-size-update':
         this.setState({
-          size: e.fontSize,
+          size: e.fontSize
         });
         break;
 
       case 'letter-spacing-update':
         this.setState({
-          letterSpacing: e.letterSpacing,
+          letterSpacing: e.letterSpacing
         });
         break;
 
       case 'line-height-update':
         this.setState({
-          lineHeight: e.lineHeight,
+          lineHeight: e.lineHeight
         });
         break;
 
