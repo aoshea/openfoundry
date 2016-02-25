@@ -63,9 +63,18 @@
   letter-spacing: $letter-spacing-s;
   white-space: nowrap;
   user-select: none;
-  transform: translate(-50%,10%);
+  transform: translate(-50%,0);
   transition: opacity $ease, transform $ease;
   opacity: 0;
+}
+
+.of-font-slider:hover {
+  opacity: 1;
+
+  .of-font-slider-label {
+    opacity: 1;
+    transform: translate(-50%,-6px);
+  }
 }
 
 .of-font-preview-container.black-image {
@@ -87,11 +96,3 @@
   }
 }
 
-.of-font-slider:hover {
-  opacity: 1;
-
-  .of-font-slider-label {
-    opacity: 1;
-    transform: translate(-50%,-10%);
-  }
-}
