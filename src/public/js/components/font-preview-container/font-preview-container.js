@@ -39,7 +39,8 @@ export default class FontPreviewContainer extends Component {
   }
 
   componentWillUnmount() {
-    this.props.font && this.props.font.dispatcher.unregister(this.handleFontModelEventToken)
+
+    this.state.font && this.state.font.dispatcher.unregister(this.handleFontModelEventToken)
     this.isMount = false;
   }
 
@@ -77,6 +78,7 @@ export default class FontPreviewContainer extends Component {
     }
 
     this.setState({
+      font: font,
       size: font.fontSize,
       likes: likes,
       lineHeight: font.lineHeight,
@@ -188,7 +190,7 @@ export default class FontPreviewContainer extends Component {
   }
 
   onUpdateFontSize(value) {
-    var font = this.props.font;
+    var font = this.state.font;
     font.fontSize = parseInt(value, 10)
     font.dispatcher.dispatch({
       actionType: 'font-size-update',
@@ -197,7 +199,7 @@ export default class FontPreviewContainer extends Component {
   }
 
   onUpdateLetterSpacing(value) {
-    var font = this.props.font;
+    var font = this.state.font;
     font.letterSpacing = value.toFixed(3)
     font.dispatcher.dispatch({
       actionType: 'letter-spacing-update',
@@ -206,7 +208,7 @@ export default class FontPreviewContainer extends Component {
   }
 
   onUpdateLineHeight(value) {
-    var font = this.props.font;
+    var font = this.state.font;
     font.lineHeight = value.toFixed(2)
     font.dispatcher.dispatch({
       actionType: 'line-height-update',
@@ -215,7 +217,7 @@ export default class FontPreviewContainer extends Component {
   }
 
   onUpdateColour(value) {
-    var font = this.props.font;
+    var font = this.state.font;
     font.color = value
     font.dispatcher.dispatch({
       actionType: 'color-update',
@@ -225,7 +227,7 @@ export default class FontPreviewContainer extends Component {
 
 
   onUpdateBackground(value) {
-    var font = this.props.font;
+    var font = this.state.font;
     font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
     font.background = value;
     font.dispatcher.dispatch({
@@ -238,7 +240,7 @@ export default class FontPreviewContainer extends Component {
 
 
   onUpdateTextTransform(value) {
-    var font = this.props.font;
+    var font = this.state.font;
     font.uppercase = value;
     font.dispatcher.dispatch({
       actionType: 'text-transform-update',
