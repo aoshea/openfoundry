@@ -224,9 +224,9 @@ gulp.task('css', function () {
     .pipe(autoprefix())
     .pipe(concat('main.css'))
     .pipe(gulpif(production, nano()))
-    .pipe(sourcemaps.write('./'))
+    .pipe(sourcemaps.write('./', { includeContent: false }))
     .pipe(gulp.dest(dir.build + 'public/css'))
-    .pipe(reload({stream:true}));
+    .pipe(reload({stream:true, match: '**/*.css'}));
 });
 
 // Copy html files to build folder
