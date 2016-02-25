@@ -285,7 +285,8 @@ export default class FontPreviewContainer extends Component {
     let fontSize = this.state.size || parseInt(font['settings-font-size'], 10);
     let lineHeight = this.state.lineHeight || parseFloat(font['settings-line-height'], 10);
     let letterSpacing = this.state.letterSpacing || parseFloat(font['settings-letter-spacing'], 10);
-    let color = this.state.colol || font['settings-color'];
+    let color = this.state.color || font['settings-color'];
+    let uppercase = this.state.uppercase || font['settings-text-transform'] === 'uppercase';
 
     let maxFontSize = 150;
     let minFontSize = 9;
@@ -363,9 +364,9 @@ export default class FontPreviewContainer extends Component {
                 onUpdate={this.onUpdateLetterSpacing} />
 
               <FontColours
-                initial={color}
-                value={color}
+                color={color}
                 background={backgroundState}
+                uppercase={uppercase}
                 onUpdate={this.onUpdateColour}
                 onUpdateBackground={this.onUpdateBackground}
                 onUpdateTextTransform={this.onUpdateTextTransform} />
