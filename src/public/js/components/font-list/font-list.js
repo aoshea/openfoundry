@@ -37,6 +37,7 @@ export default class FontList extends Component {
     const { lastScrollTop } = this.state;
 
     const fontList = props.fonts.map((font, i) => {
+      font.__key = i;
       // Get likes by font id
       const id = replaceNonAlphaNumeric(font['font-id']);
       let likes = 0;
@@ -61,7 +62,7 @@ export default class FontList extends Component {
       return (
         <FontPreviewContainer
           rank={ i + 1 }
-          key={i}
+          key={font.__key}
           likes={font.likesNum}
           onMoreUpdate={this.onMoreUpdate}
           font={font} />
