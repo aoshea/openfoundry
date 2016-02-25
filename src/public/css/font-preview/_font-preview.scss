@@ -73,7 +73,7 @@
       border-radius: $radius-button;
       transition: all $ease;
       &:hover {
-        color: $white;
+        color: $trans-white-100;
         background: $trans-black-100;
         border-color: $trans-black-00;
       }
@@ -100,11 +100,11 @@
     font-weight: lighter;
     .more-button {
       color: $black;
-      background: $trans-white-60;
+      background: $trans-white-75;
       border-color: $trans-white-00;
       &:hover {
-        color: $black;
-        background: $white;
+        color: $trans-black-100;
+        background: $trans-white-100;
         border-color: $trans-white-00;
       }
     }

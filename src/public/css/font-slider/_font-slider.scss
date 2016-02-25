@@ -11,24 +11,22 @@
 
 .handle {
   cursor: pointer;
-  top: -23px; 
-}
-
-.handle:after {
-  position: absolute;
-  content: '';
-  width: 8px;
-  height: 8px;
-  left: -24px;
-  border-radius: 50%;
-  background: $black;
-  transition: all 0.1s linear;
-  border: 20px solid rgba(0,0,0,0);
-  cursor: -webkit-grab;
-}
-
-.handle:hover:after {
-  transform: scale3d(1.25,1.25,1.25);
+  top: -23px;
+  &:after {
+    position: absolute;
+    content: '';
+    width: 8px;
+    height: 8px;
+    left: -24px;
+    border-radius: 50%;
+    background: $black;
+    transition: all 0.1s linear;
+    border: 20px solid rgba(0,0,0,0);
+    cursor: -webkit-grab;
+  }
+  &:hover:after {
+    transform: scale3d(1.25,1.25,1.25);
+  }
 }
 
 .black-image .handle:after {
@@ -63,7 +61,7 @@
   letter-spacing: $letter-spacing-s;
   white-space: nowrap;
   user-select: none;
-  transform: translate(-50%,0);
+  transform: translate(-50%,-3px);
   transition: opacity $ease, transform $ease;
   opacity: 0;
 }

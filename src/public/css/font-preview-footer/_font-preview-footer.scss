@@ -24,35 +24,27 @@
     width: 100%;
     padding: 0 50px;
     box-sizing: border-box;
-  }
-
-  // stefan
-  @include mobile {
-    .of-footer-inner {
+    @include mobile {
       padding: 0 10px;
     }
-    .rank {
+  }
+  .rank {
+    @include mobile {
       width: 66.6666666%;
     }
+    a {
+      text-decoration: none;
+      transition: color $ease;
+    }
   }
-
-
-  .rank a {
-    text-decoration: none;
-    transition: color $ease;
-  }
-
   .social {
     text-align: right;
-    // padding-right: 0;
   }
-
   .vote-container,
   .share-container {
     display: inline-block;
     margin-left: 15px;
   }
-
   .like-button,
   .share-button {
     position: relative;
@@ -63,7 +55,6 @@
     right: -3px;
     cursor: pointer;
   }
-
   .num-likes,
   .share-count {
     position: absolute;
@@ -86,12 +77,6 @@
     width: 30px;
     pointer-events: none;
   }
-  // .of-font-preview-container.black-image > .of-font-preview-footer .rank:before {
-  //   background: -webkit-linear-gradient(left, $trans-black-00, $semi-black);
-  //   background:    -moz-linear-gradient(right, $trans-black-00, $semi-black);
-  //   background:      -o-linear-gradient(right, $trans-black-00, $semi-black);
-  //   background:         linear-gradient(to right, $trans-black-00, $semi-black);
-  // }
   .of-font-preview-container.white-noimage > .of-font-preview-footer .rank:before {
     background: -webkit-linear-gradient(left, $trans-white-00, $white);
     background:    -moz-linear-gradient(right, $trans-white-00, $white);
@@ -116,21 +101,20 @@
 
 .of-font-preview-container {
   color: $trans-black-50;
-
   .of-font-preview-footer .like-button svg {
     fill: $trans-black-50;
-    transition: all $ease;
+    transition: all $ease-xs;
   }
   .of-font-preview-footer .like-button:hover svg {
     fill: $trans-black-100;
-    transform: scale3d(1.25, 1.25, 1.25);
+    transform: scale(1.15);
   }
   .of-font-preview-footer .like-button.like-button-disabled svg {
     fill: $trans-red-100;
   }
   .of-font-preview-footer .like-button.like-button-disabled:hover svg {
     fill: $trans-red-50;
-    transform: scale3d(1, 1, 1);
+    transform: scale(1);
   }
 
   .of-font-preview-footer .share-button svg {
@@ -150,24 +134,21 @@
 
 .of-font-preview-container.white-noimage {
   -webkit-font-smoothing: antialiased;
-  
   .rank a {
     color: $trans-black-50;
+    &:hover {
+      color: $trans-black-100;
+    }
   }
-  .rank a:hover {
-    color: $trans-black-100;
-  }
-
 }
 
 .of-font-preview-container.black-image {
   color: $trans-white-50;
-
   .rank a {
     color: $trans-white-50;
-  }
-  .rank a:hover {
-    color: $trans-white-100;
+    &:hover {
+      color: $trans-white-100;
+    }
   }
 
   .of-font-preview-footer .like-button svg {
