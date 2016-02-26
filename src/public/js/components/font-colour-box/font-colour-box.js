@@ -27,8 +27,8 @@ export default class FontColourBox extends Component {
   }
   
   render() {
-    let hexValue = this.state.value.substr(1);
-    
+    let hexValue = this.props.value.substr(1);
+
     return (
       <div className="of-font-colour-input">
         <input type="text" value={hexValue} defaultValue={this.props.initial} onChange={this.handleChange} placeholder="000000" />
