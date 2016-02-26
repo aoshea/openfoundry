@@ -8,12 +8,21 @@ export default class SubmissionPage extends Component {
   }
 
   render() {
+
+    this.onFocusFirst = function (e) {
+      e.target.placeholder = "Your Email?"
+    }
+
+    this.onBlurFirst = function (e) {
+      e.target.placeholder = "Submit a font"
+    }
+
     return (
       <div className="submission-wrapper">
         <form id="theForm" className="simform" autoComplete="off" action="submit" method="post">
           <div className="simform-inner">
             <ol className="questions">
-              <li><input id="q1" name="q1" placeholder="Your Name?" type="text"/></li>
+              <li><input id="q1" name="q1" placeholder="Submit a font" onFocus={this.onFocusFirst} onBlur={this.onBlurFirst} type="text"/></li>
               <li><input id="q2" name="q2" placeholder="Your Email?" type="email"/></li>
               <li><input id="q3" name="q3" placeholder="Font Name?" type="text"/></li>
               <li><input id="q4" name="q4" placeholder="Open-Source? [Yes/No]" type="text"/></li>
