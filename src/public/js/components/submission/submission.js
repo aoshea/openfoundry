@@ -10,7 +10,7 @@ export default class SubmissionPage extends Component {
   render() {
 
     this.onFocusFirst = function (e) {
-      e.target.placeholder = "Your Email?"
+      e.target.placeholder = "Your name?"
     }
 
     this.onBlurFirst = function (e) {
