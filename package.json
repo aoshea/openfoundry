@@ -55,6 +55,7 @@
     "react-router": "^2.0.0-rc5",
     "react-slider": "^0.6.0",
     "request-ip": "^1.1.4",
+    "shuffle-array": "^0.1.2",
     "tabletop": "^1.4.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",

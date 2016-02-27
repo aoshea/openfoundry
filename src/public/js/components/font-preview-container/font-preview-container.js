@@ -9,6 +9,7 @@ import FontShareButton from '../../components/font-share-button/font-share-butto
 import FontText from './font-text/font-text.js';
 import $ from 'jquery';
 import classNames from 'classnames';
+import shuffle from 'shuffle-array';
 
 export default class FontPreviewContainer extends Component {
 
@@ -407,15 +408,21 @@ export default class FontPreviewContainer extends Component {
   }
 }
 
-var numBackgrounds = 41;
 
-FontPreviewContainer.getRandomBackground = function () {
-  let randNum = --numBackgrounds;
-  if (randNum < 0) randNum = 0;
 
-  var num = Math.floor(Math.random() * randNum) + 1;
-  var len = num.toString().length;
-  if (len < 2) num = "0" + num;
-  return num;
+FontPreviewContainer.getRandomBackground = (function(){
 
-};
+  var numBackgrounds = 41;
+  var backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i)=>i));
+  var index = 0;
+
+  let pad2 = n => n < 10 ? "0" + n : n;
+
+  return () => {
+    index = (index + 1) % numBackgrounds;
+    let bgNum = backgroundList[index];
+    return pad2(bgNum);
+
+  }
+
+})()
