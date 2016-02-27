@@ -200,9 +200,6 @@ class Open extends Component {
   }
 
   setLikes(likes) {
-
-    console.log('setLikes', likes);
-
     this.setState({
       likes: likes
     });
@@ -228,7 +225,6 @@ class Open extends Component {
     } else {
       $.get('/api/fonts/')
         .done(function (res) {
-          console.log('got likes');
           if (res.docs) {
             self.setLikes(res.docs);
           } else {

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import FontPreviewContainer from '../../components/font-preview-container/font-preview-container.js';
-import FontSpecimen from '../../components/font-specimen/font-specimen.js';
+import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
+import FontSpecimen from 'components/font-specimen/font-specimen.js';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import $ from 'jquery';
-import { replaceNonAlphaNumeric } from '../../util/util.js';
+import { replaceNonAlphaNumeric } from 'util/util.js';
 
 
 export default class FontList extends Component {
@@ -26,6 +26,8 @@ export default class FontList extends Component {
   }
 
   onMoreUpdate(scrollTop) {
+    // remember the scroll position to land at the
+    // same offset when coming back from Specimen
     this.setState({
       lastScrollTop: scrollTop
     });

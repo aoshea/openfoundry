@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Dispatcher } from 'flux';
 import { Link } from 'react-router';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
-import FontSlider from '../../components/font-slider/font-slider.js';
-import FontColours from '../../components/font-colours/font-colours.js';
-import FontLikeButton from '../../components/font-like-button/font-like-button.js';
-import FontShareButton from '../../components/font-share-button/font-share-button.js';
+import FontSlider from 'components/font-slider/font-slider.js';
+import FontColours from 'components/font-colours/font-colours.js';
+import FontLikeButton from 'components/font-like-button/font-like-button.js';
+import FontShareButton from 'components/font-share-button/font-share-button.js';
 import FontText from './font-text/font-text.js';
 import $ from 'jquery';
 import classNames from 'classnames';
@@ -226,7 +226,6 @@ export default class FontPreviewContainer extends Component {
     });
   }
 
-
   onUpdateBackground(value) {
     var font = this.state.font;
     font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
@@ -238,7 +237,6 @@ export default class FontPreviewContainer extends Component {
     });
 
   }
-
 
   onUpdateTextTransform(value) {
     var font = this.state.font;
@@ -410,7 +408,7 @@ export default class FontPreviewContainer extends Component {
 
 
 
-FontPreviewContainer.getRandomBackground = (function(){
+FontPreviewContainer.getRandomBackground = (function () {
 
   var numBackgrounds = 41;
   var backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i)=>i));
@@ -425,4 +423,4 @@ FontPreviewContainer.getRandomBackground = (function(){
 
   }
 
-})()
+}());

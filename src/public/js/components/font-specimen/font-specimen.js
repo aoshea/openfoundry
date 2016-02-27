@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
-import { replaceNonAlphaNumeric } from '../../util/util.js';
-import FontPreviewContainer from '../../components/font-preview-container/font-preview-container.js';
+import { replaceNonAlphaNumeric } from 'util/util.js';
+import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
 import cx from 'classnames';
 
 export default class FontSpecimen extends Component {
@@ -37,8 +37,6 @@ export default class FontSpecimen extends Component {
         onEnter: true
       });
     }, 0);
-
-    console.log('did mount', window.tempOffset);
 
     var scrollableEl = $('.of-spec-scrollable');
     var inner = $('.of-font-specimen');
