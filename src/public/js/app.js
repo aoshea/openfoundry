@@ -161,7 +161,7 @@ class App extends Component {
               </li>
             </ul>
             <ul className={signupClassName}>
-              <li><NewsletterSignup /></li>
+              <li><NewsletterSignup menuOpen={ this.state.isMenuOpen }/></li>
             </ul>
           </nav>
         </header>
@@ -210,7 +210,6 @@ class Open extends Component {
 
   componentDidMount() {
 
-    setupForm();
 
     const self = this;
 
@@ -367,38 +366,3 @@ render((
 ),
 document.querySelector('.of-container')
 );
-
-function setupForm() {
-  var form = document.getElementById('newsletter-form')
-
-  if (!form) {
-    return
-  }
-
-  var messageEl = form.querySelector('.final-message')
-
-  new window.stepsForm(form, {onSubmit: onSubmit})
-
-  function onSubmit(form) {
-
-    // hide form
-    form.querySelector('.simform-inner').classList.add('hide')
-
-    $.ajax({
-      url: 'newsletter',
-      type: 'post',
-      dataType: 'json',
-      data: $(form).serialize(),
-      success: onSuccess
-    })
-  }
-
-  function onSuccess(data) {
-    if (data.status === 'success') {
-      messageEl.innerHTML = data.message
-    } else {
-      messageEl.innerHTML = data.message
-    }
-    messageEl.classList.add('show')
-  }
-}
