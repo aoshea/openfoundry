@@ -2,6 +2,11 @@
   position: relative;
   padding: 0;
   height: 50vh;
+
+  .span.number {
+    // no need to show progress for one entry
+    display: none;
+  }
 }
 
 .submission-wrapper {
@@ -137,7 +142,7 @@
   z-index: 100;
   top: 0;
   right: 0;
-  width: 100%;
+  width: 2em;
   height: 92px;
   display: block;
   color: $trans-black-40;
