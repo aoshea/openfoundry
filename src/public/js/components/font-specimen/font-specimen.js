@@ -1,6 +1,8 @@
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import ReactTransitionGroup from 'react-addons-transition-group';
 import React, { Component } from 'react';
 import $ from 'jquery';
-import { replaceNonAlphaNumeric } from 'util/util.js';
+import { replaceNonAlphaNumeric } from '../../util/util.js';
 import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
 import cx from 'classnames';
 

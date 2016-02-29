@@ -4,7 +4,7 @@ import FontSpecimen from 'components/font-specimen/font-specimen.js';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import $ from 'jquery';
-import { replaceNonAlphaNumeric } from 'util/util.js';
+import { replaceNonAlphaNumeric } from '../../util/util.js';
 
 
 export default class FontList extends Component {
