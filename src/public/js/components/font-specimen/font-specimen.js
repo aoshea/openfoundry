@@ -95,81 +95,36 @@ export default class FontSpecimen extends Component {
 
     let { font } = props;
 
-    let creator;
-    let creatorLink;
-
-    let specimenCreator;
-    let specimenCreatorLink;
-
-    let fontDownloadLink;
-
-    let styleDesc;
-
-    let foundry;
-
-    let foundBy;
-    let foundByLink;
-
-    let fontName;
-
-    let fontInfoLicense;
-    let fontInfoFamily;
-    let fontFoundLink;
-    let fontOpenSourceLink;
-
-    let specimenClassName;
-    let specimenRatioClassName;
-
-    let aboutText;
-    let infoAbout;
-
-    let infoWeight;
-
-    let fontClassName;
-
     if (font) {
 
-      fontName = font['font-name'];
+      var aboutText = generateAboutText(font);
 
-      creator = font['font-creator'];
-      creatorLink = font['font-creator-link'];
+      var fontName = font['font-name'];
 
-      fontDownloadLink = font['font-download-link'];
-      styleDesc = font['font-style'];
-      foundry = font['font-foundry'];
+      var creator = font['font-creator'];
+      var creatorLink = font['font-creator-link'];
+      var foundry = font['font-foundry'];
 
-      specimenCreator = font['specimen-creator'];
-      specimenCreatorLink = font['specimen-creator-link'];
+      var fontDownloadLink = font['font-download-link'];
 
-      foundBy = font['info-discoverer'];
-      infoAbout = font['info-about'];
-      infoWeight = font['info-weight'];
-      fontInfoLicense = font['info-license'];
-      fontInfoFamily = font['info-family'];
+      var specimenCreator = font['specimen-creator'];
+      var specimenCreatorLink = font['specimen-creator-link'];
 
-      fontOpenSourceLink = font['font-open-source-link'];
-      fontFoundLink = font['font-found-link'];
+      var foundBy = font['info-discoverer'];
+      var infoAbout = font['info-about'];
+      var infoWeight = font['info-weight'];
+      var styleDesc = font['font-style'];
 
-      specimenClassName = 'of-font-specimen-image specimen-' + replaceNonAlphaNumeric(font['font-id']);
-      specimenRatioClassName = 'of-font-specimen-image-wrapper ratio-' + replaceNonAlphaNumeric(font['font-id']);
+      var fontOpenSourceLink = font['font-open-source-link'];
 
-      let classification = font['info-classification'];
-      let discoverer = foundBy;
+      var specimenClassName = 'of-font-specimen-image specimen-' + replaceNonAlphaNumeric(font['font-id']);
+      var specimenRatioClassName = 'of-font-specimen-image-wrapper ratio-' + replaceNonAlphaNumeric(font['font-id']);
+      var fontClassName = replaceNonAlphaNumeric(font['font-id']);
 
-      let about1 = 'It was created by ' + creator;
-      let about2 = foundry ? ' and is currently distributed by ' + foundry : '';
-      let about3 = '. ';
-      let about4 = 'It was submitted to us by ' + discoverer + '.  ' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family. ';
-      let about5 = 'It comes in ' + fontInfoFamily + ' faces. ';
-      let about6 = 'It is licensed under the ' + fontInfoLicense + ' and available for contribution, modification or download on its open-source ' + fontOpenSourceLink + ' page. Please find more about ' + fontName + ' here ' + fontFoundLink + '.';
-
-      aboutText = about1 + about2 + about3 + about4 + about5 + about6;
-
-      fontClassName = replaceNonAlphaNumeric(font['font-id']);
     }
 
     let isSpacerTop = false;
-    let previewKey = Math.floor(Math.random() * 999999) + 1;
+    let previewKey = font ? font['font-name'] : 0;
 
     let fontSpecimenClassName = cx({
       'of-font-specimen': true,
@@ -366,4 +321,39 @@ export default class FontSpecimen extends Component {
       </div>
     )
   }
+}
+
+function generateAboutText (font) {
+
+  var fontName = font['font-name'];
+
+  var creator = font['font-creator'];
+  var creatorLink = font['font-creator-link'];
+
+  var fontDownloadLink = font['font-download-link'];
+  var styleDesc = font['font-style'];
+  var foundry = font['font-foundry'];
+
+  var specimenCreator = font['specimen-creator'];
+  var specimenCreatorLink = font['specimen-creator-link'];
+
+  var foundBy = font['info-discoverer'];
+  var infoAbout = font['info-about'];
+  var infoWeight = font['info-weight'];
+  var fontInfoLicense = font['info-license'];
+  var fontInfoFamily = font['info-family'];
+
+  var fontOpenSourceLink = font['font-open-source-link'];
+  var fontFoundLink = font['font-found-link'];
+
+  var classification = font['info-classification'];
+
+  var about1 = 'It was created by ' + creator;
+  var about2 = foundry ? ' and is currently distributed by ' + foundry : '';
+  var about3 = '. ';
+  var about4 = 'It was submitted to us by ' + foundBy + '.  ' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family. ';
+  var about5 = 'It comes in ' + fontInfoFamily + ' faces. ';
+  var about6 = 'It is licensed under the ' + fontInfoLicense + ' and available for contribution, modification or download on its open-source ' + fontOpenSourceLink + ' page. Please find more about ' + fontName + ' here ' + fontFoundLink + '.';
+
+  return about1 + about2 + about3 + about4 + about5 + about6;
 }
