@@ -320,6 +320,7 @@ export default class FontPreviewContainer extends Component {
     let leadingDigits = 2;
 
     const previewClassName = classNames({
+      'not-loaded': !font || !font.fontSize, // slide jump ?
       'of-font-preview-container': true,
       'is-image': backgroundState === 2,
       'is-black': backgroundState === 1,
