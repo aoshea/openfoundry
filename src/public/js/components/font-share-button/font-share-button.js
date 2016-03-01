@@ -9,7 +9,7 @@ export default class FontShareButton extends Component {
   
   handleClick() {
     let url = "https://github.com";
-    let msg = this.props.message === "" ? url : this.props.message + " " + url;
+    let msg = this.props.message;
     let shareUrl =  "https://twitter.com/intent/tweet?text=" + encodeURIComponent(msg);
 
     window.open(shareUrl, "_blank");
