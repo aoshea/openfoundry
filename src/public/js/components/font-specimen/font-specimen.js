@@ -61,14 +61,19 @@ export default class FontSpecimen extends Component {
       let innerHeight = inner.height() + window.innerHeight * 0.8;
       let scrollY = window.innerHeight + e.target.scrollTop;
 
+      // 1 - 0 by the end of the page (i.e. absolute scroll)
       let delta = ((scrollY - innerHeight) / window.innerHeight) + 1;
+      // 0 - 1 by the beginning of the page (i.e. 100% of screen)
+      let deltaScreen = Math.max(0, 2 - Math.max(1, scrollY / window.innerHeight));
+
 
       if (delta > 0) {
         onScrollUpdate && onScrollUpdate(delta);
       }
 
       self.setState({
-        delta: delta
+        delta: delta,
+        deltaScreen: deltaScreen
       })
 
       let isTopPassed = e.target.scrollTop > window.innerHeight
@@ -135,8 +140,7 @@ export default class FontSpecimen extends Component {
     let previewKey = font ? font['font-name'] : 0;
 
     let fontSpecimenClassName = cx({
-      'of-font-specimen': true,
-      enter: state.onEnter
+      'of-font-specimen': true
     });
 
     const specimenWrapperStyle = {
@@ -155,6 +159,10 @@ export default class FontSpecimen extends Component {
       transform: 'translate3d(0,' + state.moveToOffset + 'px,0)',
       transition: Math.abs(state.moveToOffset) < 1 ? 'transform 250ms ease-out' : 'none'
     };
+
+    const coverStyle = {
+      opacity: !state.deltaScreen ? 0 : Math.min(1, ((1 - state.deltaScreen) - 0.5) * 2)
+    }
 
     const previewWrapperStyle = cx({
       'of-preview-wrapper': true,
@@ -175,6 +183,7 @@ export default class FontSpecimen extends Component {
                 key={previewKey}
                 font={font} />
             </div>
+            <div style={coverStyle} className="of-spec-preview-cover"></div>
             </ReactCSSTransitionGroup>
 
             <ReactCSSTransitionGroup transitionName="st" transitionAppear={true} transitionAppearTimeout={2000} transitionEnterTimeout={0} transitionLeaveTimeout={2000}>
@@ -333,6 +342,7 @@ export default class FontSpecimen extends Component {
 
           </div>
         </div>
+
       </div>
     )
   }
