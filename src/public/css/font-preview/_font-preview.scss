@@ -1,11 +1,13 @@
+.not-loaded {
+  visibility: hidden;
+}
+
 .of-font-preview-container {
   position: relative;
   background-color: $white;
   background-size: cover;
   background-position: 50%;
-  transition: all $ease;
   min-height: 30vh;
-  transition: min-height 500ms ease-in-out;
   &.is-fixed {
     min-height: $preview-height;
     .of-font-preview-ui {
@@ -109,7 +111,6 @@
       }
     }
     .of-font-preview-text-container {
-      pointer-events: auto;
       color: $white;
     }
     .of-font-slider-handle {

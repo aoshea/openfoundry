@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { Dispatcher } from 'flux';
 import { Link } from 'react-router';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
-import FontSlider from '../../components/font-slider/font-slider.js';
-import FontColours from '../../components/font-colours/font-colours.js';
-import FontLikeButton from '../../components/font-like-button/font-like-button.js';
-import FontShareButton from '../../components/font-share-button/font-share-button.js';
+import FontSlider from 'components/font-slider/font-slider.js';
+import FontColours from 'components/font-colours/font-colours.js';
+import FontLikeButton from 'components/font-like-button/font-like-button.js';
+import FontShareButton from 'components/font-share-button/font-share-button.js';
 import FontText from './font-text/font-text.js';
 import $ from 'jquery';
 import classNames from 'classnames';
@@ -226,7 +226,6 @@ export default class FontPreviewContainer extends Component {
     });
   }
 
-
   onUpdateBackground(value) {
     var font = this.state.font;
     font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
@@ -238,7 +237,6 @@ export default class FontPreviewContainer extends Component {
     });
 
   }
-
 
   onUpdateTextTransform(value) {
     var font = this.state.font;
@@ -256,7 +254,7 @@ export default class FontPreviewContainer extends Component {
     let { font, likes } = props;
 
     if (!font) {
-      return <div>No font id</div>
+      return <div> </div>
     }
 
     let fontId = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
@@ -322,6 +320,7 @@ export default class FontPreviewContainer extends Component {
     let leadingDigits = 2;
 
     const previewClassName = classNames({
+      'not-loaded': !font || !font.fontSize, // slide jump ?
       'of-font-preview-container': true,
       'is-image': backgroundState === 2,
       'is-black': backgroundState === 1,
@@ -410,10 +409,10 @@ export default class FontPreviewContainer extends Component {
 
 
 
-FontPreviewContainer.getRandomBackground = (function(){
+FontPreviewContainer.getRandomBackground = (function () {
 
   var numBackgrounds = 41;
-  var backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i)=>i));
+  var backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i) => i + 1));
   var index = 0;
 
   let pad2 = n => n < 10 ? "0" + n : n;
@@ -425,4 +424,4 @@ FontPreviewContainer.getRandomBackground = (function(){
 
   }
 
-})()
+}());

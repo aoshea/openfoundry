@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import FontPreviewContainer from '../../components/font-preview-container/font-preview-container.js';
-import FontSpecimen from '../../components/font-specimen/font-specimen.js';
+import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
+import FontSpecimen from 'components/font-specimen/font-specimen.js';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
+
+// 'white' / 'black' / false
+const GLOBAL_BACKGROUNDS = false;
 
 
 export default class FontList extends Component {
@@ -26,6 +29,8 @@ export default class FontList extends Component {
   }
 
   onMoreUpdate(scrollTop) {
+    // remember the scroll position to land at the
+    // same offset when coming back from Specimen
     this.setState({
       lastScrollTop: scrollTop
     });
@@ -47,6 +52,16 @@ export default class FontList extends Component {
           return;
         }
       });
+
+      if (GLOBAL_BACKGROUNDS) {
+        if (GLOBAL_BACKGROUNDS == 'white') {
+          font['settings-background-state'] = 'white'
+          font['settings-color'] = "#111"
+        } else {
+          font['settings-background-state'] = 'black'
+          font['settings-color'] = "#eee"
+        }
+      }
 
       font.likesNum = likes;
       return font;
@@ -76,6 +91,7 @@ export default class FontList extends Component {
 
     // Offset by `.of-main` top offset
     const fontListStyle = {
+      // 50px being the height of the nav bar
       top: props.fixed ? (lastScrollTop - 50) * -1 : 0
     };
 

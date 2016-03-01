@@ -9,6 +9,7 @@ import AboutPage from './components/about/about.js';
 import SubmissionPage from './components/submission/submission.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
+import ReactTransitionGroup from 'react-addons-transition-group';
 
 var cache = {
   fonts: null,
@@ -200,9 +201,6 @@ class Open extends Component {
   }
 
   setLikes(likes) {
-
-    console.log('setLikes', likes);
-
     this.setState({
       likes: likes
     });
@@ -228,7 +226,6 @@ class Open extends Component {
     } else {
       $.get('/api/fonts/')
         .done(function (res) {
-          console.log('got likes');
           if (res.docs) {
             self.setLikes(res.docs);
           } else {
@@ -329,10 +326,15 @@ class Specimen extends Component {
 
     let match = matches.length ? matches[0] : null;
 
-    return <FontSpecimen onScrollUpdate={this.onScrollUpdate}
+    return  <ReactTransitionGroup>
+
+            <FontSpecimen
                          onCompleteScroll={this.onComplete}
                          font={match}
+                         key={0}
                          fontId={fontId} />
+
+            </ReactTransitionGroup>
   }
 }
 
