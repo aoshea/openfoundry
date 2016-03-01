@@ -67,6 +67,10 @@ export default class FontSpecimen extends Component {
         onScrollUpdate && onScrollUpdate(delta);
       }
 
+      self.setState({
+        delta: delta
+      })
+
       let isTopPassed = e.target.scrollTop > window.innerHeight
 
       if (!self.state.isTopPassed && isTopPassed) {
@@ -140,7 +144,7 @@ export default class FontSpecimen extends Component {
     };
 
     let spacerStyle = {
-      opacity: 1 - state.delta
+      opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
     };
 
     let holderClassName = cx({
