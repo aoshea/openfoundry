@@ -112,6 +112,9 @@ var sources = {
 var libs = [
   "react",
   "react-dom",
+  "react-router",
+  "react-addons-transition-group",
+  "react-addons-css-transition-group",
   "jquery"
 ];
 
