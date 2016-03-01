@@ -7,9 +7,7 @@
   background-color: $white;
   background-size: cover;
   background-position: 50%;
-  transition: all $ease;
   min-height: 30vh;
-  transition: min-height 500ms ease-in-out;
   &.is-fixed {
     min-height: $preview-height;
     .of-font-preview-ui {

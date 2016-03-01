@@ -9,6 +9,7 @@ import AboutPage from './components/about/about.js';
 import SubmissionPage from './components/submission/submission.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
+import ReactTransitionGroup from 'react-addons-transition-group';
 
 var cache = {
   fonts: null,
@@ -325,10 +326,15 @@ class Specimen extends Component {
 
     let match = matches.length ? matches[0] : null;
 
-    return <FontSpecimen onScrollUpdate={this.onScrollUpdate}
+    return  <ReactTransitionGroup>
+
+            <FontSpecimen
                          onCompleteScroll={this.onComplete}
                          font={match}
+                         key={0}
                          fontId={fontId} />
+
+            </ReactTransitionGroup>
   }
 }
 

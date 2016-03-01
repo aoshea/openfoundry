@@ -12,12 +12,27 @@ export default class FontSpecimen extends Component {
     super()
 
     this.onScrollFinish = this.onScrollFinish.bind(this);
+
+    this.componentWillAppear = this.componentWillAppear.bind(this);
+    this.componentDidAppear = this.componentDidAppear.bind(this);
+
     this.state = {
-      onEnter: false,
       isScroll: false,
       isTopPassed: false,
-      delta: 0
+      delta: 0,
+      moveToOffset: 0
     };
+  }
+
+  componentWillAppear(cb) {
+    this.state.moveToOffset = (window.tempOffset - 50) || 0
+    setTimeout(cb)
+  }
+
+  componentDidAppear() {
+    this.setState({
+      moveToOffset: 0
+    })
   }
 
   onScrollFinish() {
@@ -28,17 +43,6 @@ export default class FontSpecimen extends Component {
   componentDidMount() {
 
     const { onScrollUpdate } = this.props;
-
-    this.setState({
-      tempOffset: isNaN(window.tempOffset) ? 0 : window.tempOffset - 50
-    });
-
-    setTimeout(() => {
-      this.setState({
-        tempOffset: 0,
-        onEnter: true
-      });
-    }, 0);
 
     var scrollableEl = $('.of-spec-scrollable');
     var inner = $('.of-font-specimen');
@@ -140,12 +144,12 @@ export default class FontSpecimen extends Component {
     };
 
     let holderClassName = cx({
-      'of-spec-holder': true,
-      enter: state.onEnter
+      'of-spec-holder': true
     });
 
     const holderStyle = {
-      transform: 'translate3d(0,' + state.tempOffset + 'px,0)'
+      transform: 'translate3d(0,' + state.moveToOffset + 'px,0)',
+      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 250ms ease-out' : 'none'
     };
 
     const previewWrapperStyle = cx({
@@ -159,6 +163,7 @@ export default class FontSpecimen extends Component {
         <div className="of-spec-wrapper">
           <div className="of-spec-scrollable">
 
+            <ReactCSSTransitionGroup transitionName="pt" transitionAppear={true} transitionAppearTimeout={0} transitionEnterTimeout={0} transitionLeaveTimeout={0}>
             <div className={previewWrapperStyle}>
               <FontPreviewContainer
                 fixed={true}
@@ -166,8 +171,11 @@ export default class FontSpecimen extends Component {
                 key={previewKey}
                 font={font} />
             </div>
+            </ReactCSSTransitionGroup>
 
-            <div className="of-specimen-wrapper">
+            <ReactCSSTransitionGroup transitionName="st" transitionAppear={true} transitionAppearTimeout={2000} transitionEnterTimeout={0} transitionLeaveTimeout={2000}>
+
+            <div className="of-specimen-wrapper" key="0">
               <div className={fontSpecimenClassName}>
                 { isSpacerTop && <div className="of-font-specimen-spacer-top"></div> }
                 { specimenClassName
@@ -316,6 +324,9 @@ export default class FontSpecimen extends Component {
 
               </div>
             </div>
+
+            </ReactCSSTransitionGroup>
+
           </div>
         </div>
       </div>
