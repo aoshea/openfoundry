@@ -6,6 +6,9 @@ import classNames from 'classnames';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
 
+// 'white' / 'black' / false
+const GLOBAL_BACKGROUNDS = false;
+
 
 export default class FontList extends Component {
 
@@ -50,6 +53,16 @@ export default class FontList extends Component {
         }
       });
 
+      if (GLOBAL_BACKGROUNDS) {
+        if (GLOBAL_BACKGROUNDS == 'white') {
+          font['settings-background-state'] = 'white'
+          font['settings-color'] = "#111"
+        } else {
+          font['settings-background-state'] = 'black'
+          font['settings-color'] = "#eee"
+        }
+      }
+
       font.likesNum = likes;
       return font;
     });
@@ -78,6 +91,7 @@ export default class FontList extends Component {
 
     // Offset by `.of-main` top offset
     const fontListStyle = {
+      // 50px being the height of the nav bar
       top: props.fixed ? (lastScrollTop - 50) * -1 : 0
     };
 
