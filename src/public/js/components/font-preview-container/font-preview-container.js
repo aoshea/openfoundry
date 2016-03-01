@@ -254,7 +254,7 @@ export default class FontPreviewContainer extends Component {
     let { font, likes } = props;
 
     if (!font) {
-      return <div>No font id</div>
+      return <div> </div>
     }
 
     let fontId = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
