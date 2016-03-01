@@ -338,7 +338,7 @@ export default class FontSpecimen extends Component {
   }
 }
 
-function generateAboutText (font) {
+function generateAboutText(font) {
 
   var fontName = font['font-name'];
 
