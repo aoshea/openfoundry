@@ -412,7 +412,7 @@ export default class FontPreviewContainer extends Component {
 FontPreviewContainer.getRandomBackground = (function () {
 
   var numBackgrounds = 41;
-  var backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i)=>i));
+  var backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i) => i + 1));
   var index = 0;
 
   let pad2 = n => n < 10 ? "0" + n : n;
