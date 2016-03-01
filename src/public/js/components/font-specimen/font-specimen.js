@@ -161,7 +161,7 @@ export default class FontSpecimen extends Component {
     };
 
     const coverStyle = {
-      opacity: !state.deltaScreen ? 0 : Math.min(1, ((1 - state.deltaScreen) - 0.5) * 2)
+      opacity: !state.deltaScreen ? 0 : Math.min(1, ((1 - state.deltaScreen) - 0.1) * 1.5)
     }
 
     const previewWrapperStyle = cx({
