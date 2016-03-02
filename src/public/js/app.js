@@ -1,5 +1,6 @@
 import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHistory } from 'react-router'
 import React, { Component } from 'react';
+import Helmet from "react-helmet";
 import { render } from 'react-dom';
 import { replaceNonAlphaNumeric } from './util/util.js';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
@@ -256,6 +257,7 @@ class Open extends Component {
 
     return (
       <div>
+        <Helmet title={"OpenFoundry | Hot30"} />
         <FontList fixed={isSpecimen} likes={likes} fonts={fonts} />
        {this.props.children}
       </div>
@@ -327,7 +329,9 @@ class Specimen extends Component {
     let match = matches.length ? matches[0] : null;
 
     return  <ReactTransitionGroup>
-
+            <Helmet
+              title={"OpenFoundry | Hot30 | " + fontId}
+            />
             <FontSpecimen
                          onCompleteScroll={this.onComplete}
                          font={match}
