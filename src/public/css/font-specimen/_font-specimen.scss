@@ -50,18 +50,22 @@
   pointer-events: none;
 }
 
+// where 50 is the size of the menu
+$specimenBottom: 110px + 50px;
+
 .of-specimen-wrapper {
   position: relative;
+  margin-top: -$specimenBottom;
   z-index: $zIndex-font-specimen-example;
 }
 
 .of-specimen-wrapper.st-appear {
-    transform: translate3d(0, 100px, 0);
+    transform: translate3d(0, $specimenBottom, 0);
 }
 
 .of-specimen-wrapper,
 .of-specimen-wrapper.st-appear-active {
-    transform: translate3d(0, -200px, 0);
+    transform: translate3d(0, 0, 0);
 }
 
 .of-specimen-wrapper.st-appear.st-appear-active {
