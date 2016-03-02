@@ -300,6 +300,8 @@ export default class FontPreviewContainer extends Component {
     let stepLetterSpacing = 0.025;
     let stepLineHeight = 0.05;
 
+    let shareMessage = [oFontName + rankSpace + oFontStyle, ' ', font['font-open-source-link'], ' via @open_foundry #open30'].join('');
+
     let textTransform = this.state.uppercase ? "uppercase" : "none";
 
     let fontStyle = {
@@ -395,7 +397,7 @@ export default class FontPreviewContainer extends Component {
                   {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankComma}{rankCreator}
                 </div>
                 <div className="col-2 social">
-                  <FontLikeButton locked={this.state.locked} likes={likes} onUpdate={this.onUpdateLikes} /><FontShareButton />
+                  <FontLikeButton locked={this.state.locked} likes={likes} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
                 </div>
               </div>
             </div>
