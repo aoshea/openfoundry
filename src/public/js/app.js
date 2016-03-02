@@ -11,6 +11,7 @@ import SubmissionPage from './components/submission/submission.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
 import ReactTransitionGroup from 'react-addons-transition-group';
+import { getFullFontName } from 'util/content_util.js';
 
 var cache = {
   fonts: null,
@@ -257,7 +258,7 @@ class Open extends Component {
 
     return (
       <div>
-        <Helmet title={"OpenFoundry | Hot30"} />
+        <Helmet title={"OpenFoundry / Hot 30"} />
         <FontList fixed={isSpecimen} likes={likes} fonts={fonts} />
        {this.props.children}
       </div>
@@ -329,9 +330,7 @@ class Specimen extends Component {
     let match = matches.length ? matches[0] : null;
 
     return  <ReactTransitionGroup>
-            <Helmet
-              title={"OpenFoundry | Hot30 | " + fontId}
-            />
+            <Helmet title={"Open Foundry / Hot 30 / " + getFullFontName(match)} />
             <FontSpecimen
                          onCompleteScroll={this.onComplete}
                          font={match}
@@ -348,13 +347,19 @@ Specimen.contextTypes = {
 
 class About extends Component {
   render() {
-    return <AboutPage />
+    return <div>
+              <Helmet title={"Open Foundry / About"} />
+              <AboutPage />
+           </div>
   }
 }
 
 class Submission extends Component {
   render() {
-    return <SubmissionPage />
+    return <div>
+              <Helmet title={"Open Foundry / Submit"} />
+              <SubmissionPage />
+           </div>
   }
 }
 
