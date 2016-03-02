@@ -354,6 +354,14 @@ class Submission extends Component {
   }
 }
 
+browserHistory.listen(function (location) {
+  // need to render <Helmet> before retrieving pages title
+  setTimeout(function(){
+    window.ga('send', 'pageview', location.pathname);
+  })
+});
+
+
 render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
