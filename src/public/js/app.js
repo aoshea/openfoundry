@@ -1,5 +1,6 @@
 import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHistory } from 'react-router'
 import React, { Component } from 'react';
+import Helmet from "react-helmet";
 import { render } from 'react-dom';
 import { replaceNonAlphaNumeric } from './util/util.js';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
@@ -10,6 +11,7 @@ import SubmissionPage from './components/submission/submission.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
 import ReactTransitionGroup from 'react-addons-transition-group';
+import { getFullFontName } from 'util/content_util.js';
 
 var cache = {
   fonts: null,
@@ -256,6 +258,7 @@ class Open extends Component {
 
     return (
       <div>
+        <Helmet title={"OpenFoundry / Hot 30"} />
         <FontList fixed={isSpecimen} likes={likes} fonts={fonts} />
        {this.props.children}
       </div>
@@ -327,7 +330,7 @@ class Specimen extends Component {
     let match = matches.length ? matches[0] : null;
 
     return  <ReactTransitionGroup>
-
+            <Helmet title={"Open Foundry / Hot 30 / " + getFullFontName(match)} />
             <FontSpecimen
                          onCompleteScroll={this.onComplete}
                          font={match}
@@ -344,15 +347,29 @@ Specimen.contextTypes = {
 
 class About extends Component {
   render() {
-    return <AboutPage />
+    return <div>
+              <Helmet title={"Open Foundry / About"} />
+              <AboutPage />
+           </div>
   }
 }
 
 class Submission extends Component {
   render() {
-    return <SubmissionPage />
+    return <div>
+              <Helmet title={"Open Foundry / Submit"} />
+              <SubmissionPage />
+           </div>
   }
 }
+
+browserHistory.listen(function (location) {
+  // need to render <Helmet> before retrieving pages title
+  setTimeout(function(){
+    window.ga('send', 'pageview', location.pathname);
+  })
+});
+
 
 render((
   <Router history={browserHistory}>

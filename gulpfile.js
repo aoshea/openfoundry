@@ -113,6 +113,7 @@ var libs = [
   "react",
   "react-dom",
   "react-router",
+  "react-helmet",
   "react-addons-transition-group",
   "react-addons-css-transition-group",
   "jquery"
@@ -350,5 +351,3 @@ gulp.task('watch', ['browser-sync'], function () {
 // Default task `gulp`
 gulp.task('build', ['index', 'includes', 'html', 'images', 'css', 'vendor-js', 'js', 'copy-vendor-js', 'watch']);
 gulp.task('default', ['db', 'server']);
-
-
