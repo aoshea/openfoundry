@@ -4,6 +4,7 @@
 
 .of-font-preview-container {
   position: relative;
+  pointer-events: auto;
   background-color: $white;
   background-size: cover;
   background-position: 50%;
