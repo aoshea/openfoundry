@@ -41,7 +41,9 @@
     text-decoration: none;
     transition: color $ease;
   }
+}
 
+.of-font-preview-footer, .of-specimen-footer {
   .social {
     text-align: right;
     // padding-right: 0;
@@ -72,8 +74,11 @@
 }
 
 @include mobile {
-  .of-font-preview-footer .social {
-    text-align: left;
+  .of-font-preview-footer,
+  .of-specimen-footer {
+    .social {
+      text-align: left;
+    }
   }
   .of-font-preview-footer .rank {
     overflow: hidden;
@@ -116,41 +121,49 @@
 
 .of-font-preview-container {
   color: $trans-black-50;
+}
 
-  .of-font-preview-footer .like-button svg {
-    fill: $trans-black-50;
-    transition: all $ease;
-  }
-  .of-font-preview-footer .like-button:hover svg {
+.like-button svg {
+  fill: $trans-black-50;
+  transition: all $ease;
+}
+
+.of-specimen-footer .social{
+  padding-top: 130px;
+}
+
+.of-font-preview-footer,
+.of-specimen-footer {
+
+  .like-button:hover svg {
     fill: $trans-black-100;
     transform: scale3d(1.25, 1.25, 1.25);
   }
-  .of-font-preview-footer .like-button.like-button-disabled svg {
+  .like-button.like-button-disabled svg {
     fill: $trans-red-100;
   }
-  .of-font-preview-footer .like-button.like-button-disabled:hover svg {
+  .like-button.like-button-disabled:hover svg {
     fill: $trans-red-50;
     transform: scale3d(1, 1, 1);
   }
-
-  .of-font-preview-footer .share-button svg {
+  .share-button svg {
     fill: $trans-black-50;
     transition: all $ease;
   }
-  .of-font-preview-footer .share-button:hover svg {
+  .share-button:hover svg {
     fill: $trans-black-100;
   }
-  .of-font-preview-footer .share-button.share-button-disabled svg {
+  .share-button.share-button-disabled svg {
     fill: $trans-black-100;
   }
-  .of-font-preview-footer .share-button.share-button-disabled:hover svg {
+  .share-button.share-button-disabled:hover svg {
     fill: $trans-black-50;
   }
 }
 
 .of-font-preview-container.white-noimage {
   -webkit-font-smoothing: antialiased;
-  
+
   .rank a {
     color: $trans-black-50;
   }
@@ -160,7 +173,9 @@
 
 }
 
-.of-font-preview-container.black-image {
+.of-font-preview-container.black-image .of-font-preview-footer,
+.of-specimen-footer {
+
   color: $trans-white-50;
 
   .rank a {
@@ -170,29 +185,29 @@
     color: $trans-white-100;
   }
 
-  .of-font-preview-footer .like-button svg {
+  .like-button svg {
     fill: $trans-white-50;
   }
-  .of-font-preview-footer .like-button:hover svg {
+  .like-button:hover svg {
     fill: $trans-white-100;
   }
-  .of-font-preview-footer .like-button.like-button-disabled svg {
+  .like-button.like-button-disabled svg {
     fill: $trans-red-100;
   }
-  .of-font-preview-footer .like-button.like-button-disabled:hover svg {
+  .like-button.like-button-disabled:hover svg {
     fill: $trans-red-50;
   }
 
-  .of-font-preview-footer .share-button svg {
+  .share-button svg {
     fill: $trans-white-50;
   }
-  .of-font-preview-footer .share-button:hover svg {
+  .share-button:hover svg {
     fill: $trans-white-100;
   }
-  .of-font-preview-footer .share-button.share-button-disabled svg {
+  .share-button.share-button-disabled svg {
     fill: $trans-white-100;
   }
-  .of-font-preview-footer .share-button.share-button-disabled:hover svg {
+  .share-button.share-button-disabled:hover svg {
     fill: $trans-white-50;
   }
 }

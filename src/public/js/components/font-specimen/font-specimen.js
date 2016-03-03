@@ -7,6 +7,9 @@ import { getAboutText } from 'util/content_util.js';
 import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
 import cx from 'classnames';
 
+import FontLikeButton from 'components/font-like-button/font-like-button.js';
+import FontShareButton from 'components/font-share-button/font-share-button.js';
+
 export default class FontSpecimen extends Component {
 
   constructor() {
@@ -110,7 +113,7 @@ export default class FontSpecimen extends Component {
     const props = this.props;
     const state = this.state;
 
-    let { font } = props;
+    let { font, likes } = props;
 
     if (font) {
 
@@ -168,6 +171,21 @@ export default class FontSpecimen extends Component {
       'of-preview-wrapper': true,
       'is-scroll': state.isScroll
     });
+
+    if (font) {
+
+      var oFontName = font['font-name'];
+      var oFontStyle = font['font-style'];
+      // Sort rank
+      var rhyphen = " — ";
+      var rankSpace = " ";
+      var rankComma = ", ";
+      var rankPaddedNum = ("0" + props.rank).slice(-2);
+      var rankNum = <span>{rankPaddedNum}{rhyphen}</span>
+      var rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
+
+      var shareMessage = [oFontName + rankSpace + oFontStyle, ' ', font['font-open-source-link'], ' via @open_foundry #open30'].join('');
+    }
 
     return (
 
@@ -325,11 +343,14 @@ export default class FontSpecimen extends Component {
                     </div>
                   </div>
                 </div>
-                <div className="of-font-specimen-content of-font-specimen-content-last">
+                <div className="of-font-specimen-content of-font-specimen-content-last of-specimen-footer">
                   <div className="of-row">
-                    <div className="col-12">
+                    <div className="col-2">
                       <h3>Download Type</h3>
                       <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
+                    </div>
+                    <div className="col-10 social">
+                      <FontLikeButton locked={this.state.locked} likes={likes} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
                     </div>
                   </div>
                 </div>
