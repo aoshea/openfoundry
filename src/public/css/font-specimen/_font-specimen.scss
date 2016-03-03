@@ -36,6 +36,7 @@
   max-height: 100%;
   position: absolute;
   overflow-y: scroll;
+  pointer-events: all;
   top: 0; left: 0; right: 0; bottom: 0;
 }
 
@@ -54,7 +55,8 @@
 $specimenBottom: 110px + 50px;
 
 .of-specimen-wrapper {
-  position: relative;
+  position: absolute;
+  pointer-events: none;
   margin-top: -$specimenBottom;
   z-index: $zIndex-font-specimen-example;
 }
@@ -74,6 +76,7 @@ $specimenBottom: 110px + 50px;
 
 .of-font-specimen {
   position: relative;
+  pointer-events: auto;
   width: 100%;
   margin-top: $preview-height;
   // transition: transform 300ms ease-in-out;
