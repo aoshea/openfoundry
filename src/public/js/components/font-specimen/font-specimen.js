@@ -3,6 +3,7 @@ import ReactTransitionGroup from 'react-addons-transition-group';
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
+import { getAboutText } from 'util/content_util.js';
 import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
 import cx from 'classnames';
 
@@ -110,7 +111,7 @@ export default class FontSpecimen extends Component {
 
     if (font) {
 
-      var aboutText = generateAboutText(font);
+      var aboutText = getAboutText(font);
 
       var fontName = font['font-name'];
 
@@ -142,10 +143,6 @@ export default class FontSpecimen extends Component {
     let fontSpecimenClassName = cx({
       'of-font-specimen': true
     });
-
-    const specimenWrapperStyle = {
-
-    };
 
     let spacerStyle = {
       opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
@@ -346,39 +343,4 @@ export default class FontSpecimen extends Component {
       </div>
     )
   }
-}
-
-function generateAboutText(font) {
-
-  var fontName = font['font-name'];
-
-  var creator = font['font-creator'];
-  var creatorLink = font['font-creator-link'];
-
-  var fontDownloadLink = font['font-download-link'];
-  var styleDesc = font['font-style'];
-  var foundry = font['font-foundry'];
-
-  var specimenCreator = font['specimen-creator'];
-  var specimenCreatorLink = font['specimen-creator-link'];
-
-  var foundBy = font['info-discoverer'];
-  var infoAbout = font['info-about'];
-  var infoWeight = font['info-weight'];
-  var fontInfoLicense = font['info-license'];
-  var fontInfoFamily = font['info-family'];
-
-  var fontOpenSourceLink = font['font-open-source-link'];
-  var fontFoundLink = font['font-found-link'];
-
-  var classification = font['info-classification'];
-
-  var about1 = 'It was created by ' + creator;
-  var about2 = foundry ? ' and is currently distributed by ' + foundry : '';
-  var about3 = '. ';
-  var about4 = 'It was submitted to us by ' + foundBy + '.  ' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family. ';
-  var about5 = 'It comes in ' + fontInfoFamily + ' faces. ';
-  var about6 = 'It is licensed under the ' + fontInfoLicense + ' and available for contribution, modification or download on its open-source ' + fontOpenSourceLink + ' page. Please find more about ' + fontName + ' here ' + fontFoundLink + '.';
-
-  return about1 + about2 + about3 + about4 + about5 + about6;
 }

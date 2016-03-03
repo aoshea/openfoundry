@@ -10,6 +10,7 @@ import FontText from './font-text/font-text.js';
 import $ from 'jquery';
 import classNames from 'classnames';
 import shuffle from 'shuffle-array';
+import { getFullFontName, getShareMessage } from 'util/content_util.js';
 
 export default class FontPreviewContainer extends Component {
 
@@ -300,7 +301,8 @@ export default class FontPreviewContainer extends Component {
     let stepLetterSpacing = 0.025;
     let stepLineHeight = 0.05;
 
-    let shareMessage = [oFontName + rankSpace + oFontStyle, ' ', font['font-open-source-link'], ' via @open_foundry #open30'].join('');
+    let shareMessage = getShareMessage(font);
+
 
     let textTransform = this.state.uppercase ? "uppercase" : "none";
 
