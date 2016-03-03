@@ -17,7 +17,7 @@ export function getFullFontName(font) {
 export function getShareMessage(font) {
 	if (!!!font) return "Undefined Font!";
 
-	return [ getFullFontName(font), ' ', font['font-open-source-link'], ' ','via @open_foundry #open30'].join('');
+	return [ getFullFontName(font), ' ', font['font-open-source-link'], ' ','via @open_foundry #OFHot30'].join('');
 }
 
 export function getAboutText(font) {
