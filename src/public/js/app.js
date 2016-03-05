@@ -19,7 +19,6 @@ var cache = {
   likes: null
 };
 
-
 class App extends Component {
 
   constructor() {
@@ -181,7 +180,7 @@ class App extends Component {
     let logoClassName = this.state.isMenuOpen ? 'menu-logo open' : 'menu-logo';
     let breadClassName = this.state.isBreadCrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb';
     let rootClassName = this.state.isLoaded ? 'is-loaded' : '';
-    
+
 
     if (this.state.isLogoUp) {
       logoClassName += ' up';
@@ -365,7 +364,7 @@ class Open extends Component {
       <div>
         <Helmet title={"OpenFoundry / Hot 30"} />
         <FontList fixed={isSpecimen} likes={likes} fonts={fonts} />
-       {this.props.children}
+        {this.props.children}
       </div>
     )
   }
@@ -387,9 +386,6 @@ class Specimen extends Component {
     this.state = {
       fonts: []
     };
-  }
-
-  onScrollUpdate(x) {
   }
 
   navigateToOpen() {
@@ -480,8 +476,6 @@ browserHistory.listen(function (location) {
         actionType: 'show-breadcrumbs'
       });
     }
-
-
   }, 50);
 });
 
