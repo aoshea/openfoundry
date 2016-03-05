@@ -32,13 +32,25 @@ class App extends Component {
     this.state = {
       isMenuOpen: false,
       isLogoUp: false,
-      isBreadCrumbUp: false
+      isBreadCrumbUp: false,
+      fonts: [],
+      likes: []
     };
   }
 
   componentDidMount() {
     var self = this;
     var navbarHeight = 50;
+
+    if (cache.fonts) {
+      this.setFonts(cache.fonts);
+    } else {
+      $.get('../../data/sheet.json')
+        .done(function (res) {
+          cache.fonts = cache.fonts || res;
+          self.setFonts(cache.fonts);
+        });
+    }
 
     $(window).on('scroll', function () {
       self.isScrolled = true;
@@ -65,6 +77,12 @@ class App extends Component {
         self. lastScrollTop = st;
       })
     });
+  }
+
+  setFonts(fonts) {
+    this.setState({
+      fonts: fonts
+    })
   }
 
   componentWillUnmount() {
@@ -112,12 +130,35 @@ class App extends Component {
 
     let breadcrumb = '';
 
+    // matches specimen page and extracts ID
+    var matchSpecimen = pathName.match(/\/hot30\/(.*)/i);
+
     if (pathName === '/hot30') {
-      breadcrumb = 'Hot 30';
+
+      breadcrumb = <li className={breadClassName}>Hot30</li>;
+
+    } else if (matchSpecimen && matchSpecimen.length === 2) {
+      // add an extra class so hot30 can grey out
+      var breadClassFirstName = breadClassName + ' first-level';
+      // font list needs to be loaded to match the name
+      if (this.state.fonts) {
+        // map id -> font
+        let font = this.state.fonts.find(function(o){
+          return replaceNonAlphaNumeric(o['font-id']).toLowerCase() === matchSpecimen[1]
+        });
+        // extract the full font name
+        var fontName = !!font ? getFullFontName(font) : "";
+      }
+      // setup breadcrumbs
+      breadcrumb = [
+        <li className={breadClassFirstName} key='level-1'><Link to="/hot30">Hot30</Link></li>,
+        <li className={breadClassName} key='level-2'>{fontName}</li>
+      ];
+
     } else if (pathName === '/about') {
-      breadcrumb = 'About';
+      breadcrumb = <li className={breadClassName}>About</li>;
     } else if (pathName === '/submit') {
-      breadcrumb = 'Submit';
+      breadcrumb = <li className={breadClassName}>Submit</li>;
     }
 
     return (
@@ -149,7 +190,7 @@ class App extends Component {
                 </Link>
               </li>
 
-      { breadcrumb && <li className={breadClassName}>{breadcrumb}</li> }
+      { breadcrumb }
 
             </ul>
             <ul className={listClassName}>
