@@ -1,6 +1,7 @@
 import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHistory } from 'react-router'
 import React, { Component } from 'react';
 import Helmet from "react-helmet";
+import { Dispatcher } from 'flux';
 import { render } from 'react-dom';
 import { replaceNonAlphaNumeric } from './util/util.js';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
@@ -18,12 +19,15 @@ var cache = {
   likes: null
 };
 
+var appDispatcher = new Dispatcher();
+
 class App extends Component {
 
   constructor() {
     super()
     this.handleBurgerClick = this.handleBurgerClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this);
 
     this.isScrolled = false;
     this.delta = 100;
@@ -52,13 +56,15 @@ class App extends Component {
         });
     }
 
+    appDispatcher.register(this.handleAppEvent)
+
     $(window).on('scroll', function () {
       self.isScrolled = true;
       requestAnimationFrame(self.checkScroll.bind(self))
     });
 
     this.forceUpdateMenu = true;
-    this.checkScroll();
+    requestAnimationFrame(self.checkScroll.bind(self))
   }
 
   setFonts(fonts) {
@@ -69,6 +75,31 @@ class App extends Component {
 
   componentWillUnmount() {
     $(window).off('scroll');
+  }
+
+  handleAppEvent(e) {
+
+    switch (e.actionType) {
+
+      case 'show-breadcrumbs':
+
+        this.setState({
+          isMenuOpen: false,
+          isLogoUp: true,
+          isBreadCrumbUp: false
+        });
+
+        break;
+
+      case 'hide-breadcrumbs':
+
+        this.setState({
+          isLogoUp: false,
+          isBreadCrumbUp: true
+        });
+
+        break;
+    }
   }
 
   handleBurgerClick() {
@@ -96,33 +127,26 @@ class App extends Component {
 
   checkScroll() {
 
-    var st = $(window).scrollTop();
+    var scrollTop = $(window).scrollTop();
+    var windowHeight = $(window).height();
+    var documentHeight = $(document).height();
     var navbarHeight = 50;
 
     // debugger
 
     // scroll more than delta
-    if (Math.abs(this.lastScrollTop - st) <= this.delta && !this.forceUpdateMenu) return;
+    if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !this.forceUpdateMenu) return;
+
     // if they scrolled down and are past the navbar, add class .up.
-    if (st > this.lastScrollTop && st > navbarHeight) {
+    if (scrollTop > this.lastScrollTop && scrollTop > navbarHeight) {
+      appDispatcher.dispatch({ actionType: 'show-breadcrumbs' });
 
-      this.setState({
-        isMenuOpen: false,
-        isLogoUp: true,
-        isBreadCrumbUp: false
-      });
-
-    } else {
-
-      if (st + $(window).height() < $(document).height()) {
-        this.setState({
-          isLogoUp: false
-        });
-      }
+    } else if (scrollTop < 200 && location.pathname === '/hot30') {
+      appDispatcher.dispatch({ actionType: 'hide-breadcrumbs' });
     }
 
     this.forceUpdateMenu = false;
-    this. lastScrollTop = st;
+    this. lastScrollTop = scrollTop;
   }
 
   render() {
@@ -420,8 +444,21 @@ class Submission extends Component {
 browserHistory.listen(function (location) {
   // need to render <Helmet> before retrieving pages title
   setTimeout(function(){
+
     window.ga('send', 'pageview', location.pathname);
-  })
+
+    if (location.pathname === '/hot30') {
+      appDispatcher.dispatch({
+        actionType: 'hide-breadcrumbs'
+      });
+    } else {
+      appDispatcher.dispatch({
+        actionType: 'show-breadcrumbs'
+      });
+    }
+
+
+  }, 50);
 });
 
 
