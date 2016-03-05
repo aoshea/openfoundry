@@ -273,12 +273,6 @@ ul.menu-signup {
     text-decoration: none;
   }
 
-  &.first-level {
-    opacity: 0.4;
-    &:hover {
-      opacity: 1;
-    }
-  }
 }
 
 
@@ -294,6 +288,22 @@ ul.menu-signup {
 
 .menu-breadcrumb.up:before {
   opacity: 0;
+}
+
+.menu-breadcrumb {
+  opacity: 0;
+}
+
+.is-loaded {
+  .menu-breadcrumb {
+    opacity: 1;
+    &.first-level {
+      opacity: 0.4;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
 }
 
 .menu-breadcrumb.up {

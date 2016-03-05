@@ -34,6 +34,7 @@ class App extends Component {
     this.lastScrollTop = 100;
 
     this.state = {
+      isLoaded: false,
       isMenuOpen: false,
       isLogoUp: false,
       isBreadCrumbUp: false,
@@ -70,6 +71,7 @@ class App extends Component {
 
   setFonts(fonts) {
     this.setState({
+      isLoaded: true,
       fonts: fonts
     })
   }
@@ -155,7 +157,9 @@ class App extends Component {
     let listClassName = this.state.isMenuOpen ? 'menu-list open' : 'menu-list';
     let signupClassName = this.state.isMenuOpen ? 'menu-signup open' : 'menu-signup';
     let logoClassName = this.state.isMenuOpen ? 'menu-logo open' : 'menu-logo';
-    let breadClassName = this.state.isBreadCrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb'
+    let breadClassName = this.state.isBreadCrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb';
+    let rootClassName = this.state.isLoaded ? 'is-loaded' : '';
+    
 
     if (this.state.isLogoUp) {
       logoClassName += ' up';
@@ -199,7 +203,7 @@ class App extends Component {
     }
 
     return (
-      <div>
+      <div className={rootClassName}>
         <header className="of-navbar">
           <nav>
             <ul className="menu-header">
