@@ -50,12 +50,15 @@ export default class FontSpecimen extends Component {
     var fontList = $('.of-font-list').parent();
     var self = this;
 
-    $(window).on('scroll', function () {
+    var onScroll = function () {
       self.setState({
         isScroll: true
       });
-      $(window).off('scroll');
-    });
+
+      $(window).off('scroll', onScroll);
+    };
+
+    $(window).on('scroll', onScroll);
 
     scrollableEl.on('scroll', function (e) {
 
