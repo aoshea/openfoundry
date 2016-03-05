@@ -1,6 +1,7 @@
 import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHistory } from 'react-router'
 import React, { Component } from 'react';
 import Helmet from "react-helmet";
+import { Dispatcher } from 'flux';
 import { render } from 'react-dom';
 import { replaceNonAlphaNumeric } from './util/util.js';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
@@ -18,18 +19,22 @@ var cache = {
   likes: null
 };
 
+var appDispatcher = new Dispatcher();
+
 class App extends Component {
 
   constructor() {
     super()
     this.handleBurgerClick = this.handleBurgerClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this);
 
     this.isScrolled = false;
     this.delta = 100;
     this.lastScrollTop = 100;
 
     this.state = {
+      isLoaded: false,
       isMenuOpen: false,
       isLogoUp: false,
       isBreadCrumbUp: false,
@@ -39,6 +44,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+
     var self = this;
     var navbarHeight = 50;
 
@@ -52,41 +58,52 @@ class App extends Component {
         });
     }
 
+    appDispatcher.register(this.handleAppEvent)
+
     $(window).on('scroll', function () {
       self.isScrolled = true;
-      requestAnimationFrame(function () {
-        var st = $(window).scrollTop();
-
-        // scroll more than delta
-        if (Math.abs(self.lastScrollTop - st) <= self.delta) return;
-        // if they scrolled down and are past the navbar, add class .up.
-        if (st > self.lastScrollTop && st > navbarHeight) {
-          self.setState({
-            isMenuOpen: false,
-            isLogoUp: true,
-            isBreadCrumbUp: false
-          });
-
-        } else {
-          if (st + $(window).height() < $(document).height()) {
-            self.setState({
-              isLogoUp: false
-            });
-          }
-        }
-        self. lastScrollTop = st;
-      })
+      requestAnimationFrame(self.checkScroll.bind(self))
     });
+
+    this.forceUpdateMenu = true;
+    requestAnimationFrame(self.checkScroll.bind(self))
   }
 
   setFonts(fonts) {
     this.setState({
+      isLoaded: true,
       fonts: fonts
     })
   }
 
   componentWillUnmount() {
+
     $(window).off('scroll');
+  }
+
+  handleAppEvent(e) {
+
+    switch (e.actionType) {
+
+      case 'show-breadcrumbs':
+
+        this.setState({
+          isMenuOpen: false,
+          isLogoUp: true,
+          isBreadCrumbUp: false
+        });
+
+        break;
+
+      case 'hide-breadcrumbs':
+
+        this.setState({
+          isLogoUp: false,
+          isBreadCrumbUp: true
+        });
+
+        break;
+    }
   }
 
   handleBurgerClick() {
@@ -112,13 +129,37 @@ class App extends Component {
     }
   }
 
+  checkScroll() {
+
+    var scrollTop = $(window).scrollTop();
+    var windowHeight = $(window).height();
+    var documentHeight = $(document).height();
+    var navbarHeight = 50;
+
+    // scroll more than delta
+    if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !this.forceUpdateMenu) return;
+
+    // if they scrolled down and are past the navbar, add class .up.
+    if (scrollTop > this.lastScrollTop && scrollTop > navbarHeight) {
+      appDispatcher.dispatch({ actionType: 'show-breadcrumbs' });
+    } else if (scrollTop < 200 && location.pathname === '/hot30') {
+      appDispatcher.dispatch({ actionType: 'hide-breadcrumbs' });
+    }
+
+    this.forceUpdateMenu = false;
+
+    this. lastScrollTop = scrollTop;
+  }
+
   render() {
 
     let iconClassName = this.state.isMenuOpen ? 'menu-icon active' : 'menu-icon';
     let listClassName = this.state.isMenuOpen ? 'menu-list open' : 'menu-list';
     let signupClassName = this.state.isMenuOpen ? 'menu-signup open' : 'menu-signup';
     let logoClassName = this.state.isMenuOpen ? 'menu-logo open' : 'menu-logo';
-    let breadClassName = this.state.isBreadCrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb'
+    let breadClassName = this.state.isBreadCrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb';
+    let rootClassName = this.state.isLoaded ? 'is-loaded' : '';
+    
 
     if (this.state.isLogoUp) {
       logoClassName += ' up';
@@ -162,7 +203,7 @@ class App extends Component {
     }
 
     return (
-      <div>
+      <div className={rootClassName}>
         <header className="of-navbar">
           <nav>
             <ul className="menu-header">
@@ -407,8 +448,21 @@ class Submission extends Component {
 browserHistory.listen(function (location) {
   // need to render <Helmet> before retrieving pages title
   setTimeout(function(){
+
     window.ga('send', 'pageview', location.pathname);
-  })
+
+    if (location.pathname === '/hot30') {
+      appDispatcher.dispatch({
+        actionType: 'hide-breadcrumbs'
+      });
+    } else {
+      appDispatcher.dispatch({
+        actionType: 'show-breadcrumbs'
+      });
+    }
+
+
+  }, 50);
 });
 
 
