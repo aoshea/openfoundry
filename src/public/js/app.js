@@ -57,6 +57,7 @@ class App extends Component {
       requestAnimationFrame(self.checkScroll.bind(self))
     });
 
+    this.forceUpdateMenu = true;
     this.checkScroll();
   }
 
@@ -101,7 +102,7 @@ class App extends Component {
     // debugger
 
     // scroll more than delta
-    if (Math.abs(this.lastScrollTop - st) <= this.delta) return;
+    if (Math.abs(this.lastScrollTop - st) <= this.delta && !this.forceUpdateMenu) return;
     // if they scrolled down and are past the navbar, add class .up.
     if (st > this.lastScrollTop && st > navbarHeight) {
 
