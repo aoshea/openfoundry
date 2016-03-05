@@ -54,29 +54,10 @@ class App extends Component {
 
     $(window).on('scroll', function () {
       self.isScrolled = true;
-      requestAnimationFrame(function () {
-        var st = $(window).scrollTop();
-
-        // scroll more than delta
-        if (Math.abs(self.lastScrollTop - st) <= self.delta) return;
-        // if they scrolled down and are past the navbar, add class .up.
-        if (st > self.lastScrollTop && st > navbarHeight) {
-          self.setState({
-            isMenuOpen: false,
-            isLogoUp: true,
-            isBreadCrumbUp: false
-          });
-
-        } else {
-          if (st + $(window).height() < $(document).height()) {
-            self.setState({
-              isLogoUp: false
-            });
-          }
-        }
-        self. lastScrollTop = st;
-      })
+      requestAnimationFrame(self.checkScroll.bind(self))
     });
+
+    this.checkScroll();
   }
 
   setFonts(fonts) {
@@ -110,6 +91,37 @@ class App extends Component {
         isLogoUp: true
       });
     }
+  }
+
+  checkScroll() {
+
+    var st = $(window).scrollTop();
+    var navbarHeight = 50;
+
+    // debugger
+
+    // scroll more than delta
+    if (Math.abs(this.lastScrollTop - st) <= this.delta) return;
+    // if they scrolled down and are past the navbar, add class .up.
+    if (st > this.lastScrollTop && st > navbarHeight) {
+
+      this.setState({
+        isMenuOpen: false,
+        isLogoUp: true,
+        isBreadCrumbUp: false
+      });
+
+    } else {
+
+      if (st + $(window).height() < $(document).height()) {
+        this.setState({
+          isLogoUp: false
+        });
+      }
+    }
+
+    this.forceUpdateMenu = false;
+    this. lastScrollTop = st;
   }
 
   render() {
