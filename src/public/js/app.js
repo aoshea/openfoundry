@@ -43,6 +43,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+
     var self = this;
     var navbarHeight = 50;
 
@@ -74,6 +75,7 @@ class App extends Component {
   }
 
   componentWillUnmount() {
+
     $(window).off('scroll');
   }
 
@@ -132,20 +134,18 @@ class App extends Component {
     var documentHeight = $(document).height();
     var navbarHeight = 50;
 
-    // debugger
-
     // scroll more than delta
     if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !this.forceUpdateMenu) return;
 
     // if they scrolled down and are past the navbar, add class .up.
     if (scrollTop > this.lastScrollTop && scrollTop > navbarHeight) {
       appDispatcher.dispatch({ actionType: 'show-breadcrumbs' });
-
     } else if (scrollTop < 200 && location.pathname === '/hot30') {
       appDispatcher.dispatch({ actionType: 'hide-breadcrumbs' });
     }
 
     this.forceUpdateMenu = false;
+
     this. lastScrollTop = scrollTop;
   }
 
