@@ -12,10 +12,6 @@ header.of-navbar {
   backface-visiblity: hidden;
 }
 
-// header.of-navbar .up {
-//   top: -50px;
-// }
-
 .menu-header {
   position: absolute;
   top: 0;
@@ -51,7 +47,11 @@ ul.menu-header {
   transition: all $ease-m 0s;
   z-index: $zIndex-10;
   background: $black;
-  // box-shadow: 10px 0px 20px $black;
+}
+
+.menu-breadcrumb,
+.menu-logo {
+  box-shadow: 10px 0px 20px $black;
 }
 
 // .menu-logo.up {
