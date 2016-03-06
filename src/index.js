@@ -14,7 +14,7 @@ var nodeEnv = process.env.NODE_ENV || 'production';
 var localVars = {
   url: decodeURIComponent('http://open-foundry.com'),
   title: decodeURIComponent('Open Foundry'),
-  description: 'The ‘open’ stands for open-source, free and easily available. The word ‘foundry’ is taken from the ‘type foundry’ and suggests professional quality and industrial heritage. open-foundry was founded by Stefan Endress and Alastair O’Shea.',
+  description: 'A new platform for open-source fonts in a noise-free environment, to highlight their beauty, extend functionality and encourage further exploration.',
   img: decodeURIComponent('http://open-foundry.com/img/of-cover.jpg'),
   nodeEnv: nodeEnv
 };
