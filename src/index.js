@@ -10,6 +10,15 @@ var express  = require('express'),
 // NOTE: the env is set to 'development' by gulp-nodemon
 var nodeEnv = process.env.NODE_ENV || 'production';
 
+// Generic local variables to pass to views
+var localVars = {
+  url: decodeURIComponent('http://open-foundry.com'),
+  title: decodeURIComponent('Open Foundry'),
+  description: 'The ‘open’ stands for open-source, free and easily available. The word ‘foundry’ is taken from the ‘type foundry’ and suggests professional quality and industrial heritage. open-foundry was founded by Stefan Endress and Alastair O’Shea.',
+  img: decodeURIComponent('http://open-foundry.com/img/of-cover.jpg'),
+  nodeEnv: nodeEnv
+};
+
 var ofSubmission = require('./inc/of-submission');
 var ofMailchimp = require('./inc/of-mailchimp');
 
@@ -42,39 +51,24 @@ app.set('view engine', 'jade');
 app.engine('jade', require('jade').__express);
 
 /**
- * Routing / Index
+ * Render views
  */
 app.get('/', function (req, res) {
-  res.render('index', {
-    url: decodeURIComponent('http://open-foundry.com'),
-    title: decodeURIComponent('Open Foundry'),
-    description: 'The ‘open’ stands for open-source, free and easily available. The word ‘foundry’ is taken from the ‘type foundry’ and suggests professional quality and industrial heritage. open-foundry was founded by Stefan Endress and Alastair O’Shea.',
-    nodeEnv: nodeEnv
-  });
-  console.log('rootindex');
+  res.render('index', localVars);
 });
 
 app.get('/about', function (req, res) {
-  console.log('about');
-  res.render('index', { nodeEnv: nodeEnv });
+  res.render('index', localVars);
 });
 
 app.get('/submit', function (req, res) {
-  console.log('submit');
-  res.render('index', { nodeEnv: nodeEnv });
+  res.render('submit', localVars);
 });
 
-/**
- * Routing / Open Foundry List
- */
 app.get('/hot30', function (req, res) {
-  res.render('index', { nodeEnv: nodeEnv });
-  console.log('hot30');
+  res.render('index', localVars);
 });
 
-/**
- * Routing / Font
- */
 app.get('/hot30/:id', function (req, res) {
   var fontId = req.params.id
   var matches = fonts.filter(function (font) {
@@ -83,13 +77,13 @@ app.get('/hot30/:id', function (req, res) {
   });
   var currentFont = matches.length ? matches[0] : null;
 
-  res.render('index', {
-    url: decodeURIComponent('http://open-foundry.com/hot30/' + fontId),
-    title: decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style']),
-    description: decodeURIComponent(currentFont['info-about']),
-    img: decodeURIComponent('http://open-foundry.com/data/specimens/specimen-' + fontId + '.svg'),
-    nodeEnv: nodeEnv
-  });
+  var viewVars = localVars;
+  viewVars.url = decodeURIComponent('http://open-foundry.com/hot30/' + fontId);
+  viewVars.title = decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style']);
+  viewVars.description = decodeURIComponent(currentFont['info-about']);
+  viewVars.img = decodeURIComponent('http://open-foundry.com/data/specimens/specimen-' + fontId + '.svg');
+
+  res.render('index', viewVars);
 });
 
 
@@ -184,7 +178,6 @@ app.post('/newsletter', function (req, res, next) {
  * Public files served as static
  */
 app.use(express.static(__dirname + '/public'));
-app.use(express.static(__dirname + '/beta/public'));
 
 /**
  * Create server
