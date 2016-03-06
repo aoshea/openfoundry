@@ -1,3 +1,4 @@
+import React from 'react';
 import { replaceNonAlphaNumeric } from './util.js';
 
 const rhyphen = " — ";
@@ -28,44 +29,36 @@ export function getShareMessage(font) {
 
 export function getAboutText(font) {
 
-  var fontName = font['font-name'];
-
-  var creator = font['font-creator'];
-  var creatorLink = font['font-creator-link'];
-
-  var fontDownloadLink = font['font-download-link'];
-  var styleDesc = font['font-style'];
-  var foundry = font['font-foundry'];
-
-  var specimenCreator = font['specimen-creator'];
-  var specimenCreatorLink = font['specimen-creator-link'];
-
-  var foundBy = font['info-discoverer'];
-  var infoAbout = font['info-about'];
-  var infoWeight = font['info-weight'];
-  var fontInfoLicense = font['info-license'];
-  var fontInfoFamily = font['info-family'];
-
-  var fontOpenSourceLink = font['font-open-source-link'];
-  var fontFoundLink = font['font-found-link'];
-
-  var classification = font['info-classification'];
-
-	// {font-name} was created by {font-creator} [if {font-foundry} = true: and is currently distributed by {Link:font-foundry-link}{font-foundry}{Link:font-foundry-link}] else [ ]. It was initially submitted to us by {Link:info-discoverer-twitter}{info-discoverer}{Link:info-discoverer-twitter}. {font-style} is a {info-classification} cut of the {font-name} family, [if more then 1: which consists of {} different styles: {}.] else [which only consists of a single style.]
-
+  // {font-name} was created by {font-creator} [if {font-foundry} = true: and is currently distributed by {Link:font-foundry-link}{font-foundry}{Link:font-foundry-link}] else [ ]. It was initially submitted to us by {Link:info-discoverer-twitter}{info-discoverer}{Link:info-discoverer-twitter}. {font-style} is a {info-classification} cut of the {font-name} family, [if more then 1: which consists of {} different styles: {}.] else [which only consists of a single style.]
 	// It is licensed under the {Link:info-license-link}{info-license}{Link:info-license-link} and available for contribution, modification or download on its open-source {} page. Please find more about this Typeface {Link:font-open-source-link}here{Link:font-open-source-link}.
-
 	// Latest Version {info-version}
 
 
-  var about1 = 'It was created by ' + creator;
-  var about2 = foundry ? ' and is currently distributed by ' + foundry : '';
-  var about3 = '. ';
-  var about4 = 'It was submitted to us by ' + foundBy + '.  ' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family. ';
-  var about5 = 'It comes in ' + fontInfoFamily + ' faces. ';
-  var about6 = 'It is licensed under the ' + fontInfoLicense + ' and available for contribution, modification or download on its open-source ' + fontOpenSourceLink + ' page. Please find more about ' + fontName + ' here ' + fontFoundLink;
+  var chunk_distributed = font['font-foundry']
+    ? <span> and is currently distributed by <a href={font['font-foundry-link']}>{font['font-foundry']}</a></span>
+    : null
 
-  var res = about1 + about2 + about3 + about4 + about5 + about6;
 
-  return res;
+  var styles = font['info-family'].split(/,|and/)
+
+  var chunk_styles = styles.length > 1
+    ? <span>which consists of {styles.length} different styles: {font['info-family']}</span>
+    : <span>which only consists of a single style</span>
+
+  var about = [
+    <span>{font['font-name']} was created by {font['font-creator']} {chunk_distributed}.
+    It was initially submitted to us by <a href={font['info-discoverer-twitter']}>{font['info-discoverer']}</a>.&nbsp;
+    {font['font-style']} is a {font['info-classification']} cut of the {font['font-name']} family,</span>,
+    <span> {chunk_styles}.</span>,
+    <span>
+    <br /><br />
+    It is licensed under the <a href={font['info-license-link']}>{font['info-license']}</a>&nbsp;
+    and available for contribution, modification or download on its open-source page.
+    Please find more about this Typeface <a href={font['font-open-source-link']}>here</a>.
+    <br /><br />
+    Latest Version {font['info-version']}
+    </span>
+  ]
+
+  return about;
 }
