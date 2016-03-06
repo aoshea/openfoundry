@@ -11,8 +11,10 @@ import SubmissionPage from './components/submission/submission.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
 import ReactTransitionGroup from 'react-addons-transition-group';
-import { getFullFontName } from 'util/content_util.js';
+import { getFontId, getFullFontName } from 'util/content_util.js';
+import { Dispatcher } from 'flux';
 import appDispatcher from 'app-dispatcher';
+import appModel from 'app-model';
 
 var cache = {
   fonts: null,
@@ -91,40 +93,7 @@ class App extends Component {
           fonts: e.data
         });
         break;
-
-      case 'fetch-font-data':
-        this.fetchFontData();
-        break;
     }
-  }
-
-  fetchFontData() {
-
-    if (this.fontsLoading && !cache.fonts) {
-      // fetching in progress: skip
-      return;
-    }
-
-    if (cache.fonts) {
-
-      // fonts are already loaded: notify
-      setTimeout(function(){
-        // require timeout to avoid dispatch in same frame causing error
-        appDispatcher.dispatch({ actionType: 'font-data-updated', data: cache.fonts });
-      })
-
-    } else {
-
-      // first request: fetch from server
-      this.fontsLoading = true;
-
-      $.get('../../data/sheet.json')
-        .done(function (res) {
-          cache.fonts = cache.fonts || res;
-          appDispatcher.dispatch({ actionType: 'font-data-updated', data: cache.fonts });
-        });
-    }
-
   }
 
   handleBurgerClick() {
@@ -289,7 +258,6 @@ class Open extends Component {
   constructor() {
     super();
 
-    this.setLikes = this.setLikes.bind(this);
     this.handleAppEvent = this.handleAppEvent.bind(this);
 
     this.state = {
@@ -299,12 +267,6 @@ class Open extends Component {
     };
   }
 
-  setLikes(likes) {
-    this.setState({
-      likes: likes
-    });
-  }
-
   handleAppEvent(e) {
     switch (e.actionType){
       case 'font-data-updated':
@@ -312,32 +274,20 @@ class Open extends Component {
             fonts: e.data
           });
         break;
+      case 'like-data-updated':
+        this.setState({
+          likes: e.data
+        });
+        break;
     }
   }
 
   componentDidMount() {
-
-
     const self = this;
 
     this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
     appDispatcher.dispatch({ actionType: 'fetch-font-data' });
 
-    if (cache.likes) {
-      this.setLikes(cache.likes);
-    } else {
-      $.get('/api/fonts/')
-        .done(function (res) {
-          if (res.docs) {
-            self.setLikes(res.docs);
-          } else {
-            console.error('Like request: No docs found');
-          }
-        })
-        .fail(function () {
-          console.log('did not get likes');
-        });
-    }
   }
 
   componentWillUnmount() {

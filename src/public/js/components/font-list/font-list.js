@@ -41,38 +41,9 @@ export default class FontList extends Component {
     const props = this.props;
     const { lastScrollTop } = this.state;
 
-    const fontList = props.fonts.map((font, i) => {
-      font.__key = i;
-      // Get likes by font id
-      const id = replaceNonAlphaNumeric(font['font-id']);
-      let likes = 0;
-      props.likes.map(function (x) {
-        if (x.fontId === id) {
-          likes = x.likes;
-          return;
-        }
-      });
+    var fonts = this.props.fonts || [];
 
-      if (GLOBAL_BACKGROUNDS) {
-        if (GLOBAL_BACKGROUNDS == 'white') {
-          font['settings-background-state'] = 'white'
-          font['settings-color'] = "#111"
-        } else {
-          font['settings-background-state'] = 'black'
-          font['settings-color'] = "#eee"
-        }
-      }
-
-      font.likesNum = likes;
-      return font;
-    });
-
-    // Sort fonts by likes number in ascending order
-    fontList.sort((a, b) => {
-      return parseFloat(b.likesNum) - parseFloat(a.likesNum);
-    });
-
-    const renderFonts = fontList.map((font, i) => {
+    const renderFonts = this.props.fonts.map((font, i) => {
 
       return (
         <FontPreviewContainer

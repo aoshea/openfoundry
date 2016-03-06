@@ -13,6 +13,12 @@ export function getFullFontName(font) {
 	return fontName + rankSpace + fontStyle;
 }
 
+export function getFontId(font) {
+	if (!!!font) return "Undefined Font!";
+
+	return replaceNonAlphaNumeric(font['font-id']).toLowerCase();
+}
+
 
 export function getShareMessage(font) {
 	if (!!!font) return "Undefined Font!";

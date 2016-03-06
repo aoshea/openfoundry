@@ -1,11 +1,18 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
+import appDispatcher from 'app-dispatcher';
 
 export default class FontLikeButton extends Component {
 
   constructor() {
     super()
     this.handleClick = this.handleClick.bind(this);
+    this.handleFontEvent = this.handleFontEvent.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this);
+
+    this.state = {
+      likes: 0
+    }
   }
 
   handleClick() {
@@ -18,14 +25,56 @@ export default class FontLikeButton extends Component {
     onUpdate && onUpdate();
   }
 
+  componentDidMount() {
+    this.handleAppEventToken = appDispatcher.register(this.handleAppEvent);
+  }
+
+  componentWillUnmount() {
+    appDispatcher.unregister(this.handleAppEventToken);
+
+    var font = this.props.font;
+    if (!font) return;
+    font.dispatcher.unregister(this.handleFontModelEventToken);
+  }
+
+  handleAppEvent(e) {
+    switch (e.actionType) {
+      case 'like-data-updated':
+      if (!this.isInit) this.init()
+        break;
+    }
+  }
+
+  handleFontEvent(e) {
+    switch (e.actionType) {
+      case 'likes-updated':
+      this.setState({
+        likes: e.likesNum
+      });
+    }
+  }
+
+  init() {
+    var font = this.props.font;
+    if (!font) return;
+    this.isInit = true;
+
+    this.state.likes = font.likesNum;
+    this.handleFontModelEventToken = font.dispatcher.register(this.handleFontEvent);
+  }
+
   render() {
+
+    if (!this.isInit) {
+      this.init()
+    }
 
     let btnClass = classNames({
       'like-button': true,
       'like-button-disabled': this.props.locked
     });
 
-    const { likes } = this.props;
+    const { likes } = this.state;
 
     return (
       <div className="vote-container">
