@@ -306,7 +306,8 @@ ul.menu-signup {
   }
 }
 
-.menu-breadcrumb.up {
+.menu-breadcrumb.up,
+.menu-breadcrumb.first-level.up {
   transform: translate(-50%,0);
   opacity: 0;
 }

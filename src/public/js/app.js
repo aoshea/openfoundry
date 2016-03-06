@@ -1,9 +1,7 @@
 import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHistory } from 'react-router'
 import React, { Component } from 'react';
 import Helmet from "react-helmet";
-import { Dispatcher } from 'flux';
 import { render } from 'react-dom';
-import { replaceNonAlphaNumeric } from './util/util.js';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
 import NewsletterSignup from './components/newsletter/newsletter.js';
@@ -12,14 +10,15 @@ import SubmissionPage from './components/submission/submission.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
 import ReactTransitionGroup from 'react-addons-transition-group';
-import { getFullFontName } from 'util/content_util.js';
+import { getFontId, getFullFontName } from 'util/content_util.js';
+import { Dispatcher } from 'flux';
+import appDispatcher from 'app-dispatcher';
+import appModel from 'app-model';
 
 var cache = {
   fonts: null,
   likes: null
 };
-
-var appDispatcher = new Dispatcher();
 
 class App extends Component {
 
@@ -48,18 +47,6 @@ class App extends Component {
     var self = this;
     var navbarHeight = 50;
 
-    if (cache.fonts) {
-      this.setFonts(cache.fonts);
-    } else {
-      $.get('../../data/sheet.json')
-        .done(function (res) {
-          cache.fonts = cache.fonts || res;
-          self.setFonts(cache.fonts);
-        });
-    }
-
-    appDispatcher.register(this.handleAppEvent)
-
     $(window).on('scroll', function () {
       self.isScrolled = true;
       requestAnimationFrame(self.checkScroll.bind(self))
@@ -67,13 +54,13 @@ class App extends Component {
 
     this.forceUpdateMenu = true;
     requestAnimationFrame(self.checkScroll.bind(self))
-  }
 
-  setFonts(fonts) {
-    this.setState({
-      isLoaded: true,
-      fonts: fonts
-    })
+    appDispatcher.register(this.handleAppEvent);
+
+    appDispatcher.dispatch({
+      actionType: 'fetch-font-data'
+    });
+
   }
 
   componentWillUnmount() {
@@ -86,22 +73,25 @@ class App extends Component {
     switch (e.actionType) {
 
       case 'show-breadcrumbs':
-
         this.setState({
           isMenuOpen: false,
           isLogoUp: true,
           isBreadCrumbUp: false
         });
-
         break;
 
       case 'hide-breadcrumbs':
-
         this.setState({
           isLogoUp: false,
           isBreadCrumbUp: true
         });
+        break;
 
+      case 'font-data-updated':
+        this.setState({
+          isLoaded: true,
+          fonts: e.data
+        });
         break;
     }
   }
@@ -159,7 +149,7 @@ class App extends Component {
     let logoClassName = this.state.isMenuOpen ? 'menu-logo open' : 'menu-logo';
     let breadClassName = this.state.isBreadCrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb';
     let rootClassName = this.state.isLoaded ? 'is-loaded' : '';
-    
+
 
     if (this.state.isLogoUp) {
       logoClassName += ' up';
@@ -185,8 +175,9 @@ class App extends Component {
       if (this.state.fonts) {
         // map id -> font
         let font = this.state.fonts.find(function(o){
-          return replaceNonAlphaNumeric(o['font-id']).toLowerCase() === matchSpecimen[1]
+          return getFontId(o).toLowerCase() === matchSpecimen[1]
         });
+
         // extract the full font name
         var fontName = !!font ? getFullFontName(font) : "";
       }
@@ -268,8 +259,7 @@ class Open extends Component {
   constructor() {
     super();
 
-    this.setFonts = this.setFonts.bind(this);
-    this.setLikes = this.setLikes.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this);
 
     this.state = {
       isSpecimen: false,
@@ -278,48 +268,31 @@ class Open extends Component {
     };
   }
 
-  setFonts(fonts) {
-    this.setState({
-      fonts: fonts
-    });
-  }
-
-  setLikes(likes) {
-    this.setState({
-      likes: likes
-    });
+  handleAppEvent(e) {
+    switch (e.actionType){
+      case 'font-data-updated':
+          this.setState({
+            fonts: e.data
+          });
+        break;
+      case 'like-data-updated':
+        this.setState({
+          likes: e.data
+        });
+        break;
+    }
   }
 
   componentDidMount() {
-
-
     const self = this;
 
-    if (cache.fonts) {
-      this.setFonts(cache.fonts);
-    } else {
-      $.get('../../data/sheet.json')
-        .done(function (res) {
-          cache.fonts = cache.fonts || res;
-          self.setFonts(cache.fonts);
-        });
-    }
+    this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
+    appDispatcher.dispatch({ actionType: 'fetch-font-data' });
 
-    if (cache.likes) {
-      this.setLikes(cache.likes);
-    } else {
-      $.get('/api/fonts/')
-        .done(function (res) {
-          if (res.docs) {
-            self.setLikes(res.docs);
-          } else {
-            console.error('Like request: No docs found');
-          }
-        })
-        .fail(function () {
-          console.log('did not get likes');
-        });
-    }
+  }
+
+  componentWillUnmount() {
+    appDispatcher.unregister(this.handleAppEventListener);
   }
 
   componentDidUpdate() {
@@ -342,7 +315,7 @@ class Open extends Component {
       <div>
         <Helmet title={"OpenFoundry / Hot 30"} />
         <FontList fixed={isSpecimen} likes={likes} fonts={fonts} />
-       {this.props.children}
+        {this.props.children}
       </div>
     )
   }
@@ -357,17 +330,13 @@ class Specimen extends Component {
   constructor() {
     super();
 
-    this.setFonts = this.setFonts.bind(this);
     this.onComplete = this.onComplete.bind(this);
     this.navigateToOpen = this.navigateToOpen.bind(this);
-    this.onScrollUpdate = this.onScrollUpdate.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this);
 
     this.state = {
       fonts: []
     };
-  }
-
-  onScrollUpdate(x) {
   }
 
   navigateToOpen() {
@@ -378,25 +347,23 @@ class Specimen extends Component {
     this.navigateToOpen();
   }
 
-  setFonts(fonts) {
-    this.setState({
-      fonts: fonts
-    });
+  handleAppEvent(e) {
+    switch (e.actionType) {
+      case 'font-data-updated':
+        this.setState({
+          fonts: e.data
+        });
+        break;
+    }
   }
 
   componentDidMount() {
+    this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
+    appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+  }
 
-    const self = this;
-
-    if (cache.fonts) {
-      this.setFonts(cache.fonts);
-    } else {
-      $.get('../../data/sheet.json')
-        .done(function (res) {
-          cache.fonts = cache.fonts || res;
-          self.setFonts(cache.fonts);
-        });
-    }
+  componentWillUnmount() {
+    appDispatcher.unregister(this.handleAppEventListener);
   }
 
   render() {
@@ -405,8 +372,7 @@ class Specimen extends Component {
     if (!this.state.fonts) return <div>Loading...</div>
 
     let matches = this.state.fonts.filter(function (font) {
-      let id = font['font-id'];
-      return replaceNonAlphaNumeric(id).toLowerCase() === fontId;
+      return getFontId(font) === fontId;
     });
 
     let match = matches.length ? matches[0] : null;
@@ -460,8 +426,6 @@ browserHistory.listen(function (location) {
         actionType: 'show-breadcrumbs'
       });
     }
-
-
   }, 50);
 });
 
