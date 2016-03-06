@@ -4,6 +4,7 @@ import Helmet from "react-helmet";
 import { render } from 'react-dom';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
+import Debug from './components/debug/debug.js';
 import NewsletterSignup from './components/newsletter/newsletter.js';
 import AboutPage from './components/about/about.js';
 import SubmissionPage from './components/submission/submission.js';
@@ -439,6 +440,7 @@ render((
       </Route>
       <Route path="submit" component={Submission} />
       <Route path="about" component={About} />
+      <Route path="/debug" component={Debug} />
     </Route>
   </Router>
 ),
