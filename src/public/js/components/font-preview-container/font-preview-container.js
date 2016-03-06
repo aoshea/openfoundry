@@ -248,7 +248,7 @@ export default class FontPreviewContainer extends Component {
     let oFontCreator = font['font-creator'];
     let oFontCreatorLink = font['font-creator-link'];
 
-    let spanFontCreator = oFontCreatorLink ? <span><a href={oFontCreatorLink}>{oFontCreator}</a></span> : <span>{oFontCreator}</span>
+    let spanFontCreator = oFontCreatorLink ? <span>{oFontCreator}</span> : <span>{oFontCreator}</span>
 
     let oFontStyle = font['font-style'];
     // let oFontStyle = font['font-style'] + ', ';
@@ -320,7 +320,7 @@ export default class FontPreviewContainer extends Component {
         <div className="of-grid-container">
           <div className="of-row">
             <div className="col-10 rank">
-              {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankComma}{rankCreator}
+              {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}{rankComma}{rankCreator}</Link>
             </div>
             <div className="col-2 social">
               <FontLikeButton locked={this.state.locked} font={font} /><FontShareButton message={shareMessage} />
