@@ -2,7 +2,6 @@ import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHisto
 import React, { Component } from 'react';
 import Helmet from "react-helmet";
 import { render } from 'react-dom';
-import { replaceNonAlphaNumeric } from './util/util.js';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
 import NewsletterSignup from './components/newsletter/newsletter.js';
@@ -61,6 +60,7 @@ class App extends Component {
     appDispatcher.dispatch({
       actionType: 'fetch-font-data'
     });
+
   }
 
   componentWillUnmount() {
@@ -175,8 +175,9 @@ class App extends Component {
       if (this.state.fonts) {
         // map id -> font
         let font = this.state.fonts.find(function(o){
-          return replaceNonAlphaNumeric(o['font-id']).toLowerCase() === matchSpecimen[1]
+          return getFontId(o).toLowerCase() === matchSpecimen[1]
         });
+
         // extract the full font name
         var fontName = !!font ? getFullFontName(font) : "";
       }
@@ -371,8 +372,7 @@ class Specimen extends Component {
     if (!this.state.fonts) return <div>Loading...</div>
 
     let matches = this.state.fonts.filter(function (font) {
-      let id = font['font-id'];
-      return replaceNonAlphaNumeric(id).toLowerCase() === fontId;
+      return getFontId(font) === fontId;
     });
 
     let match = matches.length ? matches[0] : null;
