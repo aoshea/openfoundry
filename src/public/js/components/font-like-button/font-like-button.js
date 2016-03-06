@@ -102,7 +102,7 @@ export default class FontLikeButton extends Component {
 
     let btnClass = classNames({
       'like-button': true,
-      'like-button-disabled': this.props.locked
+      'like-button-disabled': this.state.locked
     });
 
     const { likes } = this.state;
