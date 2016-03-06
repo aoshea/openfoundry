@@ -333,6 +333,21 @@ export default class FontPreviewContainer extends Component {
       'is-fixed': props.fixed
     });
 
+    var footer = !this.props.isList ? "" : <div className="of-font-preview-footer">
+      <div className="of-footer-inner">
+        <div className="of-grid-container">
+          <div className="of-row">
+            <div className="col-10 rank">
+              {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankComma}{rankCreator}
+            </div>
+            <div className="col-2 social">
+              <FontLikeButton locked={this.state.locked} font={font}  likes={likes} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>;
+
     return (
       <div ref="fontPreview" className={previewClassName} style={backgroundStyle}>
 
@@ -391,20 +406,8 @@ export default class FontPreviewContainer extends Component {
           fontStyle={fontStyle}
           content={font['settings-text']}/>
 
-        <div className="of-font-preview-footer">
-          <div className="of-footer-inner">
-            <div className="of-grid-container">
-              <div className="of-row">
-                <div className="col-10 rank">
-                  {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankComma}{rankCreator}
-                </div>
-                <div className="col-2 social">
-                  <FontLikeButton locked={this.state.locked} likes={likes} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        { footer }
+
 
       </div>
     )

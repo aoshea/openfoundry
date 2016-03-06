@@ -49,7 +49,7 @@ export default class FontList extends Component {
         <FontPreviewContainer
           rank={ i + 1 }
           key={font.__key}
-          likes={font.likesNum}
+          isList='true'
           onMoreUpdate={this.onMoreUpdate}
           font={font} />
       )
