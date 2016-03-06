@@ -40,7 +40,7 @@ export default class FontLikeButton extends Component {
   handleAppEvent(e) {
     switch (e.actionType) {
       case 'like-data-updated':
-      if (!this.isInit) this.init()
+        if (!this.isInit) this.init()
         break;
     }
   }
@@ -48,10 +48,10 @@ export default class FontLikeButton extends Component {
   handleFontEvent(e) {
     switch (e.actionType) {
       case 'likes-updated':
-      this.setState({
-        likes: parseInt(e.likesNum, 10),
-        locked: true
-      });
+        this.setState({
+          likes: parseInt(e.likesNum, 10),
+          locked: true
+        });
     }
   }
 
@@ -74,7 +74,7 @@ export default class FontLikeButton extends Component {
 
     value = font.likesNum = value || font.likesNum + 1;
 
-    $.get('api/like/' + getFontId(font), function(e){
+    $.get('api/like/' + getFontId(font), function (e) {
       // done
       // TODO: Handle error too
     });

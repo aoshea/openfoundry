@@ -174,7 +174,7 @@ class App extends Component {
       // font list needs to be loaded to match the name
       if (this.state.fonts) {
         // map id -> font
-        let font = this.state.fonts.find(function(o){
+        let font = this.state.fonts.find(function (o) {
           return getFontId(o).toLowerCase() === matchSpecimen[1]
         });
 
@@ -269,11 +269,11 @@ class Open extends Component {
   }
 
   handleAppEvent(e) {
-    switch (e.actionType){
+    switch (e.actionType) {
       case 'font-data-updated':
-          this.setState({
-            fonts: e.data
-          });
+        this.setState({
+          fonts: e.data
+        });
         break;
       case 'like-data-updated':
         this.setState({
@@ -413,7 +413,7 @@ class Submission extends Component {
 
 browserHistory.listen(function (location) {
   // need to render <Helmet> before retrieving pages title
-  setTimeout(function(){
+  setTimeout(function () {
 
     window.ga('send', 'pageview', location.pathname);
 

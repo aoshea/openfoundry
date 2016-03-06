@@ -5,25 +5,25 @@ const rankSpace = " ";
 const rankComma = ", ";
 
 export function getFullFontName(font) {
-	if (!!!font) return "Undefined Font!";
+  if (!!!font) return "Undefined Font!";
 
-	let fontStyle = font['font-style'];
-	let fontName = font['font-name'];
+  let fontStyle = font['font-style'];
+  let fontName = font['font-name'];
 
-	return fontName + rankSpace + fontStyle;
+  return fontName + rankSpace + fontStyle;
 }
 
 export function getFontId(font) {
-	if (!!!font) return "Undefined Font!";
+  if (!!!font) return "Undefined Font!";
 
-	return replaceNonAlphaNumeric(font['font-id']).toLowerCase();
+  return replaceNonAlphaNumeric(font['font-id']).toLowerCase();
 }
 
 
 export function getShareMessage(font) {
-	if (!!!font) return "Undefined Font!";
+  if (!!!font) return "Undefined Font!";
 
-	return [ getFullFontName(font), ' ', font['font-open-source-link'], ' ','via @open_foundry #OFHot30'].join('');
+  return [getFullFontName(font), ' ', font['font-open-source-link'], ' ','via @open_foundry #OFHot30'].join('');
 }
 
 export function getAboutText(font) {
@@ -65,7 +65,7 @@ export function getAboutText(font) {
   var about5 = 'It comes in ' + fontInfoFamily + ' faces. ';
   var about6 = 'It is licensed under the ' + fontInfoLicense + ' and available for contribution, modification or download on its open-source ' + fontOpenSourceLink + ' page. Please find more about ' + fontName + ' here ' + fontFoundLink;
 
-	var res = about1 + about2 + about3 + about4 + about5 + about6;
+  var res = about1 + about2 + about3 + about4 + about5 + about6;
 
   return res;
 }
