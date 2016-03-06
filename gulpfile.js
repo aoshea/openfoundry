@@ -80,10 +80,10 @@ var config = {
     },
     staging: {
       options: {
-        destination: '/home/al/of/',
+        destination: '/home/of/html/',
         root: 'dist',
         hostname: '46.101.22.63',
-        username: 'al',
+        username: 'of',
         incremental: true,
         progress: true,
         relative: true,
