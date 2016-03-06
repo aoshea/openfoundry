@@ -170,7 +170,7 @@ export default class FontPreviewContainer extends Component {
     var scrollTop = $(window).scrollTop();
 
     const { onMoreUpdate } = this.props;
-    onMoreUpdate && onMoreUpdate(scrollTop, offsetTop);
+    onMoreUpdate && onMoreUpdate(scrollTop, offsetTop, e);
   }
 
   onUpdateFontSize(value) {

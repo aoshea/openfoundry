@@ -25,6 +25,7 @@ export default class FontSpecimen extends Component {
     this.startIdleTimeout = this.startIdleTimeout.bind(this);
     this.onIdleTimeout = this.onIdleTimeout.bind(this);
     this.onMouseWheel = this.onMouseWheel.bind(this);
+    this.onClickSource = this.onClickSource.bind(this);
 
     this.componentWillAppear = this.componentWillAppear.bind(this);
     this.componentDidAppear = this.componentDidAppear.bind(this);
@@ -47,6 +48,17 @@ export default class FontSpecimen extends Component {
     this.setState({
       moveToOffset: 0
     })
+  }
+
+  onClickSource(scrollTop, offsetTop, e) {
+
+    const { font } = this.props
+    const link = font['font-open-source-link'];
+
+    window.open(link);
+
+    e.preventDefault();
+    return false;
   }
 
   onScrollFinish() {
@@ -248,6 +260,7 @@ export default class FontSpecimen extends Component {
             <div className={previewWrapperStyle}>
               <FontPreviewContainer
                 fixed={true}
+                onMoreUpdate={this.onClickSource}
                 rank={previewKey}
                 key={previewKey}
                 font={font} />
