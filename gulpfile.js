@@ -63,32 +63,54 @@ var dir = {
 var config = {
   rsync: {
     src: dir.build + '**',
-    options: {
-      destination: '/home/of/html/beta/',
-      root: 'dist',
-      //destination: '/var/www/html/wp-content/themes/',
-      //root: 'wp/wp-content/themes',
-      hostname: 'alpheca.uberspace.de',
-      username: 'of',
-      incremental: true,
-      progress: true,
-      relative: true,
-      emptyDirectories: true,
-      recursive: true,
-      clean: false,
-      exclude: ['.DS_Store']
+    live: {
+      options: {
+        destination: '/home/of/html/beta/',
+        root: 'dist',
+        hostname: 'alpheca.uberspace.de',
+        username: 'of',
+        incremental: true,
+        progress: true,
+        relative: true,
+        emptyDirectories: true,
+        recursive: true,
+        clean: false,
+        exclude: ['.DS_Store']
+      }
+    },
+    staging: {
+      options: {
+        destination: '/home/al/of/',
+        root: 'dist',
+        hostname: '46.101.22.63',
+        username: 'al',
+        incremental: true,
+        progress: true,
+        relative: true,
+        emptyDirectories: true,
+        recursive: true,
+        clean: false,
+        exclude: ['.DS_Store']
+      }
     }
   }
 };
 
 /**
- * Rsync files to server
+ * Rsync files to live server
  */
-gulp.task('deploy', function () {
+gulp.task('deploy-live', function () {
   return gulp.src(config.rsync.src)
-    .pipe(rsync(config.rsync.options));
+    .pipe(rsync(config.rsync.live.options));
 });
 
+/**
+ * Rsync files to staging server
+ */
+gulp.task('deploy-staging', function () {
+return gulp.src(config.rsync.src)
+  .pipe(rsync(config.rsync.staging.options));
+});
 
 var sources = {
   tpl:         [ dir.source + 'tpl/**/*'],
