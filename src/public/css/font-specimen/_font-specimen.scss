@@ -8,7 +8,6 @@
   z-index: $zIndex-font-specimen;
 }
 
-
 .of-spec-wrapper {
   position: fixed;
   top: $b;
@@ -160,23 +159,22 @@ $specimenBottom: 110px + 50px;
       -moz-osx-font-smoothing: grayscale;
       font-weight: 200;
       letter-spacing: 0.05em;
-    }
-
-    p a {
-      color: $trans-white-50;
-      transition: all $ease;
+      a {
+        color: $trans-white-50;
+        transition: all $ease;
+        &:hover {
+          color: $white;
+        }
+      }
     }
 
     a h4,
     h4 a {
       color: $white;
       transition: all $ease;
-    }
-
-    a h4:hover,
-    h4 a:hover,
-    p a:hover {
-      color: $white;
+      &:hover {
+        color: $trans-white-50;
+      }
     }
 
     a {
@@ -220,7 +218,6 @@ $specimenBottom: 110px + 50px;
       text-align: center;
       transform: scale(1);
       transition: transform $ease-xs;
-
       @include desktop-1920 {
         width: 8.333333333%;
       }
@@ -236,19 +233,18 @@ $specimenBottom: 110px + 50px;
       @include mobile {
         width: 33.333333333%;
       }
-    }
-
-    li.character:hover {
-      position: relative;
-      z-index: 10;
-      border: none;
-      border: 1px solid $trans-white-10;
-      background-color: $semi-nooverlay-black;
-      transform: scale(3);
-      cursor: zoom-in;
-
-      @include mobile {
+      &:hover {
+        position: relative;
+        z-index: 10;
+        border: none;
+        border: 1px solid $trans-white-10;
+        background-color: $semi-nooverlay-black;
         transform: scale(3);
+        cursor: zoom-in;
+
+        @include mobile {
+          transform: scale(3);
+        }
       }
     }
   }
