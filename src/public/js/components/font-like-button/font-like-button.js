@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 import classNames from 'classnames';
 import appDispatcher from 'app-dispatcher';
+import { getFontId } from 'util/content_util.js';
 
 export default class FontLikeButton extends Component {
 
@@ -16,13 +18,11 @@ export default class FontLikeButton extends Component {
   }
 
   handleClick() {
-    let { locked, onUpdate } = this.props;
+    let { font } = this.props;
 
-    console.log('clicked like, locked', locked);
+    if (font.locked) return;
 
-    if (locked) return;
-
-    onUpdate && onUpdate();
+    this.onUpdateLikes()
   }
 
   componentDidMount() {
@@ -32,7 +32,7 @@ export default class FontLikeButton extends Component {
   componentWillUnmount() {
     appDispatcher.unregister(this.handleAppEventToken);
 
-    var font = this.props.font;
+    var { font } = this.props;
     if (!font) return;
     font.dispatcher.unregister(this.handleFontModelEventToken);
   }
@@ -49,7 +49,8 @@ export default class FontLikeButton extends Component {
     switch (e.actionType) {
       case 'likes-updated':
       this.setState({
-        likes: e.likesNum
+        likes: parseInt(e.likesNum, 10),
+        locked: true
       });
     }
   }
@@ -58,9 +59,39 @@ export default class FontLikeButton extends Component {
     var font = this.props.font;
     if (!font) return;
     this.isInit = true;
-
     this.state.likes = font.likesNum;
+    this.state.locked = font.locked;
     this.handleFontModelEventToken = font.dispatcher.register(this.handleFontEvent);
+  }
+
+  onUpdateLikes(value) {
+
+    const { font } = this.props;
+
+    if (font.locked) {
+      return;
+    }
+
+    value = font.likesNum = value || font.likesNum + 1;
+
+    $.get('api/like/' + getFontId(font), function(e){
+      // done
+      // TODO: Handle error too
+    });
+
+    font.locked = true;
+
+    font.dispatcher.dispatch({
+      actionType: 'likes-updated',
+      likesNum: value
+    });
+
+    // lets be optimistic
+    this.setState({
+      likes: parseInt(value, 10),
+      locked: true
+    });
+
   }
 
   render() {

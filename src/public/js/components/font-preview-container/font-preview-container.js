@@ -10,7 +10,7 @@ import FontText from './font-text/font-text.js';
 import $ from 'jquery';
 import classNames from 'classnames';
 import shuffle from 'shuffle-array';
-import { getFullFontName, getShareMessage } from 'util/content_util.js';
+import { getFontId, getShareMessage, getFullFontName } from 'util/content_util.js';
 
 export default class FontPreviewContainer extends Component {
 
@@ -23,7 +23,6 @@ export default class FontPreviewContainer extends Component {
     this.onUpdateColour = this.onUpdateColour.bind(this);
     this.onUpdateBackground = this.onUpdateBackground.bind(this);
     this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
-    this.onUpdateLikes = this.onUpdateLikes.bind(this);
     this.handleFontModelEvent = this.handleFontModelEvent.bind(this)
     this.handleMoreClick = this.handleMoreClick.bind(this);
 
@@ -174,23 +173,6 @@ export default class FontPreviewContainer extends Component {
     onMoreUpdate && onMoreUpdate(scrollTop, offsetTop);
   }
 
-  onLikeResult(res) {
-    console.log('onLikeResult', res);
-  }
-
-  onUpdateLikes(value) {
-    const { font, likes } = this.props;
-
-    value = value || likes + 1;
-
-    $.get('api/like/' + replaceNonAlphaNumeric(font['font-id']), this.onLikeResult);
-
-    this.setState({
-      likes: parseInt(value, 10),
-      locked: true
-    });
-  }
-
   onUpdateFontSize(value) {
     var font = this.state.font;
     font.fontSize = parseInt(value, 10)
@@ -258,7 +240,7 @@ export default class FontPreviewContainer extends Component {
       return <div> </div>
     }
 
-    let fontId = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
+    let fontId = getFontId(font);
     let fontName = replaceNonAlphaNumeric(font['font-name']).toLowerCase();
 
     let oFontName = font['font-name'];
@@ -341,7 +323,7 @@ export default class FontPreviewContainer extends Component {
               {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankComma}{rankCreator}
             </div>
             <div className="col-2 social">
-              <FontLikeButton locked={this.state.locked} font={font}  likes={likes} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
+              <FontLikeButton locked={this.state.locked} font={font} /><FontShareButton message={shareMessage} />
             </div>
           </div>
         </div>
