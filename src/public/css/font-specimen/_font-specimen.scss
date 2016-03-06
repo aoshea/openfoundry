@@ -60,6 +60,9 @@ $specimenBottom: 110px + 50px;
   margin-top: -$specimenBottom;
   z-index: $zIndex-font-specimen-example;
 }
+.of-specimen-wrapper.of-specimen-wrapper--can-scroll {
+  pointer-events: all;
+}
 
 .of-specimen-wrapper.st-appear {
     transform: translate3d(0, $specimenBottom, 0);
