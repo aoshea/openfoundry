@@ -69,6 +69,10 @@ app.get('/hot30', function (req, res) {
   res.render('index', localVars);
 });
 
+app.get('/signup', function (req, res) {
+  res.render('index', localVars);
+})
+
 app.get('/debug', function (req, res) {
   res.render('index', localVars);
 })

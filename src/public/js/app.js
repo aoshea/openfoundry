@@ -192,6 +192,8 @@ class App extends Component {
       breadcrumb = <li className={breadClassName}>About</li>;
     } else if (pathName === '/submit') {
       breadcrumb = <li className={breadClassName}>Submit</li>;
+    } else if (pathName === '/signup') {
+      breadcrumb = <li className={breadClassName}>Signup</li>;
     }
 
     return (
@@ -412,6 +414,17 @@ class Submission extends Component {
   }
 }
 
+class Signup extends Component {
+  render() {
+    return <div className='newsletter-fullscreen'>
+              <Helmet title={"Open Foundry / Signup"} />
+
+              <NewsletterSignup menuOpen={true} />
+
+           </div>
+  }
+}
+
 browserHistory.listen(function (location) {
   // need to render <Helmet> before retrieving pages title
   setTimeout(function () {
@@ -440,6 +453,7 @@ render((
       </Route>
       <Route path="submit" component={Submission} />
       <Route path="about" component={About} />
+      <Route path="signup" component={Signup} />
       <Route path="/debug" component={Debug} />
     </Route>
   </Router>

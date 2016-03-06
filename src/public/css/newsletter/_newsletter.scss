@@ -1,3 +1,23 @@
+.newsletter-fullscreen {
+
+  .newsletter-wrapper {
+    // top: 0;
+    position: relative;
+    padding: 0;
+    background: white;
+    height: 100vh;
+    padding: 50px;
+  }
+
+  .simform {
+    transform: translateY(-50%);
+  }
+
+  .menu-signup {
+    height: 100vh;
+  }
+}
+
 .newsletter-wrapper {
   position: relative;
   padding: 0;

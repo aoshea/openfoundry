@@ -14,11 +14,12 @@ export default class NewsletterSignup extends Component {
 
   setupForm() {
 
-    var form = document.getElementById('newsletter-form')
+    var form = this.refs.newsletterForm;
 
     if (!form) {
       return
     }
+
     // setup step form
     this.stepForm = new window.stepsForm(form, { onSubmit: onSubmit })
 
@@ -106,7 +107,7 @@ export default class NewsletterSignup extends Component {
 
     return (
       <div className="newsletter-wrapper">
-        <form id="newsletter-form" className="simform" action="submit" method="post">
+        <form ref="newsletterForm" id="newsletter-form" className="simform" action="submit" method="post">
           <div className="simform-inner">
             <ol className="questions">
               <li><input placeholder={CTA} type="email" name="EMAIL" onFocus={onFocusInput} onBlur={onBlurInput}/></li>
