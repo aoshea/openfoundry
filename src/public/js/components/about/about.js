@@ -20,14 +20,14 @@ export default class AboutPage extends Component {
             <div className="of-row">
               <div className="col-7">
                 <p><a href="http://open-foundry.com">open-foundry.com</a> — The ‘open’ stands for open-source, free and easily available. The word ‘foundry’ is taken from the ‘type foundry’ and suggests professional quality and industrial heritage. Founded by <a href="http://stefanendress.com">Stefan Endress</a> and <a href="http://alastairoshea.com">Alastair O’Shea</a>.</p>
-                <p>If you search for free web fonts on google, one of the first search result is Google Fonts and the link description</p>
+                <p>If you search for free web fonts on google, one of the first results is Google Fonts and the link description</p>
               </div>
               <div className="col-6 offset-1">
                 <blockquote><p>Hundreds of free, open-source fonts optimised for the web. Just 3 quick steps between you and a good lookin' website.</p></blockquote>
               </div>
               <div className="col-7">
                 <p>Seems promising, but the word ‘hundreds’ is the first clue to the problem. It seems fairly easy to find a good font, but the sheer number of options, and the cluttered way in which they are presented, makes it very difficult.</p>
-                <p>We went through hundreds of open-source fonts that we have been collecting in the past. We refined this collection of open-source fonts and made a an even sharper, more discerning selection.</p>
+                <p>We went through hundreds of open-source fonts that we have been collecting in the past. We refined this collection of open-source fonts and made an even sharper, more discerning selection.</p>
                 <p>Our solution is to offer a carefully controlled number of fonts in the most clear and dynamic way possible. Instead of overwhelming the user, open-foundry provides enough interest and excitement to encourage further exploration and font development.</p>
                 <p>All fonts are distributed under an open-source license and are free to use. Every font provides you with a source button to its open-source hosted project, a direct download and the site where it was initially found or published. If you'd like to contribute a font you found or your own work, you can <a href="/submit">submit a font</a> here.</p>
                 <p>All images used can be found on <a href="https://commons.wikimedia.org">Wikimedia Commons</a>. Previewed headlines getting pulled automatically from the <a href="http://www.dailymail.co.uk">dailymail.co.uk</a> celebrity section.</p>
