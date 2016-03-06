@@ -1,5 +1,6 @@
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import ReactTransitionGroup from 'react-addons-transition-group';
+import Linkify from 'react-linkify';
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
@@ -335,11 +336,12 @@ export default class FontSpecimen extends Component {
                   <div className="of-row">
                     <div className="col-6">
                       <h3>About</h3>
+                      <Linkify>
                       { infoAbout
                         ? <p>{infoAbout} {aboutText}</p>
                         : <p>{aboutText}</p>
                       }
-
+                      </Linkify>
                     </div>
                   </div>
                 </div>
