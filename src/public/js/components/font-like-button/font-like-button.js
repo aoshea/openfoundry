@@ -1,31 +1,111 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
 import classNames from 'classnames';
+import appDispatcher from 'app-dispatcher';
+import { getFontId } from 'util/content_util.js';
 
 export default class FontLikeButton extends Component {
 
   constructor() {
     super()
     this.handleClick = this.handleClick.bind(this);
+    this.handleFontEvent = this.handleFontEvent.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this);
+
+    this.state = {
+      likes: 0
+    }
   }
 
   handleClick() {
-    let { locked, onUpdate } = this.props;
+    let { font } = this.props;
 
-    console.log('clicked like, locked', locked);
+    if (font.locked) return;
 
-    if (locked) return;
+    this.onUpdateLikes()
+  }
 
-    onUpdate && onUpdate();
+  componentDidMount() {
+    this.handleAppEventToken = appDispatcher.register(this.handleAppEvent);
+  }
+
+  componentWillUnmount() {
+    appDispatcher.unregister(this.handleAppEventToken);
+
+    var { font } = this.props;
+    if (!font) return;
+    font.dispatcher.unregister(this.handleFontModelEventToken);
+  }
+
+  handleAppEvent(e) {
+    switch (e.actionType) {
+      case 'like-data-updated':
+      if (!this.isInit) this.init()
+        break;
+    }
+  }
+
+  handleFontEvent(e) {
+    switch (e.actionType) {
+      case 'likes-updated':
+      this.setState({
+        likes: parseInt(e.likesNum, 10),
+        locked: true
+      });
+    }
+  }
+
+  init() {
+    var font = this.props.font;
+    if (!font) return;
+    this.isInit = true;
+    this.state.likes = font.likesNum;
+    this.state.locked = font.locked;
+    this.handleFontModelEventToken = font.dispatcher.register(this.handleFontEvent);
+  }
+
+  onUpdateLikes(value) {
+
+    const { font } = this.props;
+
+    if (font.locked) {
+      return;
+    }
+
+    value = font.likesNum = value || font.likesNum + 1;
+
+    $.get('api/like/' + getFontId(font), function(e){
+      // done
+      // TODO: Handle error too
+    });
+
+    font.locked = true;
+
+    font.dispatcher.dispatch({
+      actionType: 'likes-updated',
+      likesNum: value
+    });
+
+    // lets be optimistic
+    this.setState({
+      likes: parseInt(value, 10),
+      locked: true
+    });
+
   }
 
   render() {
 
+    if (!this.isInit) {
+      this.init()
+    }
+
     let btnClass = classNames({
       'like-button': true,
-      'like-button-disabled': this.props.locked
+      'like-button-disabled': this.state.locked
     });
 
-    const { likes } = this.props;
+    const { likes } = this.state;
 
     return (
       <div className="vote-container">

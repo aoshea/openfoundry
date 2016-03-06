@@ -51,7 +51,7 @@ ul.menu-header {
   transition: all $ease-m 0s;
   z-index: $zIndex-10;
   background: $black;
-  box-shadow: 10px 0px 20px $black;
+  // box-shadow: 10px 0px 20px $black;
 }
 
 // .menu-logo.up {
@@ -252,9 +252,11 @@ ul.menu-signup {
 }
 
 .menu-breadcrumb {
-  position: absolute;
+  position: relative;
+  float:left;
   top: 11px;
-  left: 210px;
+  left: 200px;
+  margin-right: 14px;
   height: 28px;
   font-size: .95rem;
   font-weight: 600;
@@ -266,11 +268,20 @@ ul.menu-signup {
   line-height: 1.6em;
   border: 2px solid rgba(255,255,255,1);
   transition: all .4s ease 0s;
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
 }
+
+
 
 .menu-breadcrumb:before {
   content: '/';
-  position: absolute;
+  display: inline-block;
+  position: relative;
+  width: 0px;
   left: -16px;
   transition: all .4s ease .2s;
 }
@@ -279,7 +290,24 @@ ul.menu-signup {
   opacity: 0;
 }
 
-.menu-breadcrumb.up {
+.menu-breadcrumb {
+  opacity: 0;
+}
+
+.is-loaded {
+  .menu-breadcrumb {
+    opacity: 1;
+    &.first-level {
+      opacity: 0.4;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.menu-breadcrumb.up,
+.menu-breadcrumb.first-level.up {
   transform: translate(-50%,0);
   opacity: 0;
 }

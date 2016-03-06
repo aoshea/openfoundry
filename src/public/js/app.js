@@ -1,7 +1,7 @@
 import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHistory } from 'react-router'
 import React, { Component } from 'react';
+import Helmet from "react-helmet";
 import { render } from 'react-dom';
-import { replaceNonAlphaNumeric } from './util/util.js';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
 import NewsletterSignup from './components/newsletter/newsletter.js';
@@ -9,6 +9,11 @@ import AboutPage from './components/about/about.js';
 import SubmissionPage from './components/submission/submission.js';
 import $ from 'jquery';
 import Tabletop from 'tabletop';
+import ReactTransitionGroup from 'react-addons-transition-group';
+import { getFontId, getFullFontName } from 'util/content_util.js';
+import { Dispatcher } from 'flux';
+import appDispatcher from 'app-dispatcher';
+import appModel from 'app-model';
 
 var cache = {
   fonts: null,
@@ -21,51 +26,74 @@ class App extends Component {
     super()
     this.handleBurgerClick = this.handleBurgerClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this);
 
     this.isScrolled = false;
     this.delta = 100;
     this.lastScrollTop = 100;
 
     this.state = {
+      isLoaded: false,
       isMenuOpen: false,
       isLogoUp: false,
-      isBreadCrumbUp: false
+      isBreadCrumbUp: false,
+      fonts: [],
+      likes: []
     };
   }
 
   componentDidMount() {
+
     var self = this;
     var navbarHeight = 50;
 
     $(window).on('scroll', function () {
       self.isScrolled = true;
-      requestAnimationFrame(function () {
-        var st = $(window).scrollTop();
-
-        // scroll more than delta
-        if (Math.abs(self.lastScrollTop - st) <= self.delta) return;
-        // if they scrolled down and are past the navbar, add class .up.
-        if (st > self.lastScrollTop && st > navbarHeight) {
-          self.setState({
-            isMenuOpen: false,
-            isLogoUp: true,
-            isBreadCrumbUp: false
-          });
-
-        } else {
-          if (st + $(window).height() < $(document).height()) {
-            self.setState({
-              isLogoUp: false
-            });
-          }
-        }
-        self. lastScrollTop = st;
-      })
+      requestAnimationFrame(self.checkScroll.bind(self))
     });
+
+    this.forceUpdateMenu = true;
+    requestAnimationFrame(self.checkScroll.bind(self))
+
+    appDispatcher.register(this.handleAppEvent);
+
+    appDispatcher.dispatch({
+      actionType: 'fetch-font-data'
+    });
+
   }
 
   componentWillUnmount() {
+
     $(window).off('scroll');
+  }
+
+  handleAppEvent(e) {
+
+    switch (e.actionType) {
+
+      case 'show-breadcrumbs':
+        this.setState({
+          isMenuOpen: false,
+          isLogoUp: true,
+          isBreadCrumbUp: false
+        });
+        break;
+
+      case 'hide-breadcrumbs':
+        this.setState({
+          isLogoUp: false,
+          isBreadCrumbUp: true
+        });
+        break;
+
+      case 'font-data-updated':
+        this.setState({
+          isLoaded: true,
+          fonts: e.data
+        });
+        break;
+    }
   }
 
   handleBurgerClick() {
@@ -91,13 +119,37 @@ class App extends Component {
     }
   }
 
+  checkScroll() {
+
+    var scrollTop = $(window).scrollTop();
+    var windowHeight = $(window).height();
+    var documentHeight = $(document).height();
+    var navbarHeight = 50;
+
+    // scroll more than delta
+    if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !this.forceUpdateMenu) return;
+
+    // if they scrolled down and are past the navbar, add class .up.
+    if (scrollTop > this.lastScrollTop && scrollTop > navbarHeight) {
+      appDispatcher.dispatch({ actionType: 'show-breadcrumbs' });
+    } else if (scrollTop < 200 && location.pathname === '/hot30') {
+      appDispatcher.dispatch({ actionType: 'hide-breadcrumbs' });
+    }
+
+    this.forceUpdateMenu = false;
+
+    this. lastScrollTop = scrollTop;
+  }
+
   render() {
 
     let iconClassName = this.state.isMenuOpen ? 'menu-icon active' : 'menu-icon';
     let listClassName = this.state.isMenuOpen ? 'menu-list open' : 'menu-list';
     let signupClassName = this.state.isMenuOpen ? 'menu-signup open' : 'menu-signup';
     let logoClassName = this.state.isMenuOpen ? 'menu-logo open' : 'menu-logo';
-    let breadClassName = this.state.isBreadCrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb'
+    let breadClassName = this.state.isBreadCrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb';
+    let rootClassName = this.state.isLoaded ? 'is-loaded' : '';
+
 
     if (this.state.isLogoUp) {
       logoClassName += ' up';
@@ -109,16 +161,40 @@ class App extends Component {
 
     let breadcrumb = '';
 
+    // matches specimen page and extracts ID
+    var matchSpecimen = pathName.match(/\/hot30\/(.*)/i);
+
     if (pathName === '/hot30') {
-      breadcrumb = 'Hot 30';
+
+      breadcrumb = <li className={breadClassName}>Hot30</li>;
+
+    } else if (matchSpecimen && matchSpecimen.length === 2) {
+      // add an extra class so hot30 can grey out
+      var breadClassFirstName = breadClassName + ' first-level';
+      // font list needs to be loaded to match the name
+      if (this.state.fonts) {
+        // map id -> font
+        let font = this.state.fonts.find(function(o){
+          return getFontId(o).toLowerCase() === matchSpecimen[1]
+        });
+
+        // extract the full font name
+        var fontName = !!font ? getFullFontName(font) : "";
+      }
+      // setup breadcrumbs
+      breadcrumb = [
+        <li className={breadClassFirstName} key='level-1'><Link to="/hot30">Hot30</Link></li>,
+        <li className={breadClassName} key='level-2'>{fontName}</li>
+      ];
+
     } else if (pathName === '/about') {
-      breadcrumb = 'About';
+      breadcrumb = <li className={breadClassName}>About</li>;
     } else if (pathName === '/submit') {
-      breadcrumb = 'Submit';
+      breadcrumb = <li className={breadClassName}>Submit</li>;
     }
 
     return (
-      <div>
+      <div className={rootClassName}>
         <header className="of-navbar">
           <nav>
             <ul className="menu-header">
@@ -146,7 +222,7 @@ class App extends Component {
                 </Link>
               </li>
 
-      { breadcrumb && <li className={breadClassName}>{breadcrumb}</li> }
+      { breadcrumb }
 
             </ul>
             <ul className={listClassName}>
@@ -161,7 +237,7 @@ class App extends Component {
               </li>
             </ul>
             <ul className={signupClassName}>
-              <li><NewsletterSignup /></li>
+              <li><NewsletterSignup menuOpen={ this.state.isMenuOpen }/></li>
             </ul>
           </nav>
         </header>
@@ -183,8 +259,7 @@ class Open extends Component {
   constructor() {
     super();
 
-    this.setFonts = this.setFonts.bind(this);
-    this.setLikes = this.setLikes.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this);
 
     this.state = {
       isSpecimen: false,
@@ -193,52 +268,31 @@ class Open extends Component {
     };
   }
 
-  setFonts(fonts) {
-    this.setState({
-      fonts: fonts
-    });
-  }
-
-  setLikes(likes) {
-
-    console.log('setLikes', likes);
-
-    this.setState({
-      likes: likes
-    });
+  handleAppEvent(e) {
+    switch (e.actionType){
+      case 'font-data-updated':
+          this.setState({
+            fonts: e.data
+          });
+        break;
+      case 'like-data-updated':
+        this.setState({
+          likes: e.data
+        });
+        break;
+    }
   }
 
   componentDidMount() {
-
-    setupForm();
-
     const self = this;
 
-    if (cache.fonts) {
-      this.setFonts(cache.fonts);
-    } else {
-      $.get('../../data/sheet.json')
-        .done(function (res) {
-          self.setFonts(res);
-        });
-    }
+    this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
+    appDispatcher.dispatch({ actionType: 'fetch-font-data' });
 
-    if (cache.likes) {
-      this.setLikes(cache.likes);
-    } else {
-      $.get('/api/fonts/')
-        .done(function (res) {
-          console.log('got likes');
-          if (res.docs) {
-            self.setLikes(res.docs);
-          } else {
-            console.error('Like request: No docs found');
-          }
-        })
-        .fail(function () {
-          console.log('did not get likes');
-        });
-    }
+  }
+
+  componentWillUnmount() {
+    appDispatcher.unregister(this.handleAppEventListener);
   }
 
   componentDidUpdate() {
@@ -259,8 +313,9 @@ class Open extends Component {
 
     return (
       <div>
+        <Helmet title={"OpenFoundry / Hot 30"} />
         <FontList fixed={isSpecimen} likes={likes} fonts={fonts} />
-       {this.props.children}
+        {this.props.children}
       </div>
     )
   }
@@ -275,17 +330,13 @@ class Specimen extends Component {
   constructor() {
     super();
 
-    this.setFonts = this.setFonts.bind(this);
     this.onComplete = this.onComplete.bind(this);
     this.navigateToOpen = this.navigateToOpen.bind(this);
-    this.onScrollUpdate = this.onScrollUpdate.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this);
 
     this.state = {
       fonts: []
     };
-  }
-
-  onScrollUpdate(x) {
   }
 
   navigateToOpen() {
@@ -296,24 +347,23 @@ class Specimen extends Component {
     this.navigateToOpen();
   }
 
-  setFonts(fonts) {
-    this.setState({
-      fonts: fonts
-    });
+  handleAppEvent(e) {
+    switch (e.actionType) {
+      case 'font-data-updated':
+        this.setState({
+          fonts: e.data
+        });
+        break;
+    }
   }
 
   componentDidMount() {
+    this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
+    appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+  }
 
-    const self = this;
-
-    if (cache.fonts) {
-      this.setFonts(cache.fonts);
-    } else {
-      $.get('../../data/sheet.json')
-        .done(function (res) {
-          self.setFonts(res);
-        });
-    }
+  componentWillUnmount() {
+    appDispatcher.unregister(this.handleAppEventListener);
   }
 
   render() {
@@ -322,16 +372,20 @@ class Specimen extends Component {
     if (!this.state.fonts) return <div>Loading...</div>
 
     let matches = this.state.fonts.filter(function (font) {
-      let id = font['font-id'];
-      return replaceNonAlphaNumeric(id).toLowerCase() === fontId;
+      return getFontId(font) === fontId;
     });
 
     let match = matches.length ? matches[0] : null;
 
-    return <FontSpecimen onScrollUpdate={this.onScrollUpdate}
+    return  <ReactTransitionGroup>
+            <Helmet title={"Open Foundry / Hot 30 / " + getFullFontName(match)} />
+            <FontSpecimen
                          onCompleteScroll={this.onComplete}
                          font={match}
+                         key={0}
                          fontId={fontId} />
+
+            </ReactTransitionGroup>
   }
 }
 
@@ -341,15 +395,40 @@ Specimen.contextTypes = {
 
 class About extends Component {
   render() {
-    return <AboutPage />
+    return <div>
+              <Helmet title={"Open Foundry / About"} />
+              <AboutPage />
+           </div>
   }
 }
 
 class Submission extends Component {
   render() {
-    return <SubmissionPage />
+    return <div>
+              <Helmet title={"Open Foundry / Submit"} />
+              <SubmissionPage />
+           </div>
   }
 }
+
+browserHistory.listen(function (location) {
+  // need to render <Helmet> before retrieving pages title
+  setTimeout(function(){
+
+    window.ga('send', 'pageview', location.pathname);
+
+    if (location.pathname === '/hot30') {
+      appDispatcher.dispatch({
+        actionType: 'hide-breadcrumbs'
+      });
+    } else {
+      appDispatcher.dispatch({
+        actionType: 'show-breadcrumbs'
+      });
+    }
+  }, 50);
+});
+
 
 render((
   <Router history={browserHistory}>
@@ -365,38 +444,3 @@ render((
 ),
 document.querySelector('.of-container')
 );
-
-function setupForm() {
-  var form = document.getElementById('newsletter-form')
-
-  if (!form) {
-    return
-  }
-
-  var messageEl = form.querySelector('.final-message')
-
-  new window.stepsForm(form, {onSubmit: onSubmit})
-
-  function onSubmit(form) {
-
-    // hide form
-    form.querySelector('.simform-inner').classList.add('hide')
-
-    $.ajax({
-      url: 'newsletter',
-      type: 'post',
-      dataType: 'json',
-      data: $(form).serialize(),
-      success: onSuccess
-    })
-  }
-
-  function onSuccess(data) {
-    if (data.status === 'success') {
-      messageEl.innerHTML = data.message
-    } else {
-      messageEl.innerHTML = data.message
-    }
-    messageEl.classList.add('show')
-  }
-}

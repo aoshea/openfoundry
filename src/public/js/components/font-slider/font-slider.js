@@ -36,6 +36,7 @@ export default class FontSlider extends Component {
         <ReactSlider
           min={this.props.min}
           max={this.props.max}
+          value={this.props.value}
           step={this.props.step}
           onChange={this.handleChange}
           defaultValue={this.props.initial} />

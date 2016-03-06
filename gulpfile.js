@@ -112,6 +112,11 @@ var sources = {
 var libs = [
   "react",
   "react-dom",
+  "react-router",
+  "react-helmet",
+  "react-addons-transition-group",
+  "react-addons-css-transition-group",
+  "react-linkify",
   "jquery"
 ];
 
@@ -224,9 +229,9 @@ gulp.task('css', function () {
     .pipe(autoprefix())
     .pipe(concat('main.css'))
     .pipe(gulpif(production, nano()))
-    .pipe(sourcemaps.write('./'))
+    .pipe(sourcemaps.write('./', { includeContent: false }))
     .pipe(gulp.dest(dir.build + 'public/css'))
-    .pipe(reload({stream:true}));
+    .pipe(reload({stream:true, match: '**/*.css'}));
 });
 
 // Copy html files to build folder
@@ -347,5 +352,3 @@ gulp.task('watch', ['browser-sync'], function () {
 // Default task `gulp`
 gulp.task('build', ['index', 'includes', 'html', 'images', 'css', 'vendor-js', 'js', 'copy-vendor-js', 'watch']);
 gulp.task('default', ['db', 'server']);
-
-

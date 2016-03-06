@@ -1,27 +1,29 @@
 import React, { Component } from 'react';
+import { Dispatcher } from 'flux';
 import { Link } from 'react-router';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
-import FontSlider from '../../components/font-slider/font-slider.js';
-import FontColours from '../../components/font-colours/font-colours.js';
-import FontLikeButton from '../../components/font-like-button/font-like-button.js';
-import FontShareButton from '../../components/font-share-button/font-share-button.js';
+import FontSlider from 'components/font-slider/font-slider.js';
+import FontColours from 'components/font-colours/font-colours.js';
+import FontLikeButton from 'components/font-like-button/font-like-button.js';
+import FontShareButton from 'components/font-share-button/font-share-button.js';
 import FontText from './font-text/font-text.js';
 import $ from 'jquery';
 import classNames from 'classnames';
+import shuffle from 'shuffle-array';
+import { getFontId, getShareMessage, getFullFontName } from 'util/content_util.js';
 
 export default class FontPreviewContainer extends Component {
 
   constructor() {
     super();
 
-    this.onUpdateSize = this.onUpdateSize.bind(this);
+    this.onUpdateFontSize = this.onUpdateFontSize.bind(this);
     this.onUpdateLineHeight = this.onUpdateLineHeight.bind(this);
     this.onUpdateLetterSpacing = this.onUpdateLetterSpacing.bind(this);
     this.onUpdateColour = this.onUpdateColour.bind(this);
     this.onUpdateBackground = this.onUpdateBackground.bind(this);
     this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
-    this.onUpdateLikes = this.onUpdateLikes.bind(this);
-
+    this.handleFontModelEvent = this.handleFontModelEvent.bind(this)
     this.handleMoreClick = this.handleMoreClick.bind(this);
 
     this.isMount = false;
@@ -38,6 +40,8 @@ export default class FontPreviewContainer extends Component {
   }
 
   componentWillUnmount() {
+
+    this.state.font && this.state.font.dispatcher.unregister(this.handleFontModelEventToken)
     this.isMount = false;
   }
 
@@ -49,37 +53,42 @@ export default class FontPreviewContainer extends Component {
 
     if (!font) return;
 
-    let fontSize = parseInt(font['settings-font-size'], 10);
-    let lineHeight = parseFloat(font['settings-line-height'], 10);
-    let letterSpacing = parseFloat(font['settings-letter-spacing'], 10);
-    let color = font['settings-color'];
+    if (!font.dispatcher) {
+      // we're using the font object as a model to be reflected
+      // by any views referencing it (i.e. list & specimen).
+      // This could be done better by implementing Flux entirely,
+      // however this seems to work fine for now.
+      font.dispatcher = new Dispatcher
+    }
 
-    let backgroundState = font['settings-background-state'];
-    let background = 0;
-    let backgroundNum = 0;
+    this.handleFontModelEventToken = font.dispatcher.register(this.handleFontModelEvent)
 
-    let uppercase = font['settings-text-transform'] === 'uppercase';
+    // get the font settings from the default settings if not changed by the user
+    font.fontSize = font.fontSize || parseInt(font['settings-font-size'], 10);
+    font.lineHeight = font.lineHeight || parseFloat(font['settings-line-height'], 10);
+    font.letterSpacing = font.letterSpacing || parseFloat(font['settings-letter-spacing'], 10);
+    font.color = font.color || font['settings-color'];
+    font.uppercase = font.uppercase || font['settings-text-transform'] === 'uppercase';
+    font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
 
-    if (backgroundState === 'image') {
-      // If image, set random background image index with backgroundNum
-      background = 2;
-      backgroundNum = FontPreviewContainer.getRandomBackground(); // (parseInt(Math.random() * 9, 10) + 1);
-    } else if (backgroundState === 'black') {
-      background = 1;
-    } else {
-      background = 0;
+    if (typeof font.background === 'undefined') {
+      // set background to 0, 1, 2
+      font.background = ['white', 'black', 'image'].indexOf(font['settings-background-state']);
+      // safeguard in case of invalid value
+      font.background = font.background > -1 ? font.background : 0;
     }
 
     this.setState({
-      size: fontSize,
+      font: font,
+      size: font.fontSize,
       likes: likes,
-      lineHeight: lineHeight,
-      letterSpacing: letterSpacing,
-      color: color,
-      background: background,
-      backgroundNum: backgroundNum,
+      lineHeight: font.lineHeight,
+      letterSpacing: font.letterSpacing,
+      color: font.color,
+      background: font.background,
+      backgroundNum: font.backgroundNum,
       locked: false,
-      uppercase: uppercase
+      uppercase: font.uppercase
     });
 
     /*
@@ -104,6 +113,53 @@ export default class FontPreviewContainer extends Component {
     */
   }
 
+  /**
+   * Handles a change on the font model
+   * @param  {Event} e Event describing the action and the changed value
+   */
+  handleFontModelEvent(e) {
+
+    switch (e.actionType) {
+
+      case 'background-update':
+        this.setState({
+          background: e.background,
+          backgroundNum: e.backgroundNum
+        });
+        break;
+
+      case 'font-size-update':
+        this.setState({
+          size: e.fontSize
+        });
+        break;
+
+      case 'letter-spacing-update':
+        this.setState({
+          letterSpacing: e.letterSpacing
+        });
+        break;
+
+      case 'line-height-update':
+        this.setState({
+          lineHeight: e.lineHeight
+        });
+        break;
+
+      case 'text-transform-update':
+        this.setState({
+          uppercase: e.uppercase
+        });
+        break;
+
+      case 'color-update':
+        this.setState({
+          color: e.color
+        });
+        break;
+    }
+  }
+
   handleMoreClick(e) {
 
     const fontPreview = this.refs.fontPreview;
@@ -117,57 +173,60 @@ export default class FontPreviewContainer extends Component {
     onMoreUpdate && onMoreUpdate(scrollTop, offsetTop);
   }
 
-  onLikeResult(res) {
-    console.log('onLikeResult', res);
-  }
-
-  onUpdateLikes(value) {
-    const { font, likes } = this.props;
-
-    value = value || likes + 1;
-
-    $.get('api/like/' + replaceNonAlphaNumeric(font['font-id']), this.onLikeResult);
-
-    this.setState({
-      likes: parseInt(value, 10),
-      locked: true
-    });
-  }
-
-  onUpdateSize(value) {
-    this.setState({
-      size: parseInt(value, 10)
+  onUpdateFontSize(value) {
+    var font = this.state.font;
+    font.fontSize = parseInt(value, 10)
+    font.dispatcher.dispatch({
+      actionType: 'font-size-update',
+      fontSize: font.fontSize
     });
   }
 
   onUpdateLetterSpacing(value) {
-    this.setState({
-      letterSpacing: value.toFixed(3)
+    var font = this.state.font;
+    font.letterSpacing = value.toFixed(3)
+    font.dispatcher.dispatch({
+      actionType: 'letter-spacing-update',
+      letterSpacing: font.letterSpacing
     });
   }
 
   onUpdateLineHeight(value) {
-    this.setState({
-      lineHeight: value.toFixed(2)
+    var font = this.state.font;
+    font.lineHeight = value.toFixed(2)
+    font.dispatcher.dispatch({
+      actionType: 'line-height-update',
+      lineHeight: font.lineHeight
     });
   }
 
   onUpdateColour(value) {
-    this.setState({
-      color: value
+    var font = this.state.font;
+    font.color = value
+    font.dispatcher.dispatch({
+      actionType: 'color-update',
+      color: font.color
     });
   }
 
   onUpdateBackground(value) {
-    this.setState({
-      background: value,
-      backgroundNum: FontPreviewContainer.getRandomBackground()
+    var font = this.state.font;
+    font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
+    font.background = value;
+    font.dispatcher.dispatch({
+      actionType: 'background-update',
+      background: font.background,
+      backgroundNum: font.backgroundNum
     });
+
   }
 
   onUpdateTextTransform(value) {
-    this.setState({
-      uppercase: value
+    var font = this.state.font;
+    font.uppercase = value;
+    font.dispatcher.dispatch({
+      actionType: 'text-transform-update',
+      uppercase: font.uppercase
     });
   }
 
@@ -178,10 +237,10 @@ export default class FontPreviewContainer extends Component {
     let { font, likes } = props;
 
     if (!font) {
-      return <div>No font id</div>
+      return <div> </div>
     }
 
-    let fontId = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
+    let fontId = getFontId(font);
     let fontName = replaceNonAlphaNumeric(font['font-name']).toLowerCase();
 
     let oFontName = font['font-name'];
@@ -205,10 +264,11 @@ export default class FontPreviewContainer extends Component {
 
     let fontClassName = "of-font-preview-text-container " + fontId;
 
-    let fontSize = parseInt(font['settings-font-size'], 10);
-    let lineHeight = parseFloat(font['settings-line-height'], 10);
-    let letterSpacing = parseFloat(font['settings-letter-spacing'], 10);
-    let color = font['settings-color'];
+    let fontSize = this.state.size || parseInt(font['settings-font-size'], 10);
+    let lineHeight = this.state.lineHeight || parseFloat(font['settings-line-height'], 10);
+    let letterSpacing = this.state.letterSpacing || parseFloat(font['settings-letter-spacing'], 10);
+    let color = this.state.color || font['settings-color'];
+    let uppercase = this.state.uppercase || font['settings-text-transform'] === 'uppercase';
 
     let maxFontSize = 150;
     let minFontSize = 9;
@@ -222,6 +282,9 @@ export default class FontPreviewContainer extends Component {
     let stepFontSize = 1;
     let stepLetterSpacing = 0.025;
     let stepLineHeight = 0.05;
+
+    let shareMessage = getShareMessage(font);
+
 
     let textTransform = this.state.uppercase ? "uppercase" : "none";
 
@@ -243,6 +306,7 @@ export default class FontPreviewContainer extends Component {
     let leadingDigits = 2;
 
     const previewClassName = classNames({
+      'not-loaded': !font || !font.fontSize, // slide jump ?
       'of-font-preview-container': true,
       'is-image': backgroundState === 2,
       'is-black': backgroundState === 1,
@@ -250,6 +314,21 @@ export default class FontPreviewContainer extends Component {
       'black-image': backgroundState !== 0,
       'is-fixed': props.fixed
     });
+
+    var footer = !this.props.isList ? "" : <div className="of-font-preview-footer">
+      <div className="of-footer-inner">
+        <div className="of-grid-container">
+          <div className="of-row">
+            <div className="col-10 rank">
+              {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankComma}{rankCreator}
+            </div>
+            <div className="col-2 social">
+              <FontLikeButton locked={this.state.locked} font={font} /><FontShareButton message={shareMessage} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>;
 
     return (
       <div ref="fontPreview" className={previewClassName} style={backgroundStyle}>
@@ -259,14 +338,16 @@ export default class FontPreviewContainer extends Component {
             <div className="of-row">
               <FontSlider label="size"
                 initial={fontSize}
+                value={fontSize}
                 max={maxFontSize}
                 step={stepFontSize}
                 min={minFontSize}
-                onUpdate={this.onUpdateSize} />
+                onUpdate={this.onUpdateFontSize} />
 
               <FontSlider
                 label="leading"
                 initial={lineHeight}
+                value={lineHeight}
                 fixed={leadingDigits}
                 min={minLineHeight}
                 max={maxLineHeight}
@@ -276,6 +357,7 @@ export default class FontPreviewContainer extends Component {
               <FontSlider
                 label="kerning"
                 initial={letterSpacing}
+                value={letterSpacing}
                 fixed={letterSpacingDigits}
                 min={minLetterSpacing}
                 max={maxLetterSpacing}
@@ -283,8 +365,9 @@ export default class FontPreviewContainer extends Component {
                 onUpdate={this.onUpdateLetterSpacing} />
 
               <FontColours
-                initial={color}
+                color={color}
                 background={backgroundState}
+                uppercase={uppercase}
                 onUpdate={this.onUpdateColour}
                 onUpdateBackground={this.onUpdateBackground}
                 onUpdateTextTransform={this.onUpdateTextTransform} />
@@ -305,35 +388,29 @@ export default class FontPreviewContainer extends Component {
           fontStyle={fontStyle}
           content={font['settings-text']}/>
 
-        <div className="of-font-preview-footer">
-          <div className="of-footer-inner">
-            <div className="of-grid-container">
-              <div className="of-row">
-                <div className="col-10 rank">
-                  {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}</Link>{rankComma}{rankCreator}
-                </div>
-                <div className="col-2 social">
-                  <FontLikeButton locked={this.state.locked} likes={likes} onUpdate={this.onUpdateLikes} /><FontShareButton />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        { footer }
+
 
       </div>
     )
   }
 }
 
-var numBackgrounds = 41;
 
-FontPreviewContainer.getRandomBackground = function () {
-  let randNum = --numBackgrounds;
-  if (randNum < 0) randNum = 0;
 
-  var num = Math.floor(Math.random() * randNum) + 1;
-  var len = num.toString().length;
-  if (len < 2) num = "0" + num;
-  return num;
+FontPreviewContainer.getRandomBackground = (function () {
 
-};
+  var numBackgrounds = 41;
+  var backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i) => i + 1));
+  var index = 0;
+
+  let pad2 = n => n < 10 ? "0" + n : n;
+
+  return () => {
+    index = (index + 1) % numBackgrounds;
+    let bgNum = backgroundList[index];
+    return pad2(bgNum);
+
+  }
+
+}());

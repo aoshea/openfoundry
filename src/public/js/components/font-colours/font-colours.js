@@ -13,11 +13,11 @@ export default class FontColours extends Component {
         </div>
       
         <div className="of-font-uppercase-toggle-container">
-          <FontUppercase background={this.props.background} onUpdate={this.props.onUpdateTextTransform} />
+          <FontUppercase value={this.props.uppercase} background={this.props.background} onUpdate={this.props.onUpdateTextTransform} />
         </div>
               
-        <FontColourBox initial={this.props.initial} onUpdate={this.props.onUpdate} />
         
+        <FontColourBox value={this.props.color} onUpdate={this.props.onUpdate} />
       </div>
     )
   }

@@ -1,11 +1,23 @@
 section {
   width: 100%;
-  padding: 0 50px;
-  margin-bottom: 50px;
+  padding:50px 50px;
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 1.5;
+  letter-spacing: 0.025em;
   box-sizing: border-box;
   z-index: 200;
   transition: opacity 0.2s ease;
   font-weight: lighter;
+  background: $white;
+  h1 {
+    font-size: 80px;
+    font-weight: 400;
+    line-height: 1.11em;
+    letter-spacing: 0em;
+    letter-spacing: 0.01em;
+    color: $trans-white-100;
+  }
 }
 
 .headline {
@@ -18,15 +30,6 @@ section {
   background-size: 44px 44px;
 }
 
-section h1 {
-  font-size: 80px;
-  font-weight: 400;
-  line-height: 1.11em;
-  letter-spacing: 0em;
-  letter-spacing: 0.01em;
-  color: $trans-white-100;
-}
-
 .hot30-button {
   position: relative;
   top: -8px;
@@ -36,13 +39,12 @@ section h1 {
   -webkit-font-smoothing: antialiased;
   letter-spacing: $letter-spacing-xs;
   color: $black;
-  background: $trans-white-50;
+  background: $trans-white-75;
   border: 1px solid $trans-black-00;
   padding: 5px 10px;
   border-radius: $radius-button;
   transition: all $ease;
   user-select: none;
-
   &:hover {
     color: $black;
     background: $white;
@@ -55,7 +57,6 @@ section p a:link,
 strong,
 h2 {
   font-weight: 400;
-  // letter-spacing: -0.015em;
 }
 
 section.headline a,
@@ -63,22 +64,8 @@ section.headline a:link  {
   display: inline-block;
 }
 
-
 h2 {
   margin-top: 30px;
-}
-
-// section {
-//   font-size: 26px;
-//   font-weight: 400;
-//   line-height: 1.35em;
-// }
-
-section {
-  font-size: 20px;
-  font-weight: 200;
-  line-height: 1.6em;
-  letter-spacing: 0.025em;
 }
 
 section a,
@@ -101,36 +88,34 @@ blockquote {
   padding: 25px 0;
   margin: 0;
   quotes: "\201C""\201D""\2018""\2019";
+  &:before {
+    color: $trans-black-100;
+    font-size: 1.5em;
+    line-height: 0.1em;
+    vertical-align: -0.25em;
+    content: open-quote;
+    margin-left: -0.5em;
+    margin-right: 0.075em;
+  }
+  &:after {
+    color: $trans-black-100;
+    font-size: 1.5em;
+    line-height: 0.1em;
+    vertical-align: -0.25em;
+    content: close-quote;
+    margin-left: 0.075em;
+  }
+ p {
+    display: inline;
+  }
 }
 
-blockquote:before,
-blockquote:after {
-  color: $trans-black-100;
-  font-size: 1.5em;
-  line-height: 0.1em;
-  vertical-align: -0.25em;
-}
-
-blockquote:before {
-  content: open-quote;
-  margin-left: -0.6em;
-  margin-right: 5px;
-}
-
-blockquote:after {
-  content: close-quote;
-  margin-left: 5px;
-}
-
-blockquote p {
-  display: inline;
-}
-
-svg.love {
-  width: 16px;
-  height: auto;
-}
-
-svg.love path {
-  fill: rgba(226, 38, 77, 1);
+svg {
+  &.love {
+    width: 16px;
+    height: auto;
+    path {
+      fill: rgba(226, 38, 77, 1);
+    }
+  }
 }

@@ -5,15 +5,19 @@ export default class FontUppercase extends Component {
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
-    this.state = {
-      uppercase: false
-    };
+    this.uppercase = false;
+  }
+
+  componentDidMount() {
+    let { value } = this.props;
+    this.uppercase = value;
+
   }
   
   handleClick(e) {
     let { onUpdate } = this.props;
-    let uppercase = !this.state.uppercase;
     
+    let uppercase = !this.uppercase;
     this.setState({
       uppercase: uppercase
     });
@@ -23,14 +27,16 @@ export default class FontUppercase extends Component {
   
   render() {
     
+    this.uppercase = this.props.value;
+
     let size = 32;
     let viewBox = [0, 0, size, size].join(' ');
     let onStyle = {
-      display: this.state.uppercase ? "block" : "none",
+      display: this.uppercase ? "block" : "none",
       fill: this.props.background > 0 ? "white" : "black"
     };
     let offStyle = {
-      display: this.state.uppercase ? "none" : "block",
+      display: this.uppercase ? "none" : "block",
       fill: this.props.background > 0 ? "white" : "black"
     };
   

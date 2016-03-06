@@ -1,8 +1,15 @@
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import ReactTransitionGroup from 'react-addons-transition-group';
+import Linkify from 'react-linkify';
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
-import FontPreviewContainer from '../../components/font-preview-container/font-preview-container.js';
+import { getAboutText } from 'util/content_util.js';
+import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
 import cx from 'classnames';
+
+import FontLikeButton from 'components/font-like-button/font-like-button.js';
+import FontShareButton from 'components/font-share-button/font-share-button.js';
 
 export default class FontSpecimen extends Component {
 
@@ -10,12 +17,27 @@ export default class FontSpecimen extends Component {
     super()
 
     this.onScrollFinish = this.onScrollFinish.bind(this);
+
+    this.componentWillAppear = this.componentWillAppear.bind(this);
+    this.componentDidAppear = this.componentDidAppear.bind(this);
+
     this.state = {
-      onEnter: false,
       isScroll: false,
       isTopPassed: false,
-      delta: 0
+      delta: 0,
+      moveToOffset: 0
     };
+  }
+
+  componentWillAppear(cb) {
+    this.state.moveToOffset = (window.tempOffset - 50) || 0
+    setTimeout(cb)
+  }
+
+  componentDidAppear() {
+    this.setState({
+      moveToOffset: 0
+    })
   }
 
   onScrollFinish() {
@@ -27,41 +49,40 @@ export default class FontSpecimen extends Component {
 
     const { onScrollUpdate } = this.props;
 
-    this.setState({
-      tempOffset: isNaN(window.tempOffset) ? 0 : window.tempOffset - 50
-    });
-
-    setTimeout(() => {
-      this.setState({
-        tempOffset: 0,
-        onEnter: true
-      });
-    }, 0);
-
-    console.log('did mount', window.tempOffset);
-
     var scrollableEl = $('.of-spec-scrollable');
     var inner = $('.of-font-specimen');
     var fontList = $('.of-font-list').parent();
     var self = this;
 
-    $(window).on('scroll', function () {
+    var onScroll = function () {
       self.setState({
         isScroll: true
       });
-      $(window).off('scroll');
-    });
+
+      $(window).off('scroll', onScroll);
+    };
+
+    $(window).on('scroll', onScroll);
 
     scrollableEl.on('scroll', function (e) {
 
       let innerHeight = inner.height() + window.innerHeight * 0.8;
       let scrollY = window.innerHeight + e.target.scrollTop;
 
+      // 1 - 0 by the end of the page (i.e. absolute scroll)
       let delta = ((scrollY - innerHeight) / window.innerHeight) + 1;
+      // 0 - 1 by the beginning of the page (i.e. 100% of screen)
+      let deltaScreen = Math.max(0, 2 - Math.max(1, scrollY / window.innerHeight));
+
 
       if (delta > 0) {
         onScrollUpdate && onScrollUpdate(delta);
       }
+
+      self.setState({
+        delta: delta,
+        deltaScreen: deltaScreen
+      })
 
       let isTopPassed = e.target.scrollTop > window.innerHeight
 
@@ -93,110 +114,79 @@ export default class FontSpecimen extends Component {
     const props = this.props;
     const state = this.state;
 
-    let { font } = props;
-
-    let creator;
-    let creatorLink;
-
-    let specimenCreator;
-    let specimenCreatorLink;
-
-    let fontDownloadLink;
-
-    let styleDesc;
-
-    let foundry;
-
-    let foundBy;
-    let foundByLink;
-
-    let fontName;
-
-    let fontInfoLicense;
-    let fontInfoFamily;
-    let fontFoundLink;
-    let fontOpenSourceLink;
-
-    let specimenClassName;
-    let specimenRatioClassName;
-
-    let aboutText;
-    let infoAbout;
-
-    let infoWeight;
-
-    let fontClassName;
+    let { font, likes } = props;
 
     if (font) {
 
-      fontName = font['font-name'];
+      var aboutText = getAboutText(font);
 
-      creator = font['font-creator'];
-      creatorLink = font['font-creator-link'];
+      var fontName = font['font-name'];
 
-      fontDownloadLink = font['font-download-link'];
-      styleDesc = font['font-style'];
-      foundry = font['font-foundry'];
+      var creator = font['font-creator'];
+      var creatorLink = font['font-creator-link'];
+      var foundry = font['font-foundry'];
 
-      specimenCreator = font['specimen-creator'];
-      specimenCreatorLink = font['specimen-creator-link'];
+      var fontDownloadLink = font['font-download-link'];
 
-      foundBy = font['info-discoverer'];
-      infoAbout = font['info-about'];
-      infoWeight = font['info-weight'];
-      fontInfoLicense = font['info-license'];
-      fontInfoFamily = font['info-family'];
+      var specimenCreator = font['specimen-creator'];
+      var specimenCreatorLink = font['specimen-creator-link'];
 
-      fontOpenSourceLink = font['font-open-source-link'];
-      fontFoundLink = font['font-found-link'];
+      var foundBy = font['info-discoverer'];
+      var infoAbout = font['info-about'];
+      var infoWeight = font['info-weight'];
+      var styleDesc = font['font-style'];
 
-      specimenClassName = 'of-font-specimen-image specimen-' + replaceNonAlphaNumeric(font['font-id']);
-      specimenRatioClassName = 'of-font-specimen-image-wrapper ratio-' + replaceNonAlphaNumeric(font['font-id']);
+      var fontOpenSourceLink = font['font-open-source-link'];
 
-      let classification = font['info-classification'];
-      let discoverer = foundBy;
+      var specimenClassName = 'of-font-specimen-image specimen-' + replaceNonAlphaNumeric(font['font-id']);
+      var specimenRatioClassName = 'of-font-specimen-image-wrapper ratio-' + replaceNonAlphaNumeric(font['font-id']);
+      var fontClassName = replaceNonAlphaNumeric(font['font-id']);
 
-      let about1 = 'It was created by ' + creator;
-      let about2 = foundry ? ' and is currently distributed by ' + foundry : '';
-      let about3 = '. ';
-      let about4 = 'It was submitted to us by ' + discoverer + '.  ' + styleDesc + ' is a ' + classification + ' cut of the ' + fontName + ' family. ';
-      let about5 = 'It comes in ' + fontInfoFamily + ' faces. ';
-      let about6 = 'It is licensed under the ' + fontInfoLicense + ' and available for contribution, modification or download on its open-source ' + fontOpenSourceLink + ' page. Please find more about ' + fontName + ' here ' + fontFoundLink + '.';
-
-      aboutText = about1 + about2 + about3 + about4 + about5 + about6;
-
-      fontClassName = replaceNonAlphaNumeric(font['font-id']);
     }
 
     let isSpacerTop = false;
-    let previewKey = Math.floor(Math.random() * 999999) + 1;
+    let previewKey = font ? font['font-name'] : 0;
 
     let fontSpecimenClassName = cx({
-      'of-font-specimen': true,
-      enter: state.onEnter
+      'of-font-specimen': true
     });
 
-    const specimenWrapperStyle = {
-
-    };
-
     let spacerStyle = {
-      opacity: 1 - state.delta
+      opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
     };
 
     let holderClassName = cx({
-      'of-spec-holder': true,
-      enter: state.onEnter
+      'of-spec-holder': true
     });
 
     const holderStyle = {
-      transform: 'translate3d(0,' + state.tempOffset + 'px,0)'
+      transform: 'translate3d(0,' + state.moveToOffset + 'px,0)',
+      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 250ms ease-out' : 'none'
     };
+
+    const coverStyle = {
+      opacity: !state.deltaScreen ? 0 : Math.min(1, ((1 - state.deltaScreen) - 0.1) * 1.5)
+    }
 
     const previewWrapperStyle = cx({
       'of-preview-wrapper': true,
       'is-scroll': state.isScroll
     });
+
+    if (font) {
+
+      var oFontName = font['font-name'];
+      var oFontStyle = font['font-style'];
+      // Sort rank
+      var rhyphen = " — ";
+      var rankSpace = " ";
+      var rankComma = ", ";
+      var rankPaddedNum = ("0" + props.rank).slice(-2);
+      var rankNum = <span>{rankPaddedNum}{rhyphen}</span>
+      var rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
+
+      var shareMessage = [oFontName + rankSpace + oFontStyle, ' ', font['font-open-source-link'], ' via @open_foundry #open30'].join('');
+    }
 
     return (
 
@@ -204,6 +194,7 @@ export default class FontSpecimen extends Component {
         <div className="of-spec-wrapper">
           <div className="of-spec-scrollable">
 
+            <ReactCSSTransitionGroup transitionName="pt" transitionAppear={true} transitionAppearTimeout={0} transitionEnterTimeout={0} transitionLeaveTimeout={0}>
             <div className={previewWrapperStyle}>
               <FontPreviewContainer
                 fixed={true}
@@ -211,8 +202,12 @@ export default class FontSpecimen extends Component {
                 key={previewKey}
                 font={font} />
             </div>
+            <div style={coverStyle} className="of-spec-preview-cover"></div>
+            </ReactCSSTransitionGroup>
 
-            <div className="of-specimen-wrapper">
+            <ReactCSSTransitionGroup transitionName="st" transitionAppear={true} transitionAppearTimeout={2000} transitionEnterTimeout={0} transitionLeaveTimeout={2000}>
+
+            <div className="of-specimen-wrapper" key="0">
               <div className={fontSpecimenClassName}>
                 { isSpacerTop && <div className="of-font-specimen-spacer-top"></div> }
                 { specimenClassName
@@ -341,19 +336,23 @@ export default class FontSpecimen extends Component {
                   <div className="of-row">
                     <div className="col-6">
                       <h3>About</h3>
+                      <Linkify>
                       { infoAbout
                         ? <p>{infoAbout} {aboutText}</p>
                         : <p>{aboutText}</p>
                       }
-
+                      </Linkify>
                     </div>
                   </div>
                 </div>
-                <div className="of-font-specimen-content of-font-specimen-content-last">
+                <div className="of-font-specimen-content of-font-specimen-content-last of-specimen-footer">
                   <div className="of-row">
-                    <div className="col-12">
+                    <div className="col-2">
                       <h3>Download Type</h3>
                       <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
+                    </div>
+                    <div className="col-10 social">
+                      <FontLikeButton locked={this.state.locked} font={font} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
                     </div>
                   </div>
                 </div>
@@ -361,8 +360,12 @@ export default class FontSpecimen extends Component {
 
               </div>
             </div>
+
+            </ReactCSSTransitionGroup>
+
           </div>
         </div>
+
       </div>
     )
   }

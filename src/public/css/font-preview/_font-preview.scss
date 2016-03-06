@@ -1,116 +1,137 @@
+.not-loaded {
+  visibility: hidden;
+}
+
 .of-font-preview-container {
   position: relative;
+  pointer-events: auto;
   background-color: $white;
   background-size: cover;
   background-position: 50%;
-  transition: all $ease;
   min-height: 30vh;
-  transition: min-height 500ms ease-in-out;
-}
-.of-font-preview-container.is-fixed {
-  min-height: $preview-height;
-}
-.of-font-preview-container.is-fixed .of-font-preview-ui {
-  opacity: 1;
-}
-
-.of-font-preview-container .of-font-preview-ui {
-  position: absolute;
-  width: 100%;
-  padding: 0 50px;
-  margin-top: 10px;
-  box-sizing: border-box;
-  z-index: $zIndex-font-ui;
-  transition: opacity $ease;
-  pointer-events: auto;
-  user-select: none;
-}
-
-// stefan
-@include mobile {
-  .of-font-preview-container .of-font-preview-ui {
-    margin-top: 0px;
-    padding: 0 10px;
-    margin-bottom: 10px;
+  &.is-fixed {
+    min-height: $preview-height;
+    .of-font-preview-ui {
+      opacity: 1;
+    }
   }
-}
-
-.of-font-preview-container {
+  &.black-image:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: $trans-black-40;
+  }
+  .of-font-preview-ui {
+    position: absolute;
+    width: 100%;
+    padding: 0 50px;
+    margin-top: 10px;
+    box-sizing: border-box;
+    z-index: $zIndex-font-ui;
+    transition: opacity $ease;
+    pointer-events: auto;
+    user-select: none;
+    @include mobile {
+      margin-top: 0px;
+      padding: 0 10px;
+      margin-bottom: 10px;
+    }
+  }
   .of-font-preview-ui,
   .of-font-preview-footer {
     opacity: 0;
-  }
-}
-
-.of-font-preview-container:hover {
-  .of-font-preview-ui,
-  .of-font-preview-footer {
-    opacity: 1;
-  }
-}
-
-.of-font-preview-container .more-button-container {
-  top: 41px;
-  text-align: right;
-  padding-right: 0px;
-}
-
-// stefan
-@include mobile {
-  .of-font-preview-container .of-font-preview-ui {
-    // padding-right: 0;
-  }
-  .of-font-preview-container .more-button-container {
-    padding-right: 8px;
-  }
-  .of-font-preview-container {
-    .of-font-preview-ui,
-    .of-font-preview-footer {
+    @include mobile {
       opacity: 0.5;
     }
   }
-}
-
-.of-font-preview-container .more-button-container a {
-  text-decoration: none;
-}
-
-.of-font-preview-container .more-button {
-  cursor: pointer;
-  font-size: 15px;
-  font-weight: 100;
-  -webkit-font-smoothing: antialiased;
-  letter-spacing: $letter-spacing-xs;
-  color: $white;
-  background: $trans-black-50;
-  border: 1px solid $trans-black-00;
-  padding: 5px 10px;
-  border-radius: $radius-button;
-  transition: all $ease;
-
   &:hover {
-    color: $white;
-    background: $black;
-    border-color: $trans-black-00;
+    opacity: 1;
+    .of-font-preview-ui,
+    .of-font-preview-footer {
+      opacity: 1;
+    }
+  }
+  .more-button-container {
+    top: 41px;
+    text-align: right;
+    padding-right: 0px;
+    a {
+      text-decoration: none;
+    }
+    @include mobile {
+      padding-right: 8px;
+    }
+    .more-button {
+      padding: 5px 10px;
+      font-size: 15px;
+      font-weight: 100;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: $letter-spacing-xs;
+      cursor: pointer;
+      color: $white;
+      background: $trans-black-75;
+      border: 1px solid $trans-black-00;
+      border-radius: $radius-button;
+      transition: all $ease;
+      &:hover {
+        color: $trans-white-100;
+        background: $trans-black-100;
+        border-color: $trans-black-00;
+      }
+    }
+  }
+  .of-font-preview-text-container {
+    position: relative;
+    font-size: 50px;
+    line-height: 1.15em;
+    letter-spacing: -0.025em;
+    text-transform: none;
+    color: $black;
+    user-select: none;
+    word-break: break-word;
+    padding: 150px 50px 160px 50px;
+    -webkit-user-modify: read-write;
+    @include mobile {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+  }
+  &.black-image {
+    background-color: $semi-black;
+    font-weight: lighter;
+    .more-button {
+      color: $black;
+      background: $trans-white-75;
+      border-color: $trans-white-00;
+      &:hover {
+        color: $trans-black-100;
+        background: $trans-white-100;
+        border-color: $trans-white-00;
+      }
+    }
+    .of-font-preview-text-container {
+      color: $white;
+    }
+    .of-font-slider-handle {
+      border-color: $black;
+      background: $white;
+    }
+    .of-font-slider-track, .of-font-slider-fill {
+      background: $white;
+    }
+    .of-font-slider-label {
+      background: $white;
+      color: $black;
+      user-select: none;
+    }
+    #of-font-toggle-no-image {
+      stroke: $white;
+    }
   }
 }
-
-.of-font-preview-container .of-font-preview-text-container {
-  position: relative;
-  font-size: 50px;
-  line-height: 1.15em;
-  letter-spacing: -0.025em;
-  text-transform: none;
-  color: $black;
-  user-select: none;
-  word-break: break-word;
-  padding-top: 150px;
-  padding-bottom: 160px;
-  padding-left: 50px;
-  padding-right: 50px;
-  -webkit-user-modify: read-write;
-}
-
 
 input[type=text],
 textarea,
@@ -123,61 +144,9 @@ textarea,
     background-color: $blue;
 }
 
-// stefan
-@include mobile {
-  .of-font-preview-container .of-font-preview-text-container {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-}
-
 .of-font-preview-container.is-white + .of-font-preview-container.is-white {
   border-top: 1px solid $trans-black-10;
 }
 .of-font-preview-container.is-black + .of-font-preview-container.is-black {
   border-top: 1px solid $trans-white-10;
-}
-
-.of-font-preview-container.black-image {
-  background-color: $semi-black;
-  font-weight: lighter;
-
-  .more-button {
-    color: $black;
-    background: $trans-white-50;
-    border-color: $trans-white-00;
-  }
-  .more-button:hover {
-    color: $black;
-    background: $white;
-    border-color: $trans-white-00;
-  }
-  .of-font-preview-text-container {
-    color: $white;
-  }
-  .of-font-slider-handle {
-    border-color: $black;
-    background: $white;
-  }
-  .of-font-slider-track, .of-font-slider-fill {
-    background: $white;
-  }
-  .of-font-slider-label {
-    background: $white;
-    color: $black;
-    user-select: none;
-  }
-  #of-font-toggle-no-image {
-    stroke: $white;
-  }
-}
-
-.of-font-preview-container.black-image:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: $trans-black-40;
 }
