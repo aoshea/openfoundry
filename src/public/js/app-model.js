@@ -4,46 +4,46 @@ import { getFontId } from './util/content_util.js';
 import appDispatcher from 'app-dispatcher';
 
 var cache = {
-	fonts: null,
-	likes: null
+  fonts: null,
+  likes: null
 }
 
 class AppModel {
 
-	constructor() {
-		this.handleAppEvent = this.handleAppEvent.bind(this);
-		appDispatcher.register(this.handleAppEvent);
-	}
+  constructor() {
+    this.handleAppEvent = this.handleAppEvent.bind(this);
+    appDispatcher.register(this.handleAppEvent);
+  }
 
-	handleAppEvent(e) {
+  handleAppEvent(e) {
 
-		switch (e.actionType) {
+    switch (e.actionType) {
 
-			case 'fetch-font-data':
+      case 'fetch-font-data':
 
-				if (this.isSiteDataAvailable) {
-					// both fonts and likes are available and parsed, let's notify
-					setTimeout(function(){
-						// require timeout to avoid dispatch in same frame causing error
-						appDispatcher.dispatch({ actionType: 'font-data-updated', data: cache.fonts });
+        if (this.isSiteDataAvailable) {
+          // both fonts and likes are available and parsed, let's notify
+          setTimeout(function () {
+            // require timeout to avoid dispatch in same frame causing error
+            appDispatcher.dispatch({ actionType: 'font-data-updated', data: cache.fonts });
 
-					});
+          });
 
-				} else {
+        } else {
 
-					if (!this.fontsLoading) {
-						this.fetchFontData();
-					}
+          if (!this.fontsLoading) {
+            this.fetchFontData();
+          }
 
-					if (!this.likesLoading) {
-						this.fetchLikeData();
-					}
-				}
-				break;
-			}
-	}
+          if (!this.likesLoading) {
+            this.fetchLikeData();
+          }
+        }
+        break;
+    }
+  }
 
-	fetchFontData() {
+  fetchFontData() {
 
     if (this.fontsLoading || cache.fonts) {
       console.log('fonts already loaded');
@@ -115,7 +115,7 @@ class AppModel {
     });
 
     this.isSiteDataAvailable = true;
-		this.parsedFonts = fonts;
+    this.parsedFonts = fonts;
 
     appDispatcher.dispatch({ actionType: 'font-data-updated', data: this.parsedFonts});
 
