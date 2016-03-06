@@ -11,17 +11,26 @@ import cx from 'classnames';
 import FontLikeButton from 'components/font-like-button/font-like-button.js';
 import FontShareButton from 'components/font-share-button/font-share-button.js';
 
+var idleTimeout = {
+  id: null,
+  delay: 1000
+};
+
 export default class FontSpecimen extends Component {
 
   constructor() {
     super()
 
     this.onScrollFinish = this.onScrollFinish.bind(this);
+    this.startIdleTimeout = this.startIdleTimeout.bind(this);
+    this.onIdleTimeout = this.onIdleTimeout.bind(this);
+    this.onMouseWheel = this.onMouseWheel.bind(this);
 
     this.componentWillAppear = this.componentWillAppear.bind(this);
     this.componentDidAppear = this.componentDidAppear.bind(this);
 
     this.state = {
+      canScroll: false,
       isScroll: false,
       isTopPassed: false,
       delta: 0,
@@ -45,6 +54,40 @@ export default class FontSpecimen extends Component {
     onCompleteScroll && onCompleteScroll();
   }
 
+  onMouseWheel(e) {
+
+    if (!e.originalEvent) {
+      console.error('Mouse wheel event error', e);
+      return;
+    }
+
+    var delta = e.originalEvent.wheelDelta;
+
+    if (delta !== 0) {
+      // Allow scroll - sets className to give specimen wrapper pointer-events: all
+      this.setState({
+        canScroll: true
+      });
+
+      // Reset canScroll to false after some time elapsed
+      this.startIdleTimeout();
+    }
+  }
+
+  onIdleTimeout() {
+    this.setState({
+      canScroll: false
+    });
+  }
+
+  startIdleTimeout() {
+    if (idleTimeout.id) {
+      clearTimeout(idleTimeout.id);
+      idleTimeout.id = null;
+    }
+    idleTimeout.id = setTimeout(this.onIdleTimeout, idleTimeout.delay);
+  }
+
   componentDidMount() {
 
     const { onScrollUpdate } = this.props;
@@ -63,6 +106,7 @@ export default class FontSpecimen extends Component {
     };
 
     $(window).on('scroll', onScroll);
+    $(window).on('mousewheel', this.onMouseWheel);
 
     scrollableEl.on('scroll', function (e) {
 
@@ -107,6 +151,7 @@ export default class FontSpecimen extends Component {
 
   componentWillUnmount() {
     $('.of-spec-scrollable').off('scroll');
+    $(window).off('mousewheel');
   }
 
   render() {
@@ -173,6 +218,11 @@ export default class FontSpecimen extends Component {
       'is-scroll': state.isScroll
     });
 
+    const specimenWrapperClassName = cx({
+      'of-specimen-wrapper': true,
+      'of-specimen-wrapper--can-scroll': state.canScroll
+    });
+
     if (font) {
 
       var oFontName = font['font-name'];
@@ -207,7 +257,7 @@ export default class FontSpecimen extends Component {
 
             <ReactCSSTransitionGroup transitionName="st" transitionAppear={true} transitionAppearTimeout={2000} transitionEnterTimeout={0} transitionLeaveTimeout={2000}>
 
-            <div className="of-specimen-wrapper" key="0">
+            <div className={specimenWrapperClassName} key="0">
               <div className={fontSpecimenClassName}>
                 { isSpacerTop && <div className="of-font-specimen-spacer-top"></div> }
                 { specimenClassName
