@@ -113,7 +113,7 @@ $specimenBottom: 110px + 50px;
     padding: 5px 10px 7px 10px;
     border: none;
     border-radius: $radius-button;
-    margin: 10px 0 100px 0;
+    margin: 10px 0 50px 0;
     cursor: pointer;
     background: $trans-white-50;
     transition: all 0.2s ease;
@@ -156,13 +156,11 @@ $specimenBottom: 110px + 50px;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       font-weight: 200;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
     }
 
     p a {
-      color: $white;
-      font-weight: 400;
-      font-style: italic;
+      color: $trans-white-50;
       transition: all $ease;
     }
 
@@ -175,7 +173,7 @@ $specimenBottom: 110px + 50px;
     a h4:hover,
     h4 a:hover,
     p a:hover {
-      color: $trans-white-50;
+      color: $white;
     }
 
     a {
@@ -188,7 +186,7 @@ $specimenBottom: 110px + 50px;
       color: $trans-white-50;
       padding-bottom: 10px;
       padding-top: 90px;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
     }
 
     h4 {
@@ -250,5 +248,9 @@ $specimenBottom: 110px + 50px;
         transform: scale(3);
       }
     }
+  }
+  .social {
+    font-size: 15px;
+    font-weight: lighter;
   }
 }
