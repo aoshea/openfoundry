@@ -67,7 +67,5 @@ export function getAboutText(font) {
 
 	var res = about1 + about2 + about3 + about4 + about5 + about6;
 
-	console.log(res);
-
   return res;
 }
