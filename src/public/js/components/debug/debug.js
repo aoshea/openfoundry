@@ -33,12 +33,9 @@ export default class Debug extends Component {
   }
 
   render() {
-		var fonts = this.state.fonts.map(function (font) {
-			return <div><h3>{ getFullFontName(font) }</h3>{ getAboutText(font) }</div>
-		})
-    return <div className="debug-component">
-			{fonts}
-
-    </div>
+    var fonts = this.state.fonts.map(function (font) {
+      return <div><h3>{ getFullFontName(font) }</h3>{ getAboutText(font) }</div>
+    })
+    return <div className="debug-component">{fonts}</div>
   }
 }
