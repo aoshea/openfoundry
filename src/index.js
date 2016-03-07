@@ -191,7 +191,5 @@ app.use(express.static(__dirname + '/public'));
  * Create server
  */
 http.createServer(app).listen(port, function () {
-  console.log('Express server running at port:' + port);
+  console.log('Express server running at port:' + port + ' in ' + nodeEnv + ' mode');
 });
-
-console.log('App: Listening on port:', port);
