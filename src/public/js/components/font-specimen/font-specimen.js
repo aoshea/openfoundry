@@ -410,11 +410,11 @@ export default class FontSpecimen extends Component {
                 </div>
                 <div className="of-font-specimen-content of-font-specimen-content-last of-specimen-footer">
                   <div className="of-row">
-                    <div className="col-2">
+                    <div className="col-6">
                       <h3>Download Font</h3>
                       <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
                     </div>
-                    <div className="col-10 social">
+                    <div className="col-6 social">
                       <FontLikeButton locked={this.state.locked} font={font} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
                     </div>
                   </div>
