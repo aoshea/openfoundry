@@ -2,6 +2,7 @@ import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHisto
 import React, { Component } from 'react';
 import Helmet from "react-helmet";
 import { render } from 'react-dom';
+import classNames from 'classnames';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
 import Debug from './components/debug/debug.js';
@@ -72,6 +73,12 @@ class App extends Component {
   handleAppEvent(e) {
 
     switch (e.actionType) {
+
+      case 'hide-menu':
+        this.setState({
+          isNavHidden: true,
+        });
+        break;
 
       case 'show-breadcrumbs':
         this.setState({
@@ -149,8 +156,11 @@ class App extends Component {
     let signupClassName = this.state.isMenuOpen ? 'menu-signup open' : 'menu-signup';
     let logoClassName = this.state.isMenuOpen ? 'menu-logo open' : 'menu-logo';
     let breadClassName = this.state.isBreadCrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb';
-    let rootClassName = this.state.isLoaded ? 'is-loaded' : '';
 
+    let rootClassName = classNames({
+      'is-loaded': this.state.isLoaded,
+      'nav-hidden': this.state.isNavHidden
+    });
 
     if (this.state.isLogoUp) {
       logoClassName += ' up';
@@ -192,11 +202,13 @@ class App extends Component {
       breadcrumb = <li className={breadClassName}>About</li>;
     } else if (pathName === '/submit') {
       breadcrumb = <li className={breadClassName}>Submit</li>;
+    } else if (pathName === '/signup') {
+      breadcrumb = <li className={breadClassName}>Signup</li>;
     }
 
     return (
       <div className={rootClassName}>
-        <header className="of-navbar">
+        <header className='of-navbar'>
           <nav>
             <ul className="menu-header">
               <li onClick={ this.handleBurgerClick } className={iconClassName}>
@@ -412,6 +424,17 @@ class Submission extends Component {
   }
 }
 
+class Signup extends Component {
+  render() {
+    return <div className='newsletter-fullscreen'>
+              <Helmet title={"Open Foundry / Signup"} />
+
+              <NewsletterSignup menuOpen={true} />
+
+           </div>
+  }
+}
+
 browserHistory.listen(function (location) {
   // need to render <Helmet> before retrieving pages title
   setTimeout(function () {
@@ -427,6 +450,10 @@ browserHistory.listen(function (location) {
         actionType: 'show-breadcrumbs'
       });
     }
+
+    if (location.pathname === '/signup') {
+        appDispatcher.dispatch({ actionType: 'hide-menu' })
+    }
   }, 50);
 });
 
@@ -440,6 +467,7 @@ render((
       </Route>
       <Route path="submit" component={Submission} />
       <Route path="about" component={About} />
+      <Route path="signup" component={Signup} />
       <Route path="/debug" component={Debug} />
     </Route>
   </Router>
