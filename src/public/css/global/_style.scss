@@ -55,3 +55,13 @@ ul {
   z-index: $zIndex-main;
   width: 100%;
 }
+
+// mainly for newsletter form
+.nav-hidden {
+  header.of-navbar {
+    display: none;
+  }
+  .of-main {
+    top: 0;
+  }
+}
