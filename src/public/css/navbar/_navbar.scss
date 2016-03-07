@@ -8,7 +8,7 @@ header.of-navbar {
   background: black;
   transition: all $ease-m;
   z-index: $zIndex-navbar;
-  transform: translateZ(0);
+  // transform: translateZ(0);
   backface-visiblity: hidden;
 }
 

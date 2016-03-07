@@ -90,9 +90,13 @@ class App extends Component {
 
       case 'font-data-updated':
         this.setState({
-          isLoaded: true,
           fonts: e.data
         });
+        setTimeout(function () {
+          this.setState({
+            isLoaded: true
+          })
+        }.bind(this), 50)
         break;
     }
   }

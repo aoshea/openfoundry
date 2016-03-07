@@ -55,3 +55,33 @@ ul {
   z-index: $zIndex-main;
   width: 100%;
 }
+
+header.of-navbar {
+  opacity: 0;
+  transform: translate3d(-10px, 0, 0);
+}
+
+.is-loaded {
+
+  header.of-navbar {
+    display: block;
+    opacity: 1;
+    transition: transform 120ms ease-out 750ms, opacity 120ms ease-out 750ms;
+    transform: translate3d(0, 0, 0);
+  }
+  .of-main {
+    background: #000;
+    transition: transform 250ms ease-in 250ms, opacity 750ms linear 250ms;
+    opacity: 1;
+  }
+}
+
+// mainly for newsletter form
+.nav-hidden {
+  header.of-navbar {
+
+  }
+  .of-main {
+    top:0;
+  }
+}
