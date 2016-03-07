@@ -11,23 +11,25 @@ $gutter-sm: $spacing/5;
   margin-left: 100% / $cols * $i;
 }
 
-@for $i from 1 through $num-cols {          
-  .col-#{$i} {     
-    @include col($i, $num-cols);    
+@include tablet-and-up {
+  @for $i from 1 through $num-cols {
+    .col-#{$i} {
+      @include col($i, $num-cols);
+    }
+    .offset-#{$i} {
+      @include offset($i, $num-cols);
+    }
+  	.neg-offset-#{$i} {
+  		@include offset($i*-1, $num-cols);
+  	}
   }
-  .offset-#{$i} {
-    @include offset($i, $num-cols);
-  }
-	.neg-offset-#{$i} {
-		@include offset($i*-1, $num-cols);
-	}
 }
 
 // stefan
 @include mobile {
-  // Columns for screens < iphone landscape 
+  // Columns for screens < iphone landscape
   @for $i from 1 through $num-sm-cols {
-    .col-#{$i} {    
+    .col-#{$i} {
       @include col($i, $num-sm-cols);
     }
     .offset-sm-#{$i} {
@@ -37,9 +39,9 @@ $gutter-sm: $spacing/5;
 }
 
 // @include mobile {
-//   // Columns for screens < iphone landscape 
+//   // Columns for screens < iphone landscape
 //   @for $i from 1 through $num-sm-cols {
-//     .col-sm-#{$i} {    
+//     .col-sm-#{$i} {
 //       @include col($i, $num-sm-cols);
 //     }
 //     .offset-sm-#{$i} {
@@ -50,7 +52,7 @@ $gutter-sm: $spacing/5;
 
 .of-grid-container {
   width: 100%;
-}  
+}
 
 @include mobile {
   // .of-grid-container {
@@ -67,8 +69,8 @@ $gutter-sm: $spacing/5;
 [class^="col-"] {
   position: relative;
   display: inline-block;
-  float: left;  
-  box-sizing: border-box;  
+  float: left;
+  box-sizing: border-box;
   // font-size: medium;
   padding-right: $gutter;
 }
