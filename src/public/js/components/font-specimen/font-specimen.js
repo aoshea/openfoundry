@@ -411,7 +411,7 @@ export default class FontSpecimen extends Component {
                 <div className="of-font-specimen-content of-font-specimen-content-last of-specimen-footer">
                   <div className="of-row">
                     <div className="col-2">
-                      <h3>Download Type</h3>
+                      <h3>Download Font</h3>
                       <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
                     </div>
                     <div className="col-10 social">

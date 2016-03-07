@@ -320,7 +320,7 @@ export default class FontPreviewContainer extends Component {
         <div className="of-grid-container">
           <div className="of-row">
             <div className="col-10 rank">
-              {rankNum}<Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankFontName}{rankComma}{rankCreator}</Link>
+              <Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankNum}{rankFontName}{rankComma}{rankCreator}</Link>
             </div>
             <div className="col-2 social">
               <FontLikeButton locked={this.state.locked} font={font} /><FontShareButton message={shareMessage} />
@@ -375,8 +375,8 @@ export default class FontPreviewContainer extends Component {
               <div className="col-2 more-button-container">
                 <Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>
                   { props.fixed
-                    ? <span className="more-button source-mode">Source</span>
-                    : <span className="more-button default-mode">Explore</span> }
+                    ? <span className="more-button source-mode">Source Page</span>
+                    : <span className="more-button default-mode">Explore Font</span> }
                 </Link>
               </div>
             </div>

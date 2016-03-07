@@ -67,18 +67,17 @@
     .more-button {
       padding: 5px 10px;
       font-size: 15px;
-      font-weight: 100;
       -webkit-font-smoothing: antialiased;
       letter-spacing: $letter-spacing-xs;
       cursor: pointer;
       color: $white;
-      background: $trans-black-75;
+      background: $trans-black-100;
       border: 1px solid $trans-black-00;
       border-radius: $radius-button;
       transition: all $ease;
       &:hover {
         color: $trans-white-100;
-        background: $trans-black-100;
+        background: $trans-black-75;
         border-color: $trans-black-00;
       }
     }
@@ -101,14 +100,15 @@
   }
   &.black-image {
     background-color: $semi-black;
-    font-weight: lighter;
+    font-weight: 100;
     .more-button {
+      font-weight: 400;
       color: $black;
-      background: $trans-white-75;
+      background: $trans-white-100;
       border-color: $trans-white-00;
       &:hover {
         color: $trans-black-100;
-        background: $trans-white-100;
+        background: $trans-white-75;
         border-color: $trans-white-00;
       }
     }
