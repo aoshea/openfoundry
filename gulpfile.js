@@ -65,7 +65,7 @@ var config = {
     src: dir.build + '**',
     live: {
       options: {
-        destination: '/home/of/html/beta/',
+        destination: '/home/of/html/',
         root: 'dist',
         hostname: 'alpheca.uberspace.de',
         username: 'of',
