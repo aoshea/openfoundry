@@ -91,6 +91,14 @@ export default class FontPreviewContainer extends Component {
       uppercase: font.uppercase
     });
 
+    // Hack in a smaller font for mobiles
+    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches) {
+      var self = this;
+      setTimeout(function () {
+        self.onUpdateFontSize(parseInt(font.fontSize / 2, 10));
+      });
+    }
+
     /*
 
     // AJAX request for the real vote
