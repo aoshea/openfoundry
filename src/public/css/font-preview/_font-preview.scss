@@ -75,6 +75,7 @@
       border: 1px solid $trans-black-00;
       border-radius: $radius-button;
       transition: all $ease;
+      white-space: nowrap;
       &:hover {
         color: $trans-white-100;
         background: $trans-black-75;
