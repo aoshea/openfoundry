@@ -76,7 +76,7 @@ class App extends Component {
 
       case 'hide-menu':
         this.setState({
-          isNavHidden: true,
+          isNavHidden: true
         });
         break;
 
@@ -452,7 +452,7 @@ browserHistory.listen(function (location) {
     }
 
     if (location.pathname === '/signup') {
-        appDispatcher.dispatch({ actionType: 'hide-menu' })
+      appDispatcher.dispatch({ actionType: 'hide-menu' })
     }
   }, 50);
 });
