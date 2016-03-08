@@ -15,7 +15,7 @@ var localVars = {
   url: decodeURIComponent('http://open-foundry.com'),
   title: decodeURIComponent('Open Foundry'),
   description: 'A new platform for open-source fonts in a noise-free environment, to highlight their beauty, extend functionality and encourage further exploration.',
-  img: decodeURIComponent('http://open-foundry.com/img/of-cover.jpg'),
+  img: decodeURIComponent('http://open-foundry.com/img/of-cover-preview.jpg'),
   nodeEnv: nodeEnv
 };
 
