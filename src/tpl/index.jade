@@ -12,6 +12,12 @@ html
     meta(property="og:description", content="#{description}")
     meta(property="og:type", content="article")
 
+    meta(name="twitter:card", content="#{title}")
+    meta(name="twitter:title", content="#{title}")
+    meta(name="twitter:site", content="#{url}")
+    meta(name="twitter:description", content="#{description}")
+    meta(name="twitter:image", content="#{img}")
+
     link(rel='stylesheet', type='text/css', href='/data/fonts.css')
     link(rel='stylesheet', type='text/css', href='/data/specimen.css')
     link(rel='stylesheet', type='text/css', href='/css/main.css')
@@ -22,7 +28,7 @@ html
       window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
       ga('create', 'UA-57026857-2', 'auto');
       ga('send', 'pageview');
-      
+
   body
     .of-container
   script(src='/js/vendor.js')
