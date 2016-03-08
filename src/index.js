@@ -65,18 +65,6 @@ app.get('/submit', function (req, res) {
   res.render('submit', localVars);
 });
 
-app.get('/hot30', function (req, res) {
-  res.render('index', localVars);
-});
-
-app.get('/signup', function (req, res) {
-  res.render('index', localVars);
-})
-
-app.get('/debug', function (req, res) {
-  res.render('index', localVars);
-})
-
 app.get('/hot30/:id', function (req, res) {
   var fontId = req.params.id
   var matches = fonts.filter(function (font) {
@@ -85,7 +73,8 @@ app.get('/hot30/:id', function (req, res) {
   });
   var currentFont = matches.length ? matches[0] : null;
 
-  var viewVars = localVars;
+  var viewVars = {};
+  viewVars.nodeEnv = nodeEnv;
   viewVars.url = decodeURIComponent('http://open-foundry.com/hot30/' + fontId);
   viewVars.title = decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style']);
   viewVars.description = decodeURIComponent(currentFont['info-about']);
@@ -94,6 +83,18 @@ app.get('/hot30/:id', function (req, res) {
   res.render('index', viewVars);
 });
 
+
+app.get('/hot30', function (req, res) {
+  res.render('index', localVars);
+});
+
+app.get('/signup', function (req, res) {
+  res.render('index', localVars);
+});
+
+app.get('/debug', function (req, res) {
+  res.render('index', localVars);
+});
 
 /**
  * API
