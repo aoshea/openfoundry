@@ -68,8 +68,6 @@ export default class FontSpecimen extends Component {
 
   onMouseWheel(e) {
 
-    console.log('onMouseWheel', e)
-
     if (!e.originalEvent) {
       console.error('Mouse wheel event error', e);
       return;
