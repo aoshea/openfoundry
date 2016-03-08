@@ -34,7 +34,8 @@
 .of-spec-scrollable {
   max-height: 100%;
   position: absolute;
-  overflow-y: scroll;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
   pointer-events: all;
   top: 0; left: 0; right: 0; bottom: 0;
 }
