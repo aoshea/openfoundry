@@ -27,6 +27,7 @@ export default class FontPreviewContainer extends Component {
     this.handleMoreClick = this.handleMoreClick.bind(this);
 
     this.isMount = false;
+    this.isScaled = false;
 
     this.state = {
       size: 0,
@@ -92,9 +93,10 @@ export default class FontPreviewContainer extends Component {
     });
 
     // Hack in a smaller font for mobiles
-    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches) {
+    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !this.isScaled) {
       var self = this;
       setTimeout(function () {
+        self.isScaled = true;
         self.onUpdateFontSize(parseInt(font.fontSize / 2, 10));
       });
     }
