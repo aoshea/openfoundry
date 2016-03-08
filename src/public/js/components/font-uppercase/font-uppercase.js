@@ -1,45 +1,48 @@
 import React, { Component } from 'react';
 
 export default class FontUppercase extends Component {
-  
+
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
-    this.uppercase = false;
+    this.state = {
+      uppercase: false
+    };
   }
 
   componentDidMount() {
     let { value } = this.props;
-    this.uppercase = value;
-
+    this.setState({
+      uppercase: value
+    });
   }
-  
+
   handleClick(e) {
     let { onUpdate } = this.props;
-    
-    let uppercase = !this.uppercase;
+    let uppercase = !this.state.uppercase;
+
     this.setState({
       uppercase: uppercase
     });
-    
+
     onUpdate && onUpdate(uppercase)
   }
-  
+
   render() {
-    
-    this.uppercase = this.props.value;
+
+    const { uppercase } = this.state;
 
     let size = 32;
     let viewBox = [0, 0, size, size].join(' ');
     let onStyle = {
-      display: this.uppercase ? "block" : "none",
+      display: uppercase ? "block" : "none",
       fill: this.props.background > 0 ? "white" : "black"
     };
     let offStyle = {
-      display: this.uppercase ? "none" : "block",
+      display: uppercase ? "none" : "block",
       fill: this.props.background > 0 ? "white" : "black"
     };
-  
+
     return (
       <svg onClick={this.handleClick} xmlns="http://www.w3.org/svg/2000"
         viewBox={viewBox}>
