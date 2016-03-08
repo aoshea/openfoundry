@@ -144,7 +144,7 @@ export default class Slider extends Component {
 
     if (label === "leading") {
       labelValue = value.toFixed(2);
-    } else if (label === "kerning") {
+    } else if (label === "tracking") {
       labelValue = value.toFixed(3);
     }
 
