@@ -355,7 +355,7 @@ export default class FontPreviewContainer extends Component {
                 onUpdate={this.onUpdateLineHeight} />
 
               <FontSlider
-                label="kerning"
+                label="tracking"
                 initial={letterSpacing}
                 value={letterSpacing}
                 fixed={letterSpacingDigits}
