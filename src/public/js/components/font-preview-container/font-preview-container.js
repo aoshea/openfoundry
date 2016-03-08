@@ -27,7 +27,6 @@ export default class FontPreviewContainer extends Component {
     this.handleMoreClick = this.handleMoreClick.bind(this);
 
     this.isMount = false;
-    this.isScaled = false;
 
     this.state = {
       size: 0,
@@ -89,14 +88,14 @@ export default class FontPreviewContainer extends Component {
       background: font.background,
       backgroundNum: font.backgroundNum,
       locked: false,
-      uppercase: font.uppercase
+      uppercase: font.uppercase,
+      scaled: font.scaled
     });
 
     // Hack in a smaller font for mobiles
-    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !this.isScaled) {
+    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !font.scaled) {
       var self = this;
       setTimeout(function () {
-        self.isScaled = true;
         self.onUpdateFontSize(parseInt(font.fontSize / 2, 10));
       });
     }
@@ -140,7 +139,8 @@ export default class FontPreviewContainer extends Component {
 
       case 'font-size-update':
         this.setState({
-          size: e.fontSize
+          size: e.fontSize,
+          scaled: true
         });
         break;
 
@@ -185,7 +185,8 @@ export default class FontPreviewContainer extends Component {
 
   onUpdateFontSize(value) {
     var font = this.state.font;
-    font.fontSize = parseInt(value, 10)
+    font.fontSize = parseInt(value, 10);
+    font.scaled = true;
     font.dispatcher.dispatch({
       actionType: 'font-size-update',
       fontSize: font.fontSize
