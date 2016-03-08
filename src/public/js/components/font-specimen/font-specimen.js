@@ -68,6 +68,8 @@ export default class FontSpecimen extends Component {
 
   onMouseWheel(e) {
 
+    console.log('onMouseWheel', e)
+
     if (!e.originalEvent) {
       console.error('Mouse wheel event error', e);
       return;
@@ -118,7 +120,7 @@ export default class FontSpecimen extends Component {
     };
 
     $(window).on('scroll', onScroll);
-    $(window).on('mousewheel', this.onMouseWheel);
+    $(window).on('mousewheel DOMMouseScroll', this.onMouseWheel);
 
     scrollableEl.on('scroll', function (e) {
 
@@ -163,7 +165,7 @@ export default class FontSpecimen extends Component {
 
   componentWillUnmount() {
     $('.of-spec-scrollable').off('scroll');
-    $(window).off('mousewheel');
+    $(window).off('mousewheel DOMMouseScroll');
   }
 
   render() {
