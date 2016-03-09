@@ -46,23 +46,20 @@
 .of-font-preview-footer, .of-specimen-footer {
   .social {
     text-align: right;
-    // padding-right: 0;
   }
-
   .vote-container,
   .share-container {
     display: inline-block;
     margin-left: 15px;
   }
-
   .like-button,
   .share-button {
     position: relative;
     display: inline-block;
-    width: 32px;
-    height: 32px;
+    width: 33px;
+    height: 33px;
     top: -8px;
-    right: -3px;
+    right: -5px;
     cursor: pointer;
   }
 
@@ -98,10 +95,10 @@
   //   background:         linear-gradient(to right, $trans-black-00, $semi-black);
   // }
   .of-font-preview-container.white-noimage > .of-font-preview-footer .rank:before {
-    background: -webkit-linear-gradient(left, $trans-white-00, $white);
-    background:    -moz-linear-gradient(right, $trans-white-00, $white);
-    background:      -o-linear-gradient(right, $trans-white-00, $white);
-    background:         linear-gradient(to right, $trans-white-00, $white);
+    // background: -webkit-linear-gradient(left, $trans-white-00, $white);
+    // background:    -moz-linear-gradient(right, $trans-white-00, $white);
+    // background:      -o-linear-gradient(right, $trans-white-00, $white);
+    background: linear-gradient(to right, $trans-white-00, $white);
   }
   .of-font-preview-footer .rank div {
     white-space: nowrap;
