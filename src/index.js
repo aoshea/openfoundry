@@ -62,7 +62,7 @@ app.get('/about', function (req, res) {
 });
 
 app.get('/submit', function (req, res) {
-  res.render('submit', localVars);
+  res.render('index', localVars);
 });
 
 app.get('/hot30/:id', function (req, res) {
