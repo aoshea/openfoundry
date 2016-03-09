@@ -125,11 +125,11 @@
 
 .like-button svg {
   fill: $trans-black-50;
-  transition: all $ease;
+  transition: all $ease-xs;
 }
 
 .of-specimen-footer .social{
-  padding-top: 130px;
+  padding-top: 155px;
 }
 
 .of-font-preview-footer,
@@ -143,12 +143,13 @@
     fill: $trans-red-100;
   }
   .like-button.like-button-disabled:hover svg {
-    fill: $trans-red-50;
+    fill: $trans-red-100;
     transform: scale3d(1, 1, 1);
+    cursor: default;
   }
   .share-button svg {
     fill: $trans-black-50;
-    transition: all $ease;
+    transition: all $ease-xs;
   }
   .share-button:hover svg {
     fill: $trans-black-100;
@@ -157,7 +158,8 @@
     fill: $trans-black-100;
   }
   .share-button.share-button-disabled:hover svg {
-    fill: $trans-black-50;
+    fill: $trans-black-100;
+    cursor: default;
   }
 }
 

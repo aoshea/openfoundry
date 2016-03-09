@@ -65,9 +65,11 @@
       padding-right: 8px;
     }
     .more-button {
-      padding: 5px 10px;
+      padding: 5px 8px;
       font-size: 15px;
+      font-weight: 400;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       letter-spacing: $letter-spacing-xs;
       cursor: pointer;
       color: $white;
@@ -87,7 +89,7 @@
     position: relative;
     font-size: 50px;
     line-height: 1.15em;
-    letter-spacing: -0.025em;
+    letter-spacing: 0em;
     text-transform: none;
     color: $black;
     user-select: none;
@@ -104,6 +106,8 @@
     font-weight: 100;
     .more-button {
       font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       color: $black;
       background: $trans-white-100;
       border-color: $trans-white-00;

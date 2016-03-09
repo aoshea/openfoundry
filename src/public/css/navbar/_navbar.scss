@@ -54,11 +54,6 @@ ul.menu-header {
   box-shadow: 10px 0px 20px $black;
 }
 
-// .menu-logo.up {
-//   opacity: 0;
-//   transform: translate(50px,-39px);
-// }
-
 .menu-logo.up {
   opacity: .4;
 }
@@ -164,7 +159,7 @@ ul.menu-list a {
   color: white;
   font-size: 70px;
   font-weight: 400;
-  letter-spacing: 0em;
+  letter-spacing: $letter-spacing-0;
   text-decoration: none;
   display: inline-block;
 
@@ -173,7 +168,7 @@ ul.menu-list a {
     font-weight: 600;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: 0.025em;
+    letter-spacing: $letter-spacing-xs;
   }
 }
 
@@ -262,7 +257,7 @@ ul.menu-signup {
   font-weight: 600;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  letter-spacing: 0.025em;
+  letter-spacing: $letter-spacing-0;
   color: #fff;
   padding: 0px 5px;
   line-height: 1.6em;

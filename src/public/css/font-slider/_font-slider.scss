@@ -35,14 +35,14 @@
 
 .handle:after,
 .black-image .handle:after {
-  -webkit-background-clip: border;
-     -moz-background-clip: border;
+  // -webkit-background-clip: border;
+  //    -moz-background-clip: border;
           background-clip: border-box;
-  -webkit-background-clip: padding;
-     -moz-background-clip: padding;
+  // -webkit-background-clip: padding;
+  //    -moz-background-clip: padding;
           background-clip: padding-box;
-  -webkit-background-clip: content;
-     -moz-background-clip: content;
+  // -webkit-background-clip: content;
+  //    -moz-background-clip: content;
           background-clip: content-box;
 }
 
@@ -55,10 +55,10 @@
   border-radius: $radius-button;
   padding: 5px 5px;
   display: inline-block;
-  font-weight: lighter;
+  // font-weight: lighter;
   text-align: center;
   font-size: 12px;
-  letter-spacing: $letter-spacing-s;
+  letter-spacing: $letter-spacing-xs;
   white-space: nowrap;
   user-select: none;
   transform: translate(-50%,-3px);

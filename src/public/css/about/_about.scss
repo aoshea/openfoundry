@@ -1,21 +1,19 @@
 section {
   width: 100%;
-  padding:50px 50px;
-  font-size: 20px;
-  font-weight: 200;
+  padding: 50px;
+  font-size: 18px;
+  font-weight: 100;
   line-height: 1.5;
-  letter-spacing: 0.025em;
+  letter-spacing: $letter-spacing-xs;
   box-sizing: border-box;
-  z-index: 200;
-  transition: opacity 0.2s ease;
-  font-weight: lighter;
+  z-index: 2100;
+  transition: opacity $ease;
   background: $white;
   h1 {
     font-size: 80px;
     font-weight: 400;
     line-height: 1.11em;
-    letter-spacing: 0em;
-    letter-spacing: 0.01em;
+    letter-spacing: $letter-spacing-0;
     color: $trans-white-100;
   }
 }
@@ -35,13 +33,13 @@ section {
   top: -8px;
   cursor: pointer;
   font-size: 15px;
-  font-weight: 100;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   letter-spacing: $letter-spacing-xs;
   color: $black;
   background: $trans-white-75;
   border: 1px solid $trans-black-00;
-  padding: 5px 10px;
+  padding: 5px 8px;
   border-radius: $radius-button;
   transition: all $ease;
   user-select: none;
@@ -74,7 +72,7 @@ section a:link {
   color: $trans-black-100;
   padding: 0;
   border-bottom: 2px solid $trans-black-00;
-  transition: all 0.1s ease;
+  transition: all $ease-xs;
 }
 
 section p a:hover {
@@ -105,7 +103,7 @@ blockquote {
     content: close-quote;
     margin-left: 0.075em;
   }
- p {
+  p {
     display: inline;
   }
 }
