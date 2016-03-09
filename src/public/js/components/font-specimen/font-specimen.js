@@ -247,7 +247,7 @@ export default class FontSpecimen extends Component {
       var rankNum = <span>{rankPaddedNum}{rhyphen}</span>
       var rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
 
-      var shareMessage = [oFontName + rankSpace + oFontStyle, ' ', font['font-open-source-link'], ' via @open_foundry #open30'].join('');
+      var shareMessage = [oFontName + rankSpace + oFontStyle, ' ', font['font-open-source-link'], ' via @open_foundry #OFHot30'].join('');
     }
 
     return (
