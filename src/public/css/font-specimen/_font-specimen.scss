@@ -1,12 +1,11 @@
 .of-specimen {
-  border-right: 20px dashed chartreuse;
   width: 100vw;
   min-height: 10vh;
   position: relative;
 }
 .of-specimen-overlay {
   position: relative;
-  // margin-top: 400px;
+  margin-top: 80vh;
   z-index: $zIndex-font-specimen-overlay;
 }
 
@@ -71,11 +70,13 @@
 
 .of-preview-wrapper {
   position: fixed;
-  top: 0;
+  top: 50px;
   height: $preview-height;
   width: 100%;
   z-index: $zIndex-font-specimen-preview;
   pointer-events: none;
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
 }
 .of-preview-wrapper.is-scrolled {
   pointer-events: none;

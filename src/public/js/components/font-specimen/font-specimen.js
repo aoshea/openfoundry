@@ -47,7 +47,7 @@ export default class FontSpecimen extends Component {
     if (inner.length === 0) return;
 
     let scrollTop = $(window).scrollTop();
-    let innerHeight = inner.height(); // + window.innerHeight * 0.8;
+    let innerHeight = inner.height() + window.innerHeight * 0.8;
     let scrollY = window.innerHeight + scrollTop;
 
     // 1 - 0 by the end of the page (i.e. absolute scroll)
@@ -79,9 +79,24 @@ export default class FontSpecimen extends Component {
     let isBottom = scrollY >= innerHeight - 1;
 
     if (isBottom) {
-      console.log('FINISH: scrollY', scrollY, 'innerHeight', innerHeight);
       this.onScrollFinish();
     }
+  }
+
+  componentWillAppear(cb) {
+    console.log('componentWillAppear', window.tempOffset);
+
+    this.setState({
+      moveToOffset: (window.tempOffset - 50) || 0
+    });
+
+    setTimeout(cb, 250);
+  }
+
+  componentDidAppear() {
+    this.setState({
+      moveToOffset: 0
+    });
   }
 
   componentDidMount() {
@@ -146,21 +161,33 @@ export default class FontSpecimen extends Component {
     var rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
     const shareMessage = [oFontName + rankSpace + oFontStyle, ' ', font['font-open-source-link'], ' via @open_foundry #open30'].join('');
 
-    let spacerStyle = {
+    const spacerStyle = {
       opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
     };
 
+    const holderStyle = {
+      transform: 'translate3d(0,' + state.moveToOffset + 'px,0)',
+      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 250ms ease-out' : 'none'
+    };
+
+    const coverStyle = {
+      opacity: !state.deltaScreen ? 0 : Math.min(1, ((1 - state.deltaScreen) - 0.1) * 1.5)
+    };
+
     return (
+
       <div className={specimenClassName}>
 
-        <div className={previewWrapperClassName}>
+        <div style={holderStyle} className={previewWrapperClassName}>
           <FontPreviewContainer
             fixed={true}
             onMoreUpdate={this.onClickSource}
             rank={previewKey}
             key={previewKey}
             font={font} />
+          <div style={coverStyle} className="of-spec-preview-cover"></div>
         </div>
+
         <div className="of-specimen-overlay">
 
           <FontSpecimenImage font={font} />
