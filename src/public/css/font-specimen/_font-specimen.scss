@@ -114,15 +114,17 @@
   appearance: none;
   background: $grey;
   color: $black;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
-  padding: 5px 10px 7px 10px;
+  letter-spacing: $letter-spacing-xs;
+  padding: 5px 8px;
   border: none;
+  border: 1px solid transparent;
   border-radius: $radius-button;
-  margin: 10px 0 50px 0;
+  margin: 0 0 50px 0;
   cursor: pointer;
   background: $trans-white-50;
-  transition: all 0.2s ease;
+  transition: all $ease;
   user-select: none;
 }
 
@@ -157,12 +159,12 @@
 
   p {
     color: $white;
-    font-size: 15px;
-    line-height: 1.8em;
+    font-size: 18px;
+    line-height: 1.5em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-weight: 200;
-    letter-spacing: 0.05em;
+    font-weight: 100;
+    letter-spacing: $letter-spacing-xs;
     a {
       color: $trans-white-50;
       transition: all $ease;
@@ -186,12 +188,15 @@
   }
 
   h3 {
-    font-size: 15px;
+    font-size: 18px;
     font-weight: 100;
     color: $trans-white-50;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     padding-top: 90px;
-    letter-spacing: 0.05em;
+    letter-spacing: $letter-spacing-xs;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
   }
 
   h4 {

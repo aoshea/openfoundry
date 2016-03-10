@@ -4,7 +4,7 @@ import Linkify from 'react-linkify';
 import React, { Component } from 'react';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
-import { getAboutText } from 'util/content_util.js';
+import { getAboutText, getShareMessage } from 'util/content_util.js';
 import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
 import FontSpecimenImage from 'components/font-specimen/specimen-image/specimen-image.js';
 import cx from 'classnames';
@@ -159,7 +159,8 @@ export default class FontSpecimen extends Component {
     var rankPaddedNum = ("0" + this.props.rank).slice(-2);
     var rankNum = <span>{rankPaddedNum}{rhyphen}</span>
     var rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
-    const shareMessage = [oFontName + rankSpace + oFontStyle, ' ', font['font-open-source-link'], ' via @open_foundry #open30'].join('');
+    var shareMessage = getShareMessage(font);
+
 
     const spacerStyle = {
       opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
