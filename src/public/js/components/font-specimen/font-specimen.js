@@ -188,7 +188,7 @@ export default class FontSpecimen extends Component {
           <div style={coverStyle} className="of-spec-preview-cover"></div>
         </div>
 
-        <div className="of-specimen-overlay">
+        <div style={holderStyle} className="of-specimen-overlay">
 
           <FontSpecimenImage font={font} />
 
