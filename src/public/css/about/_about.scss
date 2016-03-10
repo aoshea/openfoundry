@@ -37,7 +37,7 @@ section {
   -webkit-font-smoothing: antialiased;
   letter-spacing: $letter-spacing-xs;
   color: $black;
-  background: $trans-white-75;
+  background: $trans-white-100;
   border: 1px solid $trans-black-00;
   padding: 5px 8px;
   border-radius: $radius-button;
@@ -45,7 +45,7 @@ section {
   user-select: none;
   &:hover {
     color: $black;
-    background: $white;
+    background: $trans-white-75;
     border-color: $trans-black-00;
   }
 }
