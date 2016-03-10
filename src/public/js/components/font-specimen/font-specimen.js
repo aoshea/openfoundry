@@ -188,6 +188,7 @@ export default class FontSpecimen extends Component {
           <div style={coverStyle} className="of-spec-preview-cover"></div>
         </div>
 
+        <ReactCSSTransitionGroup transitionName="specstate" transitionAppear={true} transitionAppearTimeout={2000} transitionEnterTimeout={0} transitionLeaveTimeout={2000}>
         <div className="of-specimen-overlay">
 
           <FontSpecimenImage font={font} />
@@ -341,6 +342,7 @@ export default class FontSpecimen extends Component {
           <div style={spacerStyle} className="of-font-specimen-spacer-bottom"></div>
 
         </div>
+        </ReactCSSTransitionGroup>
       </div>
     )
   }

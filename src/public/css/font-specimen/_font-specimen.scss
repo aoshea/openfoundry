@@ -9,6 +9,19 @@
   z-index: $zIndex-font-specimen-overlay;
 }
 
+.of-specimen-overlay.specstate-appear {
+    transform: translate3d(0, 20vh, 0);
+}
+
+.of-specimen-overlay,
+.of-specimen-overlay.specstate-appear-active {
+    transform: translate3d(0, 0, 0);
+}
+
+.of-specimen-overlay.specstate-appear.specstate-appear-active {
+  transition: transform 750ms ease-in-out 250ms;
+}
+
 .of-font-specimen-image-wrapper {
   position: relative;
   height: 0;
