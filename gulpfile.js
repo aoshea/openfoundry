@@ -22,7 +22,9 @@ var gulp        = require('gulp'),
     browsersync = require('browser-sync'),
     reload      = browsersync.reload,
     rsync       = require('gulp-rsync'),
-    watchify    = require('watchify')
+    watchify    = require('watchify'),
+    imagemin    = require('gulp-imagemin'),
+    pngquant    = require('imagemin-pngquant')
     ;
 
 /**
@@ -30,6 +32,10 @@ var gulp        = require('gulp'),
  * @usage `gulp --production`
  */
 var production = !!argv.production;
+
+if (production) {
+  process.env.NODE_ENV = 'production';
+}
 
 /**
  * Error handling
@@ -132,14 +138,14 @@ var sources = {
  * Define static libs for js bundle
  */
 var libs = [
+  "jquery",
   "react",
   "react-dom",
   "react-router",
   "react-helmet",
   "react-addons-transition-group",
   "react-addons-css-transition-group",
-  "react-linkify",
-  "jquery"
+  "react-linkify"
 ];
 
 /**
@@ -334,9 +340,11 @@ gulp.task('db', function () {
 // Run express with nodemon
 gulp.task('server', ['build'], function () {
   var started = false;
+  var mode = production ? 'production' : 'development';
+
   return nodemon({
     script: dir.build + 'index.js',
-    env: { 'NODE_ENV': 'development' }
+    env: { 'NODE_ENV': mode }
   }).on('start', function () {
     if (!started) {
       cb();
