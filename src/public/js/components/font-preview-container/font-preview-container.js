@@ -99,27 +99,6 @@ export default class FontPreviewContainer extends Component {
         self.onUpdateFontSize(parseInt(font.fontSize / 2, 10));
       });
     }
-
-    /*
-
-    // AJAX request for the real vote
-    $.get('/api/fonts/' + replaceNonAlphaNumeric(font['font-id']), function (res) {
-
-      if (res.doc && res.doc.fontId) {
-        let likes = parseInt(res.doc.likes, 10);
-        let locked = res.locked;
-
-        if (this.isMount) {
-          this.setState({
-            likes: likes,
-            locked: locked
-          });
-        }
-      }
-
-    }.bind(this));
-
-    */
   }
 
   /**
