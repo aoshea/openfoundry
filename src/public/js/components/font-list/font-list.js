@@ -23,21 +23,20 @@ export default class FontList extends Component {
   }
 
   componentDidUpdate() {
-    console.log('FontList. componentDidUpdate fixed:', this.props.fixed);
+
     if (!this.props.fixed) {
-      console.log('set scroll top', this.state.lastScrollTop);
+
+      // Set scroll top to last position before we left
       $(window).scrollTop(this.state.lastScrollTop);
+
     } else {
 
       // Reset scroll top for the specimen page
       $(window).scrollTop(0);
-
-      console.log('reset scorll top to 0');
     }
   }
 
   onMoreUpdate(scrollTop) {
-    console.log('onMoreUpdate', scrollTop);
     // remember the scroll position to land at the
     // same offset when coming back from Specimen
     this.setState({

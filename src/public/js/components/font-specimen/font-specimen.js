@@ -23,6 +23,7 @@ export default class FontSpecimen extends Component {
     super();
 
     this.onClickSource = this.onClickSource.bind(this);
+    this.onScroll = this.onScroll.bind(this);
 
     this.state = {
       canScroll: false,
@@ -33,9 +34,62 @@ export default class FontSpecimen extends Component {
     };
   }
 
+  onScrollFinish() {
+    let { onCompleteScroll } = this.props;
+    onCompleteScroll && onCompleteScroll();
+  }
+
+  onScroll(e) {
+    const { onScrollUpdate } = this.props;
+
+    var inner = $('.of-specimen');
+
+    if (inner.length === 0) return;
+
+    let scrollTop = $(window).scrollTop();
+    let innerHeight = inner.height(); // + window.innerHeight * 0.8;
+    let scrollY = window.innerHeight + scrollTop;
+
+    // 1 - 0 by the end of the page (i.e. absolute scroll)
+    let delta = ((scrollY - innerHeight) / window.innerHeight) + 1;
+    // 0 - 1 by the beginning of the page (i.e. 100% of screen)
+    let deltaScreen = Math.max(0, 2 - Math.max(1, scrollY / window.innerHeight));
+
+    if (delta > 0) {
+      onScrollUpdate && onScrollUpdate(delta);
+    }
+
+    this.setState({
+      delta: delta,
+      deltaScreen: deltaScreen
+    });
+
+    let isTopPassed = scrollTop > window.innerHeight;
+
+    if (!this.state.isTopPassed && isTopPassed) {
+      this.state.isTopPassed = true
+      $('.of-preview-wrapper').css({ visibility: 'hidden' })
+    }
+
+    if (this.state.isTopPassed && !isTopPassed) {
+      this.state.isTopPassed = false
+      $('.of-preview-wrapper').css({ visibility: 'visible' })
+    }
+
+    let isBottom = scrollY >= innerHeight - 1;
+
+    if (isBottom) {
+      console.log('FINISH: scrollY', scrollY, 'innerHeight', innerHeight);
+      this.onScrollFinish();
+    }
+  }
+
   componentDidMount() {
-    console.log('FontSpecimen did mount');
-    console.log(this.props);
+    $(window).on('scroll', this.onScroll);
+  }
+
+  componentWillUnmount() {
+    $(window).off('scroll', this.onScroll);
   }
 
   onClickSource(scrollTop, offsetTop, e) {
@@ -66,6 +120,7 @@ export default class FontSpecimen extends Component {
     });
 
     const previewKey = font['font-name'];
+    const fontName = font['font-name'];
     const specimenCreator = font['specimen-creator'];
     const specimenCreatorLink = font['specimen-creator-link'];
     const fontClassName = replaceNonAlphaNumeric(font['font-id']);
@@ -73,6 +128,27 @@ export default class FontSpecimen extends Component {
     const foundBy = font['info-discoverer'];
     const infoAbout = font['info-about'];
     const infoWeight = font['info-weight'];
+    const creator = font['font-creator'];
+    const creatorLink = font['font-creator-link'];
+    const foundry = font['font-foundry'];
+    const fontDownloadLink = font['font-download-link'];
+    const fontOpenSourceLink = font['font-open-source-link'];
+    const aboutText = getAboutText(font);
+
+    var oFontName = font['font-name'];
+    var oFontStyle = font['font-style'];
+    // Sort rank
+    var rhyphen = " — ";
+    var rankSpace = " ";
+    var rankComma = ", ";
+    var rankPaddedNum = ("0" + this.props.rank).slice(-2);
+    var rankNum = <span>{rankPaddedNum}{rhyphen}</span>
+    var rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
+    const shareMessage = [oFontName + rankSpace + oFontStyle, ' ', font['font-open-source-link'], ' via @open_foundry #open30'].join('');
+
+    let spacerStyle = {
+      opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
+    };
 
     return (
       <div className={specimenClassName}>
@@ -201,6 +277,41 @@ export default class FontSpecimen extends Component {
               </ul>
             </h4>
           </div>
+
+          { creator, foundry
+            ? <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a>, {foundry}</h4></div>
+            : <div className="of-font-specimen-content"><h3>Typedesigner</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a></h4></div>
+          }
+          { foundBy
+            && <div className="of-font-specimen-content"><h3>Project Page</h3><a href={fontOpenSourceLink}><h4 className={fontClassName}>{fontOpenSourceLink}</h4></a></div>
+          }
+          <div className="of-font-specimen-content">
+            <div className="of-row">
+              <div className="col-6">
+                <h3>About</h3>
+                <Linkify>
+                { infoAbout
+                  ? <p>{infoAbout} {aboutText}</p>
+                  : <p>{aboutText}</p>
+                }
+                </Linkify>
+              </div>
+            </div>
+          </div>
+
+          <div className="of-font-specimen-content of-font-specimen-content-last of-specimen-footer">
+            <div className="of-row">
+              <div className="col-6">
+                <h3>Download Font</h3>
+                <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
+              </div>
+              <div className="col-6 social">
+                <FontLikeButton locked={this.state.locked} font={font} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
+              </div>
+            </div>
+          </div>
+
+          <div style={spacerStyle} className="of-font-specimen-spacer-bottom"></div>
 
         </div>
       </div>
