@@ -1,3 +1,44 @@
+.of-specimen {
+  width: 100vw;
+  min-height: 10vh;
+  position: relative;
+}
+.of-specimen-overlay {
+  position: relative;
+  margin-top: 80vh;
+  z-index: $zIndex-font-specimen-overlay;
+}
+
+.of-specimen-overlay.specstate-appear {
+    transform: translate3d(0, 20vh, 0);
+}
+
+.of-specimen-overlay,
+.of-specimen-overlay.specstate-appear-active {
+    transform: translate3d(0, 0, 0);
+}
+
+.of-specimen-overlay.specstate-appear.specstate-appear-active {
+  transition: transform 750ms ease-in-out 250ms;
+}
+
+.of-font-specimen-image-wrapper {
+  position: relative;
+  height: 0;
+  width: 100%;
+}
+
+.of-font-specimen-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+// older
 .of-spec-holder {
   position: fixed;
   top: 0;
@@ -42,39 +83,16 @@
 
 .of-preview-wrapper {
   position: fixed;
+  top: 50px;
   height: $preview-height;
   width: 100%;
   z-index: $zIndex-font-specimen-preview;
   pointer-events: none;
+  transform: translate3d(0,0,0);
+  backface-visibility: hidden;
 }
 .of-preview-wrapper.is-scrolled {
   pointer-events: none;
-}
-
-// where 50 is the size of the menu
-$specimenBottom: 110px + 50px;
-
-.of-specimen-wrapper {
-  position: absolute;
-  pointer-events: none;
-  margin-top: -$specimenBottom;
-  z-index: $zIndex-font-specimen-example;
-}
-.of-specimen-wrapper.of-specimen-wrapper--can-scroll {
-  pointer-events: all;
-}
-
-.of-specimen-wrapper.st-appear {
-    transform: translate3d(0, $specimenBottom, 0);
-}
-
-.of-specimen-wrapper,
-.of-specimen-wrapper.st-appear-active {
-    transform: translate3d(0, 0, 0);
-}
-
-.of-specimen-wrapper.st-appear.st-appear-active {
-  transition: transform 750ms ease-in-out 250ms;
 }
 
 .of-font-specimen {
@@ -84,177 +102,157 @@ $specimenBottom: 110px + 50px;
   margin-top: $preview-height;
   // transition: transform 300ms ease-in-out;
 
-  .of-font-specimen-image-wrapper {
-    position: relative;
-    height: 0;
-    width: 100%;
+}
+.of-font-specimen-spacer-bottom {
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  background: rgba(0,0,0,0.7);
+}
+
+.of-font-specimen-button {
+  appearance: none;
+  background: $grey;
+  color: $black;
+  font-size: 14px;
+  font-weight: 400;
+  padding: 5px 10px 7px 10px;
+  border: none;
+  border-radius: $radius-button;
+  margin: 10px 0 50px 0;
+  cursor: pointer;
+  background: $trans-white-50;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.of-font-specimen-button:hover {
+  background: $white;
+}
+
+.of-font-specimen-content.of-font-specimen-content-first {
+  padding-top: 25px;
+}
+
+.of-font-specimen-content.of-font-specimen-content-last {
+  padding-bottom: 75px;
+}
+
+.of-font-specimen-content.of-font-specimen-content-characterset h4 {
+  line-height: 1.2em;
+}
+
+.of-font-specimen-content {
+  background: $semi-nooverlay-black;
+  padding: 0 50px;
+
+  @include mobile {
+    padding: 0 20px;
   }
 
-  .of-font-specimen-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-size: cover;
-    background-position: center;
+  h3, h4, p {
+    margin: 0;
+    padding: 0;
   }
 
-  .of-font-specimen-spacer-bottom {
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    background: rgba(0,0,0,0.7);
-  }
-
-  .of-font-specimen-button {
-    appearance: none;
-    background: $grey;
-    color: $black;
+  p {
+    color: $white;
     font-size: 15px;
-    font-weight: 400;
-    letter-spacing: $letter-spacing-xs;
-    padding: 5px 8px;
-    border: none;
-    border: 1px solid transparent;
-    border-radius: $radius-button;
-    margin: 0 0 50px 0;
-    cursor: pointer;
-    background: $trans-white-50;
-    transition: all $ease;
-    user-select: none;
-  }
-
-  .of-font-specimen-button:hover {
-    background: $white;
-  }
-
-  .of-font-specimen-content.of-font-specimen-content-first {
-    padding-top: 25px;
-  }
-
-  .of-font-specimen-content.of-font-specimen-content-last {
-    padding-bottom: 75px;
-  }
-
-  .of-font-specimen-content.of-font-specimen-content-characterset h4 {
-    line-height: 1.2em;
-  }
-
-  .of-font-specimen-content {
-    background: $semi-nooverlay-black;
-    padding: 0 50px;
-
-    @include mobile {
-      padding: 0 20px;
-    }
-
-    h3, h4, p {
-      margin: 0;
-      padding: 0;
-    }
-
-    p {
-      color: $white;
-      font-size: 18px;
-      line-height: 1.5em;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      font-weight: 100;
-      letter-spacing: $letter-spacing-xs;
-      a {
-        color: $trans-white-50;
-        transition: all $ease;
-        &:hover {
-          color: $white;
-        }
-      }
-    }
-
-    a h4,
-    h4 a {
-      color: $white;
+    line-height: 1.8em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 200;
+    letter-spacing: 0.05em;
+    a {
+      color: $trans-white-50;
       transition: all $ease;
       &:hover {
-        color: $trans-white-50;
+        color: $white;
       }
     }
+  }
 
-    a {
-      text-decoration: none;
-    }
-
-    h3 {
-      font-size: 18px;
-      font-weight: 100;
+  a h4,
+  h4 a {
+    color: $white;
+    transition: all $ease;
+    &:hover {
       color: $trans-white-50;
-      padding-bottom: 20px;
-      padding-top: 90px;
-      letter-spacing: $letter-spacing-xs;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    h4 {
-      font-size: 100px;
-      color: $white;
-      font-weight: normal;
-      word-break: break-all;
-      line-height: 1.1em;
-    }
-
-    ul {
-      margin: 0 auto;
-      margin-top: 15px;
-      padding: 0;
-      list-style: none;
-      display: inline-block;
-    }
-
-    li.character {
-      list-style: none;
-      float: left;
-      width: 6.26%;
-      height: 10%;
-      border: 1px solid $trans-white-10;
-      margin-left: -1px;
-      margin-top: -1px;
-      padding: 5px 0;
-      text-align: center;
-      transform: scale(1);
-      transition: transform $ease-xs;
-      @include desktop-1920 {
-        width: 8.333333333%;
-      }
-      @include desktop-1440 {
-        width: 10%;
-      }
-      @include desktop-1280 {
-        width: 11.111111111%;
-      }
-      @include desktop-960 {
-        width: 16.666666667%;
-      }
-      @include mobile {
-        width: 33.333333333%;
-      }
-      &:hover {
-        position: relative;
-        z-index: 10;
-        border: none;
-        border: 1px solid $trans-white-10;
-        background-color: $semi-nooverlay-black;
-        transform: scale(3);
-        cursor: zoom-in;
-
-        @include mobile {
-          transform: scale(3);
-        }
-      }
     }
   }
-  .social {
+
+  a {
+    text-decoration: none;
+  }
+
+  h3 {
     font-size: 15px;
-    font-weight: lighter;
+    font-weight: 100;
+    color: $trans-white-50;
+    padding-bottom: 10px;
+    padding-top: 90px;
+    letter-spacing: 0.05em;
   }
+
+  h4 {
+    font-size: 100px;
+    color: $white;
+    font-weight: normal;
+    word-break: break-all;
+    line-height: 1.1em;
+  }
+
+  ul {
+    margin: 0 auto;
+    margin-top: 15px;
+    padding: 0;
+    list-style: none;
+    display: inline-block;
+  }
+
+  li.character {
+    list-style: none;
+    float: left;
+    width: 6.26%;
+    height: 10%;
+    border: 1px solid $trans-white-10;
+    margin-left: -1px;
+    margin-top: -1px;
+    padding: 5px 0;
+    text-align: center;
+    transform: scale(1);
+    transition: transform $ease-xs;
+    @include desktop-1920 {
+      width: 8.333333333%;
+    }
+    @include desktop-1440 {
+      width: 10%;
+    }
+    @include desktop-1280 {
+      width: 11.111111111%;
+    }
+    @include desktop-960 {
+      width: 16.666666667%;
+    }
+    @include mobile {
+      width: 33.333333333%;
+    }
+    &:hover {
+      position: relative;
+      z-index: 10;
+      border: none;
+      border: 1px solid $trans-white-10;
+      background-color: $semi-nooverlay-black;
+      transform: scale(3);
+      cursor: zoom-in;
+
+      @include mobile {
+        transform: scale(3);
+      }
+    }
+  }
+}
+.social {
+  font-size: 15px;
+  font-weight: lighter;
 }

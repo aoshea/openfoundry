@@ -15,7 +15,7 @@ var localVars = {
   url: decodeURIComponent('http://open-foundry.com'),
   title: decodeURIComponent('Open Foundry'),
   description: 'A new platform for open-source fonts in a noise-free environment, to highlight their beauty, extend functionality and encourage further exploration.',
-  img: decodeURIComponent('http://open-foundry.com/img/of-cover.jpg'),
+  img: decodeURIComponent('http://open-foundry.com/img/of-cover-preview.jpg'),
   nodeEnv: nodeEnv
 };
 
@@ -62,20 +62,8 @@ app.get('/about', function (req, res) {
 });
 
 app.get('/submit', function (req, res) {
-  res.render('submit', localVars);
-});
-
-app.get('/hot30', function (req, res) {
   res.render('index', localVars);
 });
-
-app.get('/signup', function (req, res) {
-  res.render('index', localVars);
-})
-
-app.get('/debug', function (req, res) {
-  res.render('index', localVars);
-})
 
 app.get('/hot30/:id', function (req, res) {
   var fontId = req.params.id
@@ -85,7 +73,8 @@ app.get('/hot30/:id', function (req, res) {
   });
   var currentFont = matches.length ? matches[0] : null;
 
-  var viewVars = localVars;
+  var viewVars = {};
+  viewVars.nodeEnv = nodeEnv;
   viewVars.url = decodeURIComponent('http://open-foundry.com/hot30/' + fontId);
   viewVars.title = decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style']);
   viewVars.description = decodeURIComponent(currentFont['info-about']);
@@ -94,6 +83,18 @@ app.get('/hot30/:id', function (req, res) {
   res.render('index', viewVars);
 });
 
+
+app.get('/hot30', function (req, res) {
+  res.render('index', localVars);
+});
+
+app.get('/signup', function (req, res) {
+  res.render('index', localVars);
+});
+
+app.get('/debug', function (req, res) {
+  res.render('index', localVars);
+});
 
 /**
  * API

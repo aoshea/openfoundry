@@ -23,8 +23,16 @@ export default class FontList extends Component {
   }
 
   componentDidUpdate() {
+
     if (!this.props.fixed) {
+
+      // Set scroll top to last position before we left
       $(window).scrollTop(this.state.lastScrollTop);
+
+    } else {
+
+      // Reset scroll top for the specimen page
+      $(window).scrollTop(0);
     }
   }
 
@@ -39,6 +47,7 @@ export default class FontList extends Component {
   render() {
 
     const props = this.props;
+    const isFixed = props.fixed;
     const { lastScrollTop } = this.state;
 
     var fonts = this.props.fonts || [];
@@ -57,13 +66,16 @@ export default class FontList extends Component {
 
     const fontListClassNames = classNames({
       'of-font-list': true,
-      'is-fixed': props.fixed
+      // 'is-fixed': props.fixed,
+      'of-font-list--fixed': isFixed
     });
 
     // Offset by `.of-main` top offset
     const fontListStyle = {
       // 50px being the height of the nav bar
-      top: props.fixed ? (lastScrollTop - 50) * -1 : 0
+      // top: props.fixed ? (lastScrollTop - 50) * -1 : 0
+      top: isFixed ? lastScrollTop * -1 : 0,
+      paddingTop: isFixed ? '50px' : 0
     };
 
     return (

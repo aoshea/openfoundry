@@ -106,6 +106,7 @@ class AppModel {
       });
 
       font.likesNum = likeObject ? likeObject.likes : 0;
+      font.scaled = false;
 
     });
 

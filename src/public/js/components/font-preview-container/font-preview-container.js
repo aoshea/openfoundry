@@ -88,29 +88,17 @@ export default class FontPreviewContainer extends Component {
       background: font.background,
       backgroundNum: font.backgroundNum,
       locked: false,
-      uppercase: font.uppercase
+      uppercase: font.uppercase,
+      scaled: font.scaled
     });
 
-    /*
-
-    // AJAX request for the real vote
-    $.get('/api/fonts/' + replaceNonAlphaNumeric(font['font-id']), function (res) {
-
-      if (res.doc && res.doc.fontId) {
-        let likes = parseInt(res.doc.likes, 10);
-        let locked = res.locked;
-
-        if (this.isMount) {
-          this.setState({
-            likes: likes,
-            locked: locked
-          });
-        }
-      }
-
-    }.bind(this));
-
-    */
+    // Hack in a smaller font for mobiles
+    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !font.scaled) {
+      var self = this;
+      setTimeout(function () {
+        self.onUpdateFontSize(parseInt(font.fontSize / 2, 10));
+      });
+    }
   }
 
   /**
@@ -130,7 +118,8 @@ export default class FontPreviewContainer extends Component {
 
       case 'font-size-update':
         this.setState({
-          size: e.fontSize
+          size: e.fontSize,
+          scaled: true
         });
         break;
 
@@ -175,7 +164,8 @@ export default class FontPreviewContainer extends Component {
 
   onUpdateFontSize(value) {
     var font = this.state.font;
-    font.fontSize = parseInt(value, 10)
+    font.fontSize = parseInt(value, 10);
+    font.scaled = true;
     font.dispatcher.dispatch({
       actionType: 'font-size-update',
       fontSize: font.fontSize
