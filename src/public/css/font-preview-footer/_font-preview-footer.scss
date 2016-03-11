@@ -112,7 +112,7 @@
 }
 
 .of-specimen-footer .social{
-  padding-top: 155px;
+  padding-top: 145px;
 }
 
 .of-font-preview-footer,
@@ -136,19 +136,23 @@
   }
 
   .like-button.like-button-disabled {
-    animation-duration: .3s;
+    animation-duration: .5s;
     animation-name: beating;
     animation-iteration-count: 1;
-    transition: all $ease-s;  
+    transition: all cubic-bezier(.90,0,.10,1); 
   }
 
   @-webkit-keyframes beating {
      0% {
-       transform: scale3d(1, 1, 1);
-       fill: $trans-red-50;
+       transform: scale3d(0, 0, 0);
+       fill: $trans-red-00;
      }
-     50% {
-       transform: scale3d(1.6, 1.6, 1.6);
+     33% {
+       transform: scale3d(1.4, 1.4, 1.4);
+       fill: $trans-red-100;
+     }
+     66% {
+       transform: scale3d(0.9, 0.9, 0.9);
        fill: $trans-red-100;
      }
      100% {
