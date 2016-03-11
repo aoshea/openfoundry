@@ -78,7 +78,7 @@ app.get('/hot30/:id', function (req, res) {
   viewVars.url = decodeURIComponent('http://open-foundry.com/hot30/' + fontId);
   viewVars.title = decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style']);
   viewVars.description = decodeURIComponent(currentFont['info-about']);
-  viewVars.img = decodeURIComponent('http://open-foundry.com/data/specimens/specimen-' + fontId + '.svg');
+  viewVars.img = decodeURIComponent('http://open-foundry.com/data/specimens/specimen-' + fontId + '-preview.jpg');
 
   res.render('index', viewVars);
 });
