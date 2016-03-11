@@ -3,14 +3,14 @@
 var fs    = require('fs'),
     path  = require('path')
     ;
-    
+
 var dirs = {
   src: __dirname + '/images',
   out: __dirname + '/data',
 };
 
 /**
- * Create directory if it doesnt exist 
+ * Create directory if it doesnt exist
  */
 var mkdirSync = function (path) {
   try {
@@ -23,7 +23,6 @@ var mkdirSync = function (path) {
 function listImages(dir) {
   return new Promise(function (resolve, reject) {
     fs.readdir(dir, function (err, list) {
-      console.log('list', list);
       if (err) {
         reject(err);
       } else {
@@ -44,7 +43,6 @@ function outputJSON(result) {
 }
 
 listImages(dirs.src).then(function (list) {
-  console.log('list', list);
   outputJSON(list);
 }).catch(function (err) {
   console.warn('Error:', err);

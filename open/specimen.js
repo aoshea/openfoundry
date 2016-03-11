@@ -78,6 +78,53 @@ function copySpecimens(list) {
 }
 
 /**
+ * Copy specimen images to build folder
+ */
+function copyPreviews(list) {
+  var targetDir = 'specimens';
+
+  return list.map(function (o) {
+
+    var p = o;
+
+    var base = path.basename(p);
+
+    // Create directory if not exist
+    mkdirSync(path.join(dirs.out, targetDir));
+
+    // Copy file to target dir
+    copyFile(p, path.join(dirs.out, targetDir, base), function () {
+      console.log('copy ?', p);
+    });
+  });
+}
+
+/**
+ * Copy over all specimen pages
+ */
+function getPreviewSpecimens(dir) {
+  return new Promise(function (resolve, reject) {
+
+    fs.readdir(dir, function (err, list) {
+      if (err) reject(err);
+      else resolve(list.map(function (o) {
+        return o;
+      }).filter(function (o) {
+        // get preview images
+        return o.match(/preview\.(jpg|png|gif|svg)$/);
+      }));
+    })
+  }).then(function (list) {
+
+    copyPreviews(list);
+
+  }).catch(function (err) {
+    console.error('Error: Listing preview specimens', err);
+    reject(err);
+  });
+}
+
+/**
  * List contents of font folder
  */
 function listContents(obj) {
@@ -85,12 +132,21 @@ function listContents(obj) {
   var id = obj.id;
   var dir = obj.path;
 
+  getPreviewSpecimens(dir);
+
   return new Promise(function (resolve, reject) {
+
     fs.readdir(dir, function (err, list) {
       if (err) reject(err);
       else resolve(list.map(function (o) {
         return o;
       }).filter(function (o) {
+
+        // skip preview version of image
+        if (o.match(/preview/)) {
+          return false;
+        }
+
         return o.match(/\.(jpg|png|gif|svg)$/);
       }));
     });
