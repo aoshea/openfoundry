@@ -136,7 +136,7 @@
   }
 
   .like-button.like-button-disabled {
-    animation-duration: .5s;
+    animation-duration: .4s;
     animation-name: beating;
     animation-iteration-count: 1;
     transition: all cubic-bezier(.90,0,.10,1); 
