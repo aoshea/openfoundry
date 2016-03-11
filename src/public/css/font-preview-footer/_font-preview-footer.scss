@@ -1,16 +1,3 @@
-// .white-noimage .of-font-preview-footer {
-
-//   .rank a {
-//     text-decoration: none;
-//     color: inherit;
-//     transition: color $ease;
-//   }
-//   .rank a:hover {
-//     color: $white;
-//   }
-
-// }
-
 .of-font-preview-footer {
   position: absolute;
   bottom: 40px;
@@ -26,7 +13,6 @@
     box-sizing: border-box;
   }
 
-  // stefan
   @include mobile {
     .of-footer-inner {
       padding: 0 10px;
@@ -46,6 +32,7 @@
 .of-font-preview-footer, .of-specimen-footer {
   .social {
     text-align: right;
+    padding-right: 0px;
   }
   .vote-container,
   .share-container {
@@ -116,17 +103,12 @@
   visibility: hidden;
 }
 
-.like-button:hover svg {
-  fill: $trans-red-100;
-}
+// .like-button:hover svg {
+//   fill: $trans-red-100;
+// }
 
 .of-font-preview-container {
   color: $trans-black-50;
-}
-
-.like-button svg {
-  fill: $trans-black-50;
-  transition: all $ease-xs;
 }
 
 .of-specimen-footer .social{
@@ -136,18 +118,45 @@
 .of-font-preview-footer,
 .of-specimen-footer {
 
+  .like-button svg {
+    fill: $trans-black-50;
+    transition: all $ease-xs;
+  }
   .like-button:hover svg {
+    // transform: scale3d(1.2, 1.2, 1.2);
     fill: $trans-black-100;
-    transform: scale3d(1.25, 1.25, 1.25);
   }
   .like-button.like-button-disabled svg {
     fill: $trans-red-100;
   }
   .like-button.like-button-disabled:hover svg {
     fill: $trans-red-100;
-    transform: scale3d(1, 1, 1);
+    // transform: scale3d(1, 1, 1);
     cursor: default;
   }
+
+  .like-button.like-button-disabled {
+    animation-duration: .3s;
+    animation-name: beating;
+    animation-iteration-count: 1;
+    transition: all $ease-s;  
+  }
+
+  @-webkit-keyframes beating {
+     0% {
+       transform: scale3d(1, 1, 1);
+       fill: $trans-red-50;
+     }
+     50% {
+       transform: scale3d(1.6, 1.6, 1.6);
+       fill: $trans-red-100;
+     }
+     100% {
+       transform: scale3d(1, 1, 1);
+       fill: $trans-red-100;
+     }
+  }
+
   .share-button svg {
     fill: $trans-black-50;
     transition: all $ease-xs;
@@ -197,9 +206,9 @@
   .like-button.like-button-disabled svg {
     fill: $trans-red-100;
   }
-  .like-button.like-button-disabled:hover svg {
-    fill: $trans-red-50;
-  }
+  // .like-button.like-button-disabled:hover svg {
+  //   fill: $trans-red-50;
+  // }
 
   .share-button svg {
     fill: $trans-white-50;
