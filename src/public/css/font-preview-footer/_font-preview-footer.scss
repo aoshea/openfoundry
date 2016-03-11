@@ -68,6 +68,9 @@
     position: absolute;
     letter-spacing: $letter-spacing-m;
   }
+  .share-count {
+    visibility: hidden; // until we figure out how to count shares.
+  }
 }
 
 @include mobile {
