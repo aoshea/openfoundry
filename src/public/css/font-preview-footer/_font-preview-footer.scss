@@ -21,8 +21,6 @@
       width: 66.6666666%;
     }
   }
-
-
   .rank a {
     text-decoration: none;
     transition: color $ease;
@@ -31,6 +29,7 @@
 
 .of-font-preview-footer, .of-specimen-footer {
   .social {
+    font-weight: normal;
     text-align: right;
     padding-right: 0px;
   }
@@ -191,9 +190,10 @@
 
 .of-font-preview-container.black-image .of-font-preview-footer,
 .of-specimen-footer {
-
   color: $trans-white-50;
-
+  .social {
+    font-weight: 200;
+  }
   .rank a {
     color: $trans-white-50;
   }
