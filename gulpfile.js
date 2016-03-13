@@ -1,6 +1,7 @@
 var gulp        = require('gulp'),
     babelify    = require('babelify'),
     browserify  = require('browserify'),
+    bump        = require('gulp-bump'),
     source      = require('vinyl-source-stream'),
     buffer      = require('vinyl-buffer'),
     eslint      = require('gulp-eslint'),
@@ -21,7 +22,9 @@ var gulp        = require('gulp'),
     nodemon     = require('gulp-nodemon'),
     browsersync = require('browser-sync'),
     reload      = browsersync.reload,
+    replace     = require('gulp-replace'),
     rsync       = require('gulp-rsync'),
+    tag_version = require('gulp-tag-version'),
     watchify    = require('watchify'),
     imagemin    = require('gulp-imagemin'),
     pngquant    = require('imagemin-pngquant')
@@ -37,6 +40,8 @@ if (production) {
   process.env.NODE_ENV = 'production';
 }
 
+
+var packageJSON = require('./package.json');
 /**
  * Error handling
  */
@@ -274,6 +279,20 @@ gulp.task('images', function () {
     .pipe(gulp.dest(dir.build + 'public/img'));
 });
 
+// Bumps the current version and creates a tag for Git
+// gulp bump --patch for 0.0.1 --> 0.0.2
+// gulp bump --minor (default) 0.1.0 --> 0.2.0
+// gulp bump --major for 1.0.0 -> 2.0.0
+gulp.task('bump', function(){
+  var type = 'minor'; // default type
+  type = !!argv.patch ? 'patch' : type;
+  type = !!argv.major ? 'major' : type;
+  return gulp.src('./package.json')
+    .pipe(bump({type: type }))
+    .pipe(gulp.dest('./'))
+    .pipe(tag_version())
+});
+
 
 gulp.task('build-export', function (cb) {
   exec('node open/export.js && node open/specimen.js && node open/spreadsheet.js', function (err, stdout, stderr) {
@@ -307,6 +326,7 @@ gulp.task('clean', function () {
 // Copy jade templates to destination folder
 gulp.task('templates', function () {
   return gulp.src(sources.tpl)
+    .pipe(replace(/__VERSION__/g, packageJSON.version))
     .pipe(gulp.dest(dir.build + 'tpl/'));
 });
 

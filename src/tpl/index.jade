@@ -18,9 +18,9 @@ html
     meta(name="twitter:description", content="#{description}")
     meta(name="twitter:image", content="#{img}")
 
-    link(rel='stylesheet', type='text/css', href='/data/fonts.css')
-    link(rel='stylesheet', type='text/css', href='/data/specimen.css')
-    link(rel='stylesheet', type='text/css', href='/css/main.css')
+    link(rel='stylesheet', type='text/css', href='/data/fonts.css?v=__VERSION__')
+    link(rel='stylesheet', type='text/css', href='/data/specimen.css?v=__VERSION__')
+    link(rel='stylesheet', type='text/css', href='/css/main.css?v=__VERSION__')
     script(src='/js/vendor/modernizr.js')
 
     <!-- Google Analytics -->
@@ -31,9 +31,9 @@ html
 
   body
     .of-container
-  script(src='/js/vendor.js')
-  script(src='/js/vendor/stepform.js')
-  script(src='/js/app.js')
+  script(src='/js/vendor.js?v=__VERSION__')
+  script(src='/js/vendor/stepform.js?v=__VERSION__')
+  script(src='/js/app.js?v=__VERSION__')
   if nodeEnv == 'development'
     script(type='text/javascript', id='__bs_script__').
       //<![CDATA[
