@@ -2,6 +2,7 @@ var gulp        = require('gulp'),
     babelify    = require('babelify'),
     browserify  = require('browserify'),
     bump        = require('gulp-bump'),
+    connect     = require('gulp-connect'),
     source      = require('vinyl-source-stream'),
     buffer      = require('vinyl-buffer'),
     eslint      = require('gulp-eslint'),
@@ -106,6 +107,12 @@ var config = {
     }
   }
 };
+
+gulp.task('launch-prototype', function() {
+  connect.server({
+    root: ['prototype']
+  });
+});
 
 /**
  * Rsync files to live server
