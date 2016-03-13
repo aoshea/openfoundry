@@ -146,6 +146,7 @@ export default class FontSpecimen extends Component {
     const creator = font['font-creator'];
     const creatorLink = font['font-creator-link'];
     const foundry = font['font-foundry'];
+    const foundryLink = font['font-foundry-link'];
     const fontDownloadLink = font['font-download-link'];
     const fontOpenSourceLink = font['font-open-source-link'];
     const aboutText = getAboutText(font);
@@ -161,6 +162,13 @@ export default class FontSpecimen extends Component {
     var rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
     var shareMessage = getShareMessage(font);
 
+    var foundryElement;
+
+    if (foundryLink) {
+      foundryElement = <a href={foundryLink}>{foundry}</a>
+    } else {
+      foundryElement = <span>{foundry}</span>
+    }
 
     const spacerStyle = {
       opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
@@ -308,7 +316,7 @@ export default class FontSpecimen extends Component {
           </div>
 
           { creator, foundry
-            ? <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a>, {foundry}</h4></div>
+            ? <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a>, {foundryElement}</h4></div>
             : <div className="of-font-specimen-content"><h3>Typedesigner</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a></h4></div>
           }
           { foundBy
