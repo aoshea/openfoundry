@@ -84,8 +84,6 @@ export default class FontSpecimen extends Component {
   }
 
   componentWillAppear(cb) {
-    console.log('componentWillAppear', window.tempOffset);
-
     this.setState({
       moveToOffset: (window.tempOffset - 50) || 0
     });
