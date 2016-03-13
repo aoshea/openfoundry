@@ -5,6 +5,7 @@ import { render } from 'react-dom';
 import classNames from 'classnames';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
+import NewcomerPreview from './components/newcomer-preview/newcomer-preview.js';
 import Debug from './components/debug/debug.js';
 import NewsletterSignup from './components/newsletter/newsletter.js';
 import AboutPage from './components/about/about.js';
@@ -327,6 +328,7 @@ class Open extends Component {
     return (
       <div>
         <Helmet title={"OpenFoundry / Hot 30"} />
+        <NewcomerPreview />
         <FontList fixed={isSpecimen} likes={likes} fonts={fonts} />
         {this.props.children}
       </div>
