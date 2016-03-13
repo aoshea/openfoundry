@@ -179,7 +179,6 @@ app.post('/submit', function (req, res, next) {
 });
 
 app.post('/newsletter', function (req, res, next) {
-  console.log(req.body);
   ofMailchimp(req.body.EMAIL, function (result) {
     res.json(result);
   });
