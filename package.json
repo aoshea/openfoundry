@@ -74,6 +74,7 @@
   },
   "dependencies": {
     "body-parser": "^1.14.2",
+    "compression": "^1.6.1",
     "mailchimp-api": "^2.0.7",
     "nodemailer": "^2.0.0"
   }

@@ -1,4 +1,5 @@
 var express  = require('express'),
+    compression = require('compression'),
     mongoose = require('mongoose'),
     http    = require('http'),
     app     = express(),
@@ -169,6 +170,7 @@ app.get('/api/like/:fontId', function (req, res) {
 var bodyParser = require('body-parser')
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(compression());
 
 app.post('/submit', function (req, res, next) {
   ofSubmission.process(req.body, function (result) {
