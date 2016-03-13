@@ -19,7 +19,7 @@ export default class AboutPage extends Component {
           <div className="of-grid-container">
             <div className="of-row">
               <div className="col-7">
-                <p><a href="http://open-foundry.com">open-foundry.com</a> — The ‘open’ stands for open-source, free and easily available. The word ‘foundry’ is taken from the ‘type foundry’ and suggests professional quality and industrial heritage.</p>
+                <p><a href="http://open-foundry.com">open-foundry.com</a> — The ‘open’ stands for open-source, free and easily available. The word ‘foundry’ is taken from the term ‘type foundry’ and suggests professional quality and industrial heritage.</p>
                 <p>Founded by <a href="http://stefanendress.com">Stefan Endress</a> and <a href="http://alastairoshea.com">Alastair O’Shea</a>.</p>
                 <p>If you search for ‘free web fonts’ on google, one of the first results is ‘Google Fonts’ with its description:</p>
               </div>
