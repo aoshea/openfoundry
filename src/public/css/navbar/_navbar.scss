@@ -28,22 +28,38 @@ ul.menu-header {
   box-sizing: border-box;
 }
 
+.menu-logo .of {
+  width: 34px;
+  display: none;
+  @include mobile {
+    display: inline-block;
+  }
+}
+
 .menu-logo .open {
-  display: inline-block;
   width: 54px;
   margin-right: 6px;
 }
 .menu-logo .foundry {
-  display: inline-block;
   width: 76px;
 }
 
 .menu-logo {
-  position: absolute;
-  top: 0px;
+  .open, .foundry {
+    display: inline-block;
+    @include mobile {
+      display: none;
+    }
+  }
+}
+
+.menu-logo {
+  position: relative;
+  display: inline-block;
+  top: 11px;
   left: 0px;
+  margin: 0 0 0 50px;
   height: 28px;
-  transform: translate(50px,11px);
   transition: all $ease-m 0s;
   z-index: $zIndex-10;
   background: $black;
@@ -66,6 +82,7 @@ ul.menu-header {
   display: inline-block;
 }
 
+#of rect,
 #open rect,
 #foundry rect {
   stroke: white;
@@ -73,6 +90,7 @@ ul.menu-header {
   stroke-width: 2px;
 }
 
+#of path,
 #open path,
 #foundry path {
   stroke: none;
@@ -129,9 +147,9 @@ ul.menu-header {
   transform: translate(-50%, -50%) rotate(90deg);
 }
 
-ul.menu-list {
+.menu-list {
+  margin-top: 0px;
   position: absolute;
-  box-sizing: border-box;
   width: 100%;
   height: 50vh;
   top: 0px;
@@ -141,21 +159,56 @@ ul.menu-list {
   background: black;
   white-space: nowrap;
   font-size: 0;
-  display: flex;
-  justify-content: space-between;
-  transform: translateY(-50vh);
+  transform: translateY(-100%);
   transition: all $ease-m;
 
   @include mobile {
-    padding: 0 20px;
+    height: 60vh;
+
+    display: block;
+    padding: 0 50px;
+  }
+
+  ul {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    top: 50%;
+    width: 100%;
+    height: 100px;
+    padding: 0;
+    margin: 0;
+    transform: translateY(-50%);
+
+    @include mobile {
+      margin-top: -16px;
+      transform: translateY(-50%);
+      display: block;
+      height: auto;
+    };
+
+    li {
+      position: relative;
+      display: flex-inline;
+
+      @include mobile {
+        transform: none;
+        display: list-item;
+        margin: 0;
+        width: auto;
+        height: auto;
+        border-bottom: 2px solid #fff;
+        margin: 15px 0px;
+      }
+    }
   }
 }
 
-ul.menu-list.open {
+.menu-list.open {
   transform: translateY(0vh);
 }
 
-ul.menu-list a {
+.menu-list a {
   color: white;
   font-size: 70px;
   font-weight: 400;
@@ -172,35 +225,28 @@ ul.menu-list a {
   }
 }
 
-ul.menu-list li {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  display: inline-table;
-}
-
-ul.menu-list li a {
+.menu-list li a {
   color: rgba(255,255,255,0.2);
   padding: 5px 10px;
   border: 4px solid $trans-black-00;
   transition: all .05s ease;
 
   @include mobile {
-    padding: 4px 5px 5px 5px;
-    border: 2px solid $trans-black-00;
+    padding: 0px 5px 15px 0px;
+    border: none;
   }
 }
 
-ul.menu-list li a.active {
+.menu-list li a.active {
   color: white;
   border: 4px solid $white;
 
   @include mobile {
-    border: 2px solid $white;
+    border: none;
   }
 }
 
-ul.menu-list li:last-child svg {
+.menu-list li:last-child svg {
   position: absolute;
   top: 0;
   right: 0;
@@ -214,8 +260,8 @@ ul.menu-list li:last-child svg {
   }
 }
 
-ul.menu-list li a:hover,
-ul.menu-list li:last-child:hover svg {
+.menu-list li a:hover,
+.menu-list li:last-child:hover svg {
   color: white;
   fill: rgba(255,255,255,1);
 }
@@ -236,9 +282,12 @@ ul.menu-signup {
 
 ul.menu-signup.open {
   transform: translateY(50vh);
+  @include mobile {
+    transform: translateY(60vh);
+  };
 }
 
-ul.menu-list.open + ul.menu-signup {
+.menu-list.open + ul.menu-signup {
   transition: all $ease-m .2s;
 }
 
@@ -248,9 +297,10 @@ ul.menu-signup {
 
 .menu-breadcrumb {
   position: relative;
-  float:left;
-  top: 11px;
-  left: 210px;
+  display: inline-block;
+  // float:left;
+  top: 2px;
+  left: 24px;
   margin-right: 24px;
   height: 28px;
   font-size: .95rem;
@@ -266,6 +316,12 @@ ul.menu-signup {
   a {
     color: inherit;
     text-decoration: none;
+  }
+
+  &.first-level {
+    @include mobile {
+      display: none;
+    }
   }
 }
 

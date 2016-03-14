@@ -44,12 +44,16 @@
   .submit {
     display: none;
   }
+  @include mobile {
+    top: 40%;
+  }
   ol {
     margin: 0;
     padding: 0;
     list-style: none;
     position: relative;
     transition: height .4s;
+
     &:before {
       position: absolute;
       content: '';
@@ -59,6 +63,10 @@
       height: 100px;
       border: 4px solid $trans-black-100;
       box-sizing: border-box;
+      @include mobile {
+        border: none;
+        border-bottom: 4px solid $trans-black-100;
+      };
     }
   }
   @include mobile {
@@ -92,7 +100,7 @@
       }
     }
   }
-} 
+}
 
 .no-js .questions {
   li {
@@ -127,7 +135,7 @@
     -webkit-box-shadow: 0 0 0px 1000px white inset;
   }
   @include mobile {
-    padding: 10px 10px;
+    padding: 10px 0;
     width: calc(100% - 25px);
   }
 }
@@ -135,7 +143,7 @@
 .questions input::-webkit-input-placeholder {
   padding: 5px 5px;
   @include mobile {
-    padding: 2px 1px;
+    padding: 0;
   }
 }
 
