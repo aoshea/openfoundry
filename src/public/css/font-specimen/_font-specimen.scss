@@ -20,7 +20,7 @@
 }
 
 .of-specimen-overlay.specstate-appear.specstate-appear-active {
-  transition: transform 750ms ease-in-out 250ms;
+  transition: transform .75s ease-in-out .25s;
 }
 
 .of-font-specimen-image-wrapper {
@@ -101,14 +101,13 @@
   pointer-events: auto;
   width: 100%;
   margin-top: $preview-height;
-  // transition: transform 300ms ease-in-out;
-
 }
+
 .of-font-specimen-spacer-bottom {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  background: rgba(0,0,0,0.7);
+  background: $trans-black-70;
 }
 
 .of-font-specimen-button {
@@ -154,7 +153,6 @@
 .of-font-specimen-content {
   background: $semi-nooverlay-black;
   padding: 0 50px;
-
   @include mobile {
     padding: 0 20px;
   }
@@ -214,7 +212,6 @@
     color: $white;
     font-weight: normal;
     word-break: break-all;
-    // word-break: normal;
     line-height: 1.1em;
     @include mobile {
       font-size: 50px;
