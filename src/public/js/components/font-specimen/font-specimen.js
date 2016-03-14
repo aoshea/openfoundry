@@ -47,7 +47,7 @@ export default class FontSpecimen extends Component {
     if (inner.length === 0) return;
 
     let scrollTop = $(window).scrollTop();
-    let innerHeight = inner.height() + window.innerHeight * 0.8;
+    let innerHeight = inner.height() + window.innerHeight * 0.85;
     let scrollY = window.innerHeight + scrollTop;
 
     // 1 - 0 by the end of the page (i.e. absolute scroll)

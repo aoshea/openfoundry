@@ -5,12 +5,12 @@
 }
 .of-specimen-overlay {
   position: relative;
-  margin-top: 80vh;
+  margin-top: 85vh;
   z-index: $zIndex-font-specimen-overlay;
 }
 
 .of-specimen-overlay.specstate-appear {
-    transform: translate3d(0, 20vh, 0);
+    transform: translate3d(0, 15vh, 0);
 }
 
 .of-specimen-overlay,
