@@ -85,7 +85,7 @@ ul.menu-header {
 #of rect,
 #open rect,
 #foundry rect {
-  stroke: white;
+  stroke: $white;
   fill: none;
   stroke-width: 2px;
 }
@@ -94,7 +94,7 @@ ul.menu-header {
 #open path,
 #foundry path {
   stroke: none;
-  fill: white;
+  fill: $white;
 }
 
 .menu-icon {
@@ -119,7 +119,7 @@ ul.menu-header {
   position: absolute;
   height: 1px;
   width: 16px;
-  background: white;
+  background: $white;
   display: block;
   content: '';
   transition: all .05s ease;
@@ -190,15 +190,12 @@ ul.menu-header {
     li {
       position: relative;
       display: flex-inline;
-
       @include mobile {
         transform: none;
         display: list-item;
         margin: 0;
         width: auto;
         height: auto;
-        border-bottom: 2px solid #fff;
-        margin: 15px 0px;
       }
     }
   }
@@ -209,40 +206,41 @@ ul.menu-header {
 }
 
 .menu-list a {
-  color: white;
+  color: $white;
   font-size: 70px;
   font-weight: 400;
   letter-spacing: $letter-spacing-0;
   text-decoration: none;
   display: inline-block;
-
   @include mobile {
-    font-size: .95rem;
+    font-size: 1.1rem;
+    letter-spacing: $letter-spacing-0xs;
     font-weight: 600;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: $letter-spacing-xs;
   }
 }
 
 .menu-list li a {
-  color: rgba(255,255,255,0.2);
+  color: $trans-white-25;
   padding: 5px 10px;
   border: 4px solid $trans-black-00;
   transition: all .05s ease;
-
   @include mobile {
-    padding: 0px 5px 15px 0px;
+    padding: 15px 0px 15px 0px;
     border: none;
+    border-bottom: 2px solid rgba(255,255,255,0.25);
+    display: block;
   }
 }
 
 .menu-list li a.active {
-  color: white;
+  color: $white;
   border: 4px solid $white;
-
   @include mobile {
     border: none;
+    border-bottom: 2px solid rgba(255,255,255,1);
+    display: block;
   }
 }
 
@@ -253,8 +251,7 @@ ul.menu-header {
   width: 32px;
   height: 32px;
   z-index: -1;
-  fill: rgba(255,255,255,0.2);
-
+  fill: $trans-white-25;
   @include mobile {
     display: none;
   }
@@ -262,8 +259,8 @@ ul.menu-header {
 
 .menu-list li a:hover,
 .menu-list li:last-child:hover svg {
-  color: white;
-  fill: rgba(255,255,255,1);
+  color: $white;
+  fill: $trans-white-25;
 }
 
 ul.menu-signup {
@@ -292,7 +289,7 @@ ul.menu-signup.open {
 }
 
 ul.menu-signup {
-  background: white;
+  background: $white;
 }
 
 .menu-breadcrumb {
@@ -308,10 +305,10 @@ ul.menu-signup {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   letter-spacing: $letter-spacing-0;
-  color: #fff;
+  color: $white;
   padding: 0px 5px;
   line-height: 1.6em;
-  border: 2px solid rgba(255,255,255,1);
+  border: 2px solid $white;
   transition: all .4s ease 0s;
   a {
     color: inherit;
