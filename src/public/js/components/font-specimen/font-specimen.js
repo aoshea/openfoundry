@@ -47,7 +47,7 @@ export default class FontSpecimen extends Component {
     if (inner.length === 0) return;
 
     let scrollTop = $(window).scrollTop();
-    let innerHeight = inner.height() + window.innerHeight * 0.8;
+    let innerHeight = inner.height() + window.innerHeight * 0.85;
     let scrollY = window.innerHeight + scrollTop;
 
     // 1 - 0 by the end of the page (i.e. absolute scroll)
@@ -84,8 +84,6 @@ export default class FontSpecimen extends Component {
   }
 
   componentWillAppear(cb) {
-    console.log('componentWillAppear', window.tempOffset);
-
     this.setState({
       moveToOffset: (window.tempOffset - 50) || 0
     });
@@ -146,21 +144,28 @@ export default class FontSpecimen extends Component {
     const creator = font['font-creator'];
     const creatorLink = font['font-creator-link'];
     const foundry = font['font-foundry'];
+    const foundryLink = font['font-foundry-link'];
     const fontDownloadLink = font['font-download-link'];
     const fontOpenSourceLink = font['font-open-source-link'];
     const aboutText = getAboutText(font);
 
     var oFontName = font['font-name'];
     var oFontStyle = font['font-style'];
-    // Sort rank
-    var rhyphen = " — ";
-    var rankSpace = " ";
-    var rankComma = ", ";
-    var rankPaddedNum = ("0" + this.props.rank).slice(-2);
-    var rankNum = <span>{rankPaddedNum}{rhyphen}</span>
-    var rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
+
     var shareMessage = getShareMessage(font);
 
+    var characterElements = []
+    for (var i = 33; i <= 126; i ++) {
+      characterElements.push(<li className="character">{ String.fromCharCode(i) }</li>)
+    }
+
+    var foundryElement;
+
+    if (foundryLink) {
+      foundryElement = <a href={foundryLink}>{foundry}</a>
+    } else {
+      foundryElement = <span>{foundry}</span>
+    }
 
     const spacerStyle = {
       opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
@@ -209,106 +214,13 @@ export default class FontSpecimen extends Component {
             <h3>Characters: Basic Latin</h3>
             <h4 className={fontClassName}>
               <ul>
-                <li className="character">&#033;</li>
-                <li className="character">&#034;</li>
-                <li className="character">&#035;</li>
-                <li className="character">&#036;</li>
-                <li className="character">&#037;</li>
-                <li className="character">&#038;</li>
-                <li className="character">&#039;</li>
-                <li className="character">&#040;</li>
-                <li className="character">&#041;</li>
-                <li className="character">&#042;</li>
-                <li className="character">&#043;</li>
-                <li className="character">&#044;</li>
-                <li className="character">&#045;</li>
-                <li className="character">&#046;</li>
-                <li className="character">&#047;</li>
-                <li className="character">&#048;</li>
-                <li className="character">&#049;</li>
-                <li className="character">&#050;</li>
-                <li className="character">&#051;</li>
-                <li className="character">&#052;</li>
-                <li className="character">&#053;</li>
-                <li className="character">&#054;</li>
-                <li className="character">&#055;</li>
-                <li className="character">&#056;</li>
-                <li className="character">&#057;</li>
-                <li className="character">&#058;</li>
-                <li className="character">&#059;</li>
-                <li className="character">&#060;</li>
-                <li className="character">&#061;</li>
-                <li className="character">&#062;</li>
-                <li className="character">&#063;</li>
-                <li className="character">&#064;</li>
-                <li className="character">&#065;</li>
-                <li className="character">&#066;</li>
-                <li className="character">&#067;</li>
-                <li className="character">&#068;</li>
-                <li className="character">&#069;</li>
-                <li className="character">&#070;</li>
-                <li className="character">&#071;</li>
-                <li className="character">&#072;</li>
-                <li className="character">&#073;</li>
-                <li className="character">&#074;</li>
-                <li className="character">&#075;</li>
-                <li className="character">&#076;</li>
-                <li className="character">&#077;</li>
-                <li className="character">&#078;</li>
-                <li className="character">&#079;</li>
-                <li className="character">&#080;</li>
-                <li className="character">&#081;</li>
-                <li className="character">&#082;</li>
-                <li className="character">&#083;</li>
-                <li className="character">&#084;</li>
-                <li className="character">&#085;</li>
-                <li className="character">&#086;</li>
-                <li className="character">&#087;</li>
-                <li className="character">&#088;</li>
-                <li className="character">&#089;</li>
-                <li className="character">&#090;</li>
-                <li className="character">&#091;</li>
-                <li className="character">&#092;</li>
-                <li className="character">&#093;</li>
-                <li className="character">&#094;</li>
-                <li className="character">&#095;</li>
-                <li className="character">&#096;</li>
-                <li className="character">&#097;</li>
-                <li className="character">&#098;</li>
-                <li className="character">&#099;</li>
-                <li className="character">&#100;</li>
-                <li className="character">&#101;</li>
-                <li className="character">&#102;</li>
-                <li className="character">&#103;</li>
-                <li className="character">&#104;</li>
-                <li className="character">&#105;</li>
-                <li className="character">&#106;</li>
-                <li className="character">&#107;</li>
-                <li className="character">&#108;</li>
-                <li className="character">&#109;</li>
-                <li className="character">&#110;</li>
-                <li className="character">&#111;</li>
-                <li className="character">&#112;</li>
-                <li className="character">&#113;</li>
-                <li className="character">&#114;</li>
-                <li className="character">&#115;</li>
-                <li className="character">&#116;</li>
-                <li className="character">&#117;</li>
-                <li className="character">&#118;</li>
-                <li className="character">&#119;</li>
-                <li className="character">&#120;</li>
-                <li className="character">&#121;</li>
-                <li className="character">&#122;</li>
-                <li className="character">&#123;</li>
-                <li className="character">&#124;</li>
-                <li className="character">&#125;</li>
-                <li className="character">&#126;</li>
+                { characterElements }
               </ul>
             </h4>
           </div>
 
           { creator, foundry
-            ? <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a>, {foundry}</h4></div>
+            ? <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a>, {foundryElement}</h4></div>
             : <div className="of-font-specimen-content"><h3>Typedesigner</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a></h4></div>
           }
           { foundBy

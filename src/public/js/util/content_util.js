@@ -46,11 +46,11 @@ export function getAboutText(font) {
     : <span>which only consists of a single style</span>
 
   var about = [
-    <span>{font['font-name']} was created by {font['font-creator']} {chunk_distributed}.
+    <span key="uid-created">{font['font-name']} was created by {font['font-creator']} {chunk_distributed}.
     It was initially submitted to us by <a href={font['info-discoverer-twitter']}>{font['info-discoverer']}</a>.&nbsp;
     {font['font-style']} is a {font['info-classification']} cut of the {font['font-name']} family,</span>,
-    <span> {chunk_styles}.</span>,
-    <span>
+    <span key="uid-styles"> {chunk_styles}.</span>,
+    <span key="uid-licence">
     <br /><br />
     It is licensed under the <a href={font['info-license-link']}>{font['info-license']}</a>&nbsp;
     and available for contribution, modification or download on its open-source page.

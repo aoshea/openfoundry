@@ -167,8 +167,15 @@ var libs = [
  */
 gulp.task('vendor-js', function () {
 
+  var global_entries = [
+    require.resolve("babel-polyfill"),
+    './src/public/vendor-js/modernizr.js',
+    './src/public/vendor-js/stepform.js'
+  ];
+
   var b = browserify({
     debug: !production,
+    entries: global_entries,
     transform: [babelify.configure({
       presets: ["es2015", "react"]
     })]

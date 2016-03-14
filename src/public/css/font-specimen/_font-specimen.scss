@@ -5,12 +5,12 @@
 }
 .of-specimen-overlay {
   position: relative;
-  margin-top: 80vh;
+  margin-top: 85vh;
   z-index: $zIndex-font-specimen-overlay;
 }
 
 .of-specimen-overlay.specstate-appear {
-    transform: translate3d(0, 20vh, 0);
+    transform: translate3d(0, 15vh, 0);
 }
 
 .of-specimen-overlay,
@@ -143,6 +143,13 @@
   line-height: 1.2em;
 }
 
+.of-font-specimen-content-characterset {
+  display: block;
+  @include mobile {
+    display: none;
+  }
+}
+
 .of-font-specimen-content {
   background: $semi-nooverlay-black;
   padding: 0 50px;
@@ -195,15 +202,23 @@
     letter-spacing: $letter-spacing-xs;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-
+    @include mobile {
+      padding-bottom: 15px;
+      padding-top: 80px;
+    }
   }
 
   h4 {
     font-size: 100px;
     color: $white;
     font-weight: normal;
-    word-break: break-all;
+    // word-break: break-all;
+    word-break: normal;
     line-height: 1.1em;
+    @include mobile {
+      font-size: 50px;
+      word-break: break-all;
+    }
   }
 
   ul {
@@ -258,5 +273,5 @@
 }
 .social {
   font-size: 15px;
-  font-weight: lighter;
+  font-weight: 200;
 }

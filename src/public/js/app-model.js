@@ -71,8 +71,6 @@ class AppModel {
       return;
     }
 
-    console.log('load likes');
-
     this.likesLoading = true;
 
     $.get('/api/fonts/')
