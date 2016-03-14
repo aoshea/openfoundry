@@ -25,6 +25,11 @@
     text-decoration: none;
     transition: color $ease;
   }
+  .creator-rank {
+    @include mobile {
+      display: none;
+    }
+  }
 }
 
 .of-font-preview-footer, .of-specimen-footer {
