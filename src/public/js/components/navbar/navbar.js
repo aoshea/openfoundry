@@ -172,7 +172,8 @@ export default class FontList extends Component {
     { breadcrumb }
 
         </ul>
-        <ul className={listClassName}>
+        <div className={listClassName}>
+          <ul>
           <li><Link onClick={ this.handleMenuClick } to="/hot30" activeClassName="active">Hot 30</Link></li>
           <li><Link onClick={ this.handleMenuClick } to="/submit" activeClassName="active">Submit</Link></li>
           <li><Link onClick={ this.handleMenuClick } to="/about" activeClassName="active">About</Link></li>
@@ -182,7 +183,8 @@ export default class FontList extends Component {
               <path id="external-icon" d="M19.7,18.3L17,15.7l-4,4L12.3,19l4-4l-2.6-2.6h6V18.3z"/>
             </svg>
           </li>
-        </ul>
+          </ul>
+        </div>
         <ul className={signupClassName}>
           <li><NewsletterSignup menuOpen={ this.state.isMenuOpen }/></li>
         </ul>
