@@ -27,6 +27,21 @@ function getHeadlines() {
   });
 }
 
+function sortHeadlines(headlines) {
+
+  var temp = Object.keys(headlines).map(function (key) {
+    return headlines[key];
+  });
+
+  try {
+    temp.sort((a, b) => a.length - b.length);
+  } catch (e) {
+    console.log('catch error', e);
+  }
+
+  return temp;
+}
+
 function getSheet() {
   return new Promise(function (resolve, reject) {
     var options = {
@@ -60,15 +75,21 @@ function writeJSON(data) {
 
 getSheet().then(function (res) {
   getHeadlines().then(function(headlines) {
-    console.log('map res to headlines');
+
+    // Sort by char len
+    sortHeadlines(headlines);
+
+    // Override json settings text
     res.map(function (v, i) {
       if (i < headlines.length && headlines[i]) {
-        console.log(i, headlines.length, headlines[i]);
         v['settings-text'] = headlines[i];
       }
     });
+
+    // Write file
     writeJSON(res).then(function () {
       console.log('Write file sheet.json');
     });
+
   });
 });
