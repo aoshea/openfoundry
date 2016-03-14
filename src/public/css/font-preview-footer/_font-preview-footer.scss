@@ -112,6 +112,14 @@
 
 .of-specimen-footer .social{
   padding-top: 145px;
+  @include mobile {
+    padding-top: 45px;
+    text-align: left;
+    .vote-container {
+      margin-right: 5px;
+      margin-left: -10px;
+    }
+  }
 }
 
 .of-font-preview-footer,
