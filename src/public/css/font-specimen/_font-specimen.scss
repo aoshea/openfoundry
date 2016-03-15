@@ -6,6 +6,7 @@
 .of-specimen-overlay {
   position: relative;
   margin-top: 85vh;
+  overflow-x: hidden;
   z-index: $zIndex-font-specimen-overlay;
 }
 
@@ -212,8 +213,8 @@
     font-size: 100px;
     color: $white;
     font-weight: normal;
-    // word-break: break-all;
-    word-break: normal;
+    word-break: break-all;
+    // word-break: normal;
     line-height: 1.1em;
     @include mobile {
       font-size: 50px;

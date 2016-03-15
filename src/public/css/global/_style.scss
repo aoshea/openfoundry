@@ -3,6 +3,7 @@ body {
   font-style: normal;
   margin: 0;
   background: $black;
+  text-rendering: optimizelegibility;
 }
 
 button,
