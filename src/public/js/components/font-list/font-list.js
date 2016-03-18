@@ -67,23 +67,22 @@ export default class FontList extends Component {
     }
 
     const fontListClassNames = classNames({
-      'of-font-list': true,
-      // 'is-fixed': props.fixed,
+      'of-font-list-container': true,
       'of-font-list--fixed': isFixed
     });
 
     // Offset by `.of-main` top offset
     const fontListStyle = {
       // 50px being the height of the nav bar
-      // top: props.fixed ? (lastScrollTop - 50) * -1 : 0
-      top: isFixed ? lastScrollTop * -1 : 0,
-      paddingTop: isFixed ? '50px' : 0
+      transform: isFixed ? 'translateY(' + (50 + (lastScrollTop * -1)) + 'px)' : 'none',
     };
 
     return (
-      <div style={fontListStyle} ref="list" className={fontListClassNames}>
+      <div className={fontListClassNames}>
+      <div style={fontListStyle} ref="list" className='of-font-list'>
         {renderFonts}
         { this.state.specimen ? <FontSpecimen /> : null }
+      </div>
       </div>
     )
   }

@@ -3,9 +3,14 @@
   // margin-bottom: 100vh;
   background: black;
 }
-.of-font-list.is-fixed {
-  position: fixed;
-}
-.of-font-list--fixed {
-  position: fixed;
+
+.of-font-list-container{
+  &.of-font-list--fixed {
+    position: fixed;
+    top: 0;
+    overflow-y: hidden;
+    height: 100vh;
+    .of-font-list {
+    }
+  }
 }
