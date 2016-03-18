@@ -174,8 +174,12 @@ class Open extends Component {
     const self = this;
 
     this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
-    appDispatcher.dispatch({ actionType: 'fetch-font-data' });
 
+    if (appModel.parsedFonts) {
+      this.setState({ fonts: appModel.parsedFonts });
+    } else {
+      appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+    }
   }
 
   componentWillUnmount() {
@@ -248,7 +252,11 @@ class Specimen extends Component {
 
   componentDidMount() {
     this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
-    appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+    if (appModel.parsedFonts) {
+      this.setState({ fonts: appModel.parsedFonts });
+    } else {
+      appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+    }
   }
 
   componentWillUnmount() {
