@@ -16,11 +16,31 @@ import { getFontId, getFullFontName } from 'util/content_util.js';
 import appDispatcher from 'app-dispatcher';
 import appModel from 'app-model';
 import NavBar from 'components/navbar/navbar';
+import Perf from 'react-addons-perf';
+
+window.Perf = Perf;
 
 var cache = {
   fonts: null,
   likes: null
 };
+
+var isTesting = false;
+$(window).on('keyup', function (e) {
+  // p key
+  if (e.keyCode === 80) {
+      if(isTesting = !isTesting){
+        Perf.start();
+        console.log('start')
+      }else{
+        console.log('stop')
+        Perf.stop();
+        Perf.printWasted();
+        Perf.printInclusive()
+        // Perf.printExclusive()
+      }
+  }
+})
 
 class App extends Component {
 
