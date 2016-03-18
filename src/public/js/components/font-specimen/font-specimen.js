@@ -85,7 +85,7 @@ export default class FontSpecimen extends Component {
       moveToOffset: (window.tempOffset - 50) || 0
     });
 
-    setTimeout(cb, 250);
+    setTimeout(cb, 300);
   }
 
   componentDidAppear() {
@@ -161,7 +161,7 @@ export default class FontSpecimen extends Component {
 
     const holderStyle = {
       transform: 'translate3d(0,' + state.moveToOffset + 'px,0)',
-      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 250ms ease-out' : 'none'
+      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 150ms linear 50ms' : 'none'
     };
 
     const coverStyle = {
