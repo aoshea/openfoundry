@@ -48,7 +48,7 @@ export default class FontSpecimen extends Component {
 
     if (inner.length === 0) return;
 
-    let scrollTop = $(window).scrollTop();
+    let scrollTop = window.scrollY;
     let innerHeight = inner.height() + window.innerHeight * 0.85;
     let scrollY = window.innerHeight + scrollTop;
 
@@ -65,12 +65,12 @@ export default class FontSpecimen extends Component {
 
     if (!this.state.isTopPassed && isTopPassed) {
       this.state.isTopPassed = true
-      $('.of-preview-wrapper').css({ visibility: 'hidden' })
+      this.refs['of-preview-wrapper'].style.visibility = 'hidden';
     }
 
     if (this.state.isTopPassed && !isTopPassed) {
       this.state.isTopPassed = false
-      $('.of-preview-wrapper').css({ visibility: 'visible' })
+      this.refs['of-preview-wrapper'].style.visibility = 'visible';
     }
 
     let isBottom = scrollY >= innerHeight - 1;
@@ -170,9 +170,9 @@ export default class FontSpecimen extends Component {
 
     return (
 
-      <div className={specimenClassName}>
+      <div ref="of-specimen" className='of-specimen'>
 
-        <div style={holderStyle} className={previewWrapperClassName}>
+        <div ref="of-preview-wrapper" style={holderStyle} className='of-preview-wrapper'>
           <FontPreviewContainer
             fixed={true}
             onMoreUpdate={this.onClickSource}
