@@ -26,8 +26,6 @@ export default class FontSpecimen extends Component {
     this.onScroll = this.onScroll.bind(this);
 
     this.state = {
-      canScroll: false,
-      isScroll: false,
       isTopPassed: false,
       delta: 0,
       moveToOffset: 0
@@ -58,11 +56,6 @@ export default class FontSpecimen extends Component {
     if (delta > 0) {
       onScrollUpdate && onScrollUpdate(delta);
     }
-
-    this.setState({
-      delta: delta,
-      deltaScreen: deltaScreen
-    });
 
     let isTopPassed = scrollTop > window.innerHeight;
 
@@ -122,15 +115,6 @@ export default class FontSpecimen extends Component {
     const state = this.state;
 
     if (!font) return <div>nothing here</div>
-
-    const specimenClassName = cx({
-      'of-specimen': true
-    });
-
-    const previewWrapperClassName = cx({
-      'of-preview-wrapper': true,
-      'is-scroll': state.isScroll
-    });
 
     const previewKey = font['font-name'];
     const fontName = font['font-name'];
@@ -247,7 +231,7 @@ export default class FontSpecimen extends Component {
                 <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
               </div>
               <div className="col-5 social">
-                <FontLikeButton locked={this.state.locked} font={font} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
+                <FontLikeButton locked={this.state.locked} font={font} /><FontShareButton message={shareMessage} />
               </div>
             </div>
           </div>

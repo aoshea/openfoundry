@@ -6,9 +6,6 @@ import classNames from 'classnames';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
 
-// 'white' / 'black' / false
-const GLOBAL_BACKGROUNDS = false;
-
 
 export default class FontList extends Component {
 

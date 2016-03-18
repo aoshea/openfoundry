@@ -154,8 +154,7 @@ class Open extends Component {
 
     this.state = {
       isSpecimen: false,
-      fonts: [],
-      likes: []
+      fonts: []
     };
   }
 
@@ -164,11 +163,6 @@ class Open extends Component {
       case 'font-data-updated':
         this.setState({
           fonts: e.data
-        });
-        break;
-      case 'like-data-updated':
-        this.setState({
-          likes: e.data
         });
         break;
     }
@@ -206,7 +200,7 @@ class Open extends Component {
       <div>
         <Helmet title={"OpenFoundry / Hot 30"} />
         <NewcomerPreview />
-        <FontList fixed={isSpecimen} likes={likes} fonts={fonts} />
+        <FontList fixed={isSpecimen} fonts={fonts} />
         {this.props.children}
       </div>
     )
