@@ -322,6 +322,9 @@ browserHistory.listen(function (location) {
   setTimeout(function () {
     if (!window.ga) return;
     window.ga('send', 'pageview', location.pathname);
+  }, 50);
+
+  setTimeout(function () {
 
     if (location.pathname === '/hot30') {
       appDispatcher.dispatch({
@@ -336,7 +339,7 @@ browserHistory.listen(function (location) {
     if (location.pathname === '/signup') {
       appDispatcher.dispatch({ actionType: 'hide-menu' })
     }
-  }, 50);
+  })
 
   appDispatcher.dispatch({ actionType: 'location-changed', location: location })
 
