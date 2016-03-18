@@ -30,8 +30,6 @@ export default class FontList extends Component {
 
     } else {
 
-      // Reset scroll top for the specimen page
-      $(window).scrollTop(0);
     }
   }
 

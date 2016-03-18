@@ -99,13 +99,18 @@ export default class FontSpecimen extends Component {
   }
 
   componentDidAppear() {
+    window.scrollTo(0, 0)
+    this.refs['of-specimen'].style.visibility = 'visible';
+
     this.setState({
       moveToOffset: 0
     });
   }
 
   componentDidMount() {
-    $(window).on('scroll', this.onScroll);
+    setTimeout(function () {
+      $(window).on('scroll', this.onScroll);
+    }.bind(this), 1000)
   }
 
   componentWillUnmount() {
