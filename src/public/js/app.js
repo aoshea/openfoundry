@@ -154,7 +154,6 @@ class Open extends Component {
     this.handleAppEvent = this.handleAppEvent.bind(this);
 
     this.state = {
-      isSpecimen: false,
       fonts: []
     };
   }
@@ -186,20 +185,15 @@ class Open extends Component {
   }
 
   componentDidUpdate() {
-    let { location } = this.props;
-    let { isSpecimen} = this.state;
 
-    let pathName = location.pathname;
-
-    if (isSpecimen) {
-      if (pathName === '/hot30') this.setState({ isSpecimen: false });
-    } else {
-      if (pathName !== '/hot30') this.setState({ isSpecimen: true });
-    }
   }
 
   render() {
-    const { fonts, likes, isSpecimen } = this.state;
+    const { fonts } = this.state;
+
+    let { location } = this.props;
+
+    let isSpecimen = !!location.pathname.match(/\/hot30\/(.+)/)
 
     return (
       <div>
