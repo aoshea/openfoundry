@@ -51,8 +51,7 @@ export default class FontList extends Component {
 
     var fonts = this.props.fonts || [];
 
-    const renderFonts = this.props.fonts.map((font, i) => {
-
+    const renderFonts = this.renderFonts || this.props.fonts.map((font, i) => {
       return (
         <FontPreviewContainer
           rank={ i + 1 }
@@ -62,6 +61,10 @@ export default class FontList extends Component {
           font={font} />
       )
     });
+
+    if (this.props.fonts.length) {
+      this.renderFonts = renderFonts
+    }
 
     const fontListClassNames = classNames({
       'of-font-list': true,
