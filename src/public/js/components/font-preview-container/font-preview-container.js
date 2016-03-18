@@ -99,10 +99,10 @@ export default class FontPreviewContainer extends Component {
     this.isMount = true;
 
     // Hack in a smaller font for mobiles
-    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !font.scaled) {
+    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !this.state.font.scaled) {
       var self = this;
       setTimeout(function () {
-        self.onUpdateFontSize(parseInt(font.fontSize / 2, 10));
+        self.onUpdateFontSize(parseInt(self.state.font.fontSize / 2, 10));
       });
     }
   }
