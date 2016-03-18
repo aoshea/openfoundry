@@ -156,7 +156,7 @@ export default class FontSpecimen extends Component {
 
     var characterElements = []
     for (var i = 33; i <= 126; i ++) {
-      characterElements.push(<li className="character">{ String.fromCharCode(i) }</li>)
+      characterElements.push(<li key={ i } className="character">{ String.fromCharCode(i) }</li>)
     }
 
     var foundryElement;
