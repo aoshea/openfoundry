@@ -78,6 +78,16 @@ export default class FontSpecimen extends Component {
     if (isBottom) {
       this.onScrollFinish();
     }
+
+    var isUpdated = (this.delta !== delta || this.deltaScreen !== deltaScreen);
+
+    this.delta = delta;
+    this.deltaScreen = deltaScreen;
+
+    this.setState({
+      delta: delta,
+      deltaScreen: deltaScreen
+    });
   }
 
   componentWillAppear(cb) {
