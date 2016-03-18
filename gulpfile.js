@@ -159,7 +159,9 @@ var libs = [
   "react-helmet",
   "react-addons-transition-group",
   "react-addons-css-transition-group",
-  "react-linkify"
+  "react-linkify",
+  "react-addons-pure-render-mixin",
+  "react-addons-perf"
 ];
 
 /**

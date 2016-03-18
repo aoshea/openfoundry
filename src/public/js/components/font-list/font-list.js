@@ -5,13 +5,15 @@ import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 
 export default class FontList extends Component {
 
-  constructor() {
-    super();
 
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     this.onMoreUpdate = this.onMoreUpdate.bind(this);
 
     this.state = {

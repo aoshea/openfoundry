@@ -13,11 +13,15 @@ import $ from 'jquery';
 import classNames from 'classnames';
 import shuffle from 'shuffle-array';
 import { getFontId, getShareMessage, getFullFontName } from 'util/content_util.js';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 export default class FontPreviewContainer extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+
+    super(props);
+
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.onUpdateFontSize = this.onUpdateFontSize.bind(this);
     this.onUpdateLineHeight = this.onUpdateLineHeight.bind(this);
