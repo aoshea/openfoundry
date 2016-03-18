@@ -37,6 +37,12 @@ export default class FontList extends Component {
         });
         break;
 
+      case 'location-changed':
+          this.setState({
+            isMenuOpen: false
+          });
+          break;
+
       case 'hide-menu':
         this.setState({
           isNavHidden: true
@@ -75,11 +81,6 @@ export default class FontList extends Component {
     let { isMenuOpen } = this.state;
 
     if (isMenuOpen) {
-      this.setState({
-        isMenuOpen: false,
-        isBreadCrumbUp: false,
-        isLogoUp: true
-      });
     }
   }
 

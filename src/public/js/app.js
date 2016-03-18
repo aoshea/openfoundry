@@ -331,6 +331,9 @@ browserHistory.listen(function (location) {
       appDispatcher.dispatch({ actionType: 'hide-menu' })
     }
   }, 50);
+
+  appDispatcher.dispatch({ actionType: 'location-changed', location: location })
+
 });
 
 
