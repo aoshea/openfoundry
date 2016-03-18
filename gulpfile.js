@@ -176,9 +176,9 @@ gulp.task('vendor-js', function () {
   var b = browserify({
     debug: !production,
     entries: global_entries,
-    transform: [babelify.configure({
-      presets: ["es2015", "react"]
-    })]
+    // transform: [babelify.configure({
+      // presets: ["es2015", "react"]
+    // })]
   });
 
   libs.forEach(function(lib) {
