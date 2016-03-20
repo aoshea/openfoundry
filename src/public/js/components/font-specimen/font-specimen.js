@@ -88,6 +88,12 @@ export default class FontSpecimen extends Component {
     this.setState({
       moveToOffset: 0
     });
+
+    this.refs['of-specimen'].addEventListener('touchstart', this.touchStartHandler, true);
+  }
+
+  touchStartHandler(e) {
+    appDispatcher.dispatch({ actionType: 'specimen-touch-start' })
   }
 
   componentDidMount() {
@@ -97,6 +103,7 @@ export default class FontSpecimen extends Component {
   }
 
   componentWillUnmount() {
+    this.refs['of-specimen'].removeEventListener('touchstart', this.touchStartHandler);
     $(window).off('scroll', this.onScroll);
   }
 
@@ -140,13 +147,13 @@ export default class FontSpecimen extends Component {
 
     var shareMessage = getShareMessage(font);
 
-    var characterElements = this.characterElements = this.characterElements || (function () {
+    var characterElements = this.characterElements = this.characterElements || ((function () {
       let characterElements = [];
       for (var i = 33; i <= 126; i ++) {
         characterElements.push(<li key={ i } className="character">{ String.fromCharCode(i) }</li>)
       }
       return characterElements;
-    })();
+    })());
 
 
     var foundryElement;
