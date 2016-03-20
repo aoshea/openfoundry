@@ -28,10 +28,12 @@ export default class FontSpecimen extends Component {
     this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     this.onClickSource = this.onClickSource.bind(this);
     this.onScroll = this.onScroll.bind(this);
+    this.touchStartHandler = this.touchStartHandler.bind(this);
 
     this.state = {
       isTopPassed: false,
-      delta: 0,
+      deltaTop: 0,
+      deltaBottom: 0,
       moveToOffset: 0
     };
   }
@@ -42,52 +44,33 @@ export default class FontSpecimen extends Component {
   }
 
   onScroll(e) {
-    const { onScrollUpdate } = this.props;
 
-    var inner = $('.of-specimen');
+    var inner = this.refs['of-specimen'];
 
-    if (inner.length === 0) return;
-
+    // raw scroll position
     let scrollTop = window.scrollY;
-    let innerHeight = inner.height() + window.innerHeight * 0.85;
-    let scrollY = window.innerHeight + scrollTop;
+    // browser window height
+    let windowHeight = window.innerHeight;
+    // the height of the container (+ virtual top margin)
+    let innerHeight = inner.clientHeight + windowHeight * 0.85;
+    // 0 - 1 top of the page
+    let deltaTop = Math.min(1, scrollTop / windowHeight);
+    // 0 - 1 bottom of the page
+    let deltaBottom = Math.max(0, Math.max(windowHeight + scrollTop - (innerHeight - windowHeight)) / windowHeight)
+    // true if scrolled pass the page header
+    let isTopPassed = scrollTop > windowHeight;
+    // true if scrolled to the end of the page
+    let isBottom = windowHeight + scrollTop >= innerHeight - 1;
 
-    // 1 - 0 by the end of the page (i.e. absolute scroll)
-    let delta = ((scrollY - innerHeight) / window.innerHeight) + 1;
-    // 0 - 1 by the beginning of the page (i.e. 100% of screen)
-    let deltaScreen = Math.max(0, 2 - Math.max(1, scrollY / window.innerHeight));
-
-    if (delta > 0) {
-      onScrollUpdate && onScrollUpdate(delta);
-    }
-
-    let isTopPassed = scrollTop > window.innerHeight;
-
-    if (!this.state.isTopPassed && isTopPassed) {
-      this.state.isTopPassed = true
-      this.refs['of-preview-wrapper'].style.visibility = 'hidden';
-    }
-
-    if (this.state.isTopPassed && !isTopPassed) {
-      this.state.isTopPassed = false
-      this.refs['of-preview-wrapper'].style.visibility = 'visible';
-    }
-
-    let isBottom = scrollY >= innerHeight - 1;
+    this.setState({
+      isTopPassed: isTopPassed,
+      deltaBottom: deltaBottom,
+      deltaTop: deltaTop
+    });
 
     if (isBottom) {
       this.onScrollFinish();
     }
-
-    var isUpdated = (this.delta !== delta || this.deltaScreen !== deltaScreen);
-
-    this.delta = delta;
-    this.deltaScreen = deltaScreen;
-
-    this.setState({
-      delta: delta,
-      deltaScreen: deltaScreen
-    });
   }
 
   componentWillAppear(cb) {
@@ -171,16 +154,17 @@ export default class FontSpecimen extends Component {
     }
 
     const spacerStyle = {
-      opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
+      opacity: 1 - Math.max(0, (state.deltaBottom - 0.5) * 2 - 0.05)
     };
 
     const holderStyle = {
+      visibility: state.isTopPassed ? 'hidden' : 'visible',
       transform: 'translate3d(0,' + state.moveToOffset + 'px,0)',
       transition: Math.abs(state.moveToOffset) < 1 ? 'transform 150ms linear 50ms' : 'none'
     };
 
     const coverStyle = {
-      opacity: !state.deltaScreen ? 0 : Math.min(1, ((1 - state.deltaScreen) - 0.1) * 1.5)
+      opacity: !state.deltaTop ? 0 : state.deltaTop
     };
 
     return (
