@@ -140,10 +140,14 @@ export default class FontSpecimen extends Component {
 
     var shareMessage = getShareMessage(font);
 
-    var characterElements = []
-    for (var i = 33; i <= 126; i ++) {
-      characterElements.push(<li key={ i } className="character">{ String.fromCharCode(i) }</li>)
-    }
+    var characterElements = this.characterElements = this.characterElements || (function () {
+      let characterElements = [];
+      for (var i = 33; i <= 126; i ++) {
+        characterElements.push(<li key={ i } className="character">{ String.fromCharCode(i) }</li>)
+      }
+      return characterElements;
+    })();
+
 
     var foundryElement;
 
