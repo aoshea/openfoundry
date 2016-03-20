@@ -37,6 +37,10 @@ html
       //<![CDATA[
       document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.2.11.1.js'><\/script>".replace("HOST", location.hostname));
       //]]>
+    if weinre
+      <!-- weinre / web inspector remote -->
+      script(type='text/javascript' id='__wn_script__').
+        document.write("<script async src='http://HOST:8080/target/target-script-min.js#anonymous'><\/script>".replace("HOST", location.hostname));
 
   script(async, src='//www.google-analytics.com/analytics.js')
   <!-- End Google Analytics -->

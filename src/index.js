@@ -10,6 +10,7 @@ var express  = require('express'),
 
 // NOTE: the env is set to 'development' by gulp-nodemon
 var nodeEnv = process.env.NODE_ENV || 'production';
+var weinre = process.env.OF_WEINRE === 'true';
 var debug = process.env.OF_DEBUG === 'true';
 
 // Generic local variables to pass to views
@@ -19,6 +20,7 @@ var localVars = {
   description: 'A new platform for open-source fonts in a noise-free environment, to highlight their beauty, extend functionality and encourage further exploration.',
   img: decodeURIComponent('http://open-foundry.com/img/of-cover-preview.jpg'),
   nodeEnv: nodeEnv,
+  weinre: !!weinre,
   debug: !!debug
 };
 
@@ -78,6 +80,7 @@ app.get('/hot30/:id', function (req, res) {
 
   var viewVars = {};
   viewVars.nodeEnv = nodeEnv;
+  viewVars.weinre = weinre;
   viewVars.debug = debug;
   viewVars.url = decodeURIComponent('http://open-foundry.com/hot30/' + fontId);
   viewVars.title = decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style']);
