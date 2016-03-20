@@ -38,10 +38,10 @@ export default class FontList extends Component {
         break;
 
       case 'location-changed':
-          this.setState({
-            isMenuOpen: false
-          });
-          break;
+        this.setState({
+          isMenuOpen: false
+        });
+        break;
 
       case 'hide-menu':
         this.setState({

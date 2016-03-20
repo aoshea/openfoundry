@@ -21,26 +21,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 window.Perf = Perf;
 
 var cache = {
-  fonts: null,
-  likes: null
+  fonts: null
 };
 
-var isTesting = false;
-$(window).on('keyup', function (e) {
-  // p key
-  if (e.keyCode === 80) {
-      if(isTesting = !isTesting){
-        Perf.start();
-        console.log('start')
-      }else{
-        console.log('stop')
-        Perf.stop();
-        Perf.printWasted();
-        Perf.printInclusive()
-        // Perf.printExclusive()
-      }
-  }
-})
 
 class App extends Component {
 
@@ -56,8 +39,7 @@ class App extends Component {
 
     this.state = {
       isLoaded: false,
-      fonts: [],
-      likes: []
+      fonts: []
     };
   }
 

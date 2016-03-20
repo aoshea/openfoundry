@@ -1,5 +1,3 @@
-require('array.prototype.fill');
-
 import React, { Component } from 'react';
 import { Dispatcher } from 'flux';
 import { Link } from 'react-router';

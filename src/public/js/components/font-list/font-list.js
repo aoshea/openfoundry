@@ -160,7 +160,7 @@ export default class FontList extends Component {
     // Offset by `.of-main` top offset
     const fontListStyle = {
       // 50px being the height of the nav bar
-      transform: isFixed ? 'translateY(' + (50 + (lastScrollTop * -1)) + 'px)' : 'none',
+      transform: isFixed ? 'translateY(' + (50 + (lastScrollTop * -1)) + 'px)' : 'none'
     };
 
     return (

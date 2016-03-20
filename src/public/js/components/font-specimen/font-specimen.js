@@ -15,10 +15,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import appDispatcher from 'app-dispatcher'
 
-var idleTimeout = {
-  id: null,
-  delay: 1000
-};
 
 export default class FontSpecimen extends Component {
 
@@ -171,7 +167,7 @@ export default class FontSpecimen extends Component {
     const holderStyle = {
       visibility: state.isTopPassed ? 'hidden' : 'visible',
       transform: 'translate3d(0,' + state.moveToOffset + 'px,0)',
-      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 150ms linear 50ms' : 'none'
+      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 150ms linear 0ms' : 'none'
     };
 
     const coverStyle = {
@@ -192,7 +188,7 @@ export default class FontSpecimen extends Component {
           <div style={coverStyle} className="of-spec-preview-cover"></div>
         </div>
 
-        <ReactCSSTransitionGroup transitionName="specstate" transitionAppear={true} transitionAppearTimeout={2000} transitionEnterTimeout={0} transitionLeaveTimeout={2000}>
+        <ReactCSSTransitionGroup transitionName="specstate" transitionAppear={true} transitionAppearTimeout={1000} transitionEnterTimeout={0} transitionLeaveTimeout={0}>
         <div className="of-specimen-overlay">
 
           <FontSpecimenImage font={font} />
@@ -245,7 +241,7 @@ export default class FontSpecimen extends Component {
                 <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
               </div>
               <div className="col-5 social">
-                <FontLikeButton locked={this.state.locked} font={font} /><FontShareButton message={shareMessage} />
+                <FontLikeButton font={font} /><FontShareButton message={shareMessage} />
               </div>
             </div>
           </div>
