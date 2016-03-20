@@ -48,6 +48,7 @@ class App extends Component {
     super()
 
     this.handleAppEvent = this.handleAppEvent.bind(this);
+    this.checkScroll = this.checkScroll.bind(this);
 
     this.isScrolled = false;
     this.delta = 100;
@@ -65,13 +66,9 @@ class App extends Component {
     var self = this;
     var navbarHeight = 50;
 
-    $(window).on('scroll', function () {
-      this.isScrolled = true;
-      requestAnimationFrame(this.checkScroll.bind(this))
-    }.bind(this));
+    $(window).on('scroll', this.checkScroll);
 
-    this.forceUpdateMenu = true;
-    requestAnimationFrame(self.checkScroll.bind(self))
+    requestAnimationFrame(() => this.checkScroll(true))
 
     appDispatcher.register(this.handleAppEvent);
 
@@ -96,10 +93,13 @@ class App extends Component {
           fonts: e.data
         });
         break;
+      case 'location-changed':
+        this.checkScroll(true);
+        break;
     }
   }
 
-  checkScroll() {
+  checkScroll(force) {
 
     var scrollTop = $(window).scrollTop();
     var windowHeight = $(window).height();
@@ -107,7 +107,7 @@ class App extends Component {
     var navbarHeight = 50;
 
     // scroll more than delta
-    if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !this.forceUpdateMenu) return;
+    if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !force) return;
 
     // if they scrolled down and are past the navbar, add class .up.
     if (scrollTop > this.lastScrollTop && scrollTop > navbarHeight) {
@@ -115,8 +115,6 @@ class App extends Component {
     } else if (scrollTop < 200 && location.pathname === '/hot30') {
       appDispatcher.dispatch({ actionType: 'hide-breadcrumbs' });
     }
-
-    this.forceUpdateMenu = false;
 
     this. lastScrollTop = scrollTop;
   }
