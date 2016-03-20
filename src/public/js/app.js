@@ -17,6 +17,7 @@ import appDispatcher from 'app-dispatcher';
 import appModel from 'app-model';
 import NavBar from 'components/navbar/navbar';
 import Perf from 'react-addons-perf';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 window.Perf = Perf;
 
@@ -147,8 +148,9 @@ App.contextTypes = {
 
 class Open extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.handleAppEvent = this.handleAppEvent.bind(this);
 
@@ -213,8 +215,9 @@ Open.contextTypes = {
 
 class Specimen extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.onComplete = this.onComplete.bind(this);
     this.navigateToOpen = this.navigateToOpen.bind(this);

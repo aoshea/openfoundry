@@ -11,6 +11,9 @@ import cx from 'classnames';
 
 import FontLikeButton from 'components/font-like-button/font-like-button.js';
 import FontShareButton from 'components/font-share-button/font-share-button.js';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+
+import appDispatcher from 'app-dispatcher'
 
 var idleTimeout = {
   id: null,
@@ -19,9 +22,10 @@ var idleTimeout = {
 
 export default class FontSpecimen extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     this.onClickSource = this.onClickSource.bind(this);
     this.onScroll = this.onScroll.bind(this);
 
