@@ -41,6 +41,7 @@ if (production) {
   process.env.NODE_ENV = 'production';
 }
 
+process.env.OF_DEBUG = argv.debug;
 
 var packageJSON = require('./package.json');
 /**
