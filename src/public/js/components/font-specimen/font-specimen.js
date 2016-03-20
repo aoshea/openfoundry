@@ -82,8 +82,8 @@ export default class FontSpecimen extends Component {
   }
 
   componentDidAppear() {
-    window.scrollTo(0, 0)
     this.refs['of-specimen'].style.visibility = 'visible';
+    window.scrollTo(0, 0);
 
     this.setState({
       moveToOffset: 0
