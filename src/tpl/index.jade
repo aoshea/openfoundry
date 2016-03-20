@@ -23,10 +23,11 @@ html
     link(rel='stylesheet', type='text/css', href='/css/main.css?v=__VERSION__')
 
     <!-- Google Analytics -->
-    script.
-      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-      ga('create', 'UA-57026857-2', 'auto');
-      ga('send', 'pageview');
+    if nodeEnv == 'production'
+      script.
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'UA-57026857-2', 'auto');
+        ga('send', 'pageview');
 
   body
     .of-container
