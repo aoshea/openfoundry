@@ -91,11 +91,21 @@ class App extends Component {
     // scroll more than delta
     if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !force) return;
 
-    // if they scrolled down and are past the navbar, add class .up.
+    var actionType = null;
+
     if (scrollTop > this.lastScrollTop && scrollTop > navbarHeight) {
-      appDispatcher.dispatch({ actionType: 'show-breadcrumbs' });
+      // scroll down pass the nav bar
+      actionType = 'show-breadcrumbs';
     } else if (scrollTop < 200 && location.pathname === '/hot30') {
-      appDispatcher.dispatch({ actionType: 'hide-breadcrumbs' });
+      // scroll up at the top of the page
+      actionType = 'hide-breadcrumbs';
+    }
+
+    if (actionType !== null) {
+      // need to delay since we could be in the middle of a dispatch
+      requestAnimationFrame(function () {
+        appDispatcher.dispatch({ actionType: 'show-breadcrumbs' });
+      });
     }
 
     this. lastScrollTop = scrollTop;
