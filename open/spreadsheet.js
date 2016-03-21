@@ -2,14 +2,45 @@
 
 var Tabletop = require('tabletop'),
     fs       = require('fs'),
-    path     = require('path')
+    path     = require('path'),
+    request  = require('request'),
+    cheerio  = require('cheerio')
     ;
 
 var dirs = {
   out: __dirname + '/build/',
 };
 
-var cache = {};
+const sourceUrl = 'http://www.dailymail.co.uk/tvshowbiz/headlines/index.html';
+const sourceSelector = 'span.headline';
+
+function getHeadlines() {
+  return new Promise(function (resolve, reject) {
+    request(sourceUrl, function (err, res, html) {
+      if (err) {
+        reject(err);
+        return;
+      }
+      let $ = cheerio.load(html);
+      resolve( $(sourceSelector).map( (i, val) => $(val).first().text() ) );
+    });
+  });
+}
+
+function sortHeadlines(headlines) {
+
+  var temp = Object.keys(headlines).map(function (key) {
+    return headlines[key];
+  });
+
+  try {
+    temp.sort((a, b) => a.length - b.length);
+  } catch (e) {
+    console.log('catch error', e);
+  }
+
+  return temp;
+}
 
 function getSheet() {
   return new Promise(function (resolve, reject) {
@@ -20,7 +51,6 @@ function getSheet() {
       callback: function (data, Tabletop) {
         if (data['Sheet1']) {
           var sheet = data['Sheet1'];
-          cache.fonts = sheet.all();
           return resolve(sheet.all());
         } else {
           return reject(data);
@@ -44,7 +74,22 @@ function writeJSON(data) {
 }
 
 getSheet().then(function (res) {
-  writeJSON(res).then(function () {
-    console.log('Write file sheet.json');
+  getHeadlines().then(function(headlines) {
+
+    // Sort by char len
+    sortHeadlines(headlines);
+
+    // Override json settings text
+    res.map(function (v, i) {
+      if (i < headlines.length && headlines[i]) {
+        v['settings-text'] = headlines[i];
+      }
+    });
+
+    // Write file
+    writeJSON(res).then(function () {
+      console.log('Write file sheet.json');
+    });
+
   });
 });
