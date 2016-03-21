@@ -4,12 +4,13 @@ import classNames from 'classnames';
 import { getFontId, getFullFontName } from 'util/content_util.js';
 import appDispatcher from 'app-dispatcher';
 import NewsletterSignup from 'components/newsletter/newsletter.js';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 
 export default class FontList extends Component {
-  constructor() {
-
-    super()
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.handleBurgerClick = this.handleBurgerClick.bind(this);
     this.handleMenuClick = this.handleMenuClick.bind(this);
@@ -33,6 +34,12 @@ export default class FontList extends Component {
       case 'font-data-updated':
         this.setState({
           fonts: e.data
+        });
+        break;
+
+      case 'location-changed':
+        this.setState({
+          isMenuOpen: false
         });
         break;
 
@@ -74,11 +81,6 @@ export default class FontList extends Component {
     let { isMenuOpen } = this.state;
 
     if (isMenuOpen) {
-      this.setState({
-        isMenuOpen: false,
-        isBreadCrumbUp: false,
-        isLogoUp: true
-      });
     }
   }
 

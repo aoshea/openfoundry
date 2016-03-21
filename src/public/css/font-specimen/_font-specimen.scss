@@ -2,6 +2,7 @@
   width: 100vw;
   min-height: 10vh;
   position: relative;
+  visibility: hidden;
 }
 .of-specimen-overlay {
   position: relative;
@@ -20,7 +21,7 @@
 }
 
 .of-specimen-overlay.specstate-appear.specstate-appear-active {
-  transition: transform .75s ease-in-out .25s;
+  transition: transform 700ms ease-in-out 200ms;
 }
 
 .of-font-specimen-image-wrapper {
@@ -39,27 +40,6 @@
   background-position: center;
 }
 
-// older
-.of-spec-holder {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: visible;
-  z-index: $zIndex-font-specimen;
-}
-
-.of-spec-wrapper {
-  position: fixed;
-  top: $b;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  max-height: none;
-}
-
 .of-spec-preview-cover {
     display: block;
     pointer-events: none;
@@ -73,15 +53,6 @@
     z-index: 400;
 }
 
-.of-spec-scrollable {
-  max-height: 100%;
-  position: absolute;
-  overflow: scroll;
-  -webkit-overflow-scrolling: touch;
-  pointer-events: all;
-  top: 0; left: 0; right: 0; bottom: 0;
-}
-
 .of-preview-wrapper {
   position: fixed;
   top: 50px;
@@ -91,9 +62,6 @@
   pointer-events: none;
   transform: translate3d(0,0,0);
   backface-visibility: hidden;
-}
-.of-preview-wrapper.is-scrolled {
-  pointer-events: none;
 }
 
 .of-font-specimen {

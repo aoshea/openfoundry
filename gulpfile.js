@@ -41,6 +41,8 @@ if (production) {
   process.env.NODE_ENV = 'production';
 }
 
+process.env.OF_WEINRE = argv.weinre;
+process.env.OF_DEBUG = argv.debug;
 
 var packageJSON = require('./package.json');
 /**
@@ -157,7 +159,9 @@ var libs = [
   "react-helmet",
   "react-addons-transition-group",
   "react-addons-css-transition-group",
-  "react-linkify"
+  "react-linkify",
+  "react-addons-pure-render-mixin",
+  "react-addons-perf"
 ];
 
 /**
@@ -176,9 +180,9 @@ gulp.task('vendor-js', function () {
   var b = browserify({
     debug: !production,
     entries: global_entries,
-    transform: [babelify.configure({
-      presets: ["es2015", "react"]
-    })]
+    // transform: [babelify.configure({
+      // presets: ["es2015", "react"]
+    // })]
   });
 
   libs.forEach(function(lib) {
