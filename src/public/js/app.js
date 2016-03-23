@@ -5,7 +5,6 @@ import { render } from 'react-dom';
 import classNames from 'classnames';
 import FontSpecimen from './components/font-specimen/font-specimen.js';
 import FontList from './components/font-list/font-list.js';
-import NewcomerPreview from './components/newcomer-preview/newcomer-preview.js';
 import Debug from './components/debug/debug.js';
 import AboutPage from './components/about/about.js';
 import SubmissionPage from './components/submission/submission.js';
@@ -16,11 +15,15 @@ import { getFontId, getFullFontName } from 'util/content_util.js';
 import appDispatcher from 'app-dispatcher';
 import appModel from 'app-model';
 import NavBar from 'components/navbar/navbar';
+import Perf from 'react-addons-perf';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+
+window.Perf = Perf;
 
 var cache = {
-  fonts: null,
-  likes: null
+  fonts: null
 };
+
 
 class App extends Component {
 
@@ -28,6 +31,7 @@ class App extends Component {
     super()
 
     this.handleAppEvent = this.handleAppEvent.bind(this);
+    this.checkScroll = this.checkScroll.bind(this);
 
     this.isScrolled = false;
     this.delta = 100;
@@ -35,8 +39,7 @@ class App extends Component {
 
     this.state = {
       isLoaded: false,
-      fonts: [],
-      likes: []
+      fonts: []
     };
   }
 
@@ -45,13 +48,9 @@ class App extends Component {
     var self = this;
     var navbarHeight = 50;
 
-    $(window).on('scroll', function () {
-      this.isScrolled = true;
-      requestAnimationFrame(this.checkScroll.bind(this))
-    }.bind(this));
+    $(window).on('scroll', this.checkScroll);
 
-    this.forceUpdateMenu = true;
-    requestAnimationFrame(self.checkScroll.bind(self))
+    requestAnimationFrame(() => this.checkScroll(true))
 
     appDispatcher.register(this.handleAppEvent);
 
@@ -76,10 +75,13 @@ class App extends Component {
           fonts: e.data
         });
         break;
+      case 'location-changed':
+        this.checkScroll(true);
+        break;
     }
   }
 
-  checkScroll() {
+  checkScroll(force) {
 
     var scrollTop = $(window).scrollTop();
     var windowHeight = $(window).height();
@@ -87,16 +89,24 @@ class App extends Component {
     var navbarHeight = 50;
 
     // scroll more than delta
-    if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !this.forceUpdateMenu) return;
+    if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !force) return;
 
-    // if they scrolled down and are past the navbar, add class .up.
+    var actionType = null;
+
     if (scrollTop > this.lastScrollTop && scrollTop > navbarHeight) {
-      appDispatcher.dispatch({ actionType: 'show-breadcrumbs' });
+      // scroll down pass the nav bar
+      actionType = 'show-breadcrumbs';
     } else if (scrollTop < 200 && location.pathname === '/hot30') {
-      appDispatcher.dispatch({ actionType: 'hide-breadcrumbs' });
+      // scroll up at the top of the page
+      actionType = 'hide-breadcrumbs';
     }
 
-    this.forceUpdateMenu = false;
+    if (actionType !== null) {
+      // need to delay since we could be in the middle of a dispatch
+      requestAnimationFrame(function () {
+        appDispatcher.dispatch({ actionType: 'show-breadcrumbs' });
+      });
+    }
 
     this. lastScrollTop = scrollTop;
   }
@@ -127,15 +137,14 @@ App.contextTypes = {
 
 class Open extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.handleAppEvent = this.handleAppEvent.bind(this);
 
     this.state = {
-      isSpecimen: false,
-      fonts: [],
-      likes: []
+      fonts: []
     };
   }
 
@@ -146,11 +155,6 @@ class Open extends Component {
           fonts: e.data
         });
         break;
-      case 'like-data-updated':
-        this.setState({
-          likes: e.data
-        });
-        break;
     }
   }
 
@@ -158,8 +162,12 @@ class Open extends Component {
     const self = this;
 
     this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
-    appDispatcher.dispatch({ actionType: 'fetch-font-data' });
 
+    if (appModel.parsedFonts) {
+      this.setState({ fonts: appModel.parsedFonts });
+    } else {
+      appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+    }
   }
 
   componentWillUnmount() {
@@ -167,26 +175,20 @@ class Open extends Component {
   }
 
   componentDidUpdate() {
-    let { location } = this.props;
-    let { isSpecimen} = this.state;
 
-    let pathName = location.pathname;
-
-    if (isSpecimen) {
-      if (pathName === '/hot30') this.setState({ isSpecimen: false });
-    } else {
-      if (pathName !== '/hot30') this.setState({ isSpecimen: true });
-    }
   }
 
   render() {
-    const { fonts, likes, isSpecimen } = this.state;
+    const { fonts } = this.state;
+
+    let { location } = this.props;
+
+    let isSpecimen = !!location.pathname.match(/\/hot30\/(.+)/)
 
     return (
       <div>
         <Helmet title={"OpenFoundry / Hot 30"} />
-        <NewcomerPreview />
-        <FontList fixed={isSpecimen} likes={likes} fonts={fonts} />
+        <FontList fixed={isSpecimen} fonts={fonts} />
         {this.props.children}
       </div>
     )
@@ -199,8 +201,9 @@ Open.contextTypes = {
 
 class Specimen extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.onComplete = this.onComplete.bind(this);
     this.navigateToOpen = this.navigateToOpen.bind(this);
@@ -231,7 +234,11 @@ class Specimen extends Component {
 
   componentDidMount() {
     this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
-    appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+    if (appModel.parsedFonts) {
+      this.setState({ fonts: appModel.parsedFonts });
+    } else {
+      appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+    }
   }
 
   componentWillUnmount() {
@@ -297,8 +304,11 @@ class Signup extends Component {
 browserHistory.listen(function (location) {
   // need to render <Helmet> before retrieving pages title
   setTimeout(function () {
-
+    if (!window.ga) return;
     window.ga('send', 'pageview', location.pathname);
+  }, 50);
+
+  setTimeout(function () {
 
     if (location.pathname === '/hot30') {
       appDispatcher.dispatch({
@@ -313,7 +323,10 @@ browserHistory.listen(function (location) {
     if (location.pathname === '/signup') {
       appDispatcher.dispatch({ actionType: 'hide-menu' })
     }
-  }, 50);
+  })
+
+  appDispatcher.dispatch({ actionType: 'location-changed', location: location })
+
 });
 
 

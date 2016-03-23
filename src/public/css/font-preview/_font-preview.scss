@@ -92,7 +92,6 @@
     letter-spacing: 0em;
     text-transform: none;
     color: $black;
-    // user-select: none;
     word-break: break-word;
     padding: 300px 50px 310px 50px;
     -webkit-user-modify: read-write;
@@ -104,8 +103,8 @@
       padding: 150px 50px 160px 50px;
     }
     @include mobile {
-      padding-left: 20px;
-      padding-right: 20px;
+      padding-left: 15px;
+      padding-right: 15px;
     }
   }
   &.black-image {

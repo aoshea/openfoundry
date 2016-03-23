@@ -11,25 +11,25 @@ import cx from 'classnames';
 
 import FontLikeButton from 'components/font-like-button/font-like-button.js';
 import FontShareButton from 'components/font-share-button/font-share-button.js';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-var idleTimeout = {
-  id: null,
-  delay: 1000
-};
+import appDispatcher from 'app-dispatcher'
+
 
 export default class FontSpecimen extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     this.onClickSource = this.onClickSource.bind(this);
     this.onScroll = this.onScroll.bind(this);
+    this.touchStartHandler = this.touchStartHandler.bind(this);
 
     this.state = {
-      canScroll: false,
-      isScroll: false,
       isTopPassed: false,
-      delta: 0,
+      deltaTop: 0,
+      deltaBottom: 0,
       moveToOffset: 0
     };
   }
@@ -40,43 +40,29 @@ export default class FontSpecimen extends Component {
   }
 
   onScroll(e) {
-    const { onScrollUpdate } = this.props;
 
-    var inner = $('.of-specimen');
+    var inner = this.refs['of-specimen'];
 
-    if (inner.length === 0) return;
-
-    let scrollTop = $(window).scrollTop();
-    let innerHeight = inner.height() + window.innerHeight * 0.85;
-    let scrollY = window.innerHeight + scrollTop;
-
-    // 1 - 0 by the end of the page (i.e. absolute scroll)
-    let delta = ((scrollY - innerHeight) / window.innerHeight) + 1;
-    // 0 - 1 by the beginning of the page (i.e. 100% of screen)
-    let deltaScreen = Math.max(0, 2 - Math.max(1, scrollY / window.innerHeight));
-
-    if (delta > 0) {
-      onScrollUpdate && onScrollUpdate(delta);
-    }
+    // raw scroll position
+    let scrollTop = window.scrollY;
+    // browser window height
+    let windowHeight = window.innerHeight;
+    // the height of the container (+ virtual top margin)
+    let innerHeight = inner.clientHeight + windowHeight * 0.85;
+    // 0 - 1 top of the page
+    let deltaTop = Math.min(1, scrollTop / windowHeight);
+    // 0 - 1 bottom of the page
+    let deltaBottom = Math.max(0, Math.max(windowHeight + scrollTop - (innerHeight - windowHeight)) / windowHeight)
+    // true if scrolled pass the page header
+    let isTopPassed = scrollTop > windowHeight;
+    // true if scrolled to the end of the page
+    let isBottom = windowHeight + scrollTop >= innerHeight - 1;
 
     this.setState({
-      delta: delta,
-      deltaScreen: deltaScreen
+      isTopPassed: isTopPassed,
+      deltaBottom: deltaBottom,
+      deltaTop: deltaTop
     });
-
-    let isTopPassed = scrollTop > window.innerHeight;
-
-    if (!this.state.isTopPassed && isTopPassed) {
-      this.state.isTopPassed = true
-      $('.of-preview-wrapper').css({ visibility: 'hidden' })
-    }
-
-    if (this.state.isTopPassed && !isTopPassed) {
-      this.state.isTopPassed = false
-      $('.of-preview-wrapper').css({ visibility: 'visible' })
-    }
-
-    let isBottom = scrollY >= innerHeight - 1;
 
     if (isBottom) {
       this.onScrollFinish();
@@ -88,20 +74,32 @@ export default class FontSpecimen extends Component {
       moveToOffset: (window.tempOffset - 50) || 0
     });
 
-    setTimeout(cb, 250);
+    setTimeout(cb, 300);
   }
 
   componentDidAppear() {
+    this.refs['of-specimen'].style.visibility = 'visible';
+    window.scrollTo(0, 0);
+
     this.setState({
       moveToOffset: 0
     });
+
+    this.refs['of-specimen'].addEventListener('touchstart', this.touchStartHandler, true);
+  }
+
+  touchStartHandler(e) {
+    appDispatcher.dispatch({ actionType: 'specimen-touch-start' })
   }
 
   componentDidMount() {
-    $(window).on('scroll', this.onScroll);
+    setTimeout(function () {
+      $(window).on('scroll', this.onScroll);
+    }.bind(this), 1000)
   }
 
   componentWillUnmount() {
+    this.refs['of-specimen'].removeEventListener('touchstart', this.touchStartHandler);
     $(window).off('scroll', this.onScroll);
   }
 
@@ -122,15 +120,6 @@ export default class FontSpecimen extends Component {
     const state = this.state;
 
     if (!font) return <div>nothing here</div>
-
-    const specimenClassName = cx({
-      'of-specimen': true
-    });
-
-    const previewWrapperClassName = cx({
-      'of-preview-wrapper': true,
-      'is-scroll': state.isScroll
-    });
 
     const previewKey = font['font-name'];
     const fontName = font['font-name'];
@@ -154,10 +143,14 @@ export default class FontSpecimen extends Component {
 
     var shareMessage = getShareMessage(font);
 
-    var characterElements = []
-    for (var i = 33; i <= 126; i ++) {
-      characterElements.push(<li className="character">{ String.fromCharCode(i) }</li>)
-    }
+    var characterElements = this.characterElements = this.characterElements || ((function () {
+      let characterElements = [];
+      for (var i = 33; i <= 126; i ++) {
+        characterElements.push(<li key={ i } className="character">{ String.fromCharCode(i) }</li>)
+      }
+      return characterElements;
+    })());
+
 
     var foundryElement;
 
@@ -168,23 +161,24 @@ export default class FontSpecimen extends Component {
     }
 
     const spacerStyle = {
-      opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
+      opacity: 1 - Math.max(0, (state.deltaBottom - 0.5) * 2 - 0.05)
     };
 
     const holderStyle = {
+      visibility: state.isTopPassed ? 'hidden' : 'visible',
       transform: 'translate3d(0,' + state.moveToOffset + 'px,0)',
-      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 250ms ease-out' : 'none'
+      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 150ms linear 0ms' : 'none'
     };
 
     const coverStyle = {
-      opacity: !state.deltaScreen ? 0 : Math.min(1, ((1 - state.deltaScreen) - 0.1) * 1.5)
+      opacity: !state.deltaTop ? 0 : state.deltaTop
     };
 
     return (
 
-      <div className={specimenClassName}>
+      <div ref="of-specimen" className='of-specimen'>
 
-        <div style={holderStyle} className={previewWrapperClassName}>
+        <div ref="of-preview-wrapper" style={holderStyle} className='of-preview-wrapper'>
           <FontPreviewContainer
             fixed={true}
             onMoreUpdate={this.onClickSource}
@@ -194,7 +188,7 @@ export default class FontSpecimen extends Component {
           <div style={coverStyle} className="of-spec-preview-cover"></div>
         </div>
 
-        <ReactCSSTransitionGroup transitionName="specstate" transitionAppear={true} transitionAppearTimeout={2000} transitionEnterTimeout={0} transitionLeaveTimeout={2000}>
+        <ReactCSSTransitionGroup transitionName="specstate" transitionAppear={true} transitionAppearTimeout={1000} transitionEnterTimeout={0} transitionLeaveTimeout={0}>
         <div className="of-specimen-overlay">
 
           <FontSpecimenImage font={font} />
@@ -247,7 +241,7 @@ export default class FontSpecimen extends Component {
                 <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
               </div>
               <div className="col-5 social">
-                <FontLikeButton locked={this.state.locked} font={font} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
+                <FontLikeButton font={font} /><FontShareButton message={shareMessage} />
               </div>
             </div>
           </div>

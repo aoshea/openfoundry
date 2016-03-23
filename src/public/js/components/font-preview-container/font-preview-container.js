@@ -1,5 +1,3 @@
-require('array.prototype.fill');
-
 import React, { Component } from 'react';
 import { Dispatcher } from 'flux';
 import { Link } from 'react-router';
@@ -13,11 +11,15 @@ import $ from 'jquery';
 import classNames from 'classnames';
 import shuffle from 'shuffle-array';
 import { getFontId, getShareMessage, getFullFontName } from 'util/content_util.js';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 export default class FontPreviewContainer extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+
+    super(props);
+
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.onUpdateFontSize = this.onUpdateFontSize.bind(this);
     this.onUpdateLineHeight = this.onUpdateLineHeight.bind(this);
@@ -30,15 +32,8 @@ export default class FontPreviewContainer extends Component {
 
     this.isMount = false;
 
-    this.state = {
-      size: 0,
-      likes: 0,
-      letterSpacing: 0,
-      lineHeight: 0,
-      color: '#000',
-      background: 0,
-      uppercase: false
-    };
+    this.checkProps();
+
   }
 
   componentWillUnmount() {
@@ -47,9 +42,7 @@ export default class FontPreviewContainer extends Component {
     this.isMount = false;
   }
 
-  componentDidMount() {
-
-    this.isMount = true;
+  checkProps() {
 
     const { font, likes } = this.props;
 
@@ -80,7 +73,7 @@ export default class FontPreviewContainer extends Component {
       font.background = font.background > -1 ? font.background : 0;
     }
 
-    this.setState({
+    this.state = {
       font: font,
       size: font.fontSize,
       likes: likes,
@@ -92,13 +85,22 @@ export default class FontPreviewContainer extends Component {
       locked: false,
       uppercase: font.uppercase,
       scaled: font.scaled
-    });
+    };
+  }
+
+  componentWillReceiveProps(props) {
+    // this.checkProps(props)
+  }
+
+  componentDidMount() {
+
+    this.isMount = true;
 
     // Hack in a smaller font for mobiles
-    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !font.scaled) {
+    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !this.state.font.scaled) {
       var self = this;
       setTimeout(function () {
-        self.onUpdateFontSize(parseInt(font.fontSize / 2, 10));
+        self.onUpdateFontSize(parseInt(self.state.font.fontSize / 2, 10));
       });
     }
   }
@@ -256,9 +258,9 @@ export default class FontPreviewContainer extends Component {
 
     let fontClassName = "of-font-preview-text-container " + fontId;
 
-    let fontSize = this.state.size || parseInt(font['settings-font-size'], 10);
-    let lineHeight = this.state.lineHeight || parseFloat(font['settings-line-height'], 10);
-    let letterSpacing = this.state.letterSpacing || parseFloat(font['settings-letter-spacing'], 10);
+    let fontSize = parseInt(this.state.size || font['settings-font-size'], 10);
+    let lineHeight = parseFloat(this.state.lineHeight || font['settings-line-height'], 10);
+    let letterSpacing = parseFloat(this.state.letterSpacing || font['settings-letter-spacing'], 10);
     let color = this.state.color || font['settings-color'];
     let uppercase = this.state.uppercase || font['settings-text-transform'] === 'uppercase';
 
@@ -312,7 +314,7 @@ export default class FontPreviewContainer extends Component {
         <div className="of-grid-container">
           <div className="of-row">
             <div className="col-10 rank">
-              <Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankNum}{rankFontName}{rankComma}{rankCreator}</Link>
+              <Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankNum}{rankFontName}<span className="creator-rank">{rankComma}{rankCreator}</span></Link>
             </div>
             <div className="col-2 social">
               <FontLikeButton locked={this.state.locked} font={font} /><FontShareButton message={shareMessage} />

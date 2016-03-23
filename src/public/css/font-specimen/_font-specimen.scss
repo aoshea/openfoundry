@@ -2,6 +2,7 @@
   width: 100vw;
   min-height: 10vh;
   position: relative;
+  visibility: hidden;
 }
 .of-specimen-overlay {
   position: relative;
@@ -20,7 +21,7 @@
 }
 
 .of-specimen-overlay.specstate-appear.specstate-appear-active {
-  transition: transform 750ms ease-in-out 250ms;
+  transition: transform 700ms ease-in-out 200ms;
 }
 
 .of-font-specimen-image-wrapper {
@@ -39,27 +40,6 @@
   background-position: center;
 }
 
-// older
-.of-spec-holder {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: visible;
-  z-index: $zIndex-font-specimen;
-}
-
-.of-spec-wrapper {
-  position: fixed;
-  top: $b;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  max-height: none;
-}
-
 .of-spec-preview-cover {
     display: block;
     pointer-events: none;
@@ -73,15 +53,6 @@
     z-index: 400;
 }
 
-.of-spec-scrollable {
-  max-height: 100%;
-  position: absolute;
-  overflow: scroll;
-  -webkit-overflow-scrolling: touch;
-  pointer-events: all;
-  top: 0; left: 0; right: 0; bottom: 0;
-}
-
 .of-preview-wrapper {
   position: fixed;
   top: 50px;
@@ -92,23 +63,19 @@
   transform: translate3d(0,0,0);
   backface-visibility: hidden;
 }
-.of-preview-wrapper.is-scrolled {
-  pointer-events: none;
-}
 
 .of-font-specimen {
   position: relative;
   pointer-events: auto;
   width: 100%;
   margin-top: $preview-height;
-  // transition: transform 300ms ease-in-out;
-
 }
+
 .of-font-specimen-spacer-bottom {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  background: rgba(0,0,0,0.7);
+  background: $trans-black-70;
 }
 
 .of-font-specimen-button {
@@ -154,7 +121,6 @@
 .of-font-specimen-content {
   background: $semi-nooverlay-black;
   padding: 0 50px;
-
   @include mobile {
     padding: 0 20px;
   }
@@ -214,7 +180,6 @@
     color: $white;
     font-weight: normal;
     word-break: break-all;
-    // word-break: normal;
     line-height: 1.1em;
     @include mobile {
       font-size: 50px;
