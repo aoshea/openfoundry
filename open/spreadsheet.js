@@ -32,7 +32,7 @@ function sortHeadlines(headlines) {
   var temp = Object.keys(headlines).map(function (key) {
     return headlines[key];
   });
-  
+
   return temp.filter( (el, i, arr) => el.length > 85 && el.length < 130 );
 }
 
@@ -67,21 +67,51 @@ function writeJSON(data) {
   });
 }
 
+function replaceNonAlphaNumeric(str, replacement) {
+  if (replacement === undefined || replacement === null) replacement = '_';
+  return str.replace(/[^a-z0-9\.]/gim, replacement);
+}
+
+function camelCase(str) {
+  return str.replace(/-([a-z])/g, function (g) { return g[1].toUpperCase(); });
+}
+
+function parseFontData(data) {
+
+  const fonts = data.map(font => {
+
+    font['id'] = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
+
+    Object.keys(font).map(fontKey => {
+      const camelKey = camelCase(fontKey);
+      const keyValue = font[fontKey];
+      font[camelKey] = keyValue;
+      if (camelKey !== fontKey) delete font[fontKey];
+    });
+
+    return font;
+  });
+
+  return { fonts };
+}
+
 getSheet().then(function (res) {
   getHeadlines().then(function(headlines) {
 
     // Sort by char len
     let filteredHeadlines = sortHeadlines(headlines);
 
+    let data = parseFontData(res);
+
     // Override json settings text
-    res.map(function (v, i) {
+    data.fonts.map(function (fontValue, i) {
       if (i < filteredHeadlines.length && filteredHeadlines[i]) {
-        v['settings-text'] = filteredHeadlines[i];
+        fontValue['settingsText'] = filteredHeadlines[i];
       }
     });
 
     // Write file
-    writeJSON(res).then(function () {
+    writeJSON(data).then(function () {
       console.log('Write file sheet.json');
     });
 

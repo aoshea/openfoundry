@@ -45,6 +45,7 @@ process.env.OF_WEINRE = argv.weinre;
 process.env.OF_DEBUG = argv.debug;
 
 var packageJSON = require('./package.json');
+
 /**
  * Error handling
  */
@@ -135,7 +136,7 @@ return gulp.src(config.rsync.src)
 var sources = {
   tpl:         [ dir.source + 'tpl/**/*'],
   index:       [ dir.source + 'index.js'],
-  app:         [ dir.source + 'public/js/app.js'],
+  app:         [ dir.source + 'public/js/index.js'],
   js:          [ dir.source + 'public/js/**/*.js' ],
   imgs:        [ dir.source + 'public/img/*'],
   html:        [ dir.source + 'public/html/*'],
@@ -173,6 +174,7 @@ gulp.task('vendor-js', function () {
 
   var global_entries = [
     require.resolve("babel-polyfill"),
+    // require.resolve('babel-plugin-syntax-object-rest-spread'),
     './src/public/vendor-js/modernizr.js',
     './src/public/vendor-js/stepform.js'
   ];
@@ -180,8 +182,9 @@ gulp.task('vendor-js', function () {
   var b = browserify({
     debug: !production,
     entries: global_entries,
-    // transform: [babelify.configure({
-      // presets: ["es2015", "react"]
+    //transform: [babelify.configure({
+      //presets: ["es2015", "react", "stage-2"],
+      // plugins: ["transform-object-rest-spread"]
     // })]
   });
 
@@ -244,7 +247,7 @@ function getBrowserifyBundler() {
         paths: ['./src/public/js/'],
         fullPaths: false,
         transform: [babelify.configure({
-          presets: ["es2015", "react"]
+          presets: ["es2015", "react", "stage-2"]
         })]
       });
 

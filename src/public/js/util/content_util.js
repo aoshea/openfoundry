@@ -8,8 +8,8 @@ const rankComma = ", ";
 export function getFullFontName(font) {
   if (!!!font) return "Undefined Font!";
 
-  let fontStyle = font['font-style'];
-  let fontName = font['font-name'];
+  let fontStyle = font.get('font-style');
+  let fontName = font.get('font-name');
 
   return fontName + rankSpace + fontStyle;
 }
@@ -17,14 +17,14 @@ export function getFullFontName(font) {
 export function getFontId(font) {
   if (!!!font) return "Undefined Font!";
 
-  return replaceNonAlphaNumeric(font['font-id']).toLowerCase();
+  return replaceNonAlphaNumeric(font.get('font-id')).toLowerCase();
 }
 
 
 export function getShareMessage(font) {
   if (!!!font) return "Undefined Font!";
 
-  return [getFullFontName(font), ' ', font['font-open-source-link'], ' ','via @open_foundry #OFHot30'].join('');
+  return [getFullFontName(font), ' ', font.get('font-open-source-link'), ' ','via @open_foundry #OFHot30'].join('');
 }
 
 export function getAboutText(font) {

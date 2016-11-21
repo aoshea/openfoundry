@@ -329,7 +329,7 @@ browserHistory.listen(function (location) {
 
 });
 
-
+/*
 render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>
@@ -346,3 +346,4 @@ render((
 ),
 document.querySelector('.of-container')
 );
+*/

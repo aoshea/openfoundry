@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { setFontSize } from '../../actions/actions.js';
 import { Dispatcher } from 'flux';
 import { Link } from 'react-router';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
@@ -13,7 +14,12 @@ import shuffle from 'shuffle-array';
 import { getFontId, getShareMessage, getFullFontName } from 'util/content_util.js';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-export default class FontPreviewContainer extends Component {
+class FontPreviewContainer extends Component {
+
+  propTypes: {
+    onSetFontSize: PropTypes.func.isRequired,
+    font: PropTypes.object.isRequired
+  }
 
   constructor(props) {
 
@@ -59,23 +65,23 @@ export default class FontPreviewContainer extends Component {
     this.handleFontModelEventToken = font.dispatcher.register(this.handleFontModelEvent)
 
     // get the font settings from the default settings if not changed by the user
-    font.fontSize = font.fontSize || parseInt(font['settings-font-size'], 10);
-    font.lineHeight = font.lineHeight || parseFloat(font['settings-line-height'], 10);
-    font.letterSpacing = font.letterSpacing || parseFloat(font['settings-letter-spacing'], 10);
-    font.color = font.color || font['settings-color'];
-    font.uppercase = font.uppercase || font['settings-text-transform'] === 'uppercase';
+    font.fontSize = font.fontSize || parseInt(font.get('settingsFontSize'), 10);
+    font.lineHeight = font.lineHeight || parseFloat(font.get('settingsLineHeight'), 10);
+    font.letterSpacing = font.letterSpacing || parseFloat(font.get('settingsLetterSpacing'), 10);
+    font.color = font.color || font.get('settingsColor');
+    font.uppercase = font.uppercase || font.get('settingsTextTransform') === 'uppercase';
     font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
 
     if (typeof font.background === 'undefined') {
       // set background to 0, 1, 2
-      font.background = ['white', 'black', 'image'].indexOf(font['settings-background-state']);
+      font.background = ['white', 'black', 'image'].indexOf(font.get('settingsBackgroundState'));
       // safeguard in case of invalid value
       font.background = font.background > -1 ? font.background : 0;
     }
 
     this.state = {
       font: font,
-      size: font.fontSize,
+      // size: font.fontSize,
       likes: likes,
       lineHeight: font.lineHeight,
       letterSpacing: font.letterSpacing,
@@ -120,12 +126,14 @@ export default class FontPreviewContainer extends Component {
         });
         break;
 
+      /*
       case 'font-size-update':
         this.setState({
           size: e.fontSize,
           scaled: true
         });
         break;
+      */
 
       case 'letter-spacing-update':
         this.setState({
@@ -167,6 +175,8 @@ export default class FontPreviewContainer extends Component {
   }
 
   onUpdateFontSize(value) {
+
+    /*
     var font = this.state.font;
     font.fontSize = parseInt(value, 10);
     font.scaled = true;
@@ -174,6 +184,16 @@ export default class FontPreviewContainer extends Component {
       actionType: 'font-size-update',
       fontSize: font.fontSize
     });
+    */
+
+    const { onSetFontSize, fontX } = this.props;
+
+    const fontId = getFontId(fontX);
+
+    onSetFontSize({
+      id: fontId,
+      value: parseInt(value, 10)
+    })
   }
 
   onUpdateLetterSpacing(value) {
@@ -234,18 +254,17 @@ export default class FontPreviewContainer extends Component {
       return <div> </div>
     }
 
-    let fontId = getFontId(font);
-    let fontName = replaceNonAlphaNumeric(font['font-name']).toLowerCase();
+    let fontId = font.get('id');
+    let fontName = replaceNonAlphaNumeric(font.get('fontName')).toLowerCase();
 
-    let oFontName = font['font-name'];
+    let oFontName = font.get('fontName');
 
-    let oFontCreator = font['font-creator'];
-    let oFontCreatorLink = font['font-creator-link'];
+    let oFontCreator = font.get('fontCreator');
+    let oFontCreatorLink = font.get('fontCreatorLink');
 
     let spanFontCreator = oFontCreatorLink ? <span>{oFontCreator}</span> : <span>{oFontCreator}</span>
 
-    let oFontStyle = font['font-style'];
-    // let oFontStyle = font['font-style'] + ', ';
+    let oFontStyle = font.get('fontStyle');
 
     // Sort rank
     const rhyphen = " — ";
@@ -258,11 +277,13 @@ export default class FontPreviewContainer extends Component {
 
     let fontClassName = "of-font-preview-text-container " + fontId;
 
-    let fontSize = parseInt(this.state.size || font['settings-font-size'], 10);
-    let lineHeight = parseFloat(this.state.lineHeight || font['settings-line-height'], 10);
-    let letterSpacing = parseFloat(this.state.letterSpacing || font['settings-letter-spacing'], 10);
-    let color = this.state.color || font['settings-color'];
-    let uppercase = this.state.uppercase || font['settings-text-transform'] === 'uppercase';
+    // Font size coming from redux state
+    let fontSize = parseInt(font.get('settingsFontSize'), 10);
+
+    let lineHeight = parseFloat(this.state.lineHeight || font.get('settingsLineHeight'), 10);
+    let letterSpacing = parseFloat(this.state.letterSpacing || font.get('settingsLetterSpacing'), 10);
+    let color = this.state.color || font.get('settingsColor');
+    let uppercase = this.state.uppercase || font.get('settingsTextTransform') === 'uppercase';
 
     let maxFontSize = 150;
     let minFontSize = 9;
@@ -270,7 +291,7 @@ export default class FontPreviewContainer extends Component {
     let maxLineHeight = 2;
     let minLineHeight = 0.5;
 
-    let minLetterSpacing = parseFloat(font['settings-letter-spacing-min'], 10);
+    let minLetterSpacing = parseFloat(font.get('settingsLetterSpacingMin'), 10);
     let maxLetterSpacing = 1;
 
     let stepFontSize = 1;
@@ -283,7 +304,7 @@ export default class FontPreviewContainer extends Component {
     let textTransform = this.state.uppercase ? "uppercase" : "none";
 
     let fontStyle = {
-      fontSize: `${this.state.size}px`,
+      fontSize: `${fontSize}px`,
       letterSpacing: `${this.state.letterSpacing}em`,
       lineHeight: `${this.state.lineHeight}em`,
       color: `${this.state.color}`,
@@ -380,7 +401,7 @@ export default class FontPreviewContainer extends Component {
         <FontText
           fontClasses={fontClassName}
           fontStyle={fontStyle}
-          content={font['settings-text']}/>
+          content={font.get('settingsText')}/>
 
         { footer }
 
@@ -389,8 +410,6 @@ export default class FontPreviewContainer extends Component {
     )
   }
 }
-
-
 
 FontPreviewContainer.getRandomBackground = (function () {
 
@@ -408,3 +427,5 @@ FontPreviewContainer.getRandomBackground = (function () {
   }
 
 }());
+
+export default FontPreviewContainer

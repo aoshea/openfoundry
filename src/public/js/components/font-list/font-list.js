@@ -1,17 +1,23 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import classNames from 'classnames';
 import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
 import FontSpecimen from 'components/font-specimen/font-specimen.js';
 import appDispatcher from 'app-dispatcher'
 
-export default class FontList extends Component {
+class FontList extends Component {
+
+  propTypes: {
+    onSetFontSize: PropTypes.func.isRequired,
+    fonts: PropTypes.array.isRequired,
+    fixed: PropTypes.boolean
+  }
 
   constructor(props) {
 
     super(props);
 
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+    // this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     this.onMoreUpdate = this.onMoreUpdate.bind(this);
     this.specimenTouchStartHandler = this.specimenTouchStartHandler.bind(this);
     this.windowTouchEndHandler = this.windowTouchEndHandler.bind(this);
@@ -135,15 +141,18 @@ export default class FontList extends Component {
     const isFixed = props.fixed;
     const { lastScrollTop } = this.state;
 
+    const { onSetFontSize } = this.props;
+
     var fonts = this.props.fonts || [];
 
     const renderFonts = this.renderFonts || this.props.fonts.map((font, i) => {
       return (
         <FontPreviewContainer
           rank={ i + 1 }
-          key={font.__key}
+          key={font.get('id')}
           isList='true'
           onMoreUpdate={this.onMoreUpdate}
+          onSetFontSize={onSetFontSize}
           font={font} />
       )
     });
@@ -173,3 +182,5 @@ export default class FontList extends Component {
     )
   }
 }
+
+export default FontList
