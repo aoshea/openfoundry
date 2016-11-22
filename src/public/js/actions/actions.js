@@ -9,3 +9,21 @@ export const setFontLeading = (font) => ({
   id: font.id,
   value: font.value
 })
+
+export const setFontTracking = (font) => ({
+  type: 'UPDATE_TRACKING',
+  id: font.id,
+  value: font.value
+})
+
+export const setFontTransform = (font) => ({
+  type: 'UPDATE_TRANSFORM',
+  id: font.id,
+  value: font.value
+})
+
+export const setFontColour = (font) => ({
+  type: 'UPDATE_COLOUR',
+  id: font.id,
+  value: font.value
+})

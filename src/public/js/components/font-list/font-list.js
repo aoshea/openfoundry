@@ -10,6 +10,9 @@ class FontList extends Component {
   propTypes: {
     onSetFontSize: PropTypes.func.isRequired,
     onSetFontLeading: PropTypes.func.isRequired,
+    onSetFontTracking: PropTypes.func.isRequired,
+    onSetFontTransform: PropTypes.func.isRequired,
+    onSetFontColour: PropTypes.func.isRequired,
     fonts: PropTypes.array.isRequired,
     fixed: PropTypes.boolean
   }
@@ -140,7 +143,13 @@ class FontList extends Component {
 
     const { lastScrollTop } = this.state;
 
-    const { fonts, fixed, onSetFontSize, onSetFontLeading } = this.props;
+    const {
+      fonts,
+      fixed,
+      onSetFontSize,
+      onSetFontColour,
+      onSetFontLeading,
+      onSetFontTracking } = this.props;
 
     const renderFonts = this.renderFonts || fonts.map((font, i) => {
       return (
@@ -151,6 +160,8 @@ class FontList extends Component {
           onMoreUpdate={this.onMoreUpdate}
           onSetFontSize={onSetFontSize}
           onSetFontLeading={onSetFontLeading}
+          onSetFontTracking={onSetFontTracking}
+          onSetFontColour={onSetFontColour}
           font={font} />
       )
     });

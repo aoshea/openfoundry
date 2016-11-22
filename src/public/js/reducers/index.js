@@ -32,6 +32,15 @@ const fonts = (state = initialState, action) => {
     case 'UPDATE_LEADING':
       return updateFont(state, 'settingsLineHeight', action);
 
+    case 'UPDATE_TRACKING':
+      return updateFont(state, 'settingsLetterSpacing', action);
+
+    case 'UPDATE_COLOUR':
+      return updateFont(state, 'settingsColor', action);
+
+    case 'UPDATE_TRANSFORM':
+      return updateFont(state, 'settingsTextTransform', action);
+
     default:
       return state
   }

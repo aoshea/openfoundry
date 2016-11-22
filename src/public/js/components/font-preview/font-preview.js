@@ -19,6 +19,9 @@ class FontPreview extends Component {
   propTypes: {
     onSetFontSize: PropTypes.func.isRequired,
     onSetFontLeading: PropTypes.func.isRequired,
+    onSetFontTracking: PropTypes.func.isRequired,
+    onSetFontColour: PropTypes.func.isRequired,
+    onSetFontTransform: PropTypes.func.isRequired,
     font: PropTypes.object.isRequired
   }
 
@@ -26,23 +29,19 @@ class FontPreview extends Component {
 
     super(props);
 
-    // this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
-
-    this.onUpdateLineHeight = this.onUpdateLineHeight.bind(this);
-    this.onUpdateLetterSpacing = this.onUpdateLetterSpacing.bind(this);
-    this.onUpdateColour = this.onUpdateColour.bind(this);
-    this.onUpdateBackground = this.onUpdateBackground.bind(this);
-    this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
-    this.handleFontModelEvent = this.handleFontModelEvent.bind(this)
     this.handleMoreClick = this.handleMoreClick.bind(this);
 
     this.backgroundIndex = FontPreview.getRandomBackground();
 
+    this.onUpdateColour = this.onUpdateColour.bind(this);
+    this.onUpdateBackground = this.onUpdateBackground.bind(this);
+    this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
+
     this.onSizeSliderUpdate = this.onSizeSliderUpdate.bind(this);
     this.onLeadingSliderUpdate = this.onLeadingSliderUpdate.bind(this);
+    this.onTrackingSliderUpdate = this.onTrackingSliderUpdate.bind(this);
 
     this.isMount = false;
-
   }
 
   componentWillUnmount() {
@@ -113,47 +112,6 @@ class FontPreview extends Component {
     */
   }
 
-  /**
-   * Handles a change on the font model
-   * @param  {Event} e Event describing the action and the changed value
-   */
-  handleFontModelEvent(e) {
-
-    switch (e.actionType) {
-
-      case 'background-update':
-        this.setState({
-          background: e.background,
-          backgroundNum: e.backgroundNum
-        });
-        break;
-
-      case 'letter-spacing-update':
-        this.setState({
-          letterSpacing: e.letterSpacing
-        });
-        break;
-
-      case 'line-height-update':
-        this.setState({
-          lineHeight: e.lineHeight
-        });
-        break;
-
-      case 'text-transform-update':
-        this.setState({
-          uppercase: e.uppercase
-        });
-        break;
-
-      case 'color-update':
-        this.setState({
-          color: e.color
-        });
-        break;
-    }
-  }
-
   handleMoreClick(e) {
 
     /*
@@ -169,62 +127,24 @@ class FontPreview extends Component {
     */
   }
 
-  onUpdateLetterSpacing(value) {
-    /*
-    var font = this.state.font;
-    font.letterSpacing = value.toFixed(3)
-    font.dispatcher.dispatch({
-      actionType: 'letter-spacing-update',
-      letterSpacing: font.letterSpacing
-    });
-    */
-  }
+  onUpdateBackground() {
 
-  onUpdateLineHeight(value) {
-    /*
-    var font = this.state.font;
-    font.lineHeight = value.toFixed(2)
-    font.dispatcher.dispatch({
-      actionType: 'line-height-update',
-      lineHeight: font.lineHeight
-    });
-    */
   }
 
   onUpdateColour(value) {
-    /*
-    var font = this.state.font;
-    font.color = value
-    font.dispatcher.dispatch({
-      actionType: 'color-update',
-      color: font.color
+
+    const { onSetFontColour, font } = this.props;
+
+    console.log('onUpdatecolour', value);
+
+    onSetFontColour({
+      id: font.get('id'),
+      value
     });
-    */
   }
 
-  onUpdateBackground(value) {
-    /*
-    var font = this.state.font;
+  onUpdateTextTransform() {
 
-    font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
-    font.background = value;
-    font.dispatcher.dispatch({
-      actionType: 'background-update',
-      background: font.background,
-      backgroundNum: font.backgroundNum
-    });
-    */
-  }
-
-  onUpdateTextTransform(value) {
-    /*
-    var font = this.state.font;
-    font.uppercase = value;
-    font.dispatcher.dispatch({
-      actionType: 'text-transform-update',
-      uppercase: font.uppercase
-    });
-    */
   }
 
   onSizeSliderUpdate(value) {
@@ -242,6 +162,16 @@ class FontPreview extends Component {
     const { onSetFontLeading, font } = this.props;
 
     onSetFontLeading({
+      id: font.get('id'),
+      value
+    });
+  }
+
+  onTrackingSliderUpdate(value) {
+
+    const { onSetFontTracking, font } = this.props;
+
+    onSetFontTracking({
       id: font.get('id'),
       value
     });
@@ -271,18 +201,30 @@ class FontPreview extends Component {
     const stepLineHeight = 0.05;
     const leadingDigits = 2;
 
-    // Create font style object to reflect settings
-    const fontStyle = {
-      color: '#ffcc00',
-      fontSize: `${fontSize}px`,
-      lineHeight: `${lineHeight}em`
-    };
+    // Get letter-spacing (tracking)
+    const letterSpacing = font.get('settingsLetterSpacing');
+    const minLetterSpacing = font.get('settingsLetterSpacingMin');
+    const maxLetterSpacing = 1;
+    const stepLetterSpacing = 0.05;
+    const letterSpacingDigits = 3;
 
     // Background image / colour
     const backgroundState = font.get('settingsBackgroundState');
     const backgroundIndex = this.backgroundIndex;
     const backgroundStyle = {
       backgroundImage: backgroundState === 'image' ? `url(/data/backgrounds/of-backdrop-0${backgroundIndex}.jpg)` : 'none'
+    };
+
+    // FontColours — Colour, text transform etc.
+    const color = font.get('settingsColor');
+    const uppercase = font.get('settingsTextTransform') === 'uppercase';
+
+    // Create font style object to reflect settings
+    const fontStyle = {
+      color: `${color}`,
+      fontSize: `${fontSize}px`,
+      lineHeight: `${lineHeight}em`,
+      letterSpacing: `${letterSpacing}em`
     };
 
     // Wrapper class names, used for background image / colour
@@ -316,6 +258,22 @@ class FontPreview extends Component {
                 max={maxLineHeight}
                 step={stepLineHeight}
                 onUpdate={this.onLeadingSliderUpdate} />
+              <FontSlider
+                label="tracking"
+                initial={letterSpacing}
+                value={letterSpacing}
+                fixed={letterSpacingDigits}
+                min={minLetterSpacing}
+                max={maxLetterSpacing}
+                step={stepLetterSpacing}
+                onUpdate={this.onTrackingSliderUpdate} />
+              <FontColours
+                color={color}
+                background={backgroundState}
+                uppercase={uppercase}
+                onUpdate={this.onUpdateColour}
+                onUpdateBackground={this.onUpdateBackground}
+                onUpdateTextTransform={this.onUpdateTextTransform} />
             </div>
           </div>
         </div>
