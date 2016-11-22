@@ -1,46 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 export default class FontUppercase extends Component {
+
+  propTypes: {
+    backgroundState: PropTypes.string.isRequired,
+    uppercase: PropTypes.bool.isRequired,
+    onUpdate: PropTypes.func.isRequired
+  }
 
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
-    this.state = {
-      uppercase: false
-    };
-  }
-
-  componentDidMount() {
-    let { value } = this.props;
-    this.setState({
-      uppercase: value
-    });
   }
 
   handleClick(e) {
-    let { onUpdate } = this.props;
-    let uppercase = !this.state.uppercase;
-
-    this.setState({
-      uppercase: uppercase
-    });
-
-    onUpdate && onUpdate(uppercase)
+    const { onUpdate, uppercase } = this.props;
+    const nextUppercase = !uppercase;
+    onUpdate && onUpdate(nextUppercase)
   }
 
   render() {
 
-    const { uppercase } = this.state;
+    const { uppercase, backgroundState } = this.props;
 
-    let size = 32;
-    let viewBox = [0, 0, size, size].join(' ');
-    let onStyle = {
+    const size = 32;
+    const viewBox = [0, 0, size, size].join(' ');
+    const onStyle = {
       display: uppercase ? "block" : "none",
-      fill: this.props.background > 0 ? "white" : "black"
+      fill: backgroundState === 'white' ? 'black' : 'white'
     };
-    let offStyle = {
+    const offStyle = {
       display: uppercase ? "none" : "block",
-      fill: this.props.background > 0 ? "white" : "black"
+      fill: backgroundState !== 'white' ? "white" : "black"
     };
 
     return (

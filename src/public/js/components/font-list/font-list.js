@@ -151,6 +151,7 @@ class FontList extends Component {
       onSetFontColour,
       onSetFontLeading,
       onSetFontTracking,
+      onSetFontTransform,
       onSetFontBackground } = this.props;
 
     const renderFonts = this.renderFonts || fonts.map((font, i) => {
@@ -163,6 +164,7 @@ class FontList extends Component {
           onSetFontSize={onSetFontSize}
           onSetFontLeading={onSetFontLeading}
           onSetFontTracking={onSetFontTracking}
+          onSetFontTransform={onSetFontTransform}
           onSetFontColour={onSetFontColour}
           onSetFontBackground={onSetFontBackground}
           font={font} />

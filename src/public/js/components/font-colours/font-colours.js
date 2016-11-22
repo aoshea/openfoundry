@@ -20,8 +20,8 @@ const FontColours = ({
         </div>
         <div className="of-font-uppercase-toggle-container">
           <FontUppercase
-            value={uppercase}
-            background={backgroundState}
+            uppercase={uppercase}
+            backgroundState={backgroundState}
             onUpdate={onUpdateTextTransform} />
         </div>
         <FontColourBox value={color} onUpdate={onUpdate} />

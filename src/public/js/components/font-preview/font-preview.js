@@ -155,8 +155,18 @@ class FontPreview extends Component {
     });
   }
 
-  onUpdateTextTransform() {
+  onUpdateTextTransform(value) {
 
+    const { onSetFontTransform, font } = this.props;
+
+    console.log('onUpdateTextTransform', value);
+
+    const textTransformValue = value ? 'uppercase' : 'none'
+
+    onSetFontTransform({
+      id: font.get('id'),
+      value: textTransformValue
+    })
   }
 
   onSizeSliderUpdate(value) {
@@ -236,6 +246,7 @@ class FontPreview extends Component {
       color: `${color}`,
       fontSize: `${fontSize}px`,
       lineHeight: `${lineHeight}em`,
+      textTransform : font.get('settingsTextTransform'),
       letterSpacing: `${letterSpacing}em`
     };
 
