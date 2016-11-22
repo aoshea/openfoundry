@@ -7,14 +7,14 @@ import FontSlider from 'components/font-slider/font-slider.js';
 import FontColours from 'components/font-colours/font-colours.js';
 import FontLikeButton from 'components/font-like-button/font-like-button.js';
 import FontShareButton from 'components/font-share-button/font-share-button.js';
-import FontText from './font-text/font-text.js';
+import FontPreviewText from 'components/font-preview-text/font-preview-text.js';
 import $ from 'jquery';
 import classNames from 'classnames';
 import shuffle from 'shuffle-array';
 import { getFontId, getShareMessage, getFullFontName } from 'util/content_util.js';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-class FontPreviewContainer extends Component {
+class FontPreview extends Component {
 
   propTypes: {
     onSetFontSize: PropTypes.func.isRequired,
@@ -35,6 +35,8 @@ class FontPreviewContainer extends Component {
     this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
     this.handleFontModelEvent = this.handleFontModelEvent.bind(this)
     this.handleMoreClick = this.handleMoreClick.bind(this);
+
+    this.backgroundIndex = FontPreview.getRandomBackground();
 
     this.onSizeSliderUpdate = this.onSizeSliderUpdate.bind(this);
     this.onLeadingSliderUpdate = this.onLeadingSliderUpdate.bind(this);
@@ -276,13 +278,24 @@ class FontPreviewContainer extends Component {
       lineHeight: `${lineHeight}em`
     };
 
-    // Wrapper class name object
+    // Background image / colour
+    const backgroundState = font.get('settingsBackgroundState');
+    const backgroundIndex = this.backgroundIndex;
+    const backgroundStyle = {
+      backgroundImage: backgroundState === 'image' ? `url(/data/backgrounds/of-backdrop-0${backgroundIndex}.jpg)` : 'none'
+    };
+
+    // Wrapper class names, used for background image / colour
     const containerClassNames = classNames({
-      'of-font-preview-container': true
+      'of-font-preview-container': true,
+      'is-image': backgroundState === 'image',
+      'is-black': backgroundState === 'black',
+      'white-noimage is-white': backgroundState === 'white',
+      'black-image': backgroundState !== 'white'
     });
 
     return (
-      <div className={containerClassNames}>
+      <div className={containerClassNames} style={backgroundStyle}>
         <div className="of-font-preview-ui">
           <div className="of-grid-container">
             <div className="of-row">
@@ -306,7 +319,7 @@ class FontPreviewContainer extends Component {
             </div>
           </div>
         </div>
-        <FontText fontClassNames={fontClassNames} fontStyle={fontStyle} content={fontText} />
+        <FontPreviewText fontClassNames={fontClassNames} fontStyle={fontStyle} content={fontText} />
       </div>
     )
   }
@@ -483,7 +496,7 @@ class FontPreviewContainer extends Component {
   */
 }
 
-FontPreviewContainer.getRandomBackground = (function () {
+FontPreview.getRandomBackground = (function () {
 
   var numBackgrounds = 41;
   var backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i) => i + 1));
@@ -495,9 +508,7 @@ FontPreviewContainer.getRandomBackground = (function () {
     index = (index + 1) % numBackgrounds;
     let bgNum = backgroundList[index];
     return pad2(bgNum);
-
   }
-
 }());
 
-export default FontPreviewContainer
+export default FontPreview

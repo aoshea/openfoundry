@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
 import { getAboutText, getShareMessage } from 'util/content_util.js';
-import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
+import FontPreview from 'components/font-preview/font-preview.js';
 import FontSpecimenImage from 'components/font-specimen/specimen-image/specimen-image.js';
 import cx from 'classnames';
 
@@ -179,7 +179,7 @@ export default class FontSpecimen extends Component {
       <div ref="of-specimen" className='of-specimen'>
 
         <div ref="of-preview-wrapper" style={holderStyle} className='of-preview-wrapper'>
-          <FontPreviewContainer
+          <FontPreview
             fixed={true}
             onMoreUpdate={this.onClickSource}
             rank={previewKey}

@@ -8,11 +8,7 @@ import OFApp from './of-app';
 import Hot30 from './containers/hot30';
 import About from './containers/about';
 
-const store = createStore(reducer);
-
-let unsubscribe = store.subscribe(() => {
-  console.log('store.subscribe', store.getState());
-});
+const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 
 render(
   <Provider store={store}>

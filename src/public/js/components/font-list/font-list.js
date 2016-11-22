@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import classNames from 'classnames';
-import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
+import FontPreview from 'components/font-preview/font-preview.js';
 import FontSpecimen from 'components/font-specimen/font-specimen.js';
 import appDispatcher from 'app-dispatcher'
 
@@ -144,7 +144,7 @@ class FontList extends Component {
 
     const renderFonts = this.renderFonts || fonts.map((font, i) => {
       return (
-        <FontPreviewContainer
+        <FontPreview
           rank={ i + 1 }
           key={font.get('id')}
           isList='true'
