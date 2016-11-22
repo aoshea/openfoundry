@@ -9,6 +9,7 @@ class FontList extends Component {
 
   propTypes: {
     onSetFontSize: PropTypes.func.isRequired,
+    onSetFontLeading: PropTypes.func.isRequired,
     fonts: PropTypes.array.isRequired,
     fixed: PropTypes.boolean
   }
@@ -137,17 +138,11 @@ class FontList extends Component {
 
   render() {
 
-    const props = this.props;
-    const isFixed = props.fixed;
     const { lastScrollTop } = this.state;
 
-    const { onSetFontSize } = this.props;
+    const { fonts, fixed, onSetFontSize, onSetFontLeading } = this.props;
 
-    console.log('font-list render()');
-
-    var fonts = this.props.fonts || [];
-
-    const renderFonts = this.renderFonts || this.props.fonts.map((font, i) => {
+    const renderFonts = this.renderFonts || fonts.map((font, i) => {
       return (
         <FontPreviewContainer
           rank={ i + 1 }
@@ -155,23 +150,24 @@ class FontList extends Component {
           isList='true'
           onMoreUpdate={this.onMoreUpdate}
           onSetFontSize={onSetFontSize}
+          onSetFontLeading={onSetFontLeading}
           font={font} />
       )
     });
 
-    if (this.props.fonts.length) {
+    if (fonts.length) {
       this.renderFonts = renderFonts
     }
 
     const fontListClassNames = classNames({
       'of-font-list-container': true,
-      'of-font-list--fixed': isFixed
+      'of-font-list--fixed': fixed
     });
 
     // Offset by `.of-main` top offset
     const fontListStyle = {
       // 50px being the height of the nav bar
-      transform: isFixed ? 'translateY(' + (50 + (lastScrollTop * -1)) + 'px)' : 'none'
+      transform: fixed ? 'translateY(' + (50 + (lastScrollTop * -1)) + 'px)' : 'none'
     };
 
     return (

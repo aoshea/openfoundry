@@ -21,7 +21,7 @@ export default class FontSliderLabel extends Component {
     }
 
     // set label
-    const updatedLabel = label + ' ' + v;
+    const updatedLabel = label + ' ' + fixValue;
 
     // set percentage for positioning
     unitValue *= 100;

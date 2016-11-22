@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setFontSize } from '../actions/actions.js';
+import { setFontSize, setFontLeading } from '../actions/actions.js';
 import FontList from '../components/font-list/font-list.js';
 
 const mapStateToProps = (state) => {
@@ -10,7 +10,8 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = ({
-  onSetFontSize: setFontSize
+  onSetFontSize: setFontSize,
+  onSetFontLeading: setFontLeading
 })
 
 const Hot30 = connect(

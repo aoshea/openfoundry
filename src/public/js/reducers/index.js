@@ -15,15 +15,23 @@ const findItemIndex = (state, id) => {
   )
 }
 
+const updateFont = (state, param, action) => {
+  const itemIndex = findItemIndex(state, action.id);
+  const item = state.getIn(['fonts', itemIndex]);
+  const updatedItem = item.set(param, action.value);
+  return state.setIn(['fonts', itemIndex], updatedItem);
+}
+
 const fonts = (state = initialState, action) => {
+
   switch (action.type) {
+
     case 'UPDATE_SIZE':
+      return updateFont(state, 'settingsFontSize', action);
 
-      const itemIndex = findItemIndex(state, action.id);
-      const fft = state.getIn(['fonts', itemIndex]);
-      const updatedItem = fft.set('settingsFontSize', action.value);
+    case 'UPDATE_LEADING':
+      return updateFont(state, 'settingsLineHeight', action);
 
-      return state.setIn(['fonts', itemIndex], updatedItem);
     default:
       return state
   }

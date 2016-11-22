@@ -82,6 +82,9 @@ function parseFontData(data) {
 
     font['id'] = replaceNonAlphaNumeric(font['font-id']).toLowerCase();
     font['settings-font-size'] = parseInt(font['settings-font-size'], 10);
+    font['settings-line-height'] = parseFloat(font['settings-line-height'], 10);
+    font['settings-letter-spacing'] = parseFloat(font['settings-letter-spacing'], 10);
+    font['settings-letter-spacing-min'] = parseFloat(font['settings-letter-spacing-min'], 10);
 
     Object.keys(font).map(fontKey => {
       const camelKey = camelCase(fontKey);

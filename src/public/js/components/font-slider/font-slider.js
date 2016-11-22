@@ -25,7 +25,7 @@ FontSlider.propTypes = {
   max: PropTypes.number.isRequired,
   step: PropTypes.number.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  fixed: PropTypes.bool,
+  fixed: PropTypes.number,
   label: PropTypes.string.isRequired
 }
 

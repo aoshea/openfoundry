@@ -18,6 +18,7 @@ class FontPreviewContainer extends Component {
 
   propTypes: {
     onSetFontSize: PropTypes.func.isRequired,
+    onSetFontLeading: PropTypes.func.isRequired,
     font: PropTypes.object.isRequired
   }
 
@@ -27,7 +28,6 @@ class FontPreviewContainer extends Component {
 
     // this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
-    this.onUpdateFontSize = this.onUpdateFontSize.bind(this);
     this.onUpdateLineHeight = this.onUpdateLineHeight.bind(this);
     this.onUpdateLetterSpacing = this.onUpdateLetterSpacing.bind(this);
     this.onUpdateColour = this.onUpdateColour.bind(this);
@@ -35,12 +35,11 @@ class FontPreviewContainer extends Component {
     this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
     this.handleFontModelEvent = this.handleFontModelEvent.bind(this)
     this.handleMoreClick = this.handleMoreClick.bind(this);
-    this.onButtonClick = this.onButtonClick.bind(this);
-    this.onSliderUpdate = this.onSliderUpdate.bind(this);
+
+    this.onSizeSliderUpdate = this.onSizeSliderUpdate.bind(this);
+    this.onLeadingSliderUpdate = this.onLeadingSliderUpdate.bind(this);
 
     this.isMount = false;
-
-    // this.checkProps();
 
   }
 
@@ -127,15 +126,6 @@ class FontPreviewContainer extends Component {
         });
         break;
 
-      /*
-      case 'font-size-update':
-        this.setState({
-          size: e.fontSize,
-          scaled: true
-        });
-        break;
-      */
-
       case 'letter-spacing-update':
         this.setState({
           letterSpacing: e.letterSpacing
@@ -175,27 +165,6 @@ class FontPreviewContainer extends Component {
     const { onMoreUpdate } = this.props;
     onMoreUpdate && onMoreUpdate(scrollTop, offsetTop, e);
     */
-  }
-
-  onUpdateFontSize(value) {
-
-    /*
-    var font = this.state.font;
-    font.fontSize = parseInt(value, 10);
-    font.scaled = true;
-    font.dispatcher.dispatch({
-      actionType: 'font-size-update',
-      fontSize: font.fontSize
-    });
-    */
-    console.log('onUpdateFontSize', value);
-
-    const { onSetFontSize, font } = this.props;
-
-    onSetFontSize({
-      id: font.get('id'),
-      value: parseInt(value, 10)
-    })
   }
 
   onUpdateLetterSpacing(value) {
@@ -256,27 +225,21 @@ class FontPreviewContainer extends Component {
     */
   }
 
-  onButtonClick() {
-    console.log('onButtonClick');
+  onSizeSliderUpdate(value) {
 
     const { onSetFontSize, font } = this.props;
-
-    const value = parseInt(Math.random() * 25 + 25, 10);
 
     onSetFontSize({
       id: font.get('id'),
-      value: parseInt(value, 10)
+      value
     });
   }
 
-  onSliderUpdate(value) {
-    console.log('on slider update', value);
+  onLeadingSliderUpdate(value) {
 
-    const { onSetFontSize, font } = this.props;
+    const { onSetFontLeading, font } = this.props;
 
-    // const value = parseInt(Math.random() * 25 + 25, 10);
-
-    onSetFontSize({
+    onSetFontLeading({
       id: font.get('id'),
       value
     });
@@ -299,10 +262,18 @@ class FontPreviewContainer extends Component {
     const minFontSize = 9;
     const stepFontSize = 1;
 
+    // Get line height (leading) values
+    const lineHeight = font.get('settingsLineHeight');
+    const maxLineHeight = 2;
+    const minLineHeight = 0.5;
+    const stepLineHeight = 0.05;
+    const leadingDigits = 2;
+
     // Create font style object to reflect settings
     const fontStyle = {
       color: '#ffcc00',
-      fontSize: `${fontSize}px`
+      fontSize: `${fontSize}px`,
+      lineHeight: `${lineHeight}em`
     };
 
     // Wrapper class name object
@@ -312,8 +283,6 @@ class FontPreviewContainer extends Component {
 
     return (
       <div className={containerClassNames}>
-        <button style={fontStyle} onClick={this.onButtonClick}>Click me</button>
-
         <div className="of-font-preview-ui">
           <div className="of-grid-container">
             <div className="of-row">
@@ -324,13 +293,20 @@ class FontPreviewContainer extends Component {
                 max={maxFontSize}
                 step={stepFontSize}
                 min={minFontSize}
-                onUpdate={this.onSliderUpdate} />
+                onUpdate={this.onSizeSliderUpdate} />
+              <FontSlider
+                label="leading"
+                initial={lineHeight}
+                value={lineHeight}
+                fixed={leadingDigits}
+                min={minLineHeight}
+                max={maxLineHeight}
+                step={stepLineHeight}
+                onUpdate={this.onLeadingSliderUpdate} />
             </div>
           </div>
         </div>
-
         <FontText fontClassNames={fontClassNames} fontStyle={fontStyle} content={fontText} />
-
       </div>
     )
   }
