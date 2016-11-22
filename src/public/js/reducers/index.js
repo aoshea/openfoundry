@@ -41,6 +41,9 @@ const fonts = (state = initialState, action) => {
     case 'UPDATE_TRANSFORM':
       return updateFont(state, 'settingsTextTransform', action);
 
+    case 'UPDATE_BACKGROUND':
+      return updateFont(state, 'settingsBackgroundState', action);
+
     default:
       return state
   }

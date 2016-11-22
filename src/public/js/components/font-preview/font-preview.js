@@ -22,6 +22,7 @@ class FontPreview extends Component {
     onSetFontTracking: PropTypes.func.isRequired,
     onSetFontColour: PropTypes.func.isRequired,
     onSetFontTransform: PropTypes.func.isRequired,
+    onSetFontBackground: PropTypes.func.isRequired,
     font: PropTypes.object.isRequired
   }
 
@@ -127,8 +128,19 @@ class FontPreview extends Component {
     */
   }
 
-  onUpdateBackground() {
+  onUpdateBackground(value) {
 
+    const { onSetFontBackground, font } = this.props;
+
+    console.log('onUpdateBackground', value);
+
+    // Update new random background?
+    // if (value === 'image') this.backgroundIndex = FontPreview.getRandomBackground();
+
+    onSetFontBackground({
+      id: font.get('id'),
+      value
+    });
   }
 
   onUpdateColour(value) {
@@ -269,7 +281,7 @@ class FontPreview extends Component {
                 onUpdate={this.onTrackingSliderUpdate} />
               <FontColours
                 color={color}
-                background={backgroundState}
+                backgroundState={backgroundState}
                 uppercase={uppercase}
                 onUpdate={this.onUpdateColour}
                 onUpdateBackground={this.onUpdateBackground}

@@ -27,3 +27,9 @@ export const setFontColour = (font) => ({
   id: font.id,
   value: font.value
 })
+
+export const setFontBackground = (font) => ({
+  type: 'UPDATE_BACKGROUND',
+  id: font.id,
+  value: font.value
+})

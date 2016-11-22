@@ -13,6 +13,7 @@ class FontList extends Component {
     onSetFontTracking: PropTypes.func.isRequired,
     onSetFontTransform: PropTypes.func.isRequired,
     onSetFontColour: PropTypes.func.isRequired,
+    onSetFontBackground: PropTypes.func.isRequired,
     fonts: PropTypes.array.isRequired,
     fixed: PropTypes.boolean
   }
@@ -149,7 +150,8 @@ class FontList extends Component {
       onSetFontSize,
       onSetFontColour,
       onSetFontLeading,
-      onSetFontTracking } = this.props;
+      onSetFontTracking,
+      onSetFontBackground } = this.props;
 
     const renderFonts = this.renderFonts || fonts.map((font, i) => {
       return (
@@ -162,6 +164,7 @@ class FontList extends Component {
           onSetFontLeading={onSetFontLeading}
           onSetFontTracking={onSetFontTracking}
           onSetFontColour={onSetFontColour}
+          onSetFontBackground={onSetFontBackground}
           font={font} />
       )
     });

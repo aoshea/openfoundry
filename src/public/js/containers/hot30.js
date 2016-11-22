@@ -4,7 +4,8 @@ import {
   setFontLeading,
   setFontColour,
   setFontTransform,
-  setFontTracking } from '../actions/actions.js';
+  setFontTracking,
+  setFontBackground } from '../actions/actions.js';
 import FontList from '../components/font-list/font-list.js';
 
 const mapStateToProps = (state) => {
@@ -19,7 +20,8 @@ const mapDispatchToProps = ({
   onSetFontLeading: setFontLeading,
   onSetFontTracking: setFontTracking,
   onSetFontColour: setFontColour,
-  onSetFontTransform: setFontTransform
+  onSetFontTransform: setFontTransform,
+  onSetFontBackground: setFontBackground
 })
 
 const Hot30 = connect(
