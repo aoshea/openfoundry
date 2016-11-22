@@ -25,7 +25,7 @@ class FontPreviewContainer extends Component {
 
     super(props);
 
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+    // this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
 
     this.onUpdateFontSize = this.onUpdateFontSize.bind(this);
     this.onUpdateLineHeight = this.onUpdateLineHeight.bind(this);
@@ -35,19 +35,21 @@ class FontPreviewContainer extends Component {
     this.onUpdateTextTransform = this.onUpdateTextTransform.bind(this);
     this.handleFontModelEvent = this.handleFontModelEvent.bind(this)
     this.handleMoreClick = this.handleMoreClick.bind(this);
+    this.onButtonClick = this.onButtonClick.bind(this);
+    this.onSliderUpdate = this.onSliderUpdate.bind(this);
 
     this.isMount = false;
 
-    this.checkProps();
+    // this.checkProps();
 
   }
 
   componentWillUnmount() {
-
-    this.state.font && this.state.font.dispatcher.unregister(this.handleFontModelEventToken)
+    // this.state.font && this.state.font.dispatcher.unregister(this.handleFontModelEventToken)
     this.isMount = false;
   }
 
+  /*
   checkProps() {
 
     const { font, likes } = this.props;
@@ -93,22 +95,21 @@ class FontPreviewContainer extends Component {
       scaled: font.scaled
     };
   }
-
-  componentWillReceiveProps(props) {
-    // this.checkProps(props)
-  }
+  */
 
   componentDidMount() {
 
     this.isMount = true;
 
     // Hack in a smaller font for mobiles
+    /*
     if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !this.state.font.scaled) {
       var self = this;
       setTimeout(function () {
         self.onUpdateFontSize(parseInt(self.state.font.fontSize / 2, 10));
       });
     }
+    */
   }
 
   /**
@@ -163,6 +164,7 @@ class FontPreviewContainer extends Component {
 
   handleMoreClick(e) {
 
+    /*
     const fontPreview = this.refs.fontPreview;
     const offsetTop = fontPreview.getBoundingClientRect().top;
 
@@ -172,6 +174,7 @@ class FontPreviewContainer extends Component {
 
     const { onMoreUpdate } = this.props;
     onMoreUpdate && onMoreUpdate(scrollTop, offsetTop, e);
+    */
   }
 
   onUpdateFontSize(value) {
@@ -185,46 +188,53 @@ class FontPreviewContainer extends Component {
       fontSize: font.fontSize
     });
     */
+    console.log('onUpdateFontSize', value);
 
-    const { onSetFontSize, fontX } = this.props;
-
-    const fontId = getFontId(fontX);
+    const { onSetFontSize, font } = this.props;
 
     onSetFontSize({
-      id: fontId,
+      id: font.get('id'),
       value: parseInt(value, 10)
     })
   }
 
   onUpdateLetterSpacing(value) {
+    /*
     var font = this.state.font;
     font.letterSpacing = value.toFixed(3)
     font.dispatcher.dispatch({
       actionType: 'letter-spacing-update',
       letterSpacing: font.letterSpacing
     });
+    */
   }
 
   onUpdateLineHeight(value) {
+    /*
     var font = this.state.font;
     font.lineHeight = value.toFixed(2)
     font.dispatcher.dispatch({
       actionType: 'line-height-update',
       lineHeight: font.lineHeight
     });
+    */
   }
 
   onUpdateColour(value) {
+    /*
     var font = this.state.font;
     font.color = value
     font.dispatcher.dispatch({
       actionType: 'color-update',
       color: font.color
     });
+    */
   }
 
   onUpdateBackground(value) {
+    /*
     var font = this.state.font;
+
     font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
     font.background = value;
     font.dispatcher.dispatch({
@@ -232,19 +242,102 @@ class FontPreviewContainer extends Component {
       background: font.background,
       backgroundNum: font.backgroundNum
     });
-
+    */
   }
 
   onUpdateTextTransform(value) {
+    /*
     var font = this.state.font;
     font.uppercase = value;
     font.dispatcher.dispatch({
       actionType: 'text-transform-update',
       uppercase: font.uppercase
     });
+    */
+  }
+
+  onButtonClick() {
+    console.log('onButtonClick');
+
+    const { onSetFontSize, font } = this.props;
+
+    const value = parseInt(Math.random() * 25 + 25, 10);
+
+    onSetFontSize({
+      id: font.get('id'),
+      value: parseInt(value, 10)
+    });
+  }
+
+  onSliderUpdate(value) {
+    console.log('on slider update', value);
+
+    const { onSetFontSize, font } = this.props;
+
+    // const value = parseInt(Math.random() * 25 + 25, 10);
+
+    onSetFontSize({
+      id: font.get('id'),
+      value
+    });
   }
 
   render() {
+
+    const { font } = this.props;
+
+    const fontId = font.get('id');
+    const fontName = font.get('fontName');
+
+    // Text body content
+    const fontText = font.get('settingsText');
+    const fontClassNames = "of-font-preview-text-container " + fontId;
+
+    // Get font sizes and max, min, step
+    const fontSize = font.get('settingsFontSize');
+    const maxFontSize = 150;
+    const minFontSize = 9;
+    const stepFontSize = 1;
+
+    // Create font style object to reflect settings
+    const fontStyle = {
+      color: '#ffcc00',
+      fontSize: `${fontSize}px`
+    };
+
+    // Wrapper class name object
+    const containerClassNames = classNames({
+      'of-font-preview-container': true
+    });
+
+    return (
+      <div className={containerClassNames}>
+        <button style={fontStyle} onClick={this.onButtonClick}>Click me</button>
+
+        <div className="of-font-preview-ui">
+          <div className="of-grid-container">
+            <div className="of-row">
+              <FontSlider
+                label="size"
+                initial={fontSize}
+                value={fontSize}
+                max={maxFontSize}
+                step={stepFontSize}
+                min={minFontSize}
+                onUpdate={this.onSliderUpdate} />
+            </div>
+          </div>
+        </div>
+
+        <FontText fontClassNames={fontClassNames} fontStyle={fontStyle} content={fontText} />
+
+      </div>
+    )
+  }
+
+  /*
+  render() {
+
 
     const props = this.props;
 
@@ -319,6 +412,8 @@ class FontPreviewContainer extends Component {
 
     let letterSpacingDigits = 3;
     let leadingDigits = 2;
+
+    console.log('will apply style', fontStyle);
 
     const previewClassName = classNames({
       'not-loaded': !font || !font.fontSize, // slide jump ?
@@ -409,6 +504,7 @@ class FontPreviewContainer extends Component {
       </div>
     )
   }
+  */
 }
 
 FontPreviewContainer.getRandomBackground = (function () {

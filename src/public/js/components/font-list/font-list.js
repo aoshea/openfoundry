@@ -143,6 +143,8 @@ class FontList extends Component {
 
     const { onSetFontSize } = this.props;
 
+    console.log('font-list render()');
+
     var fonts = this.props.fonts || [];
 
     const renderFonts = this.renderFonts || this.props.fonts.map((font, i) => {

@@ -9,31 +9,21 @@ const InitialState = fromJS({
 
 const initialState = InitialState; // .toJS();
 
-const font = (state, action) => {
-  switch (action.type) {
-    case 'ADD_FONT':
-      return {
-        id: action.id,
-        text: action.text,
-        completed: false
-      }
-    case 'UPDATE_SIZE':
-      if (action.id !== state.get('id')) return state;
-      return state.set('settingsFontSize', action.value);
-    default:
-      return state
-  }
+const findItemIndex = (state, id) => {
+  return state.get('fonts').findIndex(
+    (item) => item.get('id') === id
+  )
 }
 
 const fonts = (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_FONT':
-      return [
-        ...state,
-        font(undefined, action)
-      ]
     case 'UPDATE_SIZE':
-      return state.map(f => font(f, action))
+
+      const itemIndex = findItemIndex(state, action.id);
+      const fft = state.getIn(['fonts', itemIndex]);
+      const updatedItem = fft.set('settingsFontSize', action.value);
+
+      return state.setIn(['fonts', itemIndex], updatedItem);
     default:
       return state
   }

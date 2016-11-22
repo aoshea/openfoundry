@@ -10,6 +10,10 @@ import About from './containers/about';
 
 const store = createStore(reducer);
 
+let unsubscribe = store.subscribe(() => {
+  console.log('store.subscribe', store.getState());
+});
+
 render(
   <Provider store={store}>
     <Router history={browserHistory}>

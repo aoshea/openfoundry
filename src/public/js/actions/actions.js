@@ -1,5 +1,5 @@
-export const setFontSize = (id, value) => ({
+export const setFontSize = (font) => ({
   type: 'UPDATE_SIZE',
-  id,
-  value
+  id: font.id,
+  value: font.value
 })

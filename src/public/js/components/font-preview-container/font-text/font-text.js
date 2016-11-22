@@ -1,10 +1,20 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
-export default class FontText extends Component {
-
-  render() {
-    const props = this.props;
-
-    return <div className={props.fontClasses} style={props.fontStyle} ref={function (e) {if (e != null) e.contentEditable = true;}}>{props.content}</div>;
-  }
+const FontText = ({ fontClassNames, fontStyle, content }) => {
+  return (
+    <div
+      className={fontClassNames}
+      style={fontStyle}
+      ref={e => (e !== null ? (e.contentEditable = true) : e)}>
+      {content}
+    </div>
+  )
 }
+
+FontText.propTypes = {
+  fontClassNames: PropTypes.string.isRequired,
+  fontStyle: PropTypes.object.isRequired,
+  content: PropTypes.string.isRequired
+}
+
+export default FontText
