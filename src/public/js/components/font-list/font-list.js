@@ -2,20 +2,19 @@ import React, { Component, PropTypes } from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import classNames from 'classnames';
 import FontPreview from 'components/font-preview/font-preview.js';
-import FontSpecimen from 'components/font-specimen/font-specimen.js';
 import appDispatcher from 'app-dispatcher'
 
 class FontList extends Component {
 
-  propTypes: {
+  static propTypes = {
     onSetFontSize: PropTypes.func.isRequired,
     onSetFontLeading: PropTypes.func.isRequired,
     onSetFontTracking: PropTypes.func.isRequired,
     onSetFontTransform: PropTypes.func.isRequired,
     onSetFontColour: PropTypes.func.isRequired,
     onSetFontBackground: PropTypes.func.isRequired,
-    fonts: PropTypes.array.isRequired,
-    fixed: PropTypes.boolean
+    fonts: PropTypes.object.isRequired,
+    specimenFont: PropTypes.object
   }
 
   constructor(props) {
@@ -100,7 +99,7 @@ class FontList extends Component {
 
   componentDidUpdate() {
 
-    if (!this.props.fixed && this.fixed) {
+    if (!this.props.specimenFont && this.fixed) {
 
       // The FontList got relative, i.e. active
       this.fixed = false;
@@ -125,7 +124,7 @@ class FontList extends Component {
         this.refs.list.style.transform = 'translateY(' + this.translatedSmoothScroll + 'px)';
       }
 
-    } else if (this.props.fixed && !this.fixed) {
+    } else if (this.props.specimenFont && !this.fixed) {
 
       // FontList got fixed, i.e. inactive
       this.fixed = true;
@@ -133,6 +132,7 @@ class FontList extends Component {
   }
 
   onMoreUpdate(scrollTop) {
+    console.log(`onMoreUpdate ${scrollTop}`)
     // remember the scroll position to land at the
     // same offset when coming back from Specimen
     this.setState({
@@ -146,13 +146,15 @@ class FontList extends Component {
 
     const {
       fonts,
-      fixed,
+      specimenFont,
       onSetFontSize,
       onSetFontColour,
       onSetFontLeading,
       onSetFontTracking,
       onSetFontTransform,
       onSetFontBackground } = this.props;
+
+    console.log('font-list.js: specimenFont ', specimenFont)
 
     const renderFonts = this.renderFonts || fonts.map((font, i) => {
       return (
@@ -177,21 +179,20 @@ class FontList extends Component {
 
     const fontListClassNames = classNames({
       'of-font-list-container': true,
-      'of-font-list--fixed': fixed
+      'of-font-list--fixed': specimenFont
     });
 
     // Offset by `.of-main` top offset
     const fontListStyle = {
       // 50px being the height of the nav bar
-      transform: fixed ? 'translateY(' + (50 + (lastScrollTop * -1)) + 'px)' : 'none'
+      transform: specimenFont ? 'translateY(' + (50 + (lastScrollTop * -1)) + 'px)' : 'none'
     };
 
     return (
       <div className={fontListClassNames}>
-      <div style={fontListStyle} ref="list" className='of-font-list'>
-        {renderFonts}
-        { this.state.specimen ? <FontSpecimen /> : null }
-      </div>
+        <div style={fontListStyle} ref="list" className='of-font-list'>
+          {renderFonts}
+        </div>
       </div>
     )
   }

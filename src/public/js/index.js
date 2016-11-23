@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, browserHistory, IndexRedirect } from 'react-router';
+import { Router, Route, browserHistory, IndexRoute, IndexRedirect } from 'react-router';
 import { render } from 'react-dom'
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -17,7 +17,7 @@ render(
       <Route path="/" component={OFApp}>
         <IndexRedirect to="/hot30" />
         <Route path="/hot30" component={Hot30} />
-        <Route path="/hot30/:fontId" component={Specimen} />
+        <Route path="/hot30/:fontId" component={Hot30} />
         <Route path="about" component={About} />
       </Route>
     </Router>

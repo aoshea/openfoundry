@@ -24,7 +24,8 @@ class FontPreview extends Component {
     onSetFontColour: PropTypes.func.isRequired,
     onSetFontTransform: PropTypes.func.isRequired,
     onSetFontBackground: PropTypes.func.isRequired,
-    font: PropTypes.object.isRequired
+    font: PropTypes.object.isRequired,
+    isSpecimen: PropTypes.bool
   }
 
   constructor(props) {
@@ -157,12 +158,10 @@ class FontPreview extends Component {
 
   render() {
 
-    const { font, fixed } = this.props;
+    const { font, isSpecimen } = this.props;
 
     const fontId = font.get('id');
     const fontName = font.get('fontName');
-
-    console.log(`${fontId} preview render()`)
 
     // Text body content
     const fontText = font.get('settingsText');
@@ -214,13 +213,14 @@ class FontPreview extends Component {
       'is-image': backgroundState === 'image',
       'is-black': backgroundState === 'black',
       'white-noimage is-white': backgroundState === 'white',
-      'black-image': backgroundState !== 'white'
+      'black-image': backgroundState !== 'white',
+      'is-fixed': isSpecimen
     });
 
     const isList = true
 
     return (
-      <div className={containerClassNames} style={backgroundStyle}>
+      <div ref="fontPreview" className={containerClassNames} style={backgroundStyle}>
         <div className="of-font-preview-ui">
           <div className="of-grid-container">
             <div className="of-row">
@@ -259,7 +259,7 @@ class FontPreview extends Component {
                 onUpdateTextTransform={this.onUpdateTextTransform} />
               <div className="col-2 more-button-container">
                 <Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>
-                  { fixed
+                  { isSpecimen
                     ? <span className="more-button source-mode">Source Page</span>
                     : <span className="more-button default-mode">Explore Font</span> }
                 </Link>

@@ -4,6 +4,7 @@
   position: relative;
   visibility: hidden;
 }
+
 .of-specimen-overlay {
   position: relative;
   margin-top: 85vh;
@@ -12,12 +13,12 @@
 }
 
 .of-specimen-overlay.specstate-appear {
-    transform: translate3d(0, 15vh, 0);
+  transform: translate3d(0, 15vh, 0);
 }
 
 .of-specimen-overlay,
 .of-specimen-overlay.specstate-appear-active {
-    transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .of-specimen-overlay.specstate-appear.specstate-appear-active {
@@ -32,25 +33,22 @@
 
 .of-font-specimen-image {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background-size: cover;
   background-position: center;
 }
 
 .of-spec-preview-cover {
-    display: block;
-    pointer-events: none;
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    z-index: 400;
+  display: block;
+  pointer-events: none;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  z-index: 400;
 }
 
 .of-preview-wrapper {

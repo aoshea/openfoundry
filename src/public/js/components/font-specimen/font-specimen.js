@@ -1,7 +1,7 @@
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import ReactTransitionGroup from 'react-addons-transition-group';
 import Linkify from 'react-linkify';
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import $ from 'jquery';
 import { replaceNonAlphaNumeric, camelCaseToUnderscore } from '../../util/util.js';
 import { getAboutText, getShareMessage } from 'util/content_util.js';
@@ -15,8 +15,11 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import appDispatcher from 'app-dispatcher'
 
-
 export default class FontSpecimen extends Component {
+
+  static propTypes = {
+    font: PropTypes.object.isRequired
+  }
 
   constructor(props) {
     super(props);
@@ -70,6 +73,7 @@ export default class FontSpecimen extends Component {
   }
 
   componentWillAppear(cb) {
+    console.log('componentWillAppear')
     this.setState({
       moveToOffset: (window.tempOffset - 50) || 0
     });
@@ -93,7 +97,7 @@ export default class FontSpecimen extends Component {
   }
 
   componentDidMount() {
-    setTimeout(function () {
+    this.timeout = setTimeout(function () {
       $(window).on('scroll', this.onScroll);
     }.bind(this), 1000)
   }
@@ -101,6 +105,10 @@ export default class FontSpecimen extends Component {
   componentWillUnmount() {
     this.refs['of-specimen'].removeEventListener('touchstart', this.touchStartHandler);
     $(window).off('scroll', this.onScroll);
+    if (this.timeout) {
+      clearTimeout(this.timeout)
+      this.timeout = null
+    }
   }
 
   onClickSource(scrollTop, offsetTop, e) {
@@ -178,7 +186,7 @@ export default class FontSpecimen extends Component {
 
         <div ref="of-preview-wrapper" style={holderStyle} className='of-preview-wrapper'>
           <FontPreview
-            fixed={true}
+            isSpecimen={true}
             onMoreUpdate={this.onClickSource}
             rank={previewKey}
             key={previewKey}

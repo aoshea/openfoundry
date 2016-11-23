@@ -6,12 +6,12 @@ import {
   setFontTransform,
   setFontTracking,
   setFontBackground } from 'actions/actions.js';
-import FontList from 'components/font-list/font-list.js';
+import Hot30Page from 'components/hot30-page/hot30-page.js';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     fonts: state.fonts.get('fonts'),
-    fixed: false
+    specimenFontId: ownProps.params.fontId
   }
 }
 
@@ -27,6 +27,6 @@ const mapDispatchToProps = ({
 const Hot30 = connect(
   mapStateToProps,
   mapDispatchToProps
-)(FontList)
+)(Hot30Page)
 
 export default Hot30
