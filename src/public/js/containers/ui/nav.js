@@ -7,12 +7,13 @@ import {
   showBreadcrumbs,
   hideBreadcrumbs } from './actions'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     fonts: state.fonts.get('fonts'),
     menuOpen: state.ui.get('menuOpen'),
     breadcrumbUp: state.ui.get('breadcrumpUp'),
-    logoUp: state.ui.get('logoUp')
+    logoUp: state.ui.get('logoUp'),
+    fontId: ownProps.fontId
   }
 }
 

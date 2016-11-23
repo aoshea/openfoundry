@@ -18,6 +18,12 @@ import appDispatcher from 'app-dispatcher'
 export default class FontSpecimen extends Component {
 
   static propTypes = {
+    onSetFontSize: PropTypes.func.isRequired,
+    onSetFontLeading: PropTypes.func.isRequired,
+    onSetFontTracking: PropTypes.func.isRequired,
+    onSetFontTransform: PropTypes.func.isRequired,
+    onSetFontColour: PropTypes.func.isRequired,
+    onSetFontBackground: PropTypes.func.isRequired,
     font: PropTypes.object.isRequired
   }
 
@@ -73,12 +79,11 @@ export default class FontSpecimen extends Component {
   }
 
   componentWillAppear(cb) {
-    console.log('componentWillAppear')
     this.setState({
       moveToOffset: (window.tempOffset - 50) || 0
     });
 
-    setTimeout(cb, 300);
+    this.appearTimeout = setTimeout(cb, 300);
   }
 
   componentDidAppear() {
@@ -109,6 +114,10 @@ export default class FontSpecimen extends Component {
       clearTimeout(this.timeout)
       this.timeout = null
     }
+    if (this.appearTimeout) {
+      clearTimeout(this.appearTimeout)
+      this.appearTimeout = null
+    }
   }
 
   onClickSource(scrollTop, offsetTop, e) {
@@ -124,14 +133,23 @@ export default class FontSpecimen extends Component {
 
   render() {
 
-    const { font } = this.props;
+    const {
+      onSetFontSize,
+      onSetFontLeading,
+      onSetFontTracking,
+      onSetFontTransform,
+      onSetFontColour,
+      onSetFontBackground,
+      font } = this.props;
     const state = this.state
 
     const previewKey = font.get('fontName');
     const fontName = font.get('fontName');
     const specimenCreator = font.get('specimenCreator');
     const specimenCreatorLink = font.get('specimenCreatorLink');
-    const fontClassName = camelCaseToUnderscore(font.get('fontId'));
+    const fontClassName = font.get('id');
+
+    console.log(`fontClassName${fontClassName}`)
     const styleDesc = font.get('fontStyle');
     const foundBy = font.get('infoDiscoverer');
     const infoAbout = font.get('infoAbout');
@@ -186,6 +204,12 @@ export default class FontSpecimen extends Component {
 
         <div ref="of-preview-wrapper" style={holderStyle} className='of-preview-wrapper'>
           <FontPreview
+            onSetFontSize={onSetFontSize}
+            onSetFontLeading={onSetFontLeading}
+            onSetFontTracking={onSetFontTracking}
+            onSetFontTransform={onSetFontTransform}
+            onSetFontColour={onSetFontColour}
+            onSetFontBackground={onSetFontBackground}
             isSpecimen={true}
             onMoreUpdate={this.onClickSource}
             rank={previewKey}

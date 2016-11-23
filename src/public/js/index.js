@@ -7,7 +7,6 @@ import reducer from './reducers';
 import OFApp from './of-app';
 import Hot30 from 'containers/hot30/hot30';
 import About from 'containers/about';
-import Specimen from 'containers/specimen/specimen'
 
 const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
 

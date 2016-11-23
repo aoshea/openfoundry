@@ -20,12 +20,9 @@ class Hot30Page extends Component {
   constructor(props) {
     super(props);
     this.onCompleteSpecimenScroll = this.onCompleteSpecimenScroll.bind(this)
-    console.log('Hot30Page()')
   }
 
   onCompleteSpecimenScroll() {
-    console.log('this.context.router.push("/hot30");')
-
     this.context.router.push('/hot30')
   }
 
@@ -43,8 +40,6 @@ class Hot30Page extends Component {
 
     const specimenFont = specimenFontId ? fonts.find(f => f.get('id') === specimenFontId) : null
 
-    console.log(specimenFontId, specimenFont)
-
     return (
       <div>
         <Helmet title={"OpenFoundry / Hot 30"} />
@@ -60,11 +55,16 @@ class Hot30Page extends Component {
         {specimenFont &&
           <ReactTransitionGroup>
             <FontSpecimen
+              onSetFontSize={onSetFontSize}
+              onSetFontLeading={onSetFontLeading}
+              onSetFontTracking={onSetFontTracking}
+              onSetFontTransform={onSetFontTransform}
+              onSetFontColour={onSetFontColour}
+              onSetFontBackground={onSetFontBackground}
               onCompleteScroll={this.onCompleteSpecimenScroll}
               fontId={specimenFontId}
               font={specimenFont} />
           </ReactTransitionGroup>}
-
       </div>
     )
   }

@@ -132,7 +132,6 @@ class FontList extends Component {
   }
 
   onMoreUpdate(scrollTop) {
-    console.log(`onMoreUpdate ${scrollTop}`)
     // remember the scroll position to land at the
     // same offset when coming back from Specimen
     this.setState({
@@ -153,8 +152,6 @@ class FontList extends Component {
       onSetFontTracking,
       onSetFontTransform,
       onSetFontBackground } = this.props;
-
-    console.log('font-list.js: specimenFont ', specimenFont)
 
     const renderFonts = this.renderFonts || fonts.map((font, i) => {
       return (

@@ -9,6 +9,7 @@ export default class NavBar extends Component {
 
   propTypes: {
     fonts: PropTypes.array.isRequired,
+    fontId: PropTypes.string,
     menuOpen: PropTypes.bool.isRequired,
     breadcrumbUp: PropTypes.bool.isRequired,
     logoUp: PropTypes.bool.isRequired,
@@ -96,12 +97,11 @@ export default class NavBar extends Component {
   handleBurgerClick() {
 
     const { closeMenu, openMenu, menuOpen } = this.props;
+    const newMenuOpen = !menuOpen
 
-    if (menuOpen) {
-      closeMenu({ menuOpen: false })
-    } else {
-      openMenu({ menuOpen: true })
-    }
+    return menuOpen
+      ? closeMenu({ menuOpen: newMenuOpen })
+      : openMenu({ menuOpen: newMenuOpen })
   }
 
   handleMenuClick() {
@@ -113,7 +113,12 @@ export default class NavBar extends Component {
 
   render() {
 
-    const { fonts, menuOpen, breadcrumbUp, logoUp } = this.props;
+    const {
+      fonts,
+      fontId,
+      menuOpen,
+      breadcrumbUp,
+      logoUp } = this.props;
 
     // Define class names based on ui state
     const iconClassName = menuOpen ? 'menu-icon active' : 'menu-icon';
@@ -126,32 +131,54 @@ export default class NavBar extends Component {
     }
 
     // Breadcrumbs are based on location string
-    const pathName = window.location.pathname;
+    // const pathName = window.location.pathname;
 
-    let breadcrumb = '';
+    let breadcrumb = ''
+
+    // Get breadcrumb for fonts
+    if (fonts && fontId) {
+      let breadClassFirstName = breadClassName + ' first-level'
+      let matchedFont = fonts.find(f => f.get('id') === fontId)
+
+      breadcrumb = [
+        <li className={breadClassFirstName} key='level-1'><Link to="/hot30">Hot30</Link></li>,
+        <li className={breadClassName} key='level-2'>{matchedFont.get('fontName')}</li>
+      ]
+
+    } else {
+      breadcrumb = (<li className={breadClassName}>Hot30</li>)
+    }
+
+    // Breadcrumbs based on location string if not on fonts(hot30) page
+    const pathName = window.location.pathname
+
+    // Override breadcrumb variable if any match
+    if (pathName === '/about') {
+      breadcrumb = <li className={breadClassName}>About</li>;
+    } else if (pathName === '/submit') {
+      breadcrumb = <li className={breadClassName}>Submit</li>;
+    } else if (pathName === '/signup') {
+      breadcrumb = <li className={breadClassName}>Signup</li>;
+    }
 
     // matches specimen page and extracts ID
-    const matchSpecimen = pathName.match(/\/hot30\/(.*)/i);
+    // const matchSpecimen = pathName.match(/\/hot30\/(.*)/i);
 
     // If we find a font in path, store in the variable
-    let matchedFontName = '';
+    // let matchedFontName = '';
 
-    if (pathName === '/hot30') {
+    // if (pathName === '/hot30') {
 
-      console.log('matched pathname hot30!')
+      // breadcrumb = (<li className={breadClassName}>Hot30</li>)
 
-      breadcrumb = (<li className={breadClassName}>Hot30</li>)
-
-    } else if (matchSpecimen && matchSpecimen.length === 2) {
-
-      console.log('matched pathname for FONT!', fonts)
+      // } else if (matchSpecimen && matchSpecimen.length === 2) {
 
       // add an extra class so hot30 can grey out
-      var breadClassFirstName = breadClassName + ' first-level';
+      // var breadClassFirstName = breadClassName + ' first-level';
       // font list needs to be loaded to match the name
-      if (fonts) {
+      // if (fonts) {
         // map id -> font
-        const matchedFont = fonts.find(o => o.get('id') === matchSpecimen[1])
+        // const matchedFont = fonts.find(o => o.get('id') === matchSpecimen[1])
 
         /*
         let font = this.state.fonts.find(function (o) {
@@ -159,24 +186,24 @@ export default class NavBar extends Component {
         });
         */
 
-        matchedFontName = !!matchedFont ? matchedFont.get('fontName') : 'Unknown font'
+        // matchedFontName = !!matchedFont ? matchedFont.get('fontName') : 'Unknown font'
 
         // extract the full font name
         // var fontName = !!font ? getFullFontName(font) : "";
-      }
+        // }
       // setup breadcrumbs
-      breadcrumb = [
-        <li className={breadClassFirstName} key='level-1'><Link to="/hot30">Hot30</Link></li>,
-        <li className={breadClassName} key='level-2'>{matchedFontName}</li>
-      ];
+      // breadcrumb = [
+        // <li className={breadClassFirstName} key='level-1'><Link to="/hot30">Hot30</Link></li>,
+        // <li className={breadClassName} key='level-2'>{matchedFontName}</li>
+        // ];
 
-    } else if (pathName === '/about') {
-      breadcrumb = <li className={breadClassName}>About</li>;
-    } else if (pathName === '/submit') {
-      breadcrumb = <li className={breadClassName}>Submit</li>;
-    } else if (pathName === '/signup') {
-      breadcrumb = <li className={breadClassName}>Signup</li>;
-    }
+    // } else if (pathName === '/about') {
+      // breadcrumb = <li className={breadClassName}>About</li>;
+      // } else if (pathName === '/submit') {
+      // breadcrumb = <li className={breadClassName}>Submit</li>;
+      // } else if (pathName === '/signup') {
+      // breadcrumb = <li className={breadClassName}>Signup</li>;
+      // }
 
     return <header className='of-navbar'>
       <nav>
