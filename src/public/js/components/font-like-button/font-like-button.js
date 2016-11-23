@@ -34,7 +34,7 @@ export default class FontLikeButton extends Component {
 
     var { font } = this.props;
     if (!font) return;
-    font.dispatcher.unregister(this.handleFontModelEventToken);
+    // font.dispatcher.unregister(this.handleFontModelEventToken);
   }
 
   handleAppEvent(e) {
@@ -61,7 +61,7 @@ export default class FontLikeButton extends Component {
     this.isInit = true;
     this.state.likes = font.likesNum;
     this.state.locked = font.locked;
-    this.handleFontModelEventToken = font.dispatcher.register(this.handleFontEvent);
+    // this.handleFontModelEventToken = font.dispatcher.register(this.handleFontEvent);
   }
 
   onUpdateLikes(value) {

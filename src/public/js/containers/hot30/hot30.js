@@ -5,8 +5,8 @@ import {
   setFontColour,
   setFontTransform,
   setFontTracking,
-  setFontBackground } from '../actions/actions.js';
-import FontList from '../components/font-list/font-list.js';
+  setFontBackground } from 'actions/actions.js';
+import FontList from 'components/font-list/font-list.js';
 
 const mapStateToProps = (state) => {
   return {

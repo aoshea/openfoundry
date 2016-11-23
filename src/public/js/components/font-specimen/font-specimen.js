@@ -3,7 +3,7 @@ import ReactTransitionGroup from 'react-addons-transition-group';
 import Linkify from 'react-linkify';
 import React, { Component } from 'react';
 import $ from 'jquery';
-import { replaceNonAlphaNumeric } from '../../util/util.js';
+import { replaceNonAlphaNumeric, camelCaseToUnderscore } from '../../util/util.js';
 import { getAboutText, getShareMessage } from 'util/content_util.js';
 import FontPreview from 'components/font-preview/font-preview.js';
 import FontSpecimenImage from 'components/font-specimen/specimen-image/specimen-image.js';
@@ -106,7 +106,7 @@ export default class FontSpecimen extends Component {
   onClickSource(scrollTop, offsetTop, e) {
 
     const { font } = this.props
-    const link = font['font-open-source-link'];
+    const link = font['fontOpenSourceLink'];
 
     window.open(link);
 
@@ -117,29 +117,27 @@ export default class FontSpecimen extends Component {
   render() {
 
     const { font } = this.props;
-    const state = this.state;
+    const state = this.state
 
-    if (!font) return <div>nothing here</div>
-
-    const previewKey = font['font-name'];
-    const fontName = font['font-name'];
-    const specimenCreator = font['specimen-creator'];
-    const specimenCreatorLink = font['specimen-creator-link'];
-    const fontClassName = replaceNonAlphaNumeric(font['font-id']);
-    const styleDesc = font['font-style'];
-    const foundBy = font['info-discoverer'];
-    const infoAbout = font['info-about'];
-    const infoWeight = font['info-weight'];
-    const creator = font['font-creator'];
-    const creatorLink = font['font-creator-link'];
-    const foundry = font['font-foundry'];
-    const foundryLink = font['font-foundry-link'];
-    const fontDownloadLink = font['font-download-link'];
-    const fontOpenSourceLink = font['font-open-source-link'];
+    const previewKey = font.get('fontName');
+    const fontName = font.get('fontName');
+    const specimenCreator = font.get('specimenCreator');
+    const specimenCreatorLink = font.get('specimenCreatorLink');
+    const fontClassName = camelCaseToUnderscore(font.get('fontId'));
+    const styleDesc = font.get('fontStyle');
+    const foundBy = font.get('infoDiscoverer');
+    const infoAbout = font.get('infoAbout');
+    const infoWeight = font.get('infoWeight');
+    const creator = font.get('fontCreator');
+    const creatorLink = font.get('fontCreatorLink');
+    const foundry = font.get('fontFoundry');
+    const foundryLink = font.get('fontFoundryLink');
+    const fontDownloadLink = font.get('fontDownloadLink');
+    const fontOpenSourceLink = font.get('fontOpenSourceLink');
     const aboutText = getAboutText(font);
 
-    var oFontName = font['font-name'];
-    var oFontStyle = font['font-style'];
+    var oFontName = font.get('fontName');
+    var oFontStyle = font.get('fontStyle');
 
     var shareMessage = getShareMessage(font);
 

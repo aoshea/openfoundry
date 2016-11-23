@@ -48,6 +48,11 @@ db.once('open', function() {
   });
 
   Font = mongoose.model('Font', fontSchema);
+
+  // Only create server once we have connected to the database
+  http.createServer(app).listen(port, function () {
+    console.log('Express server running at port:' + port + ' in ' + nodeEnv + ' mode');
+  });
 });
 
 // set up Jade
@@ -72,8 +77,9 @@ app.get('/submit', function (req, res) {
 
 app.get('/hot30/:id', function (req, res) {
   var fontId = req.params.id
-  var matches = fonts.filter(function (font) {
-    var id = font['font-id'];
+
+  var matches = fonts.fonts.filter(function (font) {
+    var id = font['fontId'];
     return replaceNonAlphaNumeric(id).toLowerCase() === fontId;
   });
   var currentFont = matches.length ? matches[0] : null;
@@ -200,11 +206,4 @@ app.use(express.static(__dirname + '/public'));
  */
 app.use(function (req, res) {
   res.status(404).send('404: Page not found');
-});
-
-/**
- * Create server
- */
-http.createServer(app).listen(port, function () {
-  console.log('Express server running at port:' + port + ' in ' + nodeEnv + ' mode');
 });

@@ -8,6 +8,7 @@ import FontColours from 'components/font-colours/font-colours.js';
 import FontLikeButton from 'components/font-like-button/font-like-button.js';
 import FontShareButton from 'components/font-share-button/font-share-button.js';
 import FontPreviewText from 'components/font-preview-text/font-preview-text.js';
+import FontPreviewFooter from 'components/font-preview-footer/font-preview-footer'
 import $ from 'jquery';
 import classNames from 'classnames';
 import shuffle from 'shuffle-array';
@@ -45,58 +46,22 @@ class FontPreview extends Component {
     this.isMount = false;
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    const { font: nextFont } = nextProps
+    const { font: prevFont } = this.props
+
+    if (prevFont.get('settingsFontSize') !== nextFont.get('settingsFontSize')) return true
+    if (prevFont.get('settingsLineHeight') !== nextFont.get('settingsLineHeight')) return true
+    if (prevFont.get('settingsLetterSpacing') !== nextFont.get('settingsLetterSpacing')) return true
+    if (prevFont.get('settingsBackgroundState') !== nextFont.get('settingsBackgroundState')) return true
+    if (prevFont.get('settingsColor') !== nextFont.get('settingsColor')) return true
+    if (prevFont.get('settingsTextTransform') !== nextFont.get('settingsTextTransform')) return true
+    return false
+  }
+
   componentWillUnmount() {
-    // this.state.font && this.state.font.dispatcher.unregister(this.handleFontModelEventToken)
     this.isMount = false;
   }
-
-  /*
-  checkProps() {
-
-    const { font, likes } = this.props;
-
-    if (!font) return;
-
-    if (!font.dispatcher) {
-      // we're using the font object as a model to be reflected
-      // by any views referencing it (i.e. list & specimen).
-      // This could be done better by implementing Flux entirely,
-      // however this seems to work fine for now.
-      font.dispatcher = new Dispatcher
-    }
-
-    this.handleFontModelEventToken = font.dispatcher.register(this.handleFontModelEvent)
-
-    // get the font settings from the default settings if not changed by the user
-    font.fontSize = font.fontSize || parseInt(font.get('settingsFontSize'), 10);
-    font.lineHeight = font.lineHeight || parseFloat(font.get('settingsLineHeight'), 10);
-    font.letterSpacing = font.letterSpacing || parseFloat(font.get('settingsLetterSpacing'), 10);
-    font.color = font.color || font.get('settingsColor');
-    font.uppercase = font.uppercase || font.get('settingsTextTransform') === 'uppercase';
-    font.backgroundNum = font.backgroundNum || FontPreviewContainer.getRandomBackground();
-
-    if (typeof font.background === 'undefined') {
-      // set background to 0, 1, 2
-      font.background = ['white', 'black', 'image'].indexOf(font.get('settingsBackgroundState'));
-      // safeguard in case of invalid value
-      font.background = font.background > -1 ? font.background : 0;
-    }
-
-    this.state = {
-      font: font,
-      // size: font.fontSize,
-      likes: likes,
-      lineHeight: font.lineHeight,
-      letterSpacing: font.letterSpacing,
-      color: font.color,
-      background: font.background,
-      backgroundNum: font.backgroundNum,
-      locked: false,
-      uppercase: font.uppercase,
-      scaled: font.scaled
-    };
-  }
-  */
 
   componentDidMount() {
 
@@ -115,24 +80,20 @@ class FontPreview extends Component {
 
   handleMoreClick(e) {
 
-    /*
     const fontPreview = this.refs.fontPreview;
     const offsetTop = fontPreview.getBoundingClientRect().top;
 
     window.tempOffset = offsetTop;
 
-    var scrollTop = $(window).scrollTop();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop
 
     const { onMoreUpdate } = this.props;
     onMoreUpdate && onMoreUpdate(scrollTop, offsetTop, e);
-    */
   }
 
   onUpdateBackground(value) {
 
     const { onSetFontBackground, font } = this.props;
-
-    console.log('onUpdateBackground', value);
 
     // Update new random background?
     // if (value === 'image') this.backgroundIndex = FontPreview.getRandomBackground();
@@ -147,8 +108,6 @@ class FontPreview extends Component {
 
     const { onSetFontColour, font } = this.props;
 
-    console.log('onUpdatecolour', value);
-
     onSetFontColour({
       id: font.get('id'),
       value
@@ -158,9 +117,6 @@ class FontPreview extends Component {
   onUpdateTextTransform(value) {
 
     const { onSetFontTransform, font } = this.props;
-
-    console.log('onUpdateTextTransform', value);
-
     const textTransformValue = value ? 'uppercase' : 'none'
 
     onSetFontTransform({
@@ -201,10 +157,12 @@ class FontPreview extends Component {
 
   render() {
 
-    const { font } = this.props;
+    const { font, fixed } = this.props;
 
     const fontId = font.get('id');
     const fontName = font.get('fontName');
+
+    console.log(`${fontId} preview render()`)
 
     // Text body content
     const fontText = font.get('settingsText');
@@ -259,6 +217,8 @@ class FontPreview extends Component {
       'black-image': backgroundState !== 'white'
     });
 
+    const isList = true
+
     return (
       <div className={containerClassNames} style={backgroundStyle}>
         <div className="of-font-preview-ui">
@@ -297,10 +257,24 @@ class FontPreview extends Component {
                 onUpdate={this.onUpdateColour}
                 onUpdateBackground={this.onUpdateBackground}
                 onUpdateTextTransform={this.onUpdateTextTransform} />
+              <div className="col-2 more-button-container">
+                <Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>
+                  { fixed
+                    ? <span className="more-button source-mode">Source Page</span>
+                    : <span className="more-button default-mode">Explore Font</span> }
+                </Link>
+              </div>
             </div>
           </div>
         </div>
-        <FontPreviewText fontClassNames={fontClassNames} fontStyle={fontStyle} content={fontText} />
+        <FontPreviewText
+          fontClassNames={fontClassNames}
+          fontStyle={fontStyle}
+          content={fontText} />
+        <FontPreviewFooter
+          onMoreClick={this.handleMoreClick}
+          font={font}
+          isList={isList} />
       </div>
     )
   }
