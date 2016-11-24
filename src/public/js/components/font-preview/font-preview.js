@@ -22,6 +22,7 @@ class FontPreview extends Component {
     onSetFontTransform: PropTypes.func.isRequired,
     onSetFontBackground: PropTypes.func.isRequired,
     font: PropTypes.object.isRequired,
+    rank: PropTypes.number,
     likeCount: PropTypes.number.isRequired,
     isSpecimen: PropTypes.bool
   }
@@ -41,8 +42,6 @@ class FontPreview extends Component {
     this.onSizeSliderUpdate = this.onSizeSliderUpdate.bind(this);
     this.onLeadingSliderUpdate = this.onLeadingSliderUpdate.bind(this);
     this.onTrackingSliderUpdate = this.onTrackingSliderUpdate.bind(this);
-
-    this.isMount = false;
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -60,22 +59,26 @@ class FontPreview extends Component {
   }
 
   componentWillUnmount() {
-    this.isMount = false;
+    if (this.timeout) {
+      clearTimeout(this.timeout)
+      this.timeout = null
+    }
   }
 
   componentDidMount() {
-
-    this.isMount = true;
-
     // Hack in a smaller font for mobiles
-    /*
     if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !this.state.font.scaled) {
-      var self = this;
-      setTimeout(function () {
-        self.onUpdateFontSize(parseInt(self.state.font.fontSize / 2, 10));
-      });
+
+      const { onSetFontSize, font } = this.props
+
+      this.timeout = setTimeout(() => {
+
+        onSetFontSize({
+          id: font.get('id'),
+          value: parseInt(font.get('settingsFontSize') / 2, 10)
+        })
+      }, 1);
     }
-    */
   }
 
   handleMoreClick(e) {
@@ -157,7 +160,7 @@ class FontPreview extends Component {
 
   render() {
 
-    const { font, isSpecimen, likeCount } = this.props;
+    const { font, rank, isSpecimen, likeCount } = this.props;
 
     const fontId = font.get('id');
     const fontName = font.get('fontName');
@@ -271,6 +274,7 @@ class FontPreview extends Component {
           fontStyle={fontStyle}
           content={fontText} />
         <FontPreviewFooter
+          rank={rank}
           onMoreClick={this.handleMoreClick}
           font={font}
           likeCount={likeCount}
@@ -278,190 +282,19 @@ class FontPreview extends Component {
       </div>
     )
   }
-
-  /*
-  render() {
-
-
-    const props = this.props;
-
-    let { font, likes } = props;
-
-    if (!font) {
-      return <div> </div>
-    }
-
-    let fontId = font.get('id');
-    let fontName = replaceNonAlphaNumeric(font.get('fontName')).toLowerCase();
-
-    let oFontName = font.get('fontName');
-
-    let oFontCreator = font.get('fontCreator');
-    let oFontCreatorLink = font.get('fontCreatorLink');
-
-    let spanFontCreator = oFontCreatorLink ? <span>{oFontCreator}</span> : <span>{oFontCreator}</span>
-
-    let oFontStyle = font.get('fontStyle');
-
-    // Sort rank
-    const rhyphen = " — ";
-    const rankSpace = " ";
-    const rankComma = ", ";
-    const rankPaddedNum = ("0" + props.rank).slice(-2);
-    const rankNum = <span>{rankPaddedNum}{rhyphen}</span>
-    const rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
-    const rankCreator = spanFontCreator;
-
-    let fontClassName = "of-font-preview-text-container " + fontId;
-
-    // Font size coming from redux state
-    let fontSize = parseInt(font.get('settingsFontSize'), 10);
-
-    let lineHeight = parseFloat(this.state.lineHeight || font.get('settingsLineHeight'), 10);
-    let letterSpacing = parseFloat(this.state.letterSpacing || font.get('settingsLetterSpacing'), 10);
-    let color = this.state.color || font.get('settingsColor');
-    let uppercase = this.state.uppercase || font.get('settingsTextTransform') === 'uppercase';
-
-    let maxFontSize = 150;
-    let minFontSize = 9;
-
-    let maxLineHeight = 2;
-    let minLineHeight = 0.5;
-
-    let minLetterSpacing = parseFloat(font.get('settingsLetterSpacingMin'), 10);
-    let maxLetterSpacing = 1;
-
-    let stepFontSize = 1;
-    let stepLetterSpacing = 0.025;
-    let stepLineHeight = 0.05;
-
-    let shareMessage = getShareMessage(font);
-
-
-    let textTransform = this.state.uppercase ? "uppercase" : "none";
-
-    let fontStyle = {
-      fontSize: `${fontSize}px`,
-      letterSpacing: `${this.state.letterSpacing}em`,
-      lineHeight: `${this.state.lineHeight}em`,
-      color: `${this.state.color}`,
-      textTransform : textTransform
-    };
-
-    let backgroundState = this.state.background;
-
-    let backgroundStyle = {
-      backgroundImage: backgroundState === 2 ? "url(/data/backgrounds/of-backdrop-0" + this.state.backgroundNum + ".jpg)" : "none"
-    };
-
-    let letterSpacingDigits = 3;
-    let leadingDigits = 2;
-
-    console.log('will apply style', fontStyle);
-
-    const previewClassName = classNames({
-      'not-loaded': !font || !font.fontSize, // slide jump ?
-      'of-font-preview-container': true,
-      'is-image': backgroundState === 2,
-      'is-black': backgroundState === 1,
-      'white-noimage is-white': backgroundState === 0,
-      'black-image': backgroundState !== 0,
-      'is-fixed': props.fixed
-    });
-
-    var footer = !this.props.isList ? "" : <div className="of-font-preview-footer">
-      <div className="of-footer-inner">
-        <div className="of-grid-container">
-          <div className="of-row">
-            <div className="col-10 rank">
-              <Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>{rankNum}{rankFontName}<span className="creator-rank">{rankComma}{rankCreator}</span></Link>
-            </div>
-            <div className="col-2 social">
-              <FontLikeButton locked={this.state.locked} font={font} /><FontShareButton message={shareMessage} />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>;
-
-    return (
-      <div ref="fontPreview" className={previewClassName} style={backgroundStyle}>
-
-        <div className="of-font-preview-ui">
-          <div className="of-grid-container">
-            <div className="of-row">
-              <FontSlider label="size"
-                initial={fontSize}
-                value={fontSize}
-                max={maxFontSize}
-                step={stepFontSize}
-                min={minFontSize}
-                onUpdate={this.onUpdateFontSize} />
-
-              <FontSlider
-                label="leading"
-                initial={lineHeight}
-                value={lineHeight}
-                fixed={leadingDigits}
-                min={minLineHeight}
-                max={maxLineHeight}
-                step={stepLineHeight}
-                onUpdate={this.onUpdateLineHeight} />
-
-              <FontSlider
-                label="tracking"
-                initial={letterSpacing}
-                value={letterSpacing}
-                fixed={letterSpacingDigits}
-                min={minLetterSpacing}
-                max={maxLetterSpacing}
-                step={stepLetterSpacing}
-                onUpdate={this.onUpdateLetterSpacing} />
-
-              <FontColours
-                color={color}
-                background={backgroundState}
-                uppercase={uppercase}
-                onUpdate={this.onUpdateColour}
-                onUpdateBackground={this.onUpdateBackground}
-                onUpdateTextTransform={this.onUpdateTextTransform} />
-
-              <div className="col-2 more-button-container">
-                <Link onClick={this.handleMoreClick} to={`/hot30/${fontId}`}>
-                  { props.fixed
-                    ? <span className="more-button source-mode">Source Page</span>
-                    : <span className="more-button default-mode">Explore Font</span> }
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <FontText
-          fontClasses={fontClassName}
-          fontStyle={fontStyle}
-          content={font.get('settingsText')}/>
-
-        { footer }
-
-
-      </div>
-    )
-  }
-  */
 }
 
 FontPreview.getRandomBackground = (function () {
 
-  var numBackgrounds = 41;
-  var backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i) => i + 1));
-  var index = 0;
+  const numBackgrounds = 41;
+  const backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i) => i + 1));
+  let index = 0;
 
-  let pad2 = n => n < 10 ? "0" + n : n;
+  const pad2 = n => n < 10 ? "0" + n : n;
 
   return () => {
     index = (index + 1) % numBackgrounds;
-    let bgNum = backgroundList[index];
+    const bgNum = backgroundList[index];
     return pad2(bgNum);
   }
 }());

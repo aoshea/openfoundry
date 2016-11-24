@@ -2,10 +2,12 @@ import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router';
 import Like from 'containers/like/like'
 import FontShareButton from 'components/font-share-button/font-share-button'
+import { getShareMessage } from 'util/content_util'
 
 export default class FontPreviewFooter extends Component {
 
   static propTypes = {
+    rank: PropTypes.number,
     isList: PropTypes.bool.isRequired,
     font: PropTypes.object.isRequired,
     likeCount: PropTypes.number.isRequired,
@@ -30,7 +32,7 @@ export default class FontPreviewFooter extends Component {
     const fontId = font.get('id')
 
     // something to figure out
-    const shareMessage = 'hi'
+    const shareMessage = getShareMessage(font)
 
     return (
       <div className="of-font-preview-footer">

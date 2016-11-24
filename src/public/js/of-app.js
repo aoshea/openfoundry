@@ -17,7 +17,6 @@ class OFApp extends Component {
     // has `dispatch` auto-added to props
     const { dispatch } = this.props
 
-    console.log(`OFApp dispatch ${dispatch}`)
     dispatch(fetchLikes())
   }
 
@@ -27,7 +26,6 @@ class OFApp extends Component {
     const { fontId } = params
 
     const lastUpdatedTime = new Date(lastUpdated || 0).toTimeString()
-    console.log('OFApp render()', isFetching, lastUpdatedTime)
 
     return (
       <div className="is-loaded">

@@ -8,8 +8,8 @@ const rankComma = ", ";
 export function getFullFontName(font) {
   if (!!!font) return "Undefined Font!";
 
-  let fontStyle = font.get('font-style');
-  let fontName = font.get('font-name');
+  const fontStyle = font.get('fontStyle');
+  const fontName = font.get('fontName');
 
   return fontName + rankSpace + fontStyle;
 }
