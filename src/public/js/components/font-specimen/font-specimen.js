@@ -8,6 +8,7 @@ import { getAboutText, getShareMessage } from 'util/content_util.js';
 import FontPreview from 'components/font-preview/font-preview.js';
 import FontSpecimenImage from 'components/font-specimen/specimen-image/specimen-image.js';
 import cx from 'classnames';
+import Like from 'containers/like/like'
 
 import FontLikeButton from 'components/font-like-button/font-like-button.js';
 import FontShareButton from 'components/font-share-button/font-share-button.js';
@@ -22,7 +23,8 @@ export default class FontSpecimen extends Component {
     onSetFontTransform: PropTypes.func.isRequired,
     onSetFontColour: PropTypes.func.isRequired,
     onSetFontBackground: PropTypes.func.isRequired,
-    font: PropTypes.object.isRequired
+    font: PropTypes.object.isRequired,
+    likes: PropTypes.object.isRequired
   }
 
   constructor(props) {
@@ -138,8 +140,14 @@ export default class FontSpecimen extends Component {
       onSetFontTransform,
       onSetFontColour,
       onSetFontBackground,
-      font } = this.props;
+      font,
+      likes } = this.props;
+
     const state = this.state
+
+    const fontId = font.get('id')
+    const fontLike = likes.find(o => o.get('fontId') === fontId)
+    const likeCount = fontLike ? fontLike.get('likes') : 0
 
     const previewKey = font.get('fontName');
     const fontName = font.get('fontName');
@@ -207,9 +215,9 @@ export default class FontSpecimen extends Component {
             onSetFontBackground={onSetFontBackground}
             isSpecimen={true}
             onMoreUpdate={this.onClickSource}
-            rank={previewKey}
             key={previewKey}
-            font={font} />
+            font={font}
+            likeCount={likeCount} />
           <div style={coverStyle} className="of-spec-preview-cover"></div>
         </div>
 
@@ -266,7 +274,8 @@ export default class FontSpecimen extends Component {
                 <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
               </div>
               <div className="col-5 social">
-                <FontLikeButton font={font} /><FontShareButton message={shareMessage} />
+                <Like fontId={fontId} likeCount={likeCount} />
+                <FontShareButton message={shareMessage} />
               </div>
             </div>
           </div>

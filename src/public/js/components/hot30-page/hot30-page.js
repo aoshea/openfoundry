@@ -69,7 +69,8 @@ class Hot30Page extends Component {
               onSetFontBackground={onSetFontBackground}
               onCompleteScroll={this.onCompleteSpecimenScroll}
               fontId={specimenFontId}
-              font={specimenFont} />
+              font={specimenFont}
+              likes={likes} />
           </ReactTransitionGroup>}
       </div>
     )
