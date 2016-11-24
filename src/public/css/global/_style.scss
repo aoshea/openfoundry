@@ -56,6 +56,20 @@ ul {
   width: 100%;
 }
 
+/* Debug information logging */
+.debug-information {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 20px;
+  border: 1px dashed chartreuse;
+  background-color: black;
+  color: white;
+  z-index: 9999;
+  font-size: 10px;
+}
+
 // mainly for newsletter form
 .nav-hidden {
   header.of-navbar {
@@ -65,3 +79,4 @@ ul {
     top: 0;
   }
 }
+

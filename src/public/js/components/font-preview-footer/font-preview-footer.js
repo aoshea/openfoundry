@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { Link } from 'react-router';
-import FontLikeButton from 'components/font-like-button/font-like-button'
+import Like from 'containers/like/like'
 import FontShareButton from 'components/font-share-button/font-share-button'
 
 export default class FontPreviewFooter extends Component {
@@ -8,12 +8,13 @@ export default class FontPreviewFooter extends Component {
   static propTypes = {
     isList: PropTypes.bool.isRequired,
     font: PropTypes.object.isRequired,
+    likeCount: PropTypes.number.isRequired,
     onMoreClick: PropTypes.func.isRequired
   }
 
   render() {
 
-    const { font, rank, isList, onMoreClick } = this.props
+    const { font, rank, isList, likeCount, onMoreClick } = this.props
 
     // Sort rank
     const rhyphen = " — ";
@@ -26,9 +27,9 @@ export default class FontPreviewFooter extends Component {
     const spanFontCreator = font.get('fontCreatorLink') ? <span>{fontCreator}</span> : <span>{fontCreator}</span>
     const rankCreator = spanFontCreator;
 
-    // something to figure out
-    const locked = false
+    const fontId = font.get('id')
 
+    // something to figure out
     const shareMessage = 'hi'
 
     return (
@@ -43,9 +44,7 @@ export default class FontPreviewFooter extends Component {
                 </Link>
               </div>
               <div className="col-2 social">
-                <FontLikeButton
-                  locked={locked}
-                  font={font} />
+                <Like fontId={fontId} likeCount={likeCount} />
                 <FontShareButton
                   message={shareMessage} />
               </div>

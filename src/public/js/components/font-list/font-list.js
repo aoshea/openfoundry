@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import classNames from 'classnames';
 import FontPreview from 'components/font-preview/font-preview.js';
-import appDispatcher from 'app-dispatcher'
 
 class FontList extends Component {
 
@@ -14,6 +13,7 @@ class FontList extends Component {
     onSetFontColour: PropTypes.func.isRequired,
     onSetFontBackground: PropTypes.func.isRequired,
     fonts: PropTypes.object.isRequired,
+    likes: PropTypes.object.isRequired,
     specimenFont: PropTypes.object
   }
 
@@ -21,24 +21,12 @@ class FontList extends Component {
 
     super(props);
 
-    // this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
     this.onMoreUpdate = this.onMoreUpdate.bind(this);
     this.specimenTouchStartHandler = this.specimenTouchStartHandler.bind(this);
     this.windowTouchEndHandler = this.windowTouchEndHandler.bind(this);
-    this.appEventHandler = this.appEventHandler.bind(this);
 
     this.state = {
       lastScrollTop: 0
-    };
-
-    appDispatcher.register(this.appEventHandler)
-  }
-
-  appEventHandler(e) {
-    switch (e.actionType) {
-      case 'specimen-touch-start':
-        this.specimenTouchStartHandler();
-        break;
     }
   }
 
@@ -145,6 +133,7 @@ class FontList extends Component {
 
     const {
       fonts,
+      likes,
       specimenFont,
       onSetFontSize,
       onSetFontColour,
@@ -154,11 +143,18 @@ class FontList extends Component {
       onSetFontBackground } = this.props;
 
     const renderFonts = this.renderFonts || fonts.map((font, i) => {
+
+      const fontId = font.get('id')
+      const fontLike = likes.find(o => o.get('fontId') === fontId)
+      const likeCount = fontLike ? fontLike.get('likes') : 0
+      const isList = true
+
       return (
         <FontPreview
           rank={ i + 1 }
-          key={font.get('id')}
-          isList='true'
+          key={fontId}
+          likeCount={likeCount}
+          isList={isList}
           onMoreUpdate={this.onMoreUpdate}
           onSetFontSize={onSetFontSize}
           onSetFontLeading={onSetFontLeading}

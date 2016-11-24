@@ -14,6 +14,7 @@ class Hot30Page extends Component {
     onSetFontColour: PropTypes.func.isRequired,
     onSetFontBackground: PropTypes.func.isRequired,
     fonts: PropTypes.object.isRequired,
+    likes: PropTypes.object.isRequired,
     specimenFontId: PropTypes.string
   }
 
@@ -36,8 +37,12 @@ class Hot30Page extends Component {
       onSetFontColour,
       onSetFontBackground,
       fonts,
+      likes,
       specimenFontId } = this.props
 
+    // TODO Add reselect to cache selectors such as these
+    //      Prevent unnecessary computation in render
+    //      Admittedly very little performance gain in most cases
     const specimenFont = specimenFontId ? fonts.find(f => f.get('id') === specimenFontId) : null
 
     return (
@@ -51,6 +56,7 @@ class Hot30Page extends Component {
           onSetFontColour={onSetFontColour}
           onSetFontBackground={onSetFontBackground}
           fonts={fonts}
+          likes={likes}
           specimenFont={specimenFont} />
         {specimenFont &&
           <ReactTransitionGroup>

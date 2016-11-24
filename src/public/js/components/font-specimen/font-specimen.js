@@ -148,8 +148,6 @@ export default class FontSpecimen extends Component {
     const specimenCreator = font.get('specimenCreator');
     const specimenCreatorLink = font.get('specimenCreatorLink');
     const fontClassName = font.get('id');
-
-    console.log(`fontClassName${fontClassName}`)
     const styleDesc = font.get('fontStyle');
     const foundBy = font.get('infoDiscoverer');
     const infoAbout = font.get('infoAbout');
@@ -174,7 +172,6 @@ export default class FontSpecimen extends Component {
       }
       return characterElements;
     })());
-
 
     var foundryElement;
 

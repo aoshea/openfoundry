@@ -1,3 +1,45 @@
+const requestAddLike = (font) => ({
+  type: 'REQUEST_ADD_LIKE',
+  id: font.id
+})
+
+const successAddLike = (font) => ({
+  type: 'SUCCESS_ADD_LIKE',
+  id: font.id
+})
+
+export const addLike = (font) => (dispatch) => {
+  dispatch(requestAddLike(font))
+
+  return fetch(`/api/like/${font.id}`)
+    .then(res => res.json())
+    .then(json => dispatch(successAddLike(font, json)))
+}
+
+export const requestLikes = (fonts) => ({
+  type: 'REQUEST_LIKES',
+  fonts
+})
+
+export const receiveLikes = (fonts, json) => ({
+  type: 'RECEIVE_LIKES',
+  fonts,
+  likes: json.docs,
+  receivedAt: Date.now()
+})
+
+export const fetchLikes = (fonts) => (dispatch) => {
+
+  // Dispatch provided by redux-thunk middleware
+  dispatch(requestLikes(fonts))
+
+  // Return a promise from ajax request
+  // Fetch is web api to replace xmlhttprequest
+  return fetch('/api/fonts/')
+    .then(res => res.json())
+    .then(json => dispatch(receiveLikes(fonts, json)))
+}
+
 export const setFontSize = (font) => ({
   type: 'UPDATE_SIZE',
   id: font.id,

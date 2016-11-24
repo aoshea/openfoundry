@@ -1,14 +1,19 @@
-import React from 'react';
-import { Router, Route, browserHistory, IndexRoute, IndexRedirect } from 'react-router';
+import React from 'react'
+import { Router, Route, browserHistory, IndexRoute, IndexRedirect } from 'react-router'
 import { render } from 'react-dom'
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import reducer from './reducers';
-import OFApp from './of-app';
-import Hot30 from 'containers/hot30/hot30';
-import About from 'containers/about';
+import { Provider } from 'react-redux'
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
+import reducer from './reducers'
+import OFApp from './of-app'
+import Hot30 from 'containers/hot30/hot30'
+import About from 'containers/about'
 
-const store = createStore(reducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__());
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const middleware = [thunk]
+
+const store = createStore(reducer, composeEnhancers(applyMiddleware(...middleware)))
 
 render(
   <Provider store={store}>

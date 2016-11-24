@@ -96,7 +96,6 @@ app.get('/hot30/:id', function (req, res) {
   res.render('index', viewVars);
 });
 
-
 app.get('/hot30', function (req, res) {
   res.render('index', localVars);
 });
@@ -113,8 +112,8 @@ app.get('/debug', function (req, res) {
  * API
  * Get all fonts
  */
-app.get('/api/fonts/', function (req, res) {
-  Font.find({}, function (err, docs) {
+app.get('/api/fonts/', (req, res) => {
+  Font.find({}, (err, docs) => {
     if (err) {
       res.sendStatus(500, {
         error: err
@@ -169,7 +168,7 @@ app.get('/api/like/:fontId', function (req, res) {
     {upsert: true},
     function (err, doc) {
       if (err) return res.send(500, { error: err });
-      return res.send("Saved");
+      return res.json(doc);
     }
   );
 });

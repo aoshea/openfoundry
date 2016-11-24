@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { setFontSize } from '../../actions/actions.js';
-import { Dispatcher } from 'flux';
 import { Link } from 'react-router';
 import { replaceNonAlphaNumeric } from '../../util/util.js';
 import FontSlider from 'components/font-slider/font-slider.js';
@@ -9,11 +8,9 @@ import FontLikeButton from 'components/font-like-button/font-like-button.js';
 import FontShareButton from 'components/font-share-button/font-share-button.js';
 import FontPreviewText from 'components/font-preview-text/font-preview-text.js';
 import FontPreviewFooter from 'components/font-preview-footer/font-preview-footer'
-import $ from 'jquery';
 import classNames from 'classnames';
 import shuffle from 'shuffle-array';
 import { getFontId, getShareMessage, getFullFontName } from 'util/content_util.js';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 class FontPreview extends Component {
 
@@ -25,6 +22,7 @@ class FontPreview extends Component {
     onSetFontTransform: PropTypes.func.isRequired,
     onSetFontBackground: PropTypes.func.isRequired,
     font: PropTypes.object.isRequired,
+    likeCount: PropTypes.number.isRequired,
     isSpecimen: PropTypes.bool
   }
 
@@ -48,8 +46,8 @@ class FontPreview extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    const { font: nextFont } = nextProps
-    const { font: prevFont } = this.props
+    const { font: nextFont, likeCount: nextLikeCount } = nextProps
+    const { font: prevFont, likeCount: prevLikeCount } = this.props
 
     if (prevFont.get('settingsFontSize') !== nextFont.get('settingsFontSize')) return true
     if (prevFont.get('settingsLineHeight') !== nextFont.get('settingsLineHeight')) return true
@@ -57,6 +55,7 @@ class FontPreview extends Component {
     if (prevFont.get('settingsBackgroundState') !== nextFont.get('settingsBackgroundState')) return true
     if (prevFont.get('settingsColor') !== nextFont.get('settingsColor')) return true
     if (prevFont.get('settingsTextTransform') !== nextFont.get('settingsTextTransform')) return true
+    if (prevLikeCount !== nextLikeCount) return true
     return false
   }
 
@@ -158,7 +157,7 @@ class FontPreview extends Component {
 
   render() {
 
-    const { font, isSpecimen } = this.props;
+    const { font, isSpecimen, likeCount } = this.props;
 
     const fontId = font.get('id');
     const fontName = font.get('fontName');
@@ -274,6 +273,7 @@ class FontPreview extends Component {
         <FontPreviewFooter
           onMoreClick={this.handleMoreClick}
           font={font}
+          likeCount={likeCount}
           isList={isList} />
       </div>
     )
