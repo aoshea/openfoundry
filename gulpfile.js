@@ -121,8 +121,9 @@ gulp.task('launch-prototype', function() {
  * Rsync files to live server
  */
 gulp.task('deploy-live', function () {
+  /*
   return gulp.src(config.rsync.src)
-    .pipe(rsync(config.rsync.live.options));
+    .pipe(rsync(config.rsync.live.options));*/
 });
 
 /**
