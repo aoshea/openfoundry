@@ -8,6 +8,8 @@ import reducer from './reducers'
 import OFApp from './of-app'
 import Hot30 from 'containers/hot30/hot30'
 import About from 'containers/about'
+import Submit from 'containers/submit/submit'
+import Signup from 'containers/signup/signup'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 
@@ -23,6 +25,8 @@ render(
         <Route path="/hot30" component={Hot30} />
         <Route path="/hot30/:fontId" component={Hot30} />
         <Route path="about" component={About} />
+        <Route path="submit" component={Submit} />
+        <Route path="signup" component={Signup} />
       </Route>
     </Router>
   </Provider>,

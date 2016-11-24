@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
 
-export default class SubmissionPage extends Component {
+export default class SubmitPage extends Component {
 
   constructor() {
 

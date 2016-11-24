@@ -13,8 +13,6 @@ import FontLikeButton from 'components/font-like-button/font-like-button.js';
 import FontShareButton from 'components/font-share-button/font-share-button.js';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-import appDispatcher from 'app-dispatcher'
-
 export default class FontSpecimen extends Component {
 
   static propTypes = {
@@ -98,7 +96,7 @@ export default class FontSpecimen extends Component {
   }
 
   touchStartHandler(e) {
-    appDispatcher.dispatch({ actionType: 'specimen-touch-start' })
+    // appDispatcher.dispatch({ actionType: 'specimen-touch-start' })
   }
 
   componentDidMount() {

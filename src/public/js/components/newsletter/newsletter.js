@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
-import appDispatcher from 'app-dispatcher';
-
 
 var CTA = "Join OF Club"
 
