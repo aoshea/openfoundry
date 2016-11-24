@@ -1,0 +1,1 @@
+before redux implemented
