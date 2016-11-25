@@ -4,6 +4,17 @@
   background: black;
 }
 
+.of-font-list--grid {
+  position: relative;
+}
+
+.of-font-list-row {
+  display: table;
+  width: 100%;
+  font-size: 0;
+  white-space: nowrap;
+}
+
 .of-font-list-container{
   &.of-font-list--fixed {
     position: fixed;

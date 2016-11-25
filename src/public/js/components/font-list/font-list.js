@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import classNames from 'classnames';
 import FontPreview from 'components/font-preview/font-preview.js';
+import SpecimenPreviewContainer from 'containers/specimen-preview-container/specimen-preview-container'
 
 class FontList extends Component {
 
@@ -142,29 +143,58 @@ class FontList extends Component {
       onSetFontTransform,
       onSetFontBackground } = this.props;
 
-    const renderFonts = this.renderFonts || fonts.map((font, i) => {
+    const isGrid = true
 
-      const fontId = font.get('id')
-      const fontLike = likes.find(o => o.get('fontId') === fontId)
-      const likeCount = fontLike ? fontLike.get('likes') : 0
-      const isList = true
+    let renderFonts = null
 
-      return (
-        <FontPreview
-          rank={ i + 1 }
-          key={fontId}
-          likeCount={likeCount}
-          isList={isList}
-          onMoreUpdate={this.onMoreUpdate}
-          onSetFontSize={onSetFontSize}
-          onSetFontLeading={onSetFontLeading}
-          onSetFontTracking={onSetFontTracking}
-          onSetFontTransform={onSetFontTransform}
-          onSetFontColour={onSetFontColour}
-          onSetFontBackground={onSetFontBackground}
-          font={font} />
-      )
-    });
+    if (isGrid) {
+      // Split into chunks of three
+      // For arranging the grid
+      const fontList = fonts.toJS()
+      const fontListLen = fontList.length
+      const chunked = []
+      const step = 3
+      let ci = 0
+      let index = 0
+      while (index < fontListLen) {
+        chunked[ci++] = fontList.slice(index, (index += step))
+      }
+
+      renderFonts = chunked.map((chunk, i)=> {
+        return (
+          <div className="of-font-list-row">
+            {chunk.map((f, fi) => <SpecimenPreviewContainer rank={(i * step) + fi + 1} key={f.id} fontId={f.id} />)}
+          </div>
+        )
+      })
+
+    } else {
+
+      renderFonts = this.renderFonts || fonts.map((font, i) => {
+
+        const fontId = font.get('id')
+        const fontLike = likes.find(o => o.get('fontId') === fontId)
+        const likeCount = fontLike ? fontLike.get('likes') : 0
+        const isList = true
+
+        const preview = (
+          <FontPreview
+            rank={ i + 1 }
+            key={fontId}
+            likeCount={likeCount}
+            isList={isList}
+            onMoreUpdate={this.onMoreUpdate}
+            onSetFontSize={onSetFontSize}
+            onSetFontLeading={onSetFontLeading}
+            onSetFontTracking={onSetFontTracking}
+            onSetFontTransform={onSetFontTransform}
+            onSetFontColour={onSetFontColour}
+            onSetFontBackground={onSetFontBackground}
+            font={font} />)
+
+        return preview
+      });
+    }
 
     if (fonts.length) {
       this.renderFonts = renderFonts
@@ -175,6 +205,11 @@ class FontList extends Component {
       'of-font-list--fixed': specimenFont
     });
 
+    const fontListInnerClassNames = classNames({
+      'of-font-list': true,
+      'of-font-list--grid': isGrid
+    });
+
     // Offset by `.of-main` top offset
     const fontListStyle = {
       // 50px being the height of the nav bar
@@ -183,7 +218,7 @@ class FontList extends Component {
 
     return (
       <div className={fontListClassNames}>
-        <div style={fontListStyle} ref="list" className='of-font-list'>
+        <div style={fontListStyle} ref="list" className={fontListInnerClassNames}>
           {renderFonts}
         </div>
       </div>

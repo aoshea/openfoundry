@@ -32,26 +32,29 @@
   }
 }
 
+.like-button,
+.share-button {
+  position: relative;
+  display: inline-block;
+  width: 33px;
+  height: 33px;
+  top: -8px;
+  right: -5px;
+  cursor: pointer;
+}
+
+.vote-container,
+.share-container {
+  display: inline-block;
+  margin-left: 15px;
+}
+
+
 .of-font-preview-footer, .of-specimen-footer {
   .social {
     font-weight: normal;
     text-align: right;
     padding-right: 0px;
-  }
-  .vote-container,
-  .share-container {
-    display: inline-block;
-    margin-left: 15px;
-  }
-  .like-button,
-  .share-button {
-    position: relative;
-    display: inline-block;
-    width: 33px;
-    height: 33px;
-    top: -8px;
-    right: -5px;
-    cursor: pointer;
   }
 
   .num-likes,
@@ -127,6 +130,33 @@
   }
 }
 
+@keyframes beating {
+   0% {
+     transform: scale3d(0, 0, 0);
+     fill: $trans-red-00;
+   }
+   33% {
+     transform: scale3d(1.4, 1.4, 1.4);
+     fill: $trans-red-100;
+   }
+   66% {
+     transform: scale3d(0.9, 0.9, 0.9);
+     fill: $trans-red-100;
+   }
+   100% {
+     transform: scale3d(1, 1, 1);
+     fill: $trans-red-100;
+   }
+}
+
+.like-button.like-button-disabled {
+  animation-duration: .4s;
+  animation-name: beating;
+  animation-iteration-count: 1;
+  transition: all cubic-bezier(.90,0,.10,1);
+}
+
+
 .of-font-preview-footer,
 .of-specimen-footer {
 
@@ -145,32 +175,6 @@
     fill: $trans-red-100;
     // transform: scale3d(1, 1, 1);
     cursor: default;
-  }
-
-  .like-button.like-button-disabled {
-    animation-duration: .4s;
-    animation-name: beating;
-    animation-iteration-count: 1;
-    transition: all cubic-bezier(.90,0,.10,1); 
-  }
-
-  @-webkit-keyframes beating {
-     0% {
-       transform: scale3d(0, 0, 0);
-       fill: $trans-red-00;
-     }
-     33% {
-       transform: scale3d(1.4, 1.4, 1.4);
-       fill: $trans-red-100;
-     }
-     66% {
-       transform: scale3d(0.9, 0.9, 0.9);
-       fill: $trans-red-100;
-     }
-     100% {
-       transform: scale3d(1, 1, 1);
-       fill: $trans-red-100;
-     }
   }
 
   .share-button svg {
@@ -198,7 +202,32 @@
   .rank a:hover {
     color: $trans-black-100;
   }
+}
 
+.like-button svg {
+  fill: $trans-white-50;
+}
+.like-button:hover svg {
+  fill: $trans-white-100;
+}
+.like-button.like-button-disabled svg {
+  fill: $trans-red-100;
+}
+// .like-button.like-button-disabled:hover svg {
+//   fill: $trans-red-50;
+// }
+
+.share-button svg {
+  fill: $trans-white-50;
+}
+.share-button:hover svg {
+  fill: $trans-white-100;
+}
+.share-button.share-button-disabled svg {
+  fill: $trans-white-100;
+}
+.share-button.share-button-disabled:hover svg {
+  fill: $trans-white-50;
 }
 
 .of-font-preview-container.black-image .of-font-preview-footer,

@@ -14,7 +14,7 @@ import { getFontId, getShareMessage, getFullFontName } from 'util/content_util.j
 
 class FontPreview extends Component {
 
-  propTypes: {
+  static propTypes = {
     onSetFontSize: PropTypes.func.isRequired,
     onSetFontLeading: PropTypes.func.isRequired,
     onSetFontTracking: PropTypes.func.isRequired,

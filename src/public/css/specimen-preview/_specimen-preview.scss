@@ -1,0 +1,86 @@
+.of-specimen-preview {
+  display: table-cell;
+  vertical-align: middle;
+  width: 33.33%;
+  box-sizing: border-box;
+  font-size: 15px;
+  font-weight: 100;
+  letter-spacing: $letter-spacing-xs;
+  color: $trans-white-50;
+  background-color: $semi-black;
+  border-bottom: 1px solid $trans-white-10;
+}
+
+.of-specimen-preview:hover .header-title,
+.of-specimen-preview:hover .footer-title {
+  color: $trans-white-100;
+}
+
+.of-specimen-preview:nth-child(1n),
+.of-specimen-preview:nth-child(2n) {
+  border-right: 1px solid $trans-white-10;
+}
+
+.of-specimen-preview-inner {
+  display: flex;
+}
+
+.of-specimen-preview-header {
+  padding-top: 30px;
+  white-space: nowrap;
+}
+
+.header-item {
+  display: inline-block;
+  vertical-align: top;
+  width: 60%;
+  text-align: center;
+}
+
+.header-item:first-child,
+.header-item:last-child {
+  width: 20%;
+  margin: 0;
+}
+
+.header-item .vote-container,
+.header-item .share-container {
+  margin: 0;
+}
+
+.header-item .like-button {
+  right: 9px;
+}
+
+.header-item .share-button {
+  right: 15px;
+}
+
+.header-item .share-count {
+  display: none;
+}
+
+.header-item .num-likes {
+  position: relative;
+  top: -19px;
+  right: 14px;
+}
+
+.of-specimen-preview-image {
+  position: relative;
+  width: 100%;
+  padding-bottom: 133.33%;
+}
+
+.of-specimen-preview-image-inner {
+  position: absolute;
+  top: 30px; right: 60px; bottom: 30px; left: 60px;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.of-specimen-preview-footer {
+  padding-bottom: 30px;
+  text-align: center;
+}
