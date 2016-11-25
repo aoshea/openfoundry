@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 export default class FontBackgroundToggle extends Component {
 
-  propTypes: {
+  static propTypes = {
     backgroundState: PropTypes.string.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onUpdateColour: PropTypes.func.isRequired
