@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 export default class FontUppercase extends Component {
 
-  propTypes: {
+  static propTypes = {
     backgroundState: PropTypes.string.isRequired,
     uppercase: PropTypes.bool.isRequired,
     onUpdate: PropTypes.func.isRequired

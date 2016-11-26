@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 export default class FontSliderLabel extends Component {
 
-  propTypes: {
+  static propTypes = {
     label: PropTypes.string,
     v: PropTypes.number,
     max: PropTypes.number,

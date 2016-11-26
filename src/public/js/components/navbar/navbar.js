@@ -7,11 +7,11 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 export default class NavBar extends Component {
 
-  propTypes: {
-    fonts: PropTypes.array.isRequired,
+  static propTypes = {
+    fonts: PropTypes.object.isRequired,
     fontId: PropTypes.string,
     menuOpen: PropTypes.bool.isRequired,
-    breadcrumbUp: PropTypes.bool.isRequired,
+    breadcrumbUp: PropTypes.bool,
     logoUp: PropTypes.bool.isRequired,
     openMenu: PropTypes.func.isRequired,
     closeMenu: PropTypes.func.isRequired,
