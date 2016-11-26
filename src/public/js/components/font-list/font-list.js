@@ -1,18 +1,12 @@
-import React, { Component, PropTypes } from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-import classNames from 'classnames';
-import FontPreview from 'components/font-preview/font-preview.js';
+import React, { Component, PropTypes } from 'react'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
+import classNames from 'classnames'
+import FontPreviewContainer from 'containers/font-preview-container/font-preview-container'
 import SpecimenPreviewContainer from 'containers/specimen-preview-container/specimen-preview-container'
 
 class FontList extends Component {
 
   static propTypes = {
-    onSetFontSize: PropTypes.func.isRequired,
-    onSetFontLeading: PropTypes.func.isRequired,
-    onSetFontTracking: PropTypes.func.isRequired,
-    onSetFontTransform: PropTypes.func.isRequired,
-    onSetFontColour: PropTypes.func.isRequired,
-    onSetFontBackground: PropTypes.func.isRequired,
     fonts: PropTypes.object.isRequired,
     likes: PropTypes.object.isRequired,
     specimenFont: PropTypes.object
@@ -135,15 +129,9 @@ class FontList extends Component {
     const {
       fonts,
       likes,
-      specimenFont,
-      onSetFontSize,
-      onSetFontColour,
-      onSetFontLeading,
-      onSetFontTracking,
-      onSetFontTransform,
-      onSetFontBackground } = this.props;
+      specimenFont } = this.props;
 
-    const isGrid = true
+    const isGrid = false
 
     let renderFonts = null
 
@@ -178,18 +166,12 @@ class FontList extends Component {
         const isList = true
 
         const preview = (
-          <FontPreview
+          <FontPreviewContainer
             rank={ i + 1 }
             key={fontId}
             likeCount={likeCount}
             isList={isList}
             onMoreUpdate={this.onMoreUpdate}
-            onSetFontSize={onSetFontSize}
-            onSetFontLeading={onSetFontLeading}
-            onSetFontTracking={onSetFontTracking}
-            onSetFontTransform={onSetFontTransform}
-            onSetFontColour={onSetFontColour}
-            onSetFontBackground={onSetFontBackground}
             font={font} />)
 
         return preview

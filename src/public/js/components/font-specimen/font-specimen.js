@@ -1,28 +1,21 @@
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import ReactTransitionGroup from 'react-addons-transition-group';
-import Linkify from 'react-linkify';
-import React, { Component, PropTypes } from 'react';
-import $ from 'jquery';
-import { replaceNonAlphaNumeric, camelCaseToUnderscore } from '../../util/util.js';
-import { getAboutText, getShareMessage } from 'util/content_util.js';
-import FontPreview from 'components/font-preview/font-preview.js';
-import FontSpecimenImage from 'components/font-specimen/specimen-image/specimen-image.js';
-import cx from 'classnames';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import Linkify from 'react-linkify'
+import React, { Component, PropTypes } from 'react'
+import $ from 'jquery'
+import { replaceNonAlphaNumeric, camelCaseToUnderscore } from '../../util/util.js'
+import { getAboutText, getShareMessage } from 'util/content_util'
+import FontPreviewContainer from 'containers/font-preview-container/font-preview-container'
+import FontSpecimenImage from 'components/font-specimen/specimen-image/specimen-image'
+import cx from 'classnames'
 import Like from 'containers/like/like'
 
-import FontLikeButton from 'components/font-like-button/font-like-button.js';
-import FontShareButton from 'components/font-share-button/font-share-button.js';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import FontLikeButton from 'components/font-like-button/font-like-button'
+import FontShareButton from 'components/font-share-button/font-share-button'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
 
 export default class FontSpecimen extends Component {
 
   static propTypes = {
-    onSetFontSize: PropTypes.func.isRequired,
-    onSetFontLeading: PropTypes.func.isRequired,
-    onSetFontTracking: PropTypes.func.isRequired,
-    onSetFontTransform: PropTypes.func.isRequired,
-    onSetFontColour: PropTypes.func.isRequired,
-    onSetFontBackground: PropTypes.func.isRequired,
     font: PropTypes.object.isRequired,
     likes: PropTypes.object.isRequired
   }
@@ -50,7 +43,7 @@ export default class FontSpecimen extends Component {
 
   onScroll(e) {
 
-    var inner = this.refs['of-specimen'];
+    const inner = this.refs['of-specimen'];
 
     // raw scroll position
     let scrollTop = window.scrollY;
@@ -87,6 +80,7 @@ export default class FontSpecimen extends Component {
   }
 
   componentDidAppear() {
+
     this.refs['of-specimen'].style.visibility = 'visible';
     window.scrollTo(0, 0);
 
@@ -133,15 +127,7 @@ export default class FontSpecimen extends Component {
 
   render() {
 
-    const {
-      onSetFontSize,
-      onSetFontLeading,
-      onSetFontTracking,
-      onSetFontTransform,
-      onSetFontColour,
-      onSetFontBackground,
-      font,
-      likes } = this.props;
+    const { font, likes } = this.props;
 
     const state = this.state
 
@@ -202,17 +188,9 @@ export default class FontSpecimen extends Component {
     };
 
     return (
-
-      <div ref="of-specimen" className='of-specimen'>
-
+      <div ref="of-specimen" className="of-specimen">
         <div ref="of-preview-wrapper" style={holderStyle} className='of-preview-wrapper'>
-          <FontPreview
-            onSetFontSize={onSetFontSize}
-            onSetFontLeading={onSetFontLeading}
-            onSetFontTracking={onSetFontTracking}
-            onSetFontTransform={onSetFontTransform}
-            onSetFontColour={onSetFontColour}
-            onSetFontBackground={onSetFontBackground}
+          <FontPreviewContainer
             isSpecimen={true}
             onMoreUpdate={this.onClickSource}
             key={previewKey}

@@ -5,7 +5,7 @@ import SpecimenPreview from 'components/specimen-preview/specimen-preview'
 const mapStateToProps = (state, ownProps) => {
   return {
     fonts: state.fonts.get('fonts'),
-    fontId: ownProps.fontId
+    ...ownProps
   }
 }
 

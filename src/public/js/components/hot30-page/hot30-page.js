@@ -2,17 +2,11 @@ import React, { Component, PropTypes } from 'react'
 import ReactTransitionGroup from 'react-addons-transition-group'
 import Helmet from 'react-helmet'
 import FontList from 'components/font-list/font-list'
-import FontSpecimen from 'components/font-specimen/font-specimen.js';
+import FontSpecimen from 'components/font-specimen/font-specimen'
 
 class Hot30Page extends Component {
 
   static propTypes = {
-    onSetFontSize: PropTypes.func.isRequired,
-    onSetFontLeading: PropTypes.func.isRequired,
-    onSetFontTracking: PropTypes.func.isRequired,
-    onSetFontTransform: PropTypes.func.isRequired,
-    onSetFontColour: PropTypes.func.isRequired,
-    onSetFontBackground: PropTypes.func.isRequired,
     fonts: PropTypes.object.isRequired,
     likes: PropTypes.object.isRequired,
     specimenFontId: PropTypes.string
@@ -30,12 +24,6 @@ class Hot30Page extends Component {
   render() {
 
     const {
-      onSetFontSize,
-      onSetFontLeading,
-      onSetFontTracking,
-      onSetFontTransform,
-      onSetFontColour,
-      onSetFontBackground,
       fonts,
       likes,
       specimenFontId } = this.props
@@ -49,24 +37,12 @@ class Hot30Page extends Component {
       <div>
         <Helmet title={"OpenFoundry / Hot 30"} />
         <FontList
-          onSetFontSize={onSetFontSize}
-          onSetFontLeading={onSetFontLeading}
-          onSetFontTracking={onSetFontTracking}
-          onSetFontTransform={onSetFontTransform}
-          onSetFontColour={onSetFontColour}
-          onSetFontBackground={onSetFontBackground}
           fonts={fonts}
           likes={likes}
           specimenFont={specimenFont} />
         {specimenFont &&
           <ReactTransitionGroup>
             <FontSpecimen
-              onSetFontSize={onSetFontSize}
-              onSetFontLeading={onSetFontLeading}
-              onSetFontTracking={onSetFontTracking}
-              onSetFontTransform={onSetFontTransform}
-              onSetFontColour={onSetFontColour}
-              onSetFontBackground={onSetFontBackground}
               onCompleteScroll={this.onCompleteSpecimenScroll}
               fontId={specimenFontId}
               font={specimenFont}

@@ -1,11 +1,4 @@
 import { connect } from 'react-redux';
-import {
-  setFontSize,
-  setFontLeading,
-  setFontColour,
-  setFontTransform,
-  setFontTracking,
-  setFontBackground } from 'actions/actions.js';
 import Hot30Page from 'components/hot30-page/hot30-page.js';
 
 const mapStateToProps = (state, ownProps) => {
@@ -16,18 +9,8 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = ({
-  onSetFontSize: setFontSize,
-  onSetFontLeading: setFontLeading,
-  onSetFontTracking: setFontTracking,
-  onSetFontColour: setFontColour,
-  onSetFontTransform: setFontTransform,
-  onSetFontBackground: setFontBackground
-})
-
 const Hot30 = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Hot30Page)
 
 export default Hot30
