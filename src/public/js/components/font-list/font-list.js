@@ -124,6 +124,23 @@ class FontList extends Component {
     })
   }
 
+  renderSpecimenPreview(chunked, likes, step) {
+    return chunked.map((chunk, i)=> {
+      return (
+        <div key={i} className="of-font-list-row">
+          {chunk.map((f, fi) => {
+            const fontId = f.id
+            const rank = (i * step) + fi + 1
+            const fontLike = likes.find(o => o.get('fontId') === fontId)
+            const likeCount = fontLike ? fontLike.get('likes') : 0
+
+            return <SpecimenPreviewContainer key={rank} rank={rank} likeCount={likeCount}fontId={fontId} />
+          })}
+        </div>
+      )
+    })
+  }
+
   render() {
 
     const { lastScrollTop } = this.state
@@ -149,13 +166,7 @@ class FontList extends Component {
         chunked[ci++] = fontList.slice(index, (index += step))
       }
 
-      renderFonts = chunked.map((chunk, i)=> {
-        return (
-          <div key={i} className="of-font-list-row">
-            {chunk.map((f, fi) => <SpecimenPreviewContainer key={i*step+fi} rank={(i * step) + fi + 1} fontId={f.id} />)}
-          </div>
-        )
-      })
+      renderFonts = this.renderSpecimenPreview(chunked, likes, step)
 
     } else {
 

@@ -37,11 +37,11 @@ const fontReducer = (state = initialState, action) => {
   switch (action.type) {
 
     case 'SHOW_GRID':
-      if (state.isGridView) return state
+      if (state.get('isGridView')) return state
       return state.set('isGridView', true)
 
     case 'SHOW_LIST':
-      if (!state.isGridView) return state
+      if (!state.get('isGridView')) return state
       return state.set('isGridView', false)
 
     case 'SUCCESS_ADD_LIKE':

@@ -9,7 +9,8 @@ export default class SpecimenPreview extends Component {
   static propTypes = {
     fonts: PropTypes.object.isRequired,
     fontId: PropTypes.string.isRequired,
-    rank: PropTypes.number.isRequired
+    rank: PropTypes.number.isRequired,
+    likeCount: PropTypes.number.isRequired
   }
 
   constructor() {
@@ -18,7 +19,7 @@ export default class SpecimenPreview extends Component {
 
   render() {
 
-    const { fonts, rank, fontId } = this.props
+    const { fonts, rank, fontId, likeCount } = this.props
 
     const font = fonts.find(f => f.get('id') === fontId)
     const fontName = font.get('fontName')
@@ -28,7 +29,6 @@ export default class SpecimenPreview extends Component {
     const specimenImage = <FontSpecimenImage font={font} />
     const specimenImageClassName = `of-specimen-preview-image-inner specimen-${fontId}`
 
-    const likeCount = 999
     const shareMessage = getShareMessage(font)
 
     return (
