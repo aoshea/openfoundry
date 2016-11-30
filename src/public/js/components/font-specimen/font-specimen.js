@@ -160,16 +160,10 @@ export default class FontSpecimen extends Component {
     const charIndex = 33
     const charMaxIndex = 127
 
-    const arr = Array(charMaxIndex - charIndex).fill(0).map((el, i) => String.fromCharCode(i + charIndex))
-    const characterElements = arr.map(charCode => <li key={charCode} className="character">{charCode}</li>)
+    const charCodes = Array(charMaxIndex - charIndex).fill(0).map((el, i) => String.fromCharCode(i + charIndex))
+    const characterElements = charCodes.map(charCode => <li key={charCode} className="character">{charCode}</li>)
 
-    let foundryElement = null
-
-    if (foundryLink) {
-      foundryElement = <a href={foundryLink}>{foundry}</a>
-    } else {
-      foundryElement = <span>{foundry}</span>
-    }
+    const foundryElement = foundryLink ? <a href={foundryLink}>{foundry}</a> : <span>{foundry}</span>
 
     const spacerStyle = {
       opacity: 1 - Math.max(0, (state.deltaBottom - 0.5) * 2 - 0.05)
