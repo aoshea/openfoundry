@@ -14,11 +14,11 @@ class FontList extends Component {
 
   constructor(props) {
 
-    super(props);
+    super(props)
 
-    this.onMoreUpdate = this.onMoreUpdate.bind(this);
-    this.specimenTouchStartHandler = this.specimenTouchStartHandler.bind(this);
-    this.windowTouchEndHandler = this.windowTouchEndHandler.bind(this);
+    this.onMoreUpdate = this.onMoreUpdate.bind(this)
+    this.specimenTouchStartHandler = this.specimenTouchStartHandler.bind(this)
+    this.windowTouchEndHandler = this.windowTouchEndHandler.bind(this)
 
     this.state = {
       lastScrollTop: 0
@@ -34,10 +34,10 @@ class FontList extends Component {
       // If the overlay is still active we attach a touch-end listener to
       // the window object as the overlay may not dispatch in case the user
       // kills the overview by scrolling out.
-      window.addEventListener('touchend', this.windowTouchEndHandler, false);
+      window.addEventListener('touchend', this.windowTouchEndHandler, false)
       // let's take note touch now is active (the hack will not apply for
       // mousewheel etc.)
-      this.hasTouch = true;
+      this.hasTouch = true
     }
   }
 
@@ -59,7 +59,7 @@ class FontList extends Component {
     if (!this.fixed && this.hasTouch) {
 
       // save the current position
-      var scrollTop = window.scrollY;
+      var scrollTop = window.scrollY
 
       // wait a frame, unfortunately this is necessary and creates
       // a little flash in some cases
@@ -67,16 +67,16 @@ class FontList extends Component {
 
         // remove the css transformation while re-adapting the scrollbar
         this.refs.list.style.transform = 'none'
-        window.scrollTo(0, scrollTop - this.translatedSmoothScroll);
+        window.scrollTo(0, scrollTop - this.translatedSmoothScroll)
         // reset, just in case
-        this.translatedSmoothScroll = 0;
+        this.translatedSmoothScroll = 0
 
-      }.bind(this));
+      }.bind(this))
 
     }
 
     // reset to false and await next touch-start
-    this.hasTouch = false;
+    this.hasTouch = false
 
   }
 
@@ -85,12 +85,12 @@ class FontList extends Component {
     if (!this.props.specimenFont && this.fixed) {
 
       // The FontList got relative, i.e. active
-      this.fixed = false;
+      this.fixed = false
 
       if (!this.hasTouch) {
 
         // no touch = no problem - just reset scroll position
-        window.scrollTo(0, this.state.lastScrollTop);
+        window.scrollTo(0, this.state.lastScrollTop)
 
       } else {
 
@@ -103,14 +103,14 @@ class FontList extends Component {
         // The hack involves keeping that natural behaviour while translating the
         // whole container to match the "lastScrollTop" position.
 
-        this.translatedSmoothScroll = -this.state.lastScrollTop + window.scrollY;
-        this.refs.list.style.transform = 'translateY(' + this.translatedSmoothScroll + 'px)';
+        this.translatedSmoothScroll = -this.state.lastScrollTop + window.scrollY
+        this.refs.list.style.transform = 'translateY(' + this.translatedSmoothScroll + 'px)'
       }
 
     } else if (this.props.specimenFont && !this.fixed) {
 
       // FontList got fixed, i.e. inactive
-      this.fixed = true;
+      this.fixed = true
     }
   }
 
@@ -119,17 +119,17 @@ class FontList extends Component {
     // same offset when coming back from Specimen
     this.setState({
       lastScrollTop: scrollTop
-    });
+    })
   }
 
   render() {
 
-    const { lastScrollTop } = this.state;
+    const { lastScrollTop } = this.state
 
     const {
       fonts,
       likes,
-      specimenFont } = this.props;
+      specimenFont } = this.props
 
     const isGrid = false
 
@@ -175,7 +175,7 @@ class FontList extends Component {
             font={font} />)
 
         return preview
-      });
+      })
     }
 
     if (fonts.length) {
@@ -185,18 +185,18 @@ class FontList extends Component {
     const fontListClassNames = classNames({
       'of-font-list-container': true,
       'of-font-list--fixed': specimenFont
-    });
+    })
 
     const fontListInnerClassNames = classNames({
       'of-font-list': true,
       'of-font-list--grid': isGrid
-    });
+    })
 
     // Offset by `.of-main` top offset
     const fontListStyle = {
       // 50px being the height of the nav bar
       transform: specimenFont ? 'translateY(' + (50 + (lastScrollTop * -1)) + 'px)' : 'none'
-    };
+    }
 
     return (
       <div className={fontListClassNames}>

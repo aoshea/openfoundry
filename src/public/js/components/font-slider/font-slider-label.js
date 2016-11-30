@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react'
 
 export default class FontSliderLabel extends Component {
 
@@ -11,24 +11,24 @@ export default class FontSliderLabel extends Component {
 
   render() {
 
-    const { label, v, max, min, fixed } = this.props;
+    const { label, v, max, min, fixed } = this.props
 
-    let unitValue = (v - min) / (max - min);
-    let fixValue = v;
+    let unitValue = (v - min) / (max - min)
+    let fixValue = v
 
     if (fixed) {
-      fixValue = fixValue.toFixed(fixed);
+      fixValue = fixValue.toFixed(fixed)
     }
 
     // set label
-    const updatedLabel = label + ' ' + fixValue;
+    const updatedLabel = label + ' ' + fixValue
 
     // set percentage for positioning
-    unitValue *= 100;
+    unitValue *= 100
 
     const divStyle = {
       left: `${unitValue}%`
-    };
+    }
 
     return <div style={divStyle} className="of-font-slider-label">{updatedLabel}</div>
   }

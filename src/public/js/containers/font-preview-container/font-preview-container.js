@@ -7,7 +7,7 @@ import {
   setFontColour,
   setFontTransform,
   setFontTracking,
-  setFontBackground } from 'actions/actions.js';
+  setFontBackground } from 'actions/actions.js'
 
 const mapStateToProps = (state, ownProps) => {
   return {

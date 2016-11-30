@@ -17,18 +17,18 @@ const findItemIndex = (state, list, prop, id) => {
 }
 
 const updateFont = (state, param, action) => {
-  const itemIndex = findItemIndex(state, 'fonts', 'id', action.id);
-  const item = state.getIn(['fonts', itemIndex]);
-  const updatedItem = item.set(param, action.value);
-  return state.setIn(['fonts', itemIndex], updatedItem);
+  const itemIndex = findItemIndex(state, 'fonts', 'id', action.id)
+  const item = state.getIn(['fonts', itemIndex])
+  const updatedItem = item.set(param, action.value)
+  return state.setIn(['fonts', itemIndex], updatedItem)
 }
 
 const updateLike = (state, param, action) => {
-  const itemIndex = findItemIndex(state, 'likes', 'fontId', action.id);
-  const item = state.getIn(['likes', itemIndex]);
+  const itemIndex = findItemIndex(state, 'likes', 'fontId', action.id)
+  const item = state.getIn(['likes', itemIndex])
   const numLikes = item.get('likes')
-  const updatedItem = item.set(param, numLikes + 1);
-  return state.setIn(['likes', itemIndex], updatedItem);
+  const updatedItem = item.set(param, numLikes + 1)
+  return state.setIn(['likes', itemIndex], updatedItem)
 }
 
 const fontReducer = (state = initialState, action) => {

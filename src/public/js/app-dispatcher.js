@@ -1,6 +1,6 @@
-import { Dispatcher } from 'flux';
+import { Dispatcher } from 'flux'
 
-var dispatcher = new Dispatcher;
+var dispatcher = new Dispatcher
 /**
  * Singleton Dispatcher for App messages
  */

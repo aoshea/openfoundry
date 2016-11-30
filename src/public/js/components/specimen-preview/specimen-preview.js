@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import FontSpecimenImage from 'components/font-specimen/specimen-image/specimen-image.js';
+import React, { Component, PropTypes } from 'react'
+import FontSpecimenImage from 'components/font-specimen/specimen-image/specimen-image.js'
 import Like from 'containers/like/like'
 import FontShareButton from 'components/font-share-button/font-share-button'
 import { getShareMessage } from 'util/content_util'
@@ -13,7 +13,7 @@ export default class SpecimenPreview extends Component {
   }
 
   constructor() {
-    super();
+    super()
   }
 
   render() {

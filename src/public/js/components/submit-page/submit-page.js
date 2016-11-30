@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import $ from 'jquery';
+import React, { Component } from 'react'
+import $ from 'jquery'
 
 export default class SubmitPage extends Component {
 
@@ -7,14 +7,14 @@ export default class SubmitPage extends Component {
 
     super()
 
-    this.onFocusInput = this.onFocusInput.bind(this);
-    this.onBlurInput = this.onBlurInput.bind(this);
+    this.onFocusInput = this.onFocusInput.bind(this)
+    this.onBlurInput = this.onBlurInput.bind(this)
 
   }
 
   componentDidMount() {
 
-    this.setupForm();
+    this.setupForm()
   }
 
   setupForm() {
@@ -46,27 +46,27 @@ export default class SubmitPage extends Component {
     function onSuccess(data) {
 
       // hide loading spinner
-      var messageEl = form.querySelector('.final-message');
+      var messageEl = form.querySelector('.final-message')
 
       if (data.status === 'success') {
-        messageEl.innerHTML = data.message;
+        messageEl.innerHTML = data.message
       } else {
-        messageEl.innerHTML = 'Sorry';
+        messageEl.innerHTML = 'Sorry'
       }
-      messageEl.classList.add('show');
+      messageEl.classList.add('show')
     }
 
   }
 
   onFocusInput(e) {
     if (e.target.id == 'q1') {
-      e.target.placeholder = "Your name?";
+      e.target.placeholder = "Your name?"
     }
   }
 
   onBlurInput(e) {
     if (e.target.id == 'q1') {
-      e.target.placeholder = "Submit a font";
+      e.target.placeholder = "Submit a font"
     }
   }
 

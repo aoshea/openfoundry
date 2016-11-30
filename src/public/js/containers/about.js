@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import Helmet from "react-helmet";
-import AboutPage from '../components/about-page/about-page.js';
+import React, { Component } from 'react'
+import Helmet from "react-helmet"
+import AboutPage from '../components/about-page/about-page.js'
 
 class About extends Component {
   render() {

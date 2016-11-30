@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react'
 
 export default class FontBackgroundToggle extends Component {
 
@@ -9,37 +9,37 @@ export default class FontBackgroundToggle extends Component {
   }
 
   constructor() {
-    super();
-    this.handleClick = this.handleClick.bind(this);
+    super()
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick(e) {
-    const { onUpdate, onUpdateColour, backgroundState } = this.props;
+    const { onUpdate, onUpdateColour, backgroundState } = this.props
 
-    const mappedStates = ['white', 'black', 'image'];
-    const index = mappedStates.findIndex(s => s === backgroundState);
+    const mappedStates = ['white', 'black', 'image']
+    const index = mappedStates.findIndex(s => s === backgroundState)
 
-    const nextIndex = (index + 1) % mappedStates.length;
+    const nextIndex = (index + 1) % mappedStates.length
 
-    const backgroundColour = nextIndex > 0 ? '#ffffff' : '#000000';
-    const nextBackgroundState = mappedStates[nextIndex];
+    const backgroundColour = nextIndex > 0 ? '#ffffff' : '#000000'
+    const nextBackgroundState = mappedStates[nextIndex]
 
-    onUpdate && onUpdate(nextBackgroundState);
-    onUpdateColour && onUpdateColour(backgroundColour);
+    onUpdate && onUpdate(nextBackgroundState)
+    onUpdateColour && onUpdateColour(backgroundColour)
   }
 
   render() {
 
-    const { backgroundState } = this.props;
-    const size = 32;
-    const viewBox = [0, 0, size, size].join(' ');
+    const { backgroundState } = this.props
+    const size = 32
+    const viewBox = [0, 0, size, size].join(' ')
     const imageStyle = {
       display: backgroundState === 'image' ? 'block' : 'none'
-    };
+    }
     const imageFirstStyle = {
       display: backgroundState === 'image' ? 'none' : 'block',
       stroke: backgroundState === 'white' ? 'black' : 'white'
-    };
+    }
 
     return (
       <svg onClick={this.handleClick} xmlns="http://www.w3.org/svg/2000"

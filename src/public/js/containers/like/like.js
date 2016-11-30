@@ -1,6 +1,6 @@
-import { connect } from 'react-redux';
-import { addLike } from 'actions/actions';
-import LikeButton from 'components/font-like-button/font-like-button';
+import { connect } from 'react-redux'
+import { addLike } from 'actions/actions'
+import LikeButton from 'components/font-like-button/font-like-button'
 
 const mapStateToProps = (state, ownProps) => {
   return {

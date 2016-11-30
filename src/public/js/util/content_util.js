@@ -1,30 +1,30 @@
-import React from 'react';
-import { replaceNonAlphaNumeric } from './util.js';
+import React from 'react'
+import { replaceNonAlphaNumeric } from './util.js'
 
-const rhyphen = " — ";
-const rankSpace = " ";
-const rankComma = ", ";
+const rhyphen = " — "
+const rankSpace = " "
+const rankComma = ", "
 
 export function getFullFontName(font) {
-  if (!!!font) return "Undefined Font!";
+  if (!!!font) return "Undefined Font!"
 
-  const fontStyle = font.get('fontStyle');
-  const fontName = font.get('fontName');
+  const fontStyle = font.get('fontStyle')
+  const fontName = font.get('fontName')
 
-  return fontName + rankSpace + fontStyle;
+  return fontName + rankSpace + fontStyle
 }
 
 export function getFontId(font) {
-  if (!!!font) return "Undefined Font!";
+  if (!!!font) return "Undefined Font!"
 
-  return replaceNonAlphaNumeric(font.get('fontId')).toLowerCase();
+  return replaceNonAlphaNumeric(font.get('fontId')).toLowerCase()
 }
 
 
 export function getShareMessage(font) {
-  if (!!!font) return "Undefined Font!";
+  if (!!!font) return "Undefined Font!"
 
-  return [getFullFontName(font), ' ', font.get('fontOpenSourceLink'), ' ','via @open_foundry #OFHot30'].join('');
+  return [getFullFontName(font), ' ', font.get('fontOpenSourceLink'), ' ','via @open_foundry #OFHot30'].join('')
 }
 
 export function getAboutText(f) {
@@ -49,12 +49,12 @@ export function getAboutText(f) {
 
   var about = [
     <span key="uid-created">{font['fontName']} was created by {font['fontCreator']} {chunk_distributed}.
-    It was initially submitted to us by <a href={font['info-DiscovererTwitter']}>{font['infoDiscoverer']}</a>.&nbsp;
+    It was initially submitted to us by <a href={font['info-DiscovererTwitter']}>{font['infoDiscoverer']}</a>.&nbsp
     {font['fontStyle']} is a {font['infoClassification']} cut of the {font['fontName']} family,</span>,
     <span key="uid-styles"> {chunk_styles}.</span>,
     <span key="uid-licence">
     <br /><br />
-    It is licensed under the <a href={font['infoLicenseLink']}>{font['infoLicense']}</a>&nbsp;
+    It is licensed under the <a href={font['infoLicenseLink']}>{font['infoLicense']}</a>&nbsp
     and available for contribution, modification or download on its open-source page.
     Please find more about this Typeface <a href={font['fontOpenSourceLink']}>here</a>.
     <br /><br />
@@ -62,5 +62,5 @@ export function getAboutText(f) {
     </span>
   ]
 
-  return about;
+  return about
 }

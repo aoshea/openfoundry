@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import classNames from 'classnames';
+import React, { Component, PropTypes } from 'react'
+import classNames from 'classnames'
 
 export default class FontLikeButton extends Component {
 
@@ -44,7 +44,7 @@ export default class FontLikeButton extends Component {
       'like-button': true,
       'like-button-disabled': locked,
       'like-button-fetching': isFetching
-    });
+    })
 
     return (
       <div className="vote-container">

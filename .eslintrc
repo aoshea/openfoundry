@@ -1,102 +1,13 @@
 {
-  "env": {
-    "browser": true,
-    "node": true
-  },
-  "globals": {
-    "Symbol": true,
-    "angular": true,
-    "require": true
-  },
-  "parser": "babel-eslint",
+  "extends": "rackt",
   "rules": {
-    "no-eval": 2,
-    "eqeqeq": 0,
-    "no-eq-null": 0,
-    "new-cap": 0,
-    "no-plusplus": 0,
-    "no-undef": 2,
+    "react/jsx-uses-react": 1,
+    "react/jsx-no-undef": 2,
+    "react/jsx-wrap-multilines": 2,
     "no-unused-vars": 0,
-    "brace-style": [
-      2,
-      "1tbs",
-      {
-        "allowSingleLine": true
-      }
-    ],
-    "no-mixed-spaces-and-tabs": 2,
-    "no-multi-str": 2,
-    "one-var": 0,
-    "quote-props": [
-      2,
-      "as-needed",
-      {
-        "keywords": true
-      }
-    ],
-    "key-spacing": 0,
-    "space-unary-ops": 0,
-    "no-spaced-func": 2,
-    "space-before-function-paren": [
-      2,
-      { "anonymous": "always", "named": "never" }
-    ],
-    "spaced-comment": [
-      2,
-      "always"
-    ],
-    "array-bracket-spacing": [
-      2,
-      "never",
-      {
-        "singleValue": false
-      }
-    ],
-    "space-in-parens": [
-      2,
-      "never"
-    ],
-    "yoda": [
-      2,
-      "never"
-    ],
-    "comma-style": [
-      2,
-      "last"
-    ],
-    "curly": 0,
-    "dot-notation": 0,
-    "eol-last": 0,
-    "wrap-iife": [
-      2,
-      "outside"
-    ],
-    "space-infix-ops": 2,
-    "space-return-throw-case": 0,
-    "keyword-spacing": 2,
-    "lines-around-comment": 0,
-    "space-before-blocks": [
-      2,
-      "always"
-    ],
-    "indent": [
-      2,
-      2,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "quotes": 0,
-    "comma-dangle": [
-      2,
-      "never"
-    ],
-    "no-debugger": 2,
-    "no-dupe-args": 2,
-    "no-dupe-keys": 2,
-    "no-duplicate-case": 2,
-    "no-extra-semi": 2,
-    "no-unreachable": 2
-  }
+    "array-bracket-spacing": 0
+  },
+  "plugins": [
+    "react"
+  ]
 }
-

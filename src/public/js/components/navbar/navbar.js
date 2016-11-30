@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
-import classNames from 'classnames';
-import { getFontId, getFullFontName } from 'util/content_util.js';
-import NewsletterSignup from 'components/newsletter/newsletter.js';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React, { Component, PropTypes } from 'react'
+import { Link } from 'react-router'
+import classNames from 'classnames'
+import { getFontId, getFullFontName } from 'util/content_util.js'
+import NewsletterSignup from 'components/newsletter/newsletter.js'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
 
 export default class NavBar extends Component {
 
@@ -21,15 +21,15 @@ export default class NavBar extends Component {
   }
 
   constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+    super(props)
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
 
-    this.handleBurgerClick = this.handleBurgerClick.bind(this);
-    this.handleMenuClick = this.handleMenuClick.bind(this);
+    this.handleBurgerClick = this.handleBurgerClick.bind(this)
+    this.handleMenuClick = this.handleMenuClick.bind(this)
     this.handleScroll = this.handleScroll.bind(this)
-    this.state = {};
+    this.state = {}
 
-    this.lastScrollTop = 100;
+    this.lastScrollTop = 100
   }
 
   componentDidMount() {
@@ -57,16 +57,16 @@ export default class NavBar extends Component {
     const navbarHeight = 50
 
     // scroll more than delta
-    if (Math.abs(this.lastScrollTop - scrollTop) <= 100) return;
+    if (Math.abs(this.lastScrollTop - scrollTop) <= 100) return
 
-    let actionType = null;
+    let actionType = null
 
     if (scrollTop > this.lastScrollTop && scrollTop > navbarHeight) {
       // scroll down pass the nav bar
-      actionType = 'SHOW_BREADCRUMBS';
+      actionType = 'SHOW_BREADCRUMBS'
     } else if (scrollTop < 200 && window.location.pathname === '/hot30') {
       // scroll up at the top of the page
-      actionType = 'HIDE_BREADCRUMBS';
+      actionType = 'HIDE_BREADCRUMBS'
     }
 
     if (actionType !== null) {
@@ -75,10 +75,10 @@ export default class NavBar extends Component {
         if (actionType === 'SHOW_BREADCRUMBS') {
           showBreadcrumbs({})
         }
-      });
+      })
     }
 
-    this.lastScrollTop = scrollTop;
+    this.lastScrollTop = scrollTop
   }
 
   handleAppEvent(e) {
@@ -88,15 +88,15 @@ export default class NavBar extends Component {
       case 'hide-menu':
         this.setState({
           isNavHidden: true
-        });
-        break;
+        })
+        break
 
     }
   }
 
   handleBurgerClick() {
 
-    const { closeMenu, openMenu, menuOpen } = this.props;
+    const { closeMenu, openMenu, menuOpen } = this.props
     const newMenuOpen = !menuOpen
 
     return menuOpen
@@ -118,20 +118,20 @@ export default class NavBar extends Component {
       fontId,
       menuOpen,
       breadcrumbUp,
-      logoUp } = this.props;
+      logoUp } = this.props
 
     // Define class names based on ui state
-    const iconClassName = menuOpen ? 'menu-icon active' : 'menu-icon';
-    const listClassName = menuOpen ? 'menu-list open' : 'menu-list';
-    const signupClassName = menuOpen ? 'menu-signup open' : 'menu-signup';
-    const breadClassName = breadcrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb';
-    let logoClassName = menuOpen ? 'menu-logo open' : 'menu-logo';
+    const iconClassName = menuOpen ? 'menu-icon active' : 'menu-icon'
+    const listClassName = menuOpen ? 'menu-list open' : 'menu-list'
+    const signupClassName = menuOpen ? 'menu-signup open' : 'menu-signup'
+    const breadClassName = breadcrumbUp ? 'menu-breadcrumb up' : 'menu-breadcrumb'
+    let logoClassName = menuOpen ? 'menu-logo open' : 'menu-logo'
     if (logoUp) {
-      logoClassName += ' up';
+      logoClassName += ' up'
     }
 
     // Breadcrumbs are based on location string
-    // const pathName = window.location.pathname;
+    // const pathName = window.location.pathname
 
     let breadcrumb = ''
 
@@ -154,18 +154,18 @@ export default class NavBar extends Component {
 
     // Override breadcrumb variable if any match
     if (pathName === '/about') {
-      breadcrumb = <li className={breadClassName}>About</li>;
+      breadcrumb = <li className={breadClassName}>About</li>
     } else if (pathName === '/submit') {
-      breadcrumb = <li className={breadClassName}>Submit</li>;
+      breadcrumb = <li className={breadClassName}>Submit</li>
     } else if (pathName === '/signup') {
-      breadcrumb = <li className={breadClassName}>Signup</li>;
+      breadcrumb = <li className={breadClassName}>Signup</li>
     }
 
     // matches specimen page and extracts ID
-    // const matchSpecimen = pathName.match(/\/hot30\/(.*)/i);
+    // const matchSpecimen = pathName.match(/\/hot30\/(.*)/i)
 
     // If we find a font in path, store in the variable
-    // let matchedFontName = '';
+    // let matchedFontName = ''
 
     // if (pathName === '/hot30') {
 
@@ -174,7 +174,7 @@ export default class NavBar extends Component {
       // } else if (matchSpecimen && matchSpecimen.length === 2) {
 
       // add an extra class so hot30 can grey out
-      // var breadClassFirstName = breadClassName + ' first-level';
+      // var breadClassFirstName = breadClassName + ' first-level'
       // font list needs to be loaded to match the name
       // if (fonts) {
         // map id -> font
@@ -183,26 +183,26 @@ export default class NavBar extends Component {
         /*
         let font = this.state.fonts.find(function (o) {
           return getFontId(o).toLowerCase() === matchSpecimen[1]
-        });
+        })
         */
 
         // matchedFontName = !!matchedFont ? matchedFont.get('fontName') : 'Unknown font'
 
         // extract the full font name
-        // var fontName = !!font ? getFullFontName(font) : "";
+        // var fontName = !!font ? getFullFontName(font) : ""
         // }
       // setup breadcrumbs
       // breadcrumb = [
         // <li className={breadClassFirstName} key='level-1'><Link to="/hot30">Hot30</Link></li>,
         // <li className={breadClassName} key='level-2'>{matchedFontName}</li>
-        // ];
+        // ]
 
     // } else if (pathName === '/about') {
-      // breadcrumb = <li className={breadClassName}>About</li>;
+      // breadcrumb = <li className={breadClassName}>About</li>
       // } else if (pathName === '/submit') {
-      // breadcrumb = <li className={breadClassName}>Submit</li>;
+      // breadcrumb = <li className={breadClassName}>Submit</li>
       // } else if (pathName === '/signup') {
-      // breadcrumb = <li className={breadClassName}>Signup</li>;
+      // breadcrumb = <li className={breadClassName}>Signup</li>
       // }
 
     return <header className='of-navbar'>

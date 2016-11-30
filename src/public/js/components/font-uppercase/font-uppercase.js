@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react'
 
 export default class FontUppercase extends Component {
 
@@ -9,30 +9,30 @@ export default class FontUppercase extends Component {
   }
 
   constructor() {
-    super();
-    this.handleClick = this.handleClick.bind(this);
+    super()
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick(e) {
-    const { onUpdate, uppercase } = this.props;
-    const nextUppercase = !uppercase;
+    const { onUpdate, uppercase } = this.props
+    const nextUppercase = !uppercase
     onUpdate && onUpdate(nextUppercase)
   }
 
   render() {
 
-    const { uppercase, backgroundState } = this.props;
+    const { uppercase, backgroundState } = this.props
 
-    const size = 32;
-    const viewBox = [0, 0, size, size].join(' ');
+    const size = 32
+    const viewBox = [0, 0, size, size].join(' ')
     const onStyle = {
       display: uppercase ? "block" : "none",
       fill: backgroundState === 'white' ? 'black' : 'white'
-    };
+    }
     const offStyle = {
       display: uppercase ? "none" : "block",
       fill: backgroundState !== 'white' ? "white" : "black"
-    };
+    }
 
     return (
       <svg onClick={this.handleClick} xmlns="http://www.w3.org/svg/2000"

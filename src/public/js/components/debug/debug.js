@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import appDispatcher from 'app-dispatcher';
-import { getAboutText, getFullFontName } from 'util/content_util';
+import React, { Component } from 'react'
+import appDispatcher from 'app-dispatcher'
+import { getAboutText, getFullFontName } from 'util/content_util'
 
 export default class Debug extends Component {
 
@@ -10,7 +10,7 @@ export default class Debug extends Component {
       fonts: []
     }
 
-    this.handleAppEvent = this.handleAppEvent.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this)
   }
 
   handleAppEvent(e) {
@@ -18,18 +18,18 @@ export default class Debug extends Component {
       case 'font-data-updated':
         this.setState({
           fonts: e.data
-        });
-        break;
+        })
+        break
     }
   }
 
   componentDidMount() {
-    this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
-    appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+    this.handleAppEventListener = appDispatcher.register(this.handleAppEvent)
+    appDispatcher.dispatch({ actionType: 'fetch-font-data' })
   }
 
   componentWillUnmount() {
-    appDispatcher.unregister(this.handleAppEventListener);
+    appDispatcher.unregister(this.handleAppEventListener)
   }
 
   render() {

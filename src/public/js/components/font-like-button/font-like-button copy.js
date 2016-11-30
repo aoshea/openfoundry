@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import $ from 'jquery';
-import classNames from 'classnames';
-import appDispatcher from 'app-dispatcher';
-import { getFontId } from 'util/content_util.js';
+import React, { Component } from 'react'
+import $ from 'jquery'
+import classNames from 'classnames'
+import appDispatcher from 'app-dispatcher'
+import { getFontId } from 'util/content_util.js'
 
 export default class FontLikeButton extends Component {
 
   constructor() {
     super()
-    this.handleClick = this.handleClick.bind(this);
-    this.handleFontEvent = this.handleFontEvent.bind(this);
-    this.handleAppEvent = this.handleAppEvent.bind(this);
+    this.handleClick = this.handleClick.bind(this)
+    this.handleFontEvent = this.handleFontEvent.bind(this)
+    this.handleAppEvent = this.handleAppEvent.bind(this)
 
     this.state = {
       likes: 0
@@ -18,30 +18,30 @@ export default class FontLikeButton extends Component {
   }
 
   handleClick() {
-    let { font } = this.props;
+    let { font } = this.props
 
-    if (font.locked) return;
+    if (font.locked) return
 
     this.onUpdateLikes()
   }
 
   componentDidMount() {
-    this.handleAppEventToken = appDispatcher.register(this.handleAppEvent);
+    this.handleAppEventToken = appDispatcher.register(this.handleAppEvent)
   }
 
   componentWillUnmount() {
-    appDispatcher.unregister(this.handleAppEventToken);
+    appDispatcher.unregister(this.handleAppEventToken)
 
-    var { font } = this.props;
-    if (!font) return;
-    // font.dispatcher.unregister(this.handleFontModelEventToken);
+    var { font } = this.props
+    if (!font) return
+    // font.dispatcher.unregister(this.handleFontModelEventToken)
   }
 
   handleAppEvent(e) {
     switch (e.actionType) {
       case 'like-data-updated':
         if (!this.isInit) this.init()
-        break;
+        break
     }
   }
 
@@ -51,46 +51,46 @@ export default class FontLikeButton extends Component {
         this.setState({
           likes: parseInt(e.likesNum, 10),
           locked: true
-        });
+        })
     }
   }
 
   init() {
-    var font = this.props.font;
-    if (!font) return;
-    this.isInit = true;
-    this.state.likes = font.likesNum;
-    this.state.locked = font.locked;
-    // this.handleFontModelEventToken = font.dispatcher.register(this.handleFontEvent);
+    var font = this.props.font
+    if (!font) return
+    this.isInit = true
+    this.state.likes = font.likesNum
+    this.state.locked = font.locked
+    // this.handleFontModelEventToken = font.dispatcher.register(this.handleFontEvent)
   }
 
   onUpdateLikes(value) {
 
-    const { font } = this.props;
+    const { font } = this.props
 
     if (font.locked) {
-      return;
+      return
     }
 
-    value = font.likesNum = value || font.likesNum + 1;
+    value = font.likesNum = value || font.likesNum + 1
 
     $.get('api/like/' + getFontId(font), function (e) {
       // done
       // TODO: Handle error too
-    });
+    })
 
-    font.locked = true;
+    font.locked = true
 
     font.dispatcher.dispatch({
       actionType: 'likes-updated',
       likesNum: value
-    });
+    })
 
     // lets be optimistic
     this.setState({
       likes: parseInt(value, 10),
       locked: true
-    });
+    })
 
   }
 
@@ -103,9 +103,9 @@ export default class FontLikeButton extends Component {
     let btnClass = classNames({
       'like-button': true,
       'like-button-disabled': this.state.locked
-    });
+    })
 
-    const { likes } = this.state;
+    const { likes } = this.state
 
     return (
       <div className="vote-container">

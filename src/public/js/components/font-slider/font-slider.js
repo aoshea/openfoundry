@@ -1,6 +1,6 @@
-import React, { Component, PropTypes } from 'react';
-import ReactSlider from 'react-slider';
-import ReactSliderLabel from './font-slider-label.js';
+import React, { Component, PropTypes } from 'react'
+import ReactSlider from 'react-slider'
+import ReactSliderLabel from './font-slider-label.js'
 
 const FontSlider = ({ onUpdate, min, max, value, step, initial, fixed, label }) => {
 

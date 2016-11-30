@@ -1,5 +1,5 @@
-import { connect } from 'react-redux';
-import Hot30Page from 'components/hot30-page/hot30-page.js';
+import { connect } from 'react-redux'
+import Hot30Page from 'components/hot30-page/hot30-page.js'
 
 const mapStateToProps = (state, ownProps) => {
   return {

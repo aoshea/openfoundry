@@ -1,28 +1,28 @@
 import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHistory } from 'react-router'
-import React, { Component } from 'react';
-import Helmet from "react-helmet";
-import { render } from 'react-dom';
-import classNames from 'classnames';
-import FontSpecimen from './components/font-specimen/font-specimen.js';
-import FontList from './components/font-list/font-list.js';
-import Debug from './components/debug/debug.js';
-import AboutPage from './components/about/about.js';
-import SubmissionPage from './components/submission/submission.js';
-import $ from 'jquery';
-import Tabletop from 'tabletop';
-import ReactTransitionGroup from 'react-addons-transition-group';
-import { getFontId, getFullFontName } from 'util/content_util.js';
-import appDispatcher from 'app-dispatcher';
-import appModel from 'app-model';
-import NavBar from 'components/navbar/navbar';
-import Perf from 'react-addons-perf';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React, { Component } from 'react'
+import Helmet from "react-helmet"
+import { render } from 'react-dom'
+import classNames from 'classnames'
+import FontSpecimen from './components/font-specimen/font-specimen.js'
+import FontList from './components/font-list/font-list.js'
+import Debug from './components/debug/debug.js'
+import AboutPage from './components/about/about.js'
+import SubmissionPage from './components/submission/submission.js'
+import $ from 'jquery'
+import Tabletop from 'tabletop'
+import ReactTransitionGroup from 'react-addons-transition-group'
+import { getFontId, getFullFontName } from 'util/content_util.js'
+import appDispatcher from 'app-dispatcher'
+import appModel from 'app-model'
+import NavBar from 'components/navbar/navbar'
+import Perf from 'react-addons-perf'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
 
-window.Perf = Perf;
+window.Perf = Perf
 
 var cache = {
   fonts: null
-};
+}
 
 
 class App extends Component {
@@ -30,39 +30,39 @@ class App extends Component {
   constructor() {
     super()
 
-    this.handleAppEvent = this.handleAppEvent.bind(this);
-    this.checkScroll = this.checkScroll.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this)
+    this.checkScroll = this.checkScroll.bind(this)
 
-    this.isScrolled = false;
-    this.delta = 100;
-    this.lastScrollTop = 100;
+    this.isScrolled = false
+    this.delta = 100
+    this.lastScrollTop = 100
 
     this.state = {
       isLoaded: false,
       fonts: []
-    };
+    }
   }
 
   componentDidMount() {
 
-    var self = this;
-    var navbarHeight = 50;
+    var self = this
+    var navbarHeight = 50
 
-    $(window).on('scroll', this.checkScroll);
+    $(window).on('scroll', this.checkScroll)
 
     requestAnimationFrame(() => this.checkScroll(true))
 
-    appDispatcher.register(this.handleAppEvent);
+    appDispatcher.register(this.handleAppEvent)
 
     appDispatcher.dispatch({
       actionType: 'fetch-font-data'
-    });
+    })
 
   }
 
   componentWillUnmount() {
 
-    $(window).off('scroll');
+    $(window).off('scroll')
   }
 
   handleAppEvent(e) {
@@ -73,52 +73,52 @@ class App extends Component {
         this.setState({
           isLoaded: true,
           fonts: e.data
-        });
-        break;
+        })
+        break
       case 'location-changed':
-        this.checkScroll(true);
-        break;
+        this.checkScroll(true)
+        break
     }
   }
 
   checkScroll(force) {
 
-    var scrollTop = $(window).scrollTop();
-    var windowHeight = $(window).height();
-    var documentHeight = $(document).height();
-    var navbarHeight = 50;
+    var scrollTop = $(window).scrollTop()
+    var windowHeight = $(window).height()
+    var documentHeight = $(document).height()
+    var navbarHeight = 50
 
     // scroll more than delta
-    if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !force) return;
+    if (Math.abs(this.lastScrollTop - scrollTop) <= 100 && !force) return
 
-    var actionType = null;
+    var actionType = null
 
     if (scrollTop > this.lastScrollTop && scrollTop > navbarHeight) {
       // scroll down pass the nav bar
-      actionType = 'show-breadcrumbs';
+      actionType = 'show-breadcrumbs'
     } else if (scrollTop < 200 && location.pathname === '/hot30') {
       // scroll up at the top of the page
-      actionType = 'hide-breadcrumbs';
+      actionType = 'hide-breadcrumbs'
     }
 
     if (actionType !== null) {
       // need to delay since we could be in the middle of a dispatch
       requestAnimationFrame(function () {
-        appDispatcher.dispatch({ actionType: 'show-breadcrumbs' });
-      });
+        appDispatcher.dispatch({ actionType: 'show-breadcrumbs' })
+      })
     }
 
-    this. lastScrollTop = scrollTop;
+    this. lastScrollTop = scrollTop
   }
 
   render() {
 
-    let { location } = this.props;
+    let { location } = this.props
 
     let rootClassName = classNames({
       'is-loaded': this.state.isLoaded,
       'nav-hidden': this.state.isNavHidden
-    });
+    })
 
     return (
       <div className={rootClassName}>
@@ -133,19 +133,19 @@ class App extends Component {
 
 App.contextTypes = {
   location: React.PropTypes.object
-};
+}
 
 class Open extends Component {
 
   constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+    super(props)
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
 
-    this.handleAppEvent = this.handleAppEvent.bind(this);
+    this.handleAppEvent = this.handleAppEvent.bind(this)
 
     this.state = {
       fonts: []
-    };
+    }
   }
 
   handleAppEvent(e) {
@@ -153,25 +153,25 @@ class Open extends Component {
       case 'font-data-updated':
         this.setState({
           fonts: e.data
-        });
-        break;
+        })
+        break
     }
   }
 
   componentDidMount() {
-    const self = this;
+    const self = this
 
-    this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
+    this.handleAppEventListener = appDispatcher.register(this.handleAppEvent)
 
     if (appModel.parsedFonts) {
-      this.setState({ fonts: appModel.parsedFonts });
+      this.setState({ fonts: appModel.parsedFonts })
     } else {
-      appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+      appDispatcher.dispatch({ actionType: 'fetch-font-data' })
     }
   }
 
   componentWillUnmount() {
-    appDispatcher.unregister(this.handleAppEventListener);
+    appDispatcher.unregister(this.handleAppEventListener)
   }
 
   componentDidUpdate() {
@@ -179,9 +179,9 @@ class Open extends Component {
   }
 
   render() {
-    const { fonts } = this.state;
+    const { fonts } = this.state
 
-    let { location } = this.props;
+    let { location } = this.props
 
     let isSpecimen = !!location.pathname.match(/\/hot30\/(.+)/)
 
@@ -197,29 +197,29 @@ class Open extends Component {
 
 Open.contextTypes = {
   location: React.PropTypes.object
-};
+}
 
 class Specimen extends Component {
 
   constructor(props) {
-    super(props);
-    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this);
+    super(props)
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
 
-    this.onComplete = this.onComplete.bind(this);
-    this.navigateToOpen = this.navigateToOpen.bind(this);
-    this.handleAppEvent = this.handleAppEvent.bind(this);
+    this.onComplete = this.onComplete.bind(this)
+    this.navigateToOpen = this.navigateToOpen.bind(this)
+    this.handleAppEvent = this.handleAppEvent.bind(this)
 
     this.state = {
       fonts: []
-    };
+    }
   }
 
   navigateToOpen() {
-    this.context.router.push('/hot30');
+    this.context.router.push('/hot30')
   }
 
   onComplete() {
-    this.navigateToOpen();
+    this.navigateToOpen()
   }
 
   handleAppEvent(e) {
@@ -227,34 +227,34 @@ class Specimen extends Component {
       case 'font-data-updated':
         this.setState({
           fonts: e.data
-        });
-        break;
+        })
+        break
     }
   }
 
   componentDidMount() {
-    this.handleAppEventListener = appDispatcher.register(this.handleAppEvent);
+    this.handleAppEventListener = appDispatcher.register(this.handleAppEvent)
     if (appModel.parsedFonts) {
-      this.setState({ fonts: appModel.parsedFonts });
+      this.setState({ fonts: appModel.parsedFonts })
     } else {
-      appDispatcher.dispatch({ actionType: 'fetch-font-data' });
+      appDispatcher.dispatch({ actionType: 'fetch-font-data' })
     }
   }
 
   componentWillUnmount() {
-    appDispatcher.unregister(this.handleAppEventListener);
+    appDispatcher.unregister(this.handleAppEventListener)
   }
 
   render() {
-    let { fontId } = this.props.params;
+    let { fontId } = this.props.params
 
     if (!this.state.fonts) return <div>Loading...</div>
 
     let matches = this.state.fonts.filter(function (font) {
-      return getFontId(font) === fontId;
-    });
+      return getFontId(font) === fontId
+    })
 
-    let match = matches.length ? matches[0] : null;
+    let match = matches.length ? matches[0] : null
 
     return  <ReactTransitionGroup>
             <Helmet title={"Open Foundry / Hot 30 / " + getFullFontName(match)} />
@@ -304,20 +304,20 @@ class Signup extends Component {
 browserHistory.listen(function (location) {
   // need to render <Helmet> before retrieving pages title
   setTimeout(function () {
-    if (!window.ga) return;
-    window.ga('send', 'pageview', location.pathname);
-  }, 50);
+    if (!window.ga) return
+    window.ga('send', 'pageview', location.pathname)
+  }, 50)
 
   setTimeout(function () {
 
     if (location.pathname === '/hot30') {
       appDispatcher.dispatch({
         actionType: 'hide-breadcrumbs'
-      });
+      })
     } else {
       appDispatcher.dispatch({
         actionType: 'show-breadcrumbs'
-      });
+      })
     }
 
     if (location.pathname === '/signup') {
@@ -327,7 +327,7 @@ browserHistory.listen(function (location) {
 
   appDispatcher.dispatch({ actionType: 'location-changed', location: location })
 
-});
+})
 
 /*
 render((
@@ -345,5 +345,5 @@ render((
   </Router>
 ),
 document.querySelector('.of-container')
-);
+)
 */

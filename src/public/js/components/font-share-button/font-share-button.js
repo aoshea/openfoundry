@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-export default class FontShareButton extends Component {  
-  
+export default class FontShareButton extends Component {
+
   constructor() {
-    super() 
-    this.handleClick = this.handleClick.bind(this);
+    super()
+    this.handleClick = this.handleClick.bind(this)
   }
-  
-  handleClick() {
-    let url = "https://github.com";
-    let msg = this.props.message;
-    let shareUrl =  "https://twitter.com/intent/tweet?text=" + encodeURIComponent(msg);
 
-    window.open(shareUrl, "_blank");
+  handleClick() {
+    let url = "https://github.com"
+    let msg = this.props.message
+    let shareUrl =  "https://twitter.com/intent/tweet?text=" + encodeURIComponent(msg)
+
+    window.open(shareUrl, "_blank")
   }
-  
+
   render() {
-    
+
     return (
       <div className="share-container">
           <div className="share-button" onClick={this.handleClick}>
@@ -28,6 +28,6 @@ export default class FontShareButton extends Component {
             0
           </span>
       </div>
-    );
+    )
   }
 }
