@@ -11,8 +11,8 @@ var dirs = {
   out: __dirname + '/build/',
 };
 
-const sourceUrl = 'http://www.dailymail.co.uk/tvshowbiz/headlines/index.html';
-const sourceSelector = 'span.headline';
+const sourceUrl = 'http://www.dailymail.co.uk/sciencetech/index.html';
+const sourceSelector = 'h2.linkro-darkred a'; // span.headline
 
 function getHeadlines() {
   return new Promise(function (resolve, reject) {
