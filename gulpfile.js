@@ -78,36 +78,8 @@ var dir = {
 var config = {
   rsync: {
     src: dir.build + '**',
-    live: {
-      options: {
-        destination: '/home/of/html/',
-        root: 'dist',
-        hostname: 'alpheca.uberspace.de',
-        username: 'of',
-        incremental: true,
-        progress: true,
-        relative: true,
-        emptyDirectories: true,
-        recursive: true,
-        clean: false,
-        exclude: ['.DS_Store']
-      }
-    },
-    staging: {
-      options: {
-        destination: '/home/of/html/',
-        root: 'dist',
-        hostname: '46.101.22.63',
-        username: 'of',
-        incremental: true,
-        progress: true,
-        relative: true,
-        emptyDirectories: true,
-        recursive: true,
-        clean: false,
-        exclude: ['.DS_Store']
-      }
-    }
+    live: require('./config/production.json'),
+    staging: require('./config/staging.json')
   }
 };
 
@@ -117,21 +89,29 @@ gulp.task('launch-prototype', function() {
   });
 });
 
+const rsyncBuild = (target) => {
+  try {
+    const options = require(`./config/${target}.json`);
+    return gulp.src(config.rsync.src)
+      .pipe(rsync(options.rsync.options));
+
+  } catch (e) {
+    gutil.log(gutil.colors.bgRed(`Deploy to ${target} failed:`), gutil.colors.red(e));
+  }
+};
+
 /**
  * Rsync files to live server
  */
 gulp.task('deploy-live', function () {
-  /*
-  return gulp.src(config.rsync.src)
-    .pipe(rsync(config.rsync.live.options));*/
+  return rsyncBuild('production');
 });
 
 /**
  * Rsync files to staging server
  */
 gulp.task('deploy-staging', function () {
-return gulp.src(config.rsync.src)
-  .pipe(rsync(config.rsync.staging.options));
+  return rsyncBuild('staging');
 });
 
 var sources = {

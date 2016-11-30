@@ -1,6 +1,7 @@
 node_modules
 dist
 open/build
+config/*.json
 *.DS_Store
 *.swp
 .editorconfig
