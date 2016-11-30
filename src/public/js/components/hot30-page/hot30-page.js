@@ -9,6 +9,7 @@ class Hot30Page extends Component {
   static propTypes = {
     fonts: PropTypes.object.isRequired,
     likes: PropTypes.object.isRequired,
+    isGridView: PropTypes.bool.isRequired,
     specimenFontId: PropTypes.string
   }
 
@@ -26,6 +27,7 @@ class Hot30Page extends Component {
     const {
       fonts,
       likes,
+      isGridView,
       specimenFontId } = this.props
 
     // TODO Add reselect to cache selectors such as these
@@ -37,6 +39,7 @@ class Hot30Page extends Component {
       <div>
         <Helmet title={'OpenFoundry / Hot 30'} />
         <FontList
+          isGridView={isGridView}
           fonts={fonts}
           likes={likes}
           specimenFont={specimenFont} />

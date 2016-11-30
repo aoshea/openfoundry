@@ -1,3 +1,11 @@
+export const showGrid = () => ({
+  type: 'SHOW_GRID'
+})
+
+export const showList = () => ({
+  type: 'SHOW_LIST'
+})
+
 const requestAddLike = (font) => ({
   type: 'REQUEST_ADD_LIKE',
   id: font.id

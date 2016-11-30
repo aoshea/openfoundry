@@ -3,12 +3,14 @@ import PureRenderMixin from 'react-addons-pure-render-mixin'
 import classNames from 'classnames'
 import FontPreviewContainer from 'containers/font-preview-container/font-preview-container'
 import SpecimenPreviewContainer from 'containers/specimen-preview-container/specimen-preview-container'
+import TogglePreviewContainer from 'containers/toggle-preview-container/toggle-preview-container'
 
 class FontList extends Component {
 
   static propTypes = {
     fonts: PropTypes.object.isRequired,
     likes: PropTypes.object.isRequired,
+    isGridView: PropTypes.bool.isRequired,
     specimenFont: PropTypes.object
   }
 
@@ -129,13 +131,12 @@ class FontList extends Component {
     const {
       fonts,
       likes,
+      isGridView,
       specimenFont } = this.props
-
-    const isGrid = false
 
     let renderFonts = null
 
-    if (isGrid) {
+    if (isGridView) {
       // Split into chunks of three
       // For arranging the grid
       const fontList = fonts.toJS()
@@ -150,8 +151,8 @@ class FontList extends Component {
 
       renderFonts = chunked.map((chunk, i)=> {
         return (
-          <div className="of-font-list-row">
-            {chunk.map((f, fi) => <SpecimenPreviewContainer rank={(i * step) + fi + 1} key={f.id} fontId={f.id} />)}
+          <div key={i} className="of-font-list-row">
+            {chunk.map((f, fi) => <SpecimenPreviewContainer key={i*step+fi} rank={(i * step) + fi + 1} fontId={f.id} />)}
           </div>
         )
       })
@@ -189,7 +190,7 @@ class FontList extends Component {
 
     const fontListInnerClassNames = classNames({
       'of-font-list': true,
-      'of-font-list--grid': isGrid
+      'of-font-list--grid': isGridView
     })
 
     // Offset by `.of-main` top offset
@@ -203,6 +204,7 @@ class FontList extends Component {
         <div style={fontListStyle} ref="list" className={fontListInnerClassNames}>
           {renderFonts}
         </div>
+        <TogglePreviewContainer />
       </div>
     )
   }

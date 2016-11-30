@@ -5,6 +5,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     fonts: state.fonts.get('fonts'),
     likes: state.fonts.get('likes'),
+    isGridView: state.fonts.get('isGridView'),
     specimenFontId: ownProps.params.fontId
   }
 }

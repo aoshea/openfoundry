@@ -4,6 +4,7 @@ const sheetJSON = require('../../../../../open/build/sheet.json')
 
 const InitialState = fromJS({
   isFetching: false,
+  isGridView: false,
   likes: [],
   ...sheetJSON
 })
@@ -34,6 +35,14 @@ const updateLike = (state, param, action) => {
 const fontReducer = (state = initialState, action) => {
 
   switch (action.type) {
+
+    case 'SHOW_GRID':
+      if (state.isGridView) return state
+      return state.set('isGridView', true)
+
+    case 'SHOW_LIST':
+      if (!state.isGridView) return state
+      return state.set('isGridView', false)
 
     case 'SUCCESS_ADD_LIKE':
       return updateLike(state, 'likes', action)
