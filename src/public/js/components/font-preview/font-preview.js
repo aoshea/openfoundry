@@ -67,7 +67,7 @@ class FontPreview extends Component {
 
   componentDidMount() {
     // Hack in a smaller font for mobiles
-    if (window.matchMedia && window.matchMedia("(max-width: 667px)").matches && !this.state.font.scaled) {
+    if (window.matchMedia && window.matchMedia('(max-width: 667px)').matches && !this.state.font.scaled) {
 
       const { onSetFontSize, font } = this.props
 
@@ -167,7 +167,7 @@ class FontPreview extends Component {
 
     // Text body content
     const fontText = font.get('settingsText')
-    const fontClassNames = "of-font-preview-text-container " + fontId
+    const fontClassNames = `of-font-preview-text-container ${fontId}`
 
     // Get font sizes and max, min, step
     const fontSize = font.get('settingsFontSize')
@@ -290,7 +290,7 @@ FontPreview.getRandomBackground = (function () {
   const backgroundList = shuffle(Array(numBackgrounds).fill(0).map((o, i) => i + 1))
   let index = 0
 
-  const pad2 = n => n < 10 ? "0" + n : n
+  const pad2 = n => n < 10 ? '0' + n : n
 
   return () => {
     index = (index + 1) % numBackgrounds

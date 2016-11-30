@@ -19,15 +19,14 @@ export default class FontPreviewFooter extends Component {
     const { font, rank, isList, likeCount, onMoreClick } = this.props
 
     // Sort rank
-    const rhyphen = " — "
-    const rankSpace = " "
-    const rankComma = ", "
-    const rankPaddedNum = ("0" + rank).slice(-2)
+    const rhyphen = ' — '
+    const rankSpace = ' '
+    const rankComma = ', '
+    const rankPaddedNum = ('0' + rank).slice(-2)
     const rankNum = <span>{rankPaddedNum}{rhyphen}</span>
     const rankFontName = <span>{font.get('fontName')}{rankSpace}{font.get('fontStyle')}</span>
     const fontCreator = font.get('fontCreator')
-    const spanFontCreator = font.get('fontCreatorLink') ? <span>{fontCreator}</span> : <span>{fontCreator}</span>
-    const rankCreator = spanFontCreator
+    const rankCreator = <span>{fontCreator}</span>
 
     const fontId = font.get('id')
 

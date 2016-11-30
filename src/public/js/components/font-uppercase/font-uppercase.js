@@ -26,12 +26,12 @@ export default class FontUppercase extends Component {
     const size = 32
     const viewBox = [0, 0, size, size].join(' ')
     const onStyle = {
-      display: uppercase ? "block" : "none",
+      display: uppercase ? 'block' : 'none',
       fill: backgroundState === 'white' ? 'black' : 'white'
     }
     const offStyle = {
-      display: uppercase ? "none" : "block",
-      fill: backgroundState !== 'white' ? "white" : "black"
+      display: uppercase ? 'none' : 'block',
+      fill: backgroundState !== 'white' ? 'white' : 'black'
     }
 
     return (

@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
 import $ from 'jquery'
 
-var CTA = "Join OF Club"
+const CTA = 'Join OF Club'
 
 export default class NewsletterSignup extends Component {
 
   componentDidMount() {
-
     this.setupForm()
-
   }
 
   setupForm() {
 
-    var form = this.refs.newsletterForm
+    const form = this.refs.newsletterForm
 
     if (!form) {
       return
@@ -25,7 +23,7 @@ export default class NewsletterSignup extends Component {
     // remove 0/1 etc. since there's only one input
     this.stepForm.questionStatus.style.display = 'none'
 
-    var messageEl = form.querySelector('.final-message')
+    const messageEl = form.querySelector('.final-message')
 
     function onSubmit(form) {
 
@@ -65,7 +63,7 @@ export default class NewsletterSignup extends Component {
 
     // reset all values
     this.stepForm.questions.forEach(function (el) {
-      el.querySelector('input').value = ""
+      el.querySelector('input').value = ''
     })
 
     // remove next button
@@ -83,15 +81,15 @@ export default class NewsletterSignup extends Component {
       this.resetForm()
     }
 
-    var onFocusInput = function (e) {
+    const onFocusInput = function (e) {
       // display default input placeholder
-      e.target.placeholder = "Your E-Mail?"
+      e.target.placeholder = 'Your E-Mail?'
       // display next arrow
       this.stepForm.ctrlNext.classList.add('show')
     }.bind(this)
 
-    var onBlurInput = function (e) {
-      if (e.target.value == "") {
+    const onBlurInput = function (e) {
+      if (e.target.value == '') {
         // if the field was left empty, hide the next arrow
         this.stepForm.ctrlNext.classList.remove('show')
       }

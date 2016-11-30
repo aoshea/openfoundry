@@ -59,7 +59,7 @@ class FontList extends Component {
     if (!this.fixed && this.hasTouch) {
 
       // save the current position
-      var scrollTop = window.scrollY
+      const scrollTop = window.scrollY
 
       // wait a frame, unfortunately this is necessary and creates
       // a little flash in some cases

@@ -35,7 +35,7 @@ class Hot30Page extends Component {
 
     return (
       <div>
-        <Helmet title={"OpenFoundry / Hot 30"} />
+        <Helmet title={'OpenFoundry / Hot 30'} />
         <FontList
           fonts={fonts}
           likes={likes}

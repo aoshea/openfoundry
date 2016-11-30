@@ -152,11 +152,19 @@ export default class FontSpecimen extends Component {
     const fontOpenSourceLink = font.get('fontOpenSourceLink')
     const aboutText = getAboutText(font)
 
-    var oFontName = font.get('fontName')
-    var oFontStyle = font.get('fontStyle')
+    const oFontName = font.get('fontName')
+    const oFontStyle = font.get('fontStyle')
 
-    var shareMessage = getShareMessage(font)
+    const shareMessage = getShareMessage(font)
 
+    const charIndex = 33
+    const charMaxIndex = 126
+    const characterElements = Array(charMaxIndex - charIndex).map((el, i) => {
+      const charCode = charIndex + i
+      return <li key={charCode} className="character">{String.fromCharCode(charCode)}</li>
+    })
+
+    /*
     var characterElements = this.characterElements = this.characterElements || ((function () {
       let characterElements = []
       for (var i = 33 i <= 126 i ++) {
@@ -164,8 +172,9 @@ export default class FontSpecimen extends Component {
       }
       return characterElements
     })())
+    */
 
-    var foundryElement
+    let foundryElement = null
 
     if (foundryLink) {
       foundryElement = <a href={foundryLink}>{foundry}</a>
@@ -189,7 +198,7 @@ export default class FontSpecimen extends Component {
 
     return (
       <div ref="of-specimen" className="of-specimen">
-        <div ref="of-preview-wrapper" style={holderStyle} className='of-preview-wrapper'>
+        <div ref="of-preview-wrapper" style={holderStyle} className="of-preview-wrapper">
           <FontPreviewContainer
             isSpecimen={true}
             onMoreUpdate={this.onClickSource}

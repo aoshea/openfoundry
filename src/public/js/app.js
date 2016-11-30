@@ -1,3 +1,5 @@
+
+/*
 import { Router, IndexRoute, Route, IndexLink, IndexRedirect, Link, browserHistory } from 'react-router'
 import React, { Component } from 'react'
 import Helmet from "react-helmet"
@@ -329,7 +331,6 @@ browserHistory.listen(function (location) {
 
 })
 
-/*
 render((
   <Router history={browserHistory}>
     <Route path="/" component={App}>

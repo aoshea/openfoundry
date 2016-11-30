@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 /**
  * stepsForm.js v1.0.0
  * http://www.codrops.com
@@ -9,9 +11,12 @@
  * http://www.codrops.com
  */
 
-
 'use strict'
 
+var transEndEventName = 'transitionend';
+var support = { transitions: true }
+
+/*
 var transEndEventNames = {
     'WebkitTransition': 'webkitTransitionEnd',
     'MozTransition': 'transitionend',
@@ -21,6 +26,7 @@ var transEndEventNames = {
   },
   transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
   support = { transitions : Modernizr.csstransitions }
+*/
 
 function extend( a, b ) {
   for( var key in b ) {
@@ -243,7 +249,10 @@ stepsForm.prototype._clearError = function() {
 }
 
 function validateEmail(email) {
+  /*
   var re = /^(([^<>()[\]\\.,:\s@"]+(\.[^<>()[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  */
+  var re = /\S+@\S+/
   return re.test(email)
 }
 

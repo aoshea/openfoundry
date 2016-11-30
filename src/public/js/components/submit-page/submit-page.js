@@ -9,7 +9,6 @@ export default class SubmitPage extends Component {
 
     this.onFocusInput = this.onFocusInput.bind(this)
     this.onBlurInput = this.onBlurInput.bind(this)
-
   }
 
   componentDidMount() {
@@ -19,7 +18,7 @@ export default class SubmitPage extends Component {
 
   setupForm() {
 
-    var form = document.getElementById('theForm')
+    const form = document.getElementById('theForm')
 
     if (!form) {
       return
@@ -46,7 +45,7 @@ export default class SubmitPage extends Component {
     function onSuccess(data) {
 
       // hide loading spinner
-      var messageEl = form.querySelector('.final-message')
+      let messageEl = form.querySelector('.final-message')
 
       if (data.status === 'success') {
         messageEl.innerHTML = data.message
@@ -60,13 +59,13 @@ export default class SubmitPage extends Component {
 
   onFocusInput(e) {
     if (e.target.id == 'q1') {
-      e.target.placeholder = "Your name?"
+      e.target.placeholder = 'Your name?'
     }
   }
 
   onBlurInput(e) {
     if (e.target.id == 'q1') {
-      e.target.placeholder = "Submit a font"
+      e.target.placeholder = 'Submit a font'
     }
   }
 

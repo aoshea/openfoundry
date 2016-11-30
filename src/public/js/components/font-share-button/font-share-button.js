@@ -8,15 +8,14 @@ export default class FontShareButton extends Component {
   }
 
   handleClick() {
-    let url = "https://github.com"
-    let msg = this.props.message
-    let shareUrl =  "https://twitter.com/intent/tweet?text=" + encodeURIComponent(msg)
+    const url = 'https://github.com'
+    const msg = this.props.message
+    const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(msg)}`
 
-    window.open(shareUrl, "_blank")
+    window.open(shareUrl, '_blank')
   }
 
   render() {
-
     return (
       <div className="share-container">
           <div className="share-button" onClick={this.handleClick}>

@@ -176,7 +176,7 @@ gulp.task('vendor-js', function () {
   var global_entries = [
     require.resolve("babel-polyfill"),
     // require.resolve('babel-plugin-syntax-object-rest-spread'),
-    './src/public/vendor-js/modernizr.js',
+    // './src/public/vendor-js/modernizr.js',
     './src/public/vendor-js/stepform.js'
   ];
 
