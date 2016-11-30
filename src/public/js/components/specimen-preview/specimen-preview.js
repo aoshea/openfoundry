@@ -13,10 +13,6 @@ export default class SpecimenPreview extends Component {
     likeCount: PropTypes.number.isRequired
   }
 
-  constructor() {
-    super()
-  }
-
   render() {
 
     const { fonts, rank, fontId, likeCount } = this.props
