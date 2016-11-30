@@ -158,21 +158,10 @@ export default class FontSpecimen extends Component {
     const shareMessage = getShareMessage(font)
 
     const charIndex = 33
-    const charMaxIndex = 126
-    const characterElements = Array(charMaxIndex - charIndex).map((el, i) => {
-      const charCode = charIndex + i
-      return <li key={charCode} className="character">{String.fromCharCode(charCode)}</li>
-    })
+    const charMaxIndex = 127
 
-    /*
-    var characterElements = this.characterElements = this.characterElements || ((function () {
-      let characterElements = []
-      for (var i = 33 i <= 126 i ++) {
-        characterElements.push(<li key={ i } className="character">{ String.fromCharCode(i) }</li>)
-      }
-      return characterElements
-    })())
-    */
+    const arr = Array(charMaxIndex - charIndex).fill(0).map((el, i) => String.fromCharCode(i + charIndex))
+    const characterElements = arr.map(charCode => <li key={charCode} className="character">{charCode}</li>)
 
     let foundryElement = null
 
