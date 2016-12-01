@@ -63,15 +63,15 @@ app.set('view engine', 'pug')
  * Render views
  */
 app.get('/', function (req, res) {
-  res.render('index', localVars)
+  res.render('index', genericViewVars)
 })
 
 app.get('/about', function (req, res) {
-  res.render('index', localVars)
+  res.render('index', genericViewVars)
 })
 
 app.get('/submit', function (req, res) {
-  res.render('index', localVars)
+  res.render('index', genericViewVars)
 })
 
 app.get('/hot30/:id', function (req, res) {

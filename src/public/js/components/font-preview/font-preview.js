@@ -12,6 +12,8 @@ import classNames from 'classnames'
 import shuffle from 'shuffle-array'
 import { getFontId, getShareMessage, getFullFontName } from 'util/content_util.js'
 
+require('array.prototype.fill')
+
 class FontPreview extends Component {
 
   static propTypes = {
@@ -66,10 +68,16 @@ class FontPreview extends Component {
   }
 
   componentDidMount() {
-    // Hack in a smaller font for mobiles
-    if (window.matchMedia && window.matchMedia('(max-width: 667px)').matches && !this.state.font.scaled) {
 
-      const { onSetFontSize, font } = this.props
+    const { font, onSetFontSize } = this.props
+
+    // Hack in a smaller font for mobiles
+    if (window.matchMedia && window.matchMedia('(max-width: 667px)').matches) {
+
+      // Prevent tiny fonts
+      if (parseInt(font.get('settingsFontSize'), 10) < 65) {
+        return null
+      }
 
       this.timeout = setTimeout(() => {
 

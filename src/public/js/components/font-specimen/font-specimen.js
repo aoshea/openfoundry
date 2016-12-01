@@ -13,6 +13,8 @@ import FontLikeButton from 'components/font-like-button/font-like-button'
 import FontShareButton from 'components/font-share-button/font-share-button'
 import PureRenderMixin from 'react-addons-pure-render-mixin'
 
+require('array.prototype.fill')
+
 export default class FontSpecimen extends Component {
 
   static propTypes = {

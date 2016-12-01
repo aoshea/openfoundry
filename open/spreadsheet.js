@@ -4,7 +4,9 @@ var Tabletop = require('tabletop'),
     fs       = require('fs'),
     path     = require('path'),
     request  = require('request'),
-    cheerio  = require('cheerio')
+    cheerio  = require('cheerio'),
+    sizeOf   = require('image-size'),
+    async    = require('async')
     ;
 
 var dirs = {
@@ -99,6 +101,72 @@ function parseFontData(data) {
   return { fonts };
 }
 
+
+const getSpecimens = () => {
+  return new Promise((resolve, reject) => {
+    fs.readdir(path.join(__dirname, 'build', 'specimens'), (err, res) => {
+      if (err) return reject(err)
+      console.log(res)
+      return resolve(res)
+    })
+  })
+}
+
+const createSizeCb = (imagePath) => (cb) => {
+
+  let p = path.join(__dirname, 'build', 'specimens', imagePath)
+
+  sizeOf(p, (err, dimensions) => {
+    if (err) return cb(err)
+    console.log(imagePath, dimensions.width, dimensions.height);
+    const specimenImage = {
+      src: imagePath,
+      width: dimensions.width,
+      height: dimensions.height
+    }
+    return cb(null, specimenImage)
+  });
+}
+
+const getImageDimensions = (specimens) => {
+
+  return new Promise((resolve, reject) => {
+
+    const cbs = specimens.map(createSizeCb)
+
+    async.parallel(cbs, (err, specimenImages) => {
+      if (err) return reject(err)
+      return resolve(specimenImages)
+    })
+  })
+}
+
+const addSpecimensToFonts = (data, specimenImages) => {
+  const fonts = data.fonts
+  const re = /\.(svg|png|jpg|gif)$/g
+  const dashRe = /-/g
+
+  return specimenImages.map(specimen => {
+
+    const fontId = specimen.src
+      .replace('specimen-', '')
+      .replace(dashRe, '_')
+      .replace(re, '')
+
+    fonts.map(f => {
+      if (f.id === fontId) {
+        f['specimenImage'] = `/data/specimens/${specimen.src}`
+        f['specimenWidth'] = specimen.width
+        f['specimenHeight'] = specimen.height
+      }
+    })
+    return fontId
+  })
+}
+
+const imageRe = /\.(svg|png|gif|jpg)$/
+const filterImages = (list) => list.filter(o => imageRe.test(o))
+
 getSheet().then(function (res) {
   getHeadlines().then(function(headlines) {
 
@@ -114,10 +182,19 @@ getSheet().then(function (res) {
       }
     });
 
-    // Write file
-    writeJSON(data).then(function () {
-      console.log('Write file sheet.json');
-    });
+    getSpecimens()
+      .then(filterImages)
+      .then(getImageDimensions)
+      .then(specimenImages => {
 
+        // Add where we can
+        addSpecimensToFonts(data, specimenImages)
+
+        // Write file
+        writeJSON(data).then(function () {
+          console.log('Write to file: sheet.json');
+        });
+      })
+      .catch(err => console.error(err))
   });
 });

@@ -1,16 +1,20 @@
-import React, { Component } from 'react'
-import { replaceNonAlphaNumeric } from '../../../util/util.js'
+import React from 'react'
+import AspectRatio from 'components/util/AspectRatio'
+import BackgroundImage from 'components/util/BackgroundImage'
 
-export default class FontSpecimenImage extends Component {
+const FontSpecimenImage = ({ font }) => {
 
-  render() {
+  const width = font.get('specimenWidth')
+  const height = font.get('specimenHeight')
+  const src = font.get('specimenImage')
 
-    const { font } = this.props
-    const id = font.get('id')
+  const backgroundImageClassName = 'of-font-specimen-bgimage'
 
-    const specimenClassName = `of-font-specimen-image specimen-${id}`
-    const specimenRatioClassName = `of-font-specimen-image-wrapper ratio-${id}`
-
-    return <div className={specimenRatioClassName}><div className={specimenClassName}></div></div>
-  }
+  return (
+    <AspectRatio width={width} height={height}>
+      <BackgroundImage className={backgroundImageClassName} src={src} />
+    </AspectRatio>
+  )
 }
+
+export default FontSpecimenImage

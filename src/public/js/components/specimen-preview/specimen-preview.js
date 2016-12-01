@@ -38,8 +38,7 @@ export default class SpecimenPreview extends Component {
           </div>
         </div>
         <div className="of-specimen-preview-image">
-          <div className={specimenImageClassName}>
-          </div>
+          <div className={specimenImageClassName} />
         </div>
         <div className="of-specimen-preview-footer">
           <div className="footer-title">{fontName} {fontStyle}</div>

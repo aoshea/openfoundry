@@ -25,6 +25,23 @@
   transition: transform 700ms ease-in-out 200ms;
 }
 
+.of-font-specimen-bgimage {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  opacity: 0;
+  transition: opacity 500ms linear;
+
+  background-size: cover;
+}
+
+.of-font-specimen-bgimage.is-loaded {
+  opacity: 1;
+}
+
 .of-font-specimen-image-wrapper {
   position: relative;
   height: 0;
