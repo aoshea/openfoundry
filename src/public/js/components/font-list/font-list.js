@@ -134,10 +134,22 @@ class FontList extends Component {
             const fontLike = likes.find(o => o.get('fontId') === fontId)
             const likeCount = fontLike ? fontLike.get('likes') : 0
 
-            return <SpecimenPreviewContainer key={rank} rank={rank} likeCount={likeCount}fontId={fontId} />
+            return <SpecimenPreviewContainer key={rank} rank={rank} likeCount={likeCount} fontId={fontId} />
           })}
         </div>
       )
+    })
+  }
+
+  renderSpecPreviews(fonts, likes) {
+    return fonts.map((font, i) => {
+
+      const fontId = font.get('id')
+      const rank = i + 1
+      const fontLike = likes.find(o => o.get('fontId') === fontId)
+      const likeCount = fontLike ? fontLike.get('likes') : 0
+
+      return <SpecimenPreviewContainer key={rank} rank={rank} likeCount={likeCount} fontId={fontId} />
     })
   }
 
@@ -166,7 +178,8 @@ class FontList extends Component {
         chunked[ci++] = fontList.slice(index, (index += step))
       }
 
-      renderFonts = this.renderSpecimenPreview(chunked, likes, step)
+      renderFonts = this.renderSpecPreviews(fonts, likes)
+      // renderFonts = this.renderSpecimenPreview(chunked, likes, step)
 
     } else {
 
@@ -196,7 +209,8 @@ class FontList extends Component {
 
     const fontListClassNames = classNames({
       'of-font-list-container': true,
-      'of-font-list--fixed': specimenFont
+      'of-font-list--fixed': specimenFont,
+      'of-font-list-container--grid': isGridView
     })
 
     const fontListInnerClassNames = classNames({
@@ -207,7 +221,7 @@ class FontList extends Component {
     // Offset by `.of-main` top offset
     const fontListStyle = {
       // 50px being the height of the nav bar
-      transform: specimenFont ? 'translateY(' + (50 + (lastScrollTop * -1)) + 'px)' : 'none'
+      transform: (specimenFont && !isGridView) ? 'translateY(' + (50 + (lastScrollTop * -1)) + 'px)' : 'none'
     }
 
     return (

@@ -1,7 +1,8 @@
-.of-specimen-preview {
-  display: table-cell;
-  vertical-align: middle;
-  width: 33.33%;
+/*.of-specimen-preview {
+  float: left;
+  display: block;
+  width: 33.33vw;
+  overflow: hidden;
   box-sizing: border-box;
   font-size: 15px;
   font-weight: 100;
@@ -21,8 +22,11 @@
   border-right: 1px solid $trans-white-10;
 }
 
-.of-specimen-preview-inner {
+.of-specimen-preview-content {
   display: flex;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
 }
 
 .of-specimen-preview-header {
@@ -66,21 +70,86 @@
   right: 14px;
 }
 
+.of-specimen-preview-content {
+  display: flex;
+}
+
 .of-specimen-preview-image {
   position: relative;
   width: 100%;
-  padding-bottom: 133.33%;
-}
-
-.of-specimen-preview-image-inner {
-  position: absolute;
-  top: 30px; right: 60px; bottom: 30px; left: 60px;
-  background-size: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
+  max-height: 100px;
+  overflow: hidden;
+  margin: auto;
+  padding: 0 80px;
+  flex: 1;
 }
 
 .of-specimen-preview-footer {
+  position: relative;
+  padding-top: 20px;
   padding-bottom: 30px;
   text-align: center;
+}
+*/
+
+.of-specimen-preview {
+  position: relative;
+  display: inline-block;
+  width: 33.33%;
+  padding-bottom: 45%;
+  border-bottom: 1px dashed blue;
+  box-sizing: border-box;
+}
+
+.of-specimen-preview:nth-child(3n-1) {
+  border-left: 1px dashed blue;
+  border-right: 1px dashed blue;
+  border-bottom: 1px dashed blue;
+}
+
+.of-specimen-preview-image {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+}
+
+.of-preview-image-transition {
+  position: fixed;
+  top: 0;
+  opacity: 1;
+  transition: opacity $ease, transform $ease-s;
+  transform-origin: 0 0 0;
+  visibility: hidden;
+}
+
+.of-specimen-preview-image > div {
+  position: relative;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.of-specimen-preview-image img {
+  position: absolute;
+  top: 50%;
+  max-width: 66%;
+  max-height: 66%;
+  transform-origin: 50% 50% 0;
+
+}
+
+.of-specimen-preview-bg-image {
+  width: 100%;
+  height: 100%;
+  background-size: 50%;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.of-specimen-preview-header {
+  position: absolute;
+  top: 0;
+  font-size: 15px;
 }

@@ -36,30 +36,38 @@ export function getAboutText(f) {
 	// Latest Version {info-version}
 
 
-  const chunk_distributed = font['fontFoundry']
+  const chunkDistributed = font['fontFoundry']
     ? <span> and is currently distributed by <a href={font['fontFoundryLink']}>{font['fontFoundry']}</a></span>
     : null
 
-
   const styles = font['infoFamily'].split(/,|and/)
 
-  const chunk_styles = styles.length > 1
+  const chunkStyles = styles.length > 1
     ? <span>which consists of {styles.length} different styles: {font['infoFamily']}</span>
     : <span>which only consists of a single style</span>
 
-  const about = [
-    <span key="uid-created">{font['fontName']} was created by {font['fontCreator']} {chunk_distributed}.
-    It was initially submitted to us by <a href={font['info-DiscovererTwitter']}>{font['infoDiscoverer']}</a>.&nbsp
-    {font['fontStyle']} is a {font['infoClassification']} cut of the {font['fontName']} family,</span>,
-    <span key="uid-styles"> {chunk_styles}.</span>,
+  const aboutCreated = (
+    <span key="uid-created">
+      {font['fontName']} was created by {font['fontCreator']} {chunkDistributed}. It was initially submitted to us by <a href={font['info-DiscovererTwitter']}>{font['infoDiscoverer']}</a> {font['fontStyle']} is a {font['infoClassification']} cut of the {font['fontName']} family,</span>
+  )
+
+  const aboutStyles = <span key="uid-styles"> {chunkStyles}.</span>
+
+  const aboutLicence = (
     <span key="uid-licence">
-    <br /><br />
-    It is licensed under the <a href={font['infoLicenseLink']}>{font['infoLicense']}</a>&nbsp
-    and available for contribution, modification or download on its open-source page.
-    Please find more about this Typeface <a href={font['fontOpenSourceLink']}>here</a>.
-    <br /><br />
-    Latest Version {font['infoVersion']}
+      <br />
+      <br />
+      It is licensed under the <a href={font['infoLicenseLink']}>{font['infoLicense']}</a> and available for contribution, modification or download on its open-source page. Please find more about this Typeface <a href={font['fontOpenSourceLink']}>here</a>.
+      <br />
+      <br />
+      Latest Version {font['infoVersion']}
     </span>
+  )
+
+  const about = [
+    aboutCreated,
+    aboutStyles,
+    aboutLicence
   ]
 
   return about

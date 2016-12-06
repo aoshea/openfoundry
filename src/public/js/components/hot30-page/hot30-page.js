@@ -35,8 +35,10 @@ class Hot30Page extends Component {
     //      Admittedly very little performance gain in most cases
     const specimenFont = specimenFontId ? fonts.find(f => f.get('id') === specimenFontId) : null
 
+    const viewClassName = isGridView ? 'of--grid-view' : 'of--list-view'
+
     return (
-      <div>
+      <div className={viewClassName}>
         <Helmet title={'OpenFoundry / Hot 30'} />
         <FontList
           isGridView={isGridView}
@@ -49,6 +51,7 @@ class Hot30Page extends Component {
               onCompleteScroll={this.onCompleteSpecimenScroll}
               fontId={specimenFontId}
               font={specimenFont}
+              isGridView={isGridView}
               likes={likes} />
           </ReactTransitionGroup>}
       </div>

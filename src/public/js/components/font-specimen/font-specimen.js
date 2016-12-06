@@ -19,7 +19,8 @@ export default class FontSpecimen extends Component {
 
   static propTypes = {
     font: PropTypes.object.isRequired,
-    likes: PropTypes.object.isRequired
+    likes: PropTypes.object.isRequired,
+    isGridView: PropTypes.bool
   }
 
   constructor(props) {
@@ -129,7 +130,7 @@ export default class FontSpecimen extends Component {
 
   render() {
 
-    const { font, likes } = this.props
+    const { font, likes, isGridView } = this.props
 
     const state = this.state
 
@@ -184,16 +185,17 @@ export default class FontSpecimen extends Component {
     return (
       <div ref="of-specimen" className="of-specimen">
         <div ref="of-preview-wrapper" style={holderStyle} className="of-preview-wrapper">
-          <FontPreviewContainer
-            isSpecimen={true}
-            onMoreUpdate={this.onClickSource}
-            key={previewKey}
-            font={font}
-            likeCount={likeCount} />
+          {!isGridView &&
+            <FontPreviewContainer
+              isSpecimen={true}
+              onMoreUpdate={this.onClickSource}
+              key={previewKey}
+              font={font}
+              likeCount={likeCount} />}
           <div style={coverStyle} className="of-spec-preview-cover"></div>
         </div>
 
-        <ReactCSSTransitionGroup transitionName="specstate" transitionAppear={true} transitionAppearTimeout={1000} transitionEnterTimeout={0} transitionLeaveTimeout={0}>
+        <ReactCSSTransitionGroup transitionName="specstate" transitionAppear={true} transitionAppearTimeout={5000} transitionEnterTimeout={0} transitionLeaveTimeout={0}>
         <div className="of-specimen-overlay">
 
           <FontSpecimenImage font={font} />

@@ -6,6 +6,7 @@
 
 .of-font-list--grid {
   position: relative;
+  font-size: 0;
 }
 
 .of-font-list-row {
@@ -20,6 +21,7 @@
     position: fixed;
     top: 0;
     overflow-y: hidden;
+    width: 100vw;
     height: 100vh;
     .of-font-list {
     }

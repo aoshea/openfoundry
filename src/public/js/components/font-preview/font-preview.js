@@ -227,6 +227,7 @@ class FontPreview extends Component {
       'is-fixed': isSpecimen
     })
 
+    // TODO: What/why is this?
     const isList = true
 
     return (

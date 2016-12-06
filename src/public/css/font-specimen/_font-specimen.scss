@@ -1,6 +1,6 @@
 .of-specimen {
   width: 100vw;
-  min-height: 10vh;
+  /* min-height: 10vh; */
   position: relative;
   visibility: hidden;
 }
@@ -10,10 +10,23 @@
   margin-top: 85vh;
   overflow-x: hidden;
   z-index: $zIndex-font-specimen-overlay;
+
+  /**
+   * Specimen overlay on specimen preview grid
+   * No margin as the specimen transition
+   * Expands to full screen
+   */
+  .of--grid-view & {
+    margin-top: 0;
+  }
 }
 
 .of-specimen-overlay.specstate-appear {
   transform: translate3d(0, 15vh, 0);
+
+  .of--grid-view & {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .of-specimen-overlay,
@@ -70,7 +83,8 @@
 
 .of-preview-wrapper {
   position: fixed;
-  top: 50px;
+  top: 0;
+  /* top: 50px; */
   height: $preview-height;
   width: 100%;
   z-index: $zIndex-font-specimen-preview;
@@ -91,6 +105,10 @@
   height: 100vh;
   pointer-events: none;
   background: $trans-black-70;
+
+  .of--grid-view & {
+    height: 0;
+  }
 }
 
 .of-font-specimen-button {

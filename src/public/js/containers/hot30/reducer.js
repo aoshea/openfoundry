@@ -4,7 +4,7 @@ const sheetJSON = require('../../../../../open/build/sheet.json')
 
 const InitialState = fromJS({
   isFetching: false,
-  isGridView: false,
+  isGridView: true,
   likes: [],
   ...sheetJSON
 })
