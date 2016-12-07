@@ -1,20 +1,40 @@
 const fs = require('fs')
 const path = require('path')
 const svg2png = require('svg2png')
+const async = require('async')
 
-const src = path.join(__dirname, 'build/specimens/specimen-archivo-narrow-regular.svg')
+const dir = path.join(__dirname, 'build', 'specimens')
 
-fs.readFile(src, (err, res) => {
+const createConvertCallback = (svg) => (cb) => {
+  fs.readFile(path.join(dir, svg), (err, res) => {
+    if (err) return cb(err)
 
-  console.log(err, res)
+    const filename = svg.replace(/.svg$/, '.png')
 
-  if (err) {
-    return console.error(err)
-  }
+    svg2png(res)
+      .then(buffer => fs.writeFile(path.join(dir, filename), buffer))
+      .then(res => cb(null, res))
+      .catch(e => cb(e))
+  })
+}
 
-  svg2png(res)
-    .then(buffer => fs.writeFile('destination.png', buffer))
-    .catch(e => console.error(e))
+const convertSvgs = (svgs) => {
+  return new Promise((resolve, reject) => {
+    const callbacks = svgs.map(createConvertCallback)
 
-})
+    async.series(callbacks, (err, res) => {
+      if (err) return reject(err)
+      return resolve(res)
+    })
+  })
+}
 
+const readDir = (() => {
+  fs.readdir(dir, (err, files) => {
+    if (err) throw err
+
+    const re = /.svg$/
+    const svgs = files.filter(f => re.test(f))
+    return convertSvgs(svgs)
+  })
+})()

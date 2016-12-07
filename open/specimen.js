@@ -1,35 +1,48 @@
-'use strict';
+const sizeOf = require('image-size')
+const fs = require('fs')
+const path = require('path')
+const async = require('async')
+const spawn = require('child_process').spawn
+const svg2png = require('svg2png')
 
-var sizeOf = require('image-size'),
-    fs     = require('fs'),
-    path   = require('path')
-    ;
-
-var dirs = {
-  src: __dirname + '/fonts',
-  out: __dirname + '/build/',
-};
-
-function replaceNonAlphaNumeric(str, replacement) {
-  if (replacement === undefined || replacement === null) replacement = '_';
-  return str.replace(/[^a-z0-9\.]/gim, replacement);
+const dirs = {
+  src: path.join(__dirname, 'fonts'),
+  out: path.join(__dirname, 'build', 'specimens')
 }
+
+const replaceNonAlphaNumeric = (str, replacement = '_') => str.replace(/[^a-z0-9\.]/gim, replacement)
 
 /**
  * Create directory if it doesnt exist
  */
-var mkdirSync = function (path) {
+const mkdirSync = path => {
   try {
-    fs.mkdirSync(path);
+    fs.mkdirSync(path)
   } catch(e) {
-    if (e.code != 'EEXIST') throw e;
+    if (e.code != 'EEXIST') throw e
   }
-};
+}
+
+// Regex for replacing path > %___%
+const inputRe = /%[^%]*%/g
+// Regex for replacing name > $___$
+const outputRe = /\$[^\$]*\$/g
+
+// Imagemagick resize commands
+const commands = {
+  resize: [
+    'convert',
+    '%input%',
+    '-resize', '2880x',
+    '-format', 'jpg',
+    '$output$'
+  ]
+}
 
 /**
  * Copy file with error handling
  */
-function copyFile(src, target, callback) {
+const copyFile = (src, target, callback) => {
   var isCallback, rd, wr;
 
   rd = fs.createReadStream(src);
@@ -124,6 +137,118 @@ function getPreviewSpecimens(dir) {
   });
 }
 
+const replaceExt = (str, ext) => str.replace(/.(png|svg|gif)$/, `.${ext}`)
+const replaceSvg = str => {
+  const svgRe = /.svg$/
+  if (!svgRe.test(str)) return str
+  return str.replace(svgRe, '.png')
+}
+
+const createConvertCallback = (svgObj) => (cb) => {
+  const dir = svgObj.dir
+  const svg = svgObj.src
+
+  fs.readFile(path.join(dir, svg), (err, res) => {
+    if (err) return cb(err)
+
+    const filename = svg.replace(/.svg$/, '.png')
+
+    svg2png(res)
+      .then(buffer => fs.writeFile(path.join(dir, filename), buffer))
+      .then(res => cb(null, res))
+      .catch(e => cb(e))
+  })
+}
+
+const convertSvgs = ({ dir, id, imageFiles }) => {
+  return new Promise((resolve, reject) => {
+
+    const svgRe = /.svg$/
+    const fileObjs = imageFiles.filter(f => svgRe.test(f)).map(f => ({ src: f, dir: dir }))
+
+    // Skip if nothing to see here
+    if (fileObjs.length === 0) return resolve({ dir, id, imageFiles })
+
+    const callbacks = fileObjs.map(createConvertCallback)
+
+    async.series(callbacks, (err, res) => {
+      if (err) return reject(err)
+      return resolve({ dir, id, imageFiles })
+    })
+  })
+}
+
+const copyImages = ({ dir, id, imageFiles }) => {
+  return new Promise((resolve, reject) => {
+
+    console.log(`copyImages imageFiles${imageFiles.length}`, imageFiles)
+
+    const callbacks = imageFiles.map(f => cb => {
+
+      const filename = replaceSvg(f)
+      const filePath = path.join(dir, filename)
+      const outputPath = path.join(dirs.out, replaceExt(filename, 'jpg'))
+
+      console.log(filePath)
+      console.log(outputPath)
+
+      let resizeCmd = commands.resize
+      resizeCmd = resizeCmd.slice(1).map(cmd => {
+        return cmd.replace(inputRe, filePath).replace(outputRe, outputPath)
+      })
+      const exec = spawn(commands.resize[0], resizeCmd)
+
+      // Close if image write success
+      exec.on('close', (code) => {
+        const message = `created stamp image: ${code}`;
+        console.error(`close exec: ${message}`);
+        cb(code);
+      });
+
+      exec.stderr.on('data', data => {
+        console.log('data', data)
+        cb(data)
+      })
+    })
+
+    async.series(callbacks, (err, res) => {
+      if (err) return reject(err)
+      return resolve(res)
+    })
+  })
+}
+
+const getContents = obj => {
+  return new Promise((resolve, reject) => {
+
+    const dir = obj.path
+    const id = obj.id
+
+    fs.readdir(dir, (err, files) => {
+      if (err) return reject(err)
+
+      const previewRe = /preview/
+      const imageExtRe = /\.(jpg|png|gif|svg)$/
+
+      const imageFiles = files.filter(f => {
+        return !previewRe.test(f) && imageExtRe.test(f)
+      })
+
+      const params = {
+        dir, id, imageFiles
+      }
+
+      return copyImages(params)
+    })
+  })
+}
+
+const getAllContents = folders => {
+  return Promise
+    .all(folders.map(getContents))
+    .catch(e => console.error(`Error getAllContents ${e}`))
+}
+
 /**
  * List contents of font folder
  */
@@ -147,7 +272,7 @@ function listContents(obj) {
           return false;
         }
 
-        return o.match(/\.(jpg|png|gif|svg)$/);
+        return o.match();
       }));
     });
   }).then(function (list) {
@@ -171,24 +296,20 @@ function listContents(obj) {
   });
 }
 
-function listFontSpecimens(dir) {
-  return new Promise(function (resolve, reject) {
-    fs.readdir(dir, function (err, list) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(list.map(function (o) {
-          return {
-            id: o,
-            path: path.join(dir, o)
-          };
-        }).filter(function (o) {
-          var stats = fs.statSync(o.path);
-          return !o.path.match(/^\./) && stats.isDirectory();
-        }));
-      }
-    });
-  });
+const getFontFolders = dir => {
+  return new Promise((resolve, reject) => {
+    fs.readdir(dir, (err, files) => {
+      if (err) return reject(err)
+
+      const fileObjs = files.map(f => ({ id: f, path: path.join(dir, f)}))
+      const folders = fileObjs.filter(o => {
+        const stats = fs.statSync(o.path)
+        return !o.path.match(/^\./) && stats.isDirectory();
+      })
+
+      return resolve(folders)
+    })
+  })
 }
 
 function outputCSS(result) {
@@ -219,8 +340,16 @@ function outputCSS(result) {
   });
 }
 
+const init = (() => {
+  getFontFolders(dirs.src)
+    .then(getAllContents)
+    .catch(e => console.error(e))
+})()
+
+/*
 listFontSpecimens(dirs.src).then(function (res) {
   return Promise.all(res.map(listContents));
 }).then(function (res) {
   outputCSS(res);
 });
+*/
