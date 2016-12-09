@@ -3,6 +3,7 @@ import ReactTransitionGroup from 'react-addons-transition-group'
 import Helmet from 'react-helmet'
 import FontList from 'components/font-list/font-list'
 import FontSpecimen from 'components/font-specimen/font-specimen'
+import SpecimenTransitionContainer from 'containers/specimen-transition-container/specimen-transition-container'
 
 class Hot30Page extends Component {
 
@@ -10,7 +11,9 @@ class Hot30Page extends Component {
     fonts: PropTypes.object.isRequired,
     likes: PropTypes.object.isRequired,
     isGridView: PropTypes.bool.isRequired,
-    specimenFontId: PropTypes.string
+    specimenFontId: PropTypes.string,
+    specimenOffset: PropTypes.number.isRequired,
+    exitSpecimen: PropTypes.func
   }
 
   constructor(props) {
@@ -28,6 +31,8 @@ class Hot30Page extends Component {
       fonts,
       likes,
       isGridView,
+      exitSpecimen,
+      specimenOffset,
       specimenFontId } = this.props
 
     // TODO Add reselect to cache selectors such as these
@@ -44,16 +49,19 @@ class Hot30Page extends Component {
           isGridView={isGridView}
           fonts={fonts}
           likes={likes}
-          specimenFont={specimenFont} />
+          specimenFont={specimenFont}
+          specimenOffset={specimenOffset} />
         {specimenFont &&
           <ReactTransitionGroup>
             <FontSpecimen
               onCompleteScroll={this.onCompleteSpecimenScroll}
+              exitSpecimen={exitSpecimen}
               fontId={specimenFontId}
               font={specimenFont}
               isGridView={isGridView}
               likes={likes} />
           </ReactTransitionGroup>}
+        <SpecimenTransitionContainer />
       </div>
     )
   }

@@ -69,6 +69,8 @@ class FontPreview extends Component {
 
   componentDidMount() {
 
+    const self = this
+
     const { font, onSetFontSize } = this.props
 
     // Hack in a smaller font for mobiles

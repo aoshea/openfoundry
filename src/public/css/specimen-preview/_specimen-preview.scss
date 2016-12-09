@@ -116,6 +116,9 @@
   text-align: center;
 }
 
+/**
+ * The specimen img element used to transition (scale)
+ */
 .of-preview-image-transition {
   position: fixed;
   top: 0;
@@ -123,6 +126,7 @@
   transition: opacity $ease, transform $ease-s;
   transform-origin: 0 0 0;
   visibility: hidden;
+  z-index: $zIndex-specimen-preview-transition;
 }
 
 .of-specimen-preview-image > div {

@@ -12,31 +12,19 @@ class SpecimenPreview extends Component {
     fonts: PropTypes.object.isRequired,
     fontId: PropTypes.string.isRequired,
     rank: PropTypes.number.isRequired,
-    likeCount: PropTypes.number.isRequired
+    likeCount: PropTypes.number.isRequired,
+    specimenOffset: PropTypes.number.isRequired,
+    startTransition: PropTypes.func.isRequired,
+    endTransition: PropTypes.func.isRequired,
+    initTransition: PropTypes.func.isRequired
   }
 
   constructor(props) {
     super(props)
 
     this.scaleUp = this.scaleUp.bind(this)
-    this.onLocationChange = this.onLocationChange.bind(this)
-    this.onTransitionEnd = this.onTransitionEnd.bind(this)
+    this.navigateToSpecimen = this.navigateToSpecimen.bind(this)
     this.toggleScale = this.toggleScale.bind(this)
-
-    this.state = {
-      scale: 1,
-      isOpen: false,
-      isScale: false,
-      tx: 0,
-      ty: 0,
-      tSrc: null,
-      tWidth: 0,
-      tHeight: 0
-    }
-  }
-
-  componentDidMount() {
-    this.props.router.listen(this.onLocationChange)
   }
 
   componentWillUnmount() {
@@ -44,40 +32,22 @@ class SpecimenPreview extends Component {
       clearTimeout(this.timeout)
       this.timeout = null
     }
-
-    this.props.router.unregisterTransitionHook(this.onLocationChange)
-  }
-
-  onLocationChange(e) {
-    const { scale } = this.state
-
-    console.log(`onLocationChange scale ${scale}`) // eslint-disable-line no-console
-
-    if (e.pathname && e.pathname === '/hot30' && scale > 1) {
-      let self = this
-      this.timeout = setTimeout(self.toggleScale, 250)
+    if (this.startTransitionTimeout) {
+      clearTimeout(this.startTransitionTimeout)
+      this.startTransitionTimeout = null
     }
   }
 
-  onTransitionEnd() {
+  navigateToSpecimen() {
 
-    const { router, fontId } = this.props
-    const { scale } = this.state
+    const { router, fontId, endTransition } = this.props
+    router.push(`/hot30/${fontId}`)
 
-    console.log(`onTransitionEnd scale ${scale}`) // eslint-disable-line no-console
-
-    if (scale > 1) {
-      router.push(`/hot30/${fontId}`)
-    } else {
-      this.setState({
-        isVisible: false
-      })
-    }
+    if (this.timeout) clearTimeout(this.timeout)
+    this.timeout = setTimeout(endTransition, 300)
   }
 
   toggleScale(e) {
-
-    console.log(`onToggleScale`) // eslint-disable-line no-console
 
     // Transition explained
     // Centre image in viewport
@@ -93,32 +63,27 @@ class SpecimenPreview extends Component {
     // Get bounding rect of source image
     const rect = target.getBoundingClientRect()
 
-    // Get scale
-    const { scale } = this.state
-    const newScale = scale === 1 ? window.innerWidth / rect.width : 1
-
-    console.log(`onToggleScale newScale ${newScale}`) // eslint-disable-line no-console
+    // Calculate scale
+    const newScale = window.innerWidth / rect.width
 
     // New offsets to translate to top left corner
-    const tx = scale === 1 ? -rect.left : 0
-    const ty = scale === 1 ? -rect.top + 50 : 0
+    const tx = -rect.left
+    const ty = -rect.top + 50
 
-    const { router, fontId } = this.props
+    const { router, fontId, initTransition, startTransition } = this.props
 
-    // Handle transition ending
-    this.transitionEl.addEventListener('transitionend', this.onTransitionEnd)
+    // Go to next page
+    if (this.timeout) clearTimeout(this.timeout)
+    this.timeout = setTimeout(this.navigateToSpecimen, 1000)
 
-    // Update component state
-    this.setState({
-      scale: newScale,
-      isVisible: true,
-      tx,
-      ty,
-      tSrc: target.src,
-      tTop: rect.top,
-      tLeft: rect.left,
-      tWidth: rect.width,
-      tHeight: rect.height
+    // Kick-off transition after time to init
+    if (this.startTransitionTimeout) clearTimeout(this.startTransitionTimeout)
+    this.startTransitionTimeout = setTimeout(startTransition, 250)
+
+    initTransition({
+      imageSrc: target.src,
+      imageRect: rect,
+      transform: { transformX: tx, transformY: ty, scale: newScale }
     })
   }
 
@@ -126,13 +91,12 @@ class SpecimenPreview extends Component {
     const { currentTarget } = e
 
     e.preventDefault()
-
     this.toggleScale(e)
   }
 
   render() {
 
-    const { fontId, fonts } = this.props
+    const { fontId, fonts, specimenOffset } = this.props
 
     const font = fonts.find(f => f.get('id') === fontId)
 
@@ -140,28 +104,7 @@ class SpecimenPreview extends Component {
 
     const c = 'of-specimen-preview-bg-image'
 
-    const {
-      scale,
-      tx, ty,
-      isVisible,
-      tSrc,
-      tWidth,
-      tHeight,
-      tTop,
-      tLeft } = this.state
-
     const imgStyle = { transform: 'translateX(-50%) translateY(-50%)' }
-
-    let transitionStyle = {
-      top: tTop,
-      left: tLeft,
-      width: tWidth,
-      height: tHeight
-    }
-
-    transitionStyle.opacity = 1
-    transitionStyle.transform = `translateX(${tx}px) translateY(${ty}px) scale3d(${scale}, ${scale}, ${scale})`
-    transitionStyle.visibility = isVisible ? 'visible' : 'hidden'
 
     return (
       <div className="of-specimen-preview">
@@ -175,7 +118,6 @@ class SpecimenPreview extends Component {
         <div className="of-specimen-preview-header">
           {c}
         </div>
-        <img ref={(el) => { this.transitionEl = el }} style={transitionStyle} src={tSrc} className="of-preview-image-transition" />
       </div>
     )
   }

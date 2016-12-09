@@ -45,4 +45,8 @@ const mapStateToProps = (state) => {
   }
 }
 
+console.log('TODO: Keep background image on specimen') // eslint-disable-line no-console
+console.log('TODO: Prevent undefined in title') // eslint-disable-line no-console
+console.log('TODO: Improve transition back to grid') // eslint-disable-line no-console
+
 export default connect(mapStateToProps)(OFApp)

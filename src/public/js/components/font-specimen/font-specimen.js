@@ -20,7 +20,8 @@ export default class FontSpecimen extends Component {
   static propTypes = {
     font: PropTypes.object.isRequired,
     likes: PropTypes.object.isRequired,
-    isGridView: PropTypes.bool
+    isGridView: PropTypes.bool,
+    exitSpecimen: PropTypes.func
   }
 
   constructor(props) {
@@ -69,6 +70,8 @@ export default class FontSpecimen extends Component {
       deltaTop: deltaTop
     })
 
+    this.scrollTop = scrollTop
+
     if (isBottom) {
       this.onScrollFinish()
     }
@@ -105,6 +108,11 @@ export default class FontSpecimen extends Component {
   }
 
   componentWillUnmount() {
+
+    // TODO: Remove exit specimen
+    const { exitSpecimen } = this.props
+    exitSpecimen(this.scrollTop)
+
     this.refs['of-specimen'].removeEventListener('touchstart', this.touchStartHandler)
     $(window).off('scroll', this.onScroll)
     if (this.timeout) {
@@ -185,13 +193,12 @@ export default class FontSpecimen extends Component {
     return (
       <div ref="of-specimen" className="of-specimen">
         <div ref="of-preview-wrapper" style={holderStyle} className="of-preview-wrapper">
-          {!isGridView &&
-            <FontPreviewContainer
-              isSpecimen={true}
-              onMoreUpdate={this.onClickSource}
-              key={previewKey}
-              font={font}
-              likeCount={likeCount} />}
+          <FontPreviewContainer
+            isSpecimen={true}
+            onMoreUpdate={this.onClickSource}
+            key={previewKey}
+            font={font}
+            likeCount={likeCount} />
           <div style={coverStyle} className="of-spec-preview-cover"></div>
         </div>
 

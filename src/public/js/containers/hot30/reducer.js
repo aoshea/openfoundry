@@ -5,6 +5,7 @@ const sheetJSON = require('../../../../../open/build/sheet.json')
 const InitialState = fromJS({
   isFetching: false,
   isGridView: true,
+  specimenOffset: 0,
   likes: [],
   ...sheetJSON
 })
@@ -35,6 +36,9 @@ const updateLike = (state, param, action) => {
 const fontReducer = (state = initialState, action) => {
 
   switch (action.type) {
+
+    case 'EXIT_SPECIMEN':
+      return state.set('specimenOffset', typeof action.data === 'undefined' ? 0 : action.data)
 
     case 'SHOW_GRID':
       if (state.get('isGridView')) return state

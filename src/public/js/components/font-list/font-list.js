@@ -11,7 +11,8 @@ class FontList extends Component {
     fonts: PropTypes.object.isRequired,
     likes: PropTypes.object.isRequired,
     isGridView: PropTypes.bool.isRequired,
-    specimenFont: PropTypes.object
+    specimenFont: PropTypes.object,
+    specimenOffset: PropTypes.number.isRequired
   }
 
   constructor(props) {
@@ -124,7 +125,7 @@ class FontList extends Component {
     })
   }
 
-  renderSpecimenPreview(chunked, likes, step) {
+  renderSpecimenPreview(chunked, likes, step, specimenOffset) {
     return chunked.map((chunk, i)=> {
       return (
         <div key={i} className="of-font-list-row">
@@ -134,14 +135,14 @@ class FontList extends Component {
             const fontLike = likes.find(o => o.get('fontId') === fontId)
             const likeCount = fontLike ? fontLike.get('likes') : 0
 
-            return <SpecimenPreviewContainer key={rank} rank={rank} likeCount={likeCount} fontId={fontId} />
+            return <SpecimenPreviewContainer specimenOffset={specimenOffset} key={rank} rank={rank} likeCount={likeCount} fontId={fontId} />
           })}
         </div>
       )
     })
   }
 
-  renderSpecPreviews(fonts, likes) {
+  renderSpecPreviews(fonts, likes, specimenOffset) {
     return fonts.map((font, i) => {
 
       const fontId = font.get('id')
@@ -149,7 +150,7 @@ class FontList extends Component {
       const fontLike = likes.find(o => o.get('fontId') === fontId)
       const likeCount = fontLike ? fontLike.get('likes') : 0
 
-      return <SpecimenPreviewContainer key={rank} rank={rank} likeCount={likeCount} fontId={fontId} />
+      return <SpecimenPreviewContainer specimenOffset={specimenOffset} key={rank} rank={rank} likeCount={likeCount} fontId={fontId} />
     })
   }
 
@@ -161,7 +162,8 @@ class FontList extends Component {
       fonts,
       likes,
       isGridView,
-      specimenFont } = this.props
+      specimenFont,
+      specimenOffset } = this.props
 
     let renderFonts = null
 
@@ -178,7 +180,7 @@ class FontList extends Component {
         chunked[ci++] = fontList.slice(index, (index += step))
       }
 
-      renderFonts = this.renderSpecPreviews(fonts, likes)
+      renderFonts = this.renderSpecPreviews(fonts, likes, specimenOffset)
       // renderFonts = this.renderSpecimenPreview(chunked, likes, step)
 
     } else {

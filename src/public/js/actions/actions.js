@@ -1,3 +1,8 @@
+export const exitSpecimen = (data) => ({
+  type: 'EXIT_SPECIMEN',
+  data
+})
+
 export const showGrid = () => ({
   type: 'SHOW_GRID'
 })
