@@ -3,6 +3,7 @@ body {
   font-style: normal;
   margin: 0;
   background: $black;
+  text-rendering: optimizelegibility;
 }
 
 button,
@@ -52,8 +53,21 @@ ul {
 .of-main {
   position: absolute;
   top: 50px;
-  z-index: $zIndex-main;
   width: 100%;
+}
+
+/* Debug information logging */
+.debug-information {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 200px;
+  height: 20px;
+  text-align: right;
+  background-color: black;
+  color: #333;
+  z-index: 9999;
+  font-size: 10px;
 }
 
 // mainly for newsletter form
@@ -65,3 +79,4 @@ ul {
     top: 0;
   }
 }
+

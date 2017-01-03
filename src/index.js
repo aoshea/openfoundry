@@ -1,203 +1,191 @@
-var express  = require('express'),
-    mongoose = require('mongoose'),
-    http    = require('http'),
-    app     = express(),
-    reqip   = require('request-ip'),
-    fonts   = require('./public/data/sheet.json'),
-    port    = 7777
-    ;
+const express     = require('express'),
+      compression = require('compression'),
+      mongoose    = require('mongoose'),
+      http        = require('http'),
+      app         = express(),
+      reqip       = require('request-ip'),
+      fonts       = require('./public/data/sheet.json'),
+      bodyParser  = require('body-parser')
+      port        = 7777
 
 // NOTE: the env is set to 'development' by gulp-nodemon
-var nodeEnv = process.env.NODE_ENV || 'production';
+const nodeEnv = process.env.NODE_ENV || 'production'
+const weinre = process.env.OF_WEINRE === 'true'
+const debug = process.env.OF_DEBUG === 'true'
 
 // Generic local variables to pass to views
-var localVars = {
+const genericViewVars = {
   url: decodeURIComponent('http://open-foundry.com'),
   title: decodeURIComponent('Open Foundry'),
   description: 'A new platform for open-source fonts in a noise-free environment, to highlight their beauty, extend functionality and encourage further exploration.',
   img: decodeURIComponent('http://open-foundry.com/img/of-cover-preview.jpg'),
-  nodeEnv: nodeEnv
-};
+  nodeEnv: nodeEnv,
+  weinre: !!weinre,
+  debug: !!debug
+}
 
-var ofSubmission = require('./inc/of-submission');
-var ofMailchimp = require('./inc/of-mailchimp');
+const ofSubmission = require('./inc/of-submission')
+const ofMailchimp = require('./inc/of-mailchimp')
 
-function replaceNonAlphaNumeric(str, replacement) {
-  if (replacement === undefined || replacement === null) replacement = '_';
-  return str.replace(/[^a-z0-9\.]/gim, replacement);
+const replaceNonAlphaNumeric = (str, replacement) => {
+  if (replacement === undefined || replacement === null) replacement = '_'
+  return str.replace(/[^a-z0-9\.]/gim, replacement)
 }
 
 // Connect to database
-mongoose.connect('mongodb://localhost:27017/openfoundry');
+mongoose.connect('mongodb://localhost:27017/openfoundry')
 
-var fontSchema, Font;
+let fontSchema, Font
 
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
+const db = mongoose.connection
+db.on('error', console.error.bind(console, 'connection error:'))
 db.once('open', function() {
   // we're connected!
   fontSchema = mongoose.Schema({
     fontId: String,
     likes: Number,
     ip: String
-  });
+  })
 
-  Font = mongoose.model('Font', fontSchema);
-});
+  Font = mongoose.model('Font', fontSchema)
+
+  // Only create server once we have connected to the database
+  http.createServer(app).listen(port, function () {
+    console.log('Express server running at port:' + port + ' in ' + nodeEnv + ' mode')
+  })
+})
 
 // set up Jade
-app.set('views', __dirname + '/tpl');
-app.set('view engine', 'jade');
-app.engine('jade', require('jade').__express);
+app.set('views', __dirname + '/tpl')
+app.set('view engine', 'pug')
 
 /**
  * Render views
  */
 app.get('/', function (req, res) {
-  res.render('index', localVars);
-});
+  res.render('index', genericViewVars)
+})
 
 app.get('/about', function (req, res) {
-  res.render('index', localVars);
-});
+  res.render('index', genericViewVars)
+})
 
 app.get('/submit', function (req, res) {
-  res.render('index', localVars);
-});
+  res.render('index', genericViewVars)
+})
 
 app.get('/hot30/:id', function (req, res) {
-  var fontId = req.params.id
-  var matches = fonts.filter(function (font) {
-    var id = font['font-id'];
-    return replaceNonAlphaNumeric(id).toLowerCase() === fontId;
-  });
-  var currentFont = matches.length ? matches[0] : null;
+  const fontId = req.params.id
 
-  var viewVars = {};
-  viewVars.nodeEnv = nodeEnv;
-  viewVars.url = decodeURIComponent('http://open-foundry.com/hot30/' + fontId);
-  viewVars.title = decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style']);
-  viewVars.description = decodeURIComponent(currentFont['info-about']);
-  viewVars.img = decodeURIComponent('http://open-foundry.com/data/specimens/specimen-' + fontId + '-preview.jpg');
+  const matches = fonts.fonts.filter(function (font) {
+    const id = font['fontId']
+    return replaceNonAlphaNumeric(id).toLowerCase() === fontId
+  })
+  const currentFont = matches.length ? matches[0] : null
 
-  res.render('index', viewVars);
-});
+  const viewVars = Object.assign({}, genericViewVars)
+  viewVars.nodeEnv = nodeEnv
+  viewVars.weinre = weinre
+  viewVars.debug = debug
+  viewVars.url = decodeURIComponent('http://open-foundry.com/hot30/' + fontId)
+  viewVars.title = decodeURIComponent(currentFont['font-name'] + ' ' + currentFont['font-style'])
+  viewVars.description = decodeURIComponent(currentFont['info-about'])
+  viewVars.img = decodeURIComponent('http://open-foundry.com/data/specimens/specimen-' + fontId + '-preview.jpg')
 
+  res.render('index', viewVars)
+})
 
-app.get('/hot30', function (req, res) {
-  res.render('index', localVars);
-});
+app.get('/hot30', (req, res) => {
+  res.render('index', genericViewVars)
+})
 
-app.get('/signup', function (req, res) {
-  res.render('index', localVars);
-});
+app.get('/signup', (req, res) => {
+  res.render('index', genericViewVars)
+})
 
-app.get('/debug', function (req, res) {
-  res.render('index', localVars);
-});
+app.get('/debug', (req, res) => {
+  res.render('index', genericViewVars)
+})
 
 /**
  * API
  * Get all fonts
  */
-app.get('/api/fonts/', function (req, res) {
-  Font.find({}, function (err, docs) {
+app.get('/api/fonts/', (req, res) => {
+  Font.find({}, (err, docs) => {
     if (err) {
       res.sendStatus(500, {
         error: err
-      });
+      })
     } else {
       res.json({
         docs: docs
-      });
+      })
     }
-  });
-});
+  })
+})
 
 /**
  * API
  * Get one font by fontId eg. 'Bagnan_Regular'
  */
 app.get('/api/fonts/:fontId', function (req, res) {
-  var requestIp = reqip.getClientIp(req);
+  const requestIp = reqip.getClientIp(req)
 
   Font.findOne(
     {fontId: req.params.fontId},
-    function (err, doc) {
+    (err, doc) => {
       if (err) {
         res.status(500, {
           error: err
-        });
+        })
       } else {
         if (doc) {
           res.json({
             doc: doc,
             locked: (doc.ip === requestIp)
-          });
+          })
         } else {
-          res.sendStatus(200);
+          res.sendStatus(200)
         }
       }
     }
-  );
-});
+  )
+})
 
 /**
  * API : Like font
  * Increment like count for font with fontId
  */
-app.get('/api/like/:fontId', function (req, res) {
+app.get('/api/like/:fontId', (req, res) => {
 
-  var ipAddress = reqip.getClientIp(req);
+  const ipAddress = reqip.getClientIp(req)
 
   Font.findOneAndUpdate(
     {fontId: req.params.fontId},
     {$inc: {likes: 1}, $set: {ip: ipAddress}},
     {upsert: true},
-    function (err, doc) {
-      if (err) return res.send(500, { error: err });
-      return res.send("Saved");
+    (err, doc) => {
+      if (err) return res.send(500, { error: err })
+      return res.json(doc)
     }
-  );
-});
+  )
+})
 
-
-/**
- * Use body parser so we can work with form data
- */
-
-var bodyParser = require('body-parser')
 app.use(bodyParser.json()) // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+app.use(compression())
 
-app.post('/submit', function (req, res, next) {
-  ofSubmission.process(req.body, function (result) {
-    res.json(result);
-  });
-});
+app.post('/submit', (req, res, next) => {
+  ofSubmission.process(req.body, result => res.json(result))
+})
 
-app.post('/newsletter', function (req, res, next) {
-  console.log(req.body);
-  ofMailchimp(req.body.EMAIL, function (result) {
-    res.json(result);
-  });
-});
+app.post('/newsletter', (req, res, next) => {
+  ofMailchimp(req.body.EMAIL, (result) => res.json(result))
+})
 
-/**
- * Public files served as static
- */
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public'))
 
-/**
- * Handle 404
- */
-app.use(function (req, res) {
-  res.status(404).send('404: Page not found');
-});
-
-/**
- * Create server
- */
-http.createServer(app).listen(port, function () {
-  console.log('Express server running at port:' + port + ' in ' + nodeEnv + ' mode');
-});
+app.use((req, res) => {
+  res.status(404).send('404: Page not found')
+})

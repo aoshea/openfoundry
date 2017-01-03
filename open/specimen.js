@@ -132,7 +132,7 @@ function listContents(obj) {
   var id = obj.id;
   var dir = obj.path;
 
-  getPreviewSpecimens(dir);
+  // getPreviewSpecimens(dir);
 
   return new Promise(function (resolve, reject) {
 

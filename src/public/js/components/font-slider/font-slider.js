@@ -1,46 +1,32 @@
-import React, { Component } from 'react';
-import ReactSlider from 'react-slider';
-import ReactSliderLabel from './font-slider-label.js';
+import React, { Component, PropTypes } from 'react'
+import ReactSlider from 'react-slider'
+import ReactSliderLabel from './font-slider-label.js'
 
-export default class FontSlider extends Component {
+const FontSlider = ({ onUpdate, min, max, value, step, initial, fixed, label }) => {
 
-  constructor() {
-    super()
-    this.state = { value: 0, unitValue: 0 };
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidMount() {
-    this.setState({
-      value: this.props.initial,
-      unitValue: (this.props.initial - this.props.min) / (this.props.max - this.props.min)
-    });
-  }
-
-  handleChange(value) {
-    let { onUpdate } = this.props;
-
-    let unitValue = (value - this.props.min) / (this.props.max - this.props.min);
-
-    this.setState({
-      value: value,
-      unitValue: unitValue
-    });
-    onUpdate && onUpdate(value);
-  }
-
-  render() {
-    return (
-      <div className="col-2 of-font-slider">
-        <ReactSliderLabel v={this.state.value} uv={this.state.unitValue} fixed={this.props.fixed} label={this.props.label} />
-        <ReactSlider
-          min={this.props.min}
-          max={this.props.max}
-          value={this.props.value}
-          step={this.props.step}
-          onChange={this.handleChange}
-          defaultValue={this.props.initial} />
-      </div>
-    )
-  }
+  return (
+    <div className="col-2 of-font-slider">
+      <ReactSliderLabel v={value} min={min} max={max} fixed={fixed} label={label} />
+      <ReactSlider
+        min={min}
+        max={max}
+        value={value}
+        step={step}
+        onChange={onUpdate}
+        defaultValue={initial} />
+    </div>
+  )
 }
+
+FontSlider.propTypes = {
+  initial: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  step: PropTypes.number.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  fixed: PropTypes.number,
+  label: PropTypes.string.isRequired
+}
+
+export default FontSlider

@@ -1,25 +1,24 @@
-import React, { Component } from 'react';
-import $ from 'jquery';
+import React, { Component } from 'react'
+import $ from 'jquery'
 
-export default class SubmissionPage extends Component {
+export default class SubmitPage extends Component {
 
   constructor() {
 
     super()
 
-    this.onFocusInput = this.onFocusInput.bind(this);
-    this.onBlurInput = this.onBlurInput.bind(this);
-
+    this.onFocusInput = this.onFocusInput.bind(this)
+    this.onBlurInput = this.onBlurInput.bind(this)
   }
 
   componentDidMount() {
 
-    this.setupForm();
+    this.setupForm()
   }
 
   setupForm() {
 
-    var form = document.getElementById('theForm')
+    const form = document.getElementById('theForm')
 
     if (!form) {
       return
@@ -46,27 +45,27 @@ export default class SubmissionPage extends Component {
     function onSuccess(data) {
 
       // hide loading spinner
-      var messageEl = form.querySelector('.final-message');
+      let messageEl = form.querySelector('.final-message')
 
       if (data.status === 'success') {
-        messageEl.innerHTML = data.message;
+        messageEl.innerHTML = data.message
       } else {
-        messageEl.innerHTML = 'Sorry';
+        messageEl.innerHTML = 'Sorry'
       }
-      messageEl.classList.add('show');
+      messageEl.classList.add('show')
     }
 
   }
 
   onFocusInput(e) {
     if (e.target.id == 'q1') {
-      e.target.placeholder = "Your name?";
+      e.target.placeholder = 'Your name?'
     }
   }
 
   onBlurInput(e) {
     if (e.target.id == 'q1') {
-      e.target.placeholder = "Submit a font";
+      e.target.placeholder = 'Submit a font'
     }
   }
 

@@ -29,7 +29,7 @@ function process (formdata, cb) {
     'message': 'Thank you! We’ll be in touch.'
   }
 
-  mailOptions.html = '<div style="line-height: 1.2em;">'
+  mailOptions.html = '<div style="line-height: 1.2em">'
   mailOptions.html += '<p>Hi ' + formdata.q1 + ',</p>'
   mailOptions.html += '<p>thanks so much for submitting ‘' + formdata.q3 + '’ to Open-Foundry.</p>'
   mailOptions.html += '<b>Your Name:</b> ' + formdata.q1 + '<br>'
@@ -38,7 +38,7 @@ function process (formdata, cb) {
   mailOptions.html += '<b>Open-Source:</b> ' + formdata.q4 + '<br>'
   mailOptions.html += '<b>Who made it:</b> ' + formdata.q5 + '<br>'
   mailOptions.html += '<b>Share Link:</b> ' + formdata.q6 + '<br>'
-  mailOptions.html += '<p style="margin-top: 3em; color: #cccccc;">If you did not submit a font on open-foundry.com, please get in touch.</p>'
+  mailOptions.html += '<p style="margin-top: 3em color: #cccccc">If you did not submit a font on open-foundry.com, please get in touch.</p>'
   mailOptions.html += '</div>'
 
   // mailOptions.html = '<b>Your Name:</b> ' + formdata.q1 + '<br>'
@@ -47,7 +47,7 @@ function process (formdata, cb) {
   // mailOptions.html += '<b>Open-Source:</b> ' + formdata.q4 + '<br>'
   // mailOptions.html += '<b>Who made it:</b> ' + formdata.q5 + '<br>'
   // mailOptions.html += '<b>Share Link:</b> ' + formdata.q6 + '<br>'
-  // mailOptions.html += '<p style="margin-top:3em; color:#cccccc;">If you received this message in error and did not submit a font on <a href="http://open-foundry.com/">Open-Foundry</a>, please get in touch.</p>'
+  // mailOptions.html += '<p style="margin-top:3em color:#cccccc">If you received this message in error and did not submit a font on <a href="http://open-foundry.com/">Open-Foundry</a>, please get in touch.</p>'
 
   // if (validateEmail(formdata.q2)) {
   //   mailOptions.to = formdata.q2
@@ -71,8 +71,8 @@ function process (formdata, cb) {
 }
 
 function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+    var re = /^(([^<>()[\]\\.,:\s@"]+(\.[^<>()[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    return re.test(email)
 }
 
 module.exports = {

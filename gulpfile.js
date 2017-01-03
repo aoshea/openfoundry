@@ -1,6 +1,8 @@
 var gulp        = require('gulp'),
     babelify    = require('babelify'),
     browserify  = require('browserify'),
+    bump        = require('gulp-bump'),
+    connect     = require('gulp-connect'),
     source      = require('vinyl-source-stream'),
     buffer      = require('vinyl-buffer'),
     eslint      = require('gulp-eslint'),
@@ -21,7 +23,9 @@ var gulp        = require('gulp'),
     nodemon     = require('gulp-nodemon'),
     browsersync = require('browser-sync'),
     reload      = browsersync.reload,
+    replace     = require('gulp-replace'),
     rsync       = require('gulp-rsync'),
+    tag_version = require('gulp-tag-version'),
     watchify    = require('watchify'),
     imagemin    = require('gulp-imagemin'),
     pngquant    = require('imagemin-pngquant')
@@ -36,6 +40,11 @@ var production = !!argv.production;
 if (production) {
   process.env.NODE_ENV = 'production';
 }
+
+process.env.OF_WEINRE = argv.weinre;
+process.env.OF_DEBUG = argv.debug;
+
+var packageJSON = require('./package.json');
 
 /**
  * Error handling
@@ -69,36 +78,25 @@ var dir = {
 var config = {
   rsync: {
     src: dir.build + '**',
-    live: {
-      options: {
-        destination: '/home/of/html/',
-        root: 'dist',
-        hostname: 'alpheca.uberspace.de',
-        username: 'of',
-        incremental: true,
-        progress: true,
-        relative: true,
-        emptyDirectories: true,
-        recursive: true,
-        clean: false,
-        exclude: ['.DS_Store']
-      }
-    },
-    staging: {
-      options: {
-        destination: '/home/of/html/',
-        root: 'dist',
-        hostname: '46.101.22.63',
-        username: 'of',
-        incremental: true,
-        progress: true,
-        relative: true,
-        emptyDirectories: true,
-        recursive: true,
-        clean: false,
-        exclude: ['.DS_Store']
-      }
-    }
+    live: require('./config/production.json'),
+    staging: require('./config/staging.json')
+  }
+};
+
+gulp.task('launch-prototype', function() {
+  connect.server({
+    root: ['prototype']
+  });
+});
+
+const rsyncBuild = (target) => {
+  try {
+    const options = require(`./config/${target}.json`);
+    return gulp.src(config.rsync.src)
+      .pipe(rsync(options.rsync.options));
+
+  } catch (e) {
+    gutil.log(gutil.colors.bgRed(`Deploy to ${target} failed:`), gutil.colors.red(e));
   }
 };
 
@@ -106,22 +104,20 @@ var config = {
  * Rsync files to live server
  */
 gulp.task('deploy-live', function () {
-  return gulp.src(config.rsync.src)
-    .pipe(rsync(config.rsync.live.options));
+  return rsyncBuild('production');
 });
 
 /**
  * Rsync files to staging server
  */
 gulp.task('deploy-staging', function () {
-return gulp.src(config.rsync.src)
-  .pipe(rsync(config.rsync.staging.options));
+  return rsyncBuild('staging');
 });
 
 var sources = {
   tpl:         [ dir.source + 'tpl/**/*'],
   index:       [ dir.source + 'index.js'],
-  app:         [ dir.source + 'public/js/app.js'],
+  app:         [ dir.source + 'public/js/index.js'],
   js:          [ dir.source + 'public/js/**/*.js' ],
   imgs:        [ dir.source + 'public/img/*'],
   html:        [ dir.source + 'public/html/*'],
@@ -145,7 +141,9 @@ var libs = [
   "react-helmet",
   "react-addons-transition-group",
   "react-addons-css-transition-group",
-  "react-linkify"
+  "react-linkify",
+  "react-addons-pure-render-mixin",
+  "react-addons-perf"
 ];
 
 /**
@@ -155,11 +153,20 @@ var libs = [
  */
 gulp.task('vendor-js', function () {
 
+  var global_entries = [
+    require.resolve("babel-polyfill"),
+    // require.resolve('babel-plugin-syntax-object-rest-spread'),
+    // './src/public/vendor-js/modernizr.js',
+    './src/public/vendor-js/stepform.js'
+  ];
+
   var b = browserify({
     debug: !production,
-    transform: [babelify.configure({
-      presets: ["es2015", "react"]
-    })]
+    entries: global_entries,
+    //transform: [babelify.configure({
+      //presets: ["es2015", "react", "stage-2"],
+      // plugins: ["transform-object-rest-spread"]
+    // })]
   });
 
   libs.forEach(function(lib) {
@@ -219,9 +226,9 @@ function getBrowserifyBundler() {
         cache: {},
         packageCache: {},
         paths: ['./src/public/js/'],
-        fullPaths: true,
+        fullPaths: false,
         transform: [babelify.configure({
-          presets: ["es2015", "react"]
+          presets: ["es2015", "react", "stage-2"]
         })]
       });
 
@@ -274,6 +281,20 @@ gulp.task('images', function () {
     .pipe(gulp.dest(dir.build + 'public/img'));
 });
 
+// Bumps the current version and creates a tag for Git
+// gulp bump --patch for 0.0.1 --> 0.0.2
+// gulp bump --minor (default) 0.1.0 --> 0.2.0
+// gulp bump --major for 1.0.0 -> 2.0.0
+gulp.task('bump', function(){
+  var type = 'minor'; // default type
+  type = !!argv.patch ? 'patch' : type;
+  type = !!argv.major ? 'major' : type;
+  return gulp.src('./package.json')
+    .pipe(bump({type: type }))
+    .pipe(gulp.dest('./'))
+    .pipe(tag_version())
+});
+
 
 gulp.task('build-export', function (cb) {
   exec('node open/export.js && node open/specimen.js && node open/spreadsheet.js', function (err, stdout, stderr) {
@@ -307,6 +328,7 @@ gulp.task('clean', function () {
 // Copy jade templates to destination folder
 gulp.task('templates', function () {
   return gulp.src(sources.tpl)
+    .pipe(replace(/__VERSION__/g, packageJSON.version))
     .pipe(gulp.dest(dir.build + 'tpl/'));
 });
 

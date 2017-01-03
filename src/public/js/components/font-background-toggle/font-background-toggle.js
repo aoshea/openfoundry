@@ -1,48 +1,45 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react'
 
 export default class FontBackgroundToggle extends Component {
 
-  constructor() {
-    super();
-    this.handleClick = this.handleClick.bind(this);
-    this.state = {
-      image: 0
-    };
+  static propTypes = {
+    backgroundState: PropTypes.string.isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    onUpdateColour: PropTypes.func.isRequired
   }
 
-  componentDidMount() {
-    let { background } = this.props;
-    this.setState({
-      image: background
-    });
-
+  constructor() {
+    super()
+    this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick(e) {
-    let { onUpdate, onUpdateColour } = this.props;
-    let bg = this.props.background;
+    const { onUpdate, onUpdateColour, backgroundState } = this.props
 
-    let currentImageState = ++bg % 3;
+    const mappedStates = ['white', 'black', 'image']
+    const index = mappedStates.findIndex(s => s === backgroundState)
 
-    let colour = "#000000";
-    if (currentImageState > 0) {
-      colour = "#ffffff";
-    }
-    onUpdate && onUpdate(currentImageState);
-    onUpdateColour && onUpdateColour(colour);
+    const nextIndex = (index + 1) % mappedStates.length
+
+    const backgroundColour = nextIndex > 0 ? '#ffffff' : '#000000'
+    const nextBackgroundState = mappedStates[nextIndex]
+
+    onUpdate && onUpdate(nextBackgroundState)
+    onUpdateColour && onUpdateColour(backgroundColour)
   }
 
   render() {
 
-    let size = 32;
-    let viewBox = [0, 0, size, size].join(' ');
-    let imageStyle = {
-      display: this.props.background < 2 ? "none" : "block"
-    };
-    let imageFirstStyle = {
-      display: this.props.background > 1 ? "none" : "block",
-      stroke: this.props.background === 0 ? "black" : "white"
-    };
+    const { backgroundState } = this.props
+    const size = 32
+    const viewBox = [0, 0, size, size].join(' ')
+    const imageStyle = {
+      display: backgroundState === 'image' ? 'block' : 'none'
+    }
+    const imageFirstStyle = {
+      display: backgroundState === 'image' ? 'none' : 'block',
+      stroke: backgroundState === 'white' ? 'black' : 'white'
+    }
 
     return (
       <svg onClick={this.handleClick} xmlns="http://www.w3.org/svg/2000"

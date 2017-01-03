@@ -1,0 +1,47 @@
+doctype html
+html
+  head
+    title=title
+    meta(charset='utf-8')
+    meta(name='description', content="#{description}")
+    meta(name='viewport', content='width=device-width, initial-scale=1')
+
+    meta(property="og:url", content="#{url}")
+    meta(property="og:title", content="#{title}")
+    meta(property="og:image", content="#{img}")
+    meta(property="og:description", content="#{description}")
+    meta(property="og:type", content="article")
+
+    meta(name="twitter:card", content="#{title}")
+    meta(name="twitter:title", content="#{title}")
+    meta(name="twitter:site", content="#{url}")
+    meta(name="twitter:description", content="#{description}")
+    meta(name="twitter:image", content="#{img}")
+
+    link(rel='stylesheet', type='text/css', href='/data/fonts.css?v=__VERSION__')
+    link(rel='stylesheet', type='text/css', href='/data/specimen.css?v=__VERSION__')
+    link(rel='stylesheet', type='text/css', href='/css/main.css?v=__VERSION__')
+
+    <!-- Google Analytics -->
+    if nodeEnv == 'production'
+      script.
+        window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+        ga('create', 'UA-57026857-2', 'auto');
+        ga('send', 'pageview');
+
+  body
+    .of-container
+  script(src='/js/vendor.js?v=__VERSION__')
+  script(src='/js/app.js?v=__VERSION__')
+  if nodeEnv == 'development' || debug
+    script(type='text/javascript', id='__bs_script__').
+      //<![CDATA[
+      document.write("<script async src='http://HOST:3000/browser-sync/browser-sync-client.js?v=2.18.2'><\/script>".replace("HOST", location.hostname));
+      //]]>
+    if weinre
+      <!-- weinre / web inspector remote -->
+      script(type='text/javascript' id='__wn_script__').
+        document.write("<script async src='http://HOST:8080/target/target-script-min.js#anonymous'><\/script>".replace("HOST", location.hostname));
+
+  script(async, src='//www.google-analytics.com/analytics.js')
+  <!-- End Google Analytics -->

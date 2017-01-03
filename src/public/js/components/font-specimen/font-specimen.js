@@ -1,195 +1,199 @@
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import ReactTransitionGroup from 'react-addons-transition-group';
-import Linkify from 'react-linkify';
-import React, { Component } from 'react';
-import $ from 'jquery';
-import { replaceNonAlphaNumeric } from '../../util/util.js';
-import { getAboutText, getShareMessage } from 'util/content_util.js';
-import FontPreviewContainer from 'components/font-preview-container/font-preview-container.js';
-import FontSpecimenImage from 'components/font-specimen/specimen-image/specimen-image.js';
-import cx from 'classnames';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import Linkify from 'react-linkify'
+import React, { Component, PropTypes } from 'react'
+import $ from 'jquery'
+import { replaceNonAlphaNumeric, camelCaseToUnderscore } from '../../util/util.js'
+import { getAboutText, getShareMessage } from 'util/content_util'
+import FontPreviewContainer from 'containers/font-preview-container/font-preview-container'
+import FontSpecimenImage from 'components/font-specimen/specimen-image/specimen-image'
+import cx from 'classnames'
+import Like from 'containers/like/like'
 
-import FontLikeButton from 'components/font-like-button/font-like-button.js';
-import FontShareButton from 'components/font-share-button/font-share-button.js';
+import FontLikeButton from 'components/font-like-button/font-like-button'
+import FontShareButton from 'components/font-share-button/font-share-button'
+import PureRenderMixin from 'react-addons-pure-render-mixin'
 
-var idleTimeout = {
-  id: null,
-  delay: 1000
-};
+require('array.prototype.fill')
 
 export default class FontSpecimen extends Component {
 
-  constructor() {
-    super();
+  static propTypes = {
+    font: PropTypes.object.isRequired,
+    likes: PropTypes.object.isRequired
+  }
 
-    this.onClickSource = this.onClickSource.bind(this);
-    this.onScroll = this.onScroll.bind(this);
+  constructor(props) {
+    super(props)
+
+    this.shouldComponentUpdate = PureRenderMixin.shouldComponentUpdate.bind(this)
+    this.onClickSource = this.onClickSource.bind(this)
+    this.onScroll = this.onScroll.bind(this)
+    this.touchStartHandler = this.touchStartHandler.bind(this)
 
     this.state = {
-      canScroll: false,
-      isScroll: false,
       isTopPassed: false,
-      delta: 0,
+      deltaTop: 0,
+      deltaBottom: 0,
       moveToOffset: 0
-    };
+    }
   }
 
   onScrollFinish() {
-    let { onCompleteScroll } = this.props;
-    onCompleteScroll && onCompleteScroll();
+    let { onCompleteScroll } = this.props
+    onCompleteScroll && onCompleteScroll()
   }
 
   onScroll(e) {
-    const { onScrollUpdate } = this.props;
 
-    var inner = $('.of-specimen');
+    const inner = this.refs['of-specimen']
 
-    if (inner.length === 0) return;
-
-    let scrollTop = $(window).scrollTop();
-    let innerHeight = inner.height() + window.innerHeight * 0.8;
-    let scrollY = window.innerHeight + scrollTop;
-
-    // 1 - 0 by the end of the page (i.e. absolute scroll)
-    let delta = ((scrollY - innerHeight) / window.innerHeight) + 1;
-    // 0 - 1 by the beginning of the page (i.e. 100% of screen)
-    let deltaScreen = Math.max(0, 2 - Math.max(1, scrollY / window.innerHeight));
-
-    if (delta > 0) {
-      onScrollUpdate && onScrollUpdate(delta);
-    }
+    // raw scroll position
+    let scrollTop = window.scrollY
+    // browser window height
+    let windowHeight = window.innerHeight
+    // the height of the container (+ virtual top margin)
+    let innerHeight = inner.clientHeight + windowHeight * 0.85
+    // 0 - 1 top of the page
+    let deltaTop = Math.min(1, scrollTop / windowHeight)
+    // 0 - 1 bottom of the page
+    let deltaBottom = Math.max(0, Math.max(windowHeight + scrollTop - (innerHeight - windowHeight)) / windowHeight)
+    // true if scrolled pass the page header
+    let isTopPassed = scrollTop > windowHeight
+    // true if scrolled to the end of the page
+    let isBottom = windowHeight + scrollTop >= innerHeight - 1
 
     this.setState({
-      delta: delta,
-      deltaScreen: deltaScreen
-    });
-
-    let isTopPassed = scrollTop > window.innerHeight;
-
-    if (!this.state.isTopPassed && isTopPassed) {
-      this.state.isTopPassed = true
-      $('.of-preview-wrapper').css({ visibility: 'hidden' })
-    }
-
-    if (this.state.isTopPassed && !isTopPassed) {
-      this.state.isTopPassed = false
-      $('.of-preview-wrapper').css({ visibility: 'visible' })
-    }
-
-    let isBottom = scrollY >= innerHeight - 1;
+      isTopPassed: isTopPassed,
+      deltaBottom: deltaBottom,
+      deltaTop: deltaTop
+    })
 
     if (isBottom) {
-      this.onScrollFinish();
+      this.onScrollFinish()
     }
   }
 
   componentWillAppear(cb) {
-    console.log('componentWillAppear', window.tempOffset);
-
     this.setState({
       moveToOffset: (window.tempOffset - 50) || 0
-    });
+    })
 
-    setTimeout(cb, 250);
+    this.appearTimeout = setTimeout(cb, 300)
   }
 
   componentDidAppear() {
+
+    this.refs['of-specimen'].style.visibility = 'visible'
+    window.scrollTo(0, 0)
+
     this.setState({
       moveToOffset: 0
-    });
+    })
+
+    this.refs['of-specimen'].addEventListener('touchstart', this.touchStartHandler, true)
+  }
+
+  touchStartHandler(e) {
+    // appDispatcher.dispatch({ actionType: 'specimen-touch-start' })
   }
 
   componentDidMount() {
-    $(window).on('scroll', this.onScroll);
+    this.timeout = setTimeout(function () {
+      $(window).on('scroll', this.onScroll)
+    }.bind(this), 1000)
   }
 
   componentWillUnmount() {
-    $(window).off('scroll', this.onScroll);
+    this.refs['of-specimen'].removeEventListener('touchstart', this.touchStartHandler)
+    $(window).off('scroll', this.onScroll)
+    if (this.timeout) {
+      clearTimeout(this.timeout)
+      this.timeout = null
+    }
+    if (this.appearTimeout) {
+      clearTimeout(this.appearTimeout)
+      this.appearTimeout = null
+    }
   }
 
   onClickSource(scrollTop, offsetTop, e) {
 
     const { font } = this.props
-    const link = font['font-open-source-link'];
+    const link = font['fontOpenSourceLink']
 
-    window.open(link);
+    window.open(link)
 
-    e.preventDefault();
-    return false;
+    e.preventDefault()
+    return false
   }
 
   render() {
 
-    const { font } = this.props;
-    const state = this.state;
+    const { font, likes } = this.props
 
-    if (!font) return <div>nothing here</div>
+    const state = this.state
 
-    const specimenClassName = cx({
-      'of-specimen': true
-    });
+    const fontId = font.get('id')
+    const fontLike = likes.find(o => o.get('fontId') === fontId)
+    const likeCount = fontLike ? fontLike.get('likes') : 0
 
-    const previewWrapperClassName = cx({
-      'of-preview-wrapper': true,
-      'is-scroll': state.isScroll
-    });
+    const previewKey = font.get('fontName')
+    const fontName = font.get('fontName')
+    const specimenCreator = font.get('specimenCreator')
+    const specimenCreatorLink = font.get('specimenCreatorLink')
+    const fontClassName = font.get('id')
+    const styleDesc = font.get('fontStyle')
+    const foundBy = font.get('infoDiscoverer')
+    const infoAbout = font.get('infoAbout')
+    const infoWeight = font.get('infoWeight')
+    const creator = font.get('fontCreator')
+    const creatorLink = font.get('fontCreatorLink')
+    const foundry = font.get('fontFoundry')
+    const foundryLink = font.get('fontFoundryLink')
+    const fontDownloadLink = font.get('fontDownloadLink')
+    const fontOpenSourceLink = font.get('fontOpenSourceLink')
+    const aboutText = getAboutText(font)
 
-    const previewKey = font['font-name'];
-    const fontName = font['font-name'];
-    const specimenCreator = font['specimen-creator'];
-    const specimenCreatorLink = font['specimen-creator-link'];
-    const fontClassName = replaceNonAlphaNumeric(font['font-id']);
-    const styleDesc = font['font-style'];
-    const foundBy = font['info-discoverer'];
-    const infoAbout = font['info-about'];
-    const infoWeight = font['info-weight'];
-    const creator = font['font-creator'];
-    const creatorLink = font['font-creator-link'];
-    const foundry = font['font-foundry'];
-    const fontDownloadLink = font['font-download-link'];
-    const fontOpenSourceLink = font['font-open-source-link'];
-    const aboutText = getAboutText(font);
+    const oFontName = font.get('fontName')
+    const oFontStyle = font.get('fontStyle')
 
-    var oFontName = font['font-name'];
-    var oFontStyle = font['font-style'];
-    // Sort rank
-    var rhyphen = " — ";
-    var rankSpace = " ";
-    var rankComma = ", ";
-    var rankPaddedNum = ("0" + this.props.rank).slice(-2);
-    var rankNum = <span>{rankPaddedNum}{rhyphen}</span>
-    var rankFontName = <span>{oFontName}{rankSpace}{oFontStyle}</span>
-    var shareMessage = getShareMessage(font);
+    const shareMessage = getShareMessage(font)
 
+    const charIndex = 33
+    const charMaxIndex = 127
+
+    const charCodes = Array(charMaxIndex - charIndex).fill(0).map((el, i) => String.fromCharCode(i + charIndex))
+    const characterElements = charCodes.map(charCode => <li key={charCode} className="character">{charCode}</li>)
+
+    const foundryElement = foundryLink ? <a href={foundryLink}>{foundry}</a> : <span>{foundry}</span>
 
     const spacerStyle = {
-      opacity: 1 - Math.max(0, (state.delta - 0.5) * 2 - 0.05)
-    };
+      opacity: 1 - Math.max(0, (state.deltaBottom - 0.5) * 2 - 0.05)
+    }
 
     const holderStyle = {
+      visibility: state.isTopPassed ? 'hidden' : 'visible',
       transform: 'translate3d(0,' + state.moveToOffset + 'px,0)',
-      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 250ms ease-out' : 'none'
-    };
+      transition: Math.abs(state.moveToOffset) < 1 ? 'transform 150ms linear 0ms' : 'none'
+    }
 
     const coverStyle = {
-      opacity: !state.deltaScreen ? 0 : Math.min(1, ((1 - state.deltaScreen) - 0.1) * 1.5)
-    };
+      opacity: !state.deltaTop ? 0 : state.deltaTop
+    }
 
     return (
-
-      <div className={specimenClassName}>
-
-        <div style={holderStyle} className={previewWrapperClassName}>
+      <div ref="of-specimen" className="of-specimen">
+        <div ref="of-preview-wrapper" style={holderStyle} className="of-preview-wrapper">
           <FontPreviewContainer
-            fixed={true}
+            isSpecimen={true}
             onMoreUpdate={this.onClickSource}
-            rank={previewKey}
             key={previewKey}
-            font={font} />
+            font={font}
+            likeCount={likeCount} />
           <div style={coverStyle} className="of-spec-preview-cover"></div>
         </div>
 
-        <ReactCSSTransitionGroup transitionName="specstate" transitionAppear={true} transitionAppearTimeout={2000} transitionEnterTimeout={0} transitionLeaveTimeout={2000}>
+        <ReactCSSTransitionGroup transitionName="specstate" transitionAppear={true} transitionAppearTimeout={1000} transitionEnterTimeout={0} transitionLeaveTimeout={0}>
         <div className="of-specimen-overlay">
 
           <FontSpecimenImage font={font} />
@@ -209,106 +213,13 @@ export default class FontSpecimen extends Component {
             <h3>Characters: Basic Latin</h3>
             <h4 className={fontClassName}>
               <ul>
-                <li className="character">&#033;</li>
-                <li className="character">&#034;</li>
-                <li className="character">&#035;</li>
-                <li className="character">&#036;</li>
-                <li className="character">&#037;</li>
-                <li className="character">&#038;</li>
-                <li className="character">&#039;</li>
-                <li className="character">&#040;</li>
-                <li className="character">&#041;</li>
-                <li className="character">&#042;</li>
-                <li className="character">&#043;</li>
-                <li className="character">&#044;</li>
-                <li className="character">&#045;</li>
-                <li className="character">&#046;</li>
-                <li className="character">&#047;</li>
-                <li className="character">&#048;</li>
-                <li className="character">&#049;</li>
-                <li className="character">&#050;</li>
-                <li className="character">&#051;</li>
-                <li className="character">&#052;</li>
-                <li className="character">&#053;</li>
-                <li className="character">&#054;</li>
-                <li className="character">&#055;</li>
-                <li className="character">&#056;</li>
-                <li className="character">&#057;</li>
-                <li className="character">&#058;</li>
-                <li className="character">&#059;</li>
-                <li className="character">&#060;</li>
-                <li className="character">&#061;</li>
-                <li className="character">&#062;</li>
-                <li className="character">&#063;</li>
-                <li className="character">&#064;</li>
-                <li className="character">&#065;</li>
-                <li className="character">&#066;</li>
-                <li className="character">&#067;</li>
-                <li className="character">&#068;</li>
-                <li className="character">&#069;</li>
-                <li className="character">&#070;</li>
-                <li className="character">&#071;</li>
-                <li className="character">&#072;</li>
-                <li className="character">&#073;</li>
-                <li className="character">&#074;</li>
-                <li className="character">&#075;</li>
-                <li className="character">&#076;</li>
-                <li className="character">&#077;</li>
-                <li className="character">&#078;</li>
-                <li className="character">&#079;</li>
-                <li className="character">&#080;</li>
-                <li className="character">&#081;</li>
-                <li className="character">&#082;</li>
-                <li className="character">&#083;</li>
-                <li className="character">&#084;</li>
-                <li className="character">&#085;</li>
-                <li className="character">&#086;</li>
-                <li className="character">&#087;</li>
-                <li className="character">&#088;</li>
-                <li className="character">&#089;</li>
-                <li className="character">&#090;</li>
-                <li className="character">&#091;</li>
-                <li className="character">&#092;</li>
-                <li className="character">&#093;</li>
-                <li className="character">&#094;</li>
-                <li className="character">&#095;</li>
-                <li className="character">&#096;</li>
-                <li className="character">&#097;</li>
-                <li className="character">&#098;</li>
-                <li className="character">&#099;</li>
-                <li className="character">&#100;</li>
-                <li className="character">&#101;</li>
-                <li className="character">&#102;</li>
-                <li className="character">&#103;</li>
-                <li className="character">&#104;</li>
-                <li className="character">&#105;</li>
-                <li className="character">&#106;</li>
-                <li className="character">&#107;</li>
-                <li className="character">&#108;</li>
-                <li className="character">&#109;</li>
-                <li className="character">&#110;</li>
-                <li className="character">&#111;</li>
-                <li className="character">&#112;</li>
-                <li className="character">&#113;</li>
-                <li className="character">&#114;</li>
-                <li className="character">&#115;</li>
-                <li className="character">&#116;</li>
-                <li className="character">&#117;</li>
-                <li className="character">&#118;</li>
-                <li className="character">&#119;</li>
-                <li className="character">&#120;</li>
-                <li className="character">&#121;</li>
-                <li className="character">&#122;</li>
-                <li className="character">&#123;</li>
-                <li className="character">&#124;</li>
-                <li className="character">&#125;</li>
-                <li className="character">&#126;</li>
+                { characterElements }
               </ul>
             </h4>
           </div>
 
           { creator, foundry
-            ? <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a>, {foundry}</h4></div>
+            ? <div className="of-font-specimen-content"><h3>Typedesigner, Foundry</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a>, {foundryElement}</h4></div>
             : <div className="of-font-specimen-content"><h3>Typedesigner</h3><h4 className={fontClassName}><a href={creatorLink}>{creator}</a></h4></div>
           }
           { foundBy
@@ -335,7 +246,8 @@ export default class FontSpecimen extends Component {
                 <a href={fontDownloadLink}><button className="of-font-specimen-button">{fontName} {styleDesc}</button></a>
               </div>
               <div className="col-5 social">
-                <FontLikeButton locked={this.state.locked} font={font} onUpdate={this.onUpdateLikes} /><FontShareButton message={shareMessage} />
+                <Like fontId={fontId} likeCount={likeCount} />
+                <FontShareButton message={shareMessage} />
               </div>
             </div>
           </div>

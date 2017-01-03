@@ -1,64 +1,66 @@
-import React from 'react';
-import { replaceNonAlphaNumeric } from './util.js';
+import React from 'react'
+import { replaceNonAlphaNumeric } from './util.js'
 
-const rhyphen = " — ";
-const rankSpace = " ";
-const rankComma = ", ";
+const rhyphen = ' — '
+const rankSpace = ' '
+const rankComma = ', '
 
 export function getFullFontName(font) {
-  if (!!!font) return "Undefined Font!";
+  if (!font) return 'Undefined Font!'
 
-  let fontStyle = font['font-style'];
-  let fontName = font['font-name'];
+  const fontStyle = font.get('fontStyle')
+  const fontName = font.get('fontName')
 
-  return fontName + rankSpace + fontStyle;
+  return fontName + rankSpace + fontStyle
 }
 
 export function getFontId(font) {
-  if (!!!font) return "Undefined Font!";
+  if (!font) return 'Undefined Font!'
 
-  return replaceNonAlphaNumeric(font['font-id']).toLowerCase();
+  return replaceNonAlphaNumeric(font.get('fontId')).toLowerCase()
 }
 
 
 export function getShareMessage(font) {
-  if (!!!font) return "Undefined Font!";
+  if (!font) return 'Undefined Font!'
 
-  return [getFullFontName(font), ' ', font['font-open-source-link'], ' ','via @open_foundry #OFHot30'].join('');
+  return [getFullFontName(font), ' ', font.get('fontOpenSourceLink'), ' ','via @open_foundry #OFHot30'].join('')
 }
 
-export function getAboutText(font) {
+export function getAboutText(f) {
+
+  const font = f.toJS()
 
   // {font-name} was created by {font-creator} [if {font-foundry} = true: and is currently distributed by {Link:font-foundry-link}{font-foundry}{Link:font-foundry-link}] else [ ]. It was initially submitted to us by {Link:info-discoverer-twitter}{info-discoverer}{Link:info-discoverer-twitter}. {font-style} is a {info-classification} cut of the {font-name} family, [if more then 1: which consists of {} different styles: {}.] else [which only consists of a single style.]
 	// It is licensed under the {Link:info-license-link}{info-license}{Link:info-license-link} and available for contribution, modification or download on its open-source {} page. Please find more about this Typeface {Link:font-open-source-link}here{Link:font-open-source-link}.
 	// Latest Version {info-version}
 
 
-  var chunk_distributed = font['font-foundry']
-    ? <span> and is currently distributed by <a href={font['font-foundry-link']}>{font['font-foundry']}</a></span>
+  const chunk_distributed = font['fontFoundry']
+    ? <span> and is currently distributed by <a href={font['fontFoundryLink']}>{font['fontFoundry']}</a></span>
     : null
 
 
-  var styles = font['info-family'].split(/,|and/)
+  const styles = font['infoFamily'].split(/,|and/)
 
-  var chunk_styles = styles.length > 1
-    ? <span>which consists of {styles.length} different styles: {font['info-family']}</span>
+  const chunk_styles = styles.length > 1
+    ? <span>which consists of {styles.length} different styles: {font['infoFamily']}</span>
     : <span>which only consists of a single style</span>
 
-  var about = [
-    <span>{font['font-name']} was created by {font['font-creator']} {chunk_distributed}.
-    It was initially submitted to us by <a href={font['info-discoverer-twitter']}>{font['info-discoverer']}</a>.&nbsp;
-    {font['font-style']} is a {font['info-classification']} cut of the {font['font-name']} family,</span>,
-    <span> {chunk_styles}.</span>,
-    <span>
+  const about = [
+    <span key="uid-created">{font['fontName']} was created by {font['fontCreator']} {chunk_distributed}.
+    It was initially submitted to us by <a href={font['info-DiscovererTwitter']}>{font['infoDiscoverer']}</a>.&nbsp
+    {font['fontStyle']} is a {font['infoClassification']} cut of the {font['fontName']} family,</span>,
+    <span key="uid-styles"> {chunk_styles}.</span>,
+    <span key="uid-licence">
     <br /><br />
-    It is licensed under the <a href={font['info-license-link']}>{font['info-license']}</a>&nbsp;
+    It is licensed under the <a href={font['infoLicenseLink']}>{font['infoLicense']}</a>&nbsp
     and available for contribution, modification or download on its open-source page.
-    Please find more about this Typeface <a href={font['font-open-source-link']}>here</a>.
+    Please find more about this Typeface <a href={font['fontOpenSourceLink']}>here</a>.
     <br /><br />
-    Latest Version {font['info-version']}
+    Latest Version {font['infoVersion']}
     </span>
   ]
 
-  return about;
+  return about
 }
